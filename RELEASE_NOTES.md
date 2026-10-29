@@ -1,8 +1,8 @@
-# HUFT Sales Dashboard v1.0.3 — Performance Edition
+# HUFT Sales Dashboard v1.0.5 — Storage Fix
 
-- Keeps the existing dashboard HTML and sales calculation logic.
-- Reduces 3D hover effects and CSS animation overhead.
-- Disables Chart.js animation defaults where Chart.js is available.
-- Updates the visible build label to `Version 1.0.3 · Performance`.
+- Fixed IndexedDB connection lifecycle so a closed connection is not reused.
+- Removed the premature close after a successful sales-data save.
+- Made Clear Saved Data retry with a fresh connection and report an error if deletion cannot complete.
+- Preserves existing sales calculation and dashboard code.
 
-Testing status: the modified HTML has not yet been verified against the live GitHub Pages website. Back up the current `index.html` before publishing.
+Testing status: not yet confirmed in the live deployment.

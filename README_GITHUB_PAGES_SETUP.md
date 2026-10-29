@@ -1,22 +1,22 @@
-# HUFT Sales Dashboard v1.0.3 — GitHub Pages Setup
+# HUFT Sales Dashboard v1.0.5 — Storage Fix
 
-## Files
-- `index.html` — dashboard entry point for the existing GitHub Pages URL.
-- `.nojekyll` — tells GitHub Pages not to run Jekyll processing.
-- `RELEASE_NOTES.md` — notes about this build.
+## What's addressed
+- Keeps the IndexedDB connection reusable instead of closing it while retaining a cached promise.
+- Resets the cached database connection when it closes or a version change occurs.
+- Retries the clear-data database transaction once with a fresh connection.
+- Prevents the app from reporting a successful clear if deleting the saved IndexedDB record failed.
 
-## Publish to the existing repository URL
+## Publish to the existing GitHub Pages site
 Repository: https://github.com/22chandulalbanoth-cell/HUFT-Dashboard-Sales
 
-1. Extract this ZIP on your computer.
-2. Open the repository's `main` branch.
-3. Keep a backup of the current `index.html` before replacing it.
-4. Upload the new `index.html` from this folder using **Add file → Upload files**.
-5. Commit the change to `main`.
-6. Open the repository's **Actions** tab and wait for GitHub Pages to finish successfully.
-7. Open https://22chandulalbanoth-cell.github.io/HUFT-Dashboard-Sales/ and press Ctrl+F5.
+1. Back up the current `index.html`.
+2. Upload this package's `index.html` to the repository's `main` branch, replacing the existing site entry file.
+3. Commit with message: `Fix IndexedDB storage and clear-data handling v1.0.5`.
+4. Open Actions and wait for GitHub Pages deployment to succeed.
+5. Open https://22chandulalbanoth-cell.github.io/HUFT-Dashboard-Sales/ and press Ctrl+F5.
+6. Test upload, refresh/reopen, and Clear Saved Data. Confirm targets remain saved and sales data is cleared.
 
-If GitHub does not allow replacing an existing file through the upload screen, do not delete other files. Use GitHub's file replacement workflow or ask for help with a screenshot.
+Do not delete unrelated repository files. If replacing `index.html` is blocked, stop and share a screenshot before deleting anything.
 
 ## Important
-This package contains the updated HTML supplied in this session. The performance changes have not been verified against the live site in a real browser. Keep a backup of the existing dashboard before deploying.
+The code changes address the connection-lifecycle issue identified in the uploaded HTML. They have not been validated in the user's live browser or against their actual Excel files. Keep a backup and test with a small sample first.

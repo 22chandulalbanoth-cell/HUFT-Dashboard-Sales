@@ -1,8 +1,7 @@
-# HUFT Sales Dashboard v1.0.5 — Storage Fix
+# HUFT Sales Dashboard v1.0.6 — Update Popup
 
-- Fixed IndexedDB connection lifecycle so a closed connection is not reused.
-- Removed the premature close after a successful sales-data save.
-- Made Clear Saved Data retry with a fresh connection and report an error if deletion cannot complete.
-- Preserves existing sales calculation and dashboard code.
-
-Testing status: not yet confirmed in the live deployment.
+- Adds a modal update notification when a new `index.html` commit is detected.
+- Shows a GitHub build ID and published timestamp.
+- Popup can be dismissed with Got it, Later, click outside, or Escape.
+- Remembers the dismissed build in localStorage so the same update does not keep popping up.
+- Uses the public GitHub API; API failure does not block dashboard use.

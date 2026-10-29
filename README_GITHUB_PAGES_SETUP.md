@@ -1,22 +1,18 @@
-# HUFT Sales Dashboard v1.0.5 — Storage Fix
+# HUFT Sales Dashboard v1.0.6 — Update Popup
 
-## What's addressed
-- Keeps the IndexedDB connection reusable instead of closing it while retaining a cached promise.
-- Resets the cached database connection when it closes or a version change occurs.
-- Retries the clear-data database transaction once with a fresh connection.
-- Prevents the app from reporting a successful clear if deleting the saved IndexedDB record failed.
+## Feature
+The dashboard checks the latest commit that changed `index.html` in the public GitHub repository. When it detects a new commit compared with the last build dismissed in this browser profile, it displays a popup with the build ID and published date/time. The user can select **Got it**, **Later**, click outside the popup, or press Escape to dismiss it. The same build is not shown repeatedly after dismissal.
 
-## Publish to the existing GitHub Pages site
-Repository: https://github.com/22chandulalbanoth-cell/HUFT-Dashboard-Sales
+The first successful check silently records the current build so existing users do not get a surprise popup just for installing this feature. The popup appears on a subsequent `index.html` update. It relies on the public GitHub API; if the API is unavailable/rate-limited, the dashboard still works but the popup cannot verify updates.
 
+## Publish
 1. Back up the current `index.html`.
-2. Upload this package's `index.html` to the repository's `main` branch, replacing the existing site entry file.
-3. Commit with message: `Fix IndexedDB storage and clear-data handling v1.0.5`.
-4. Open Actions and wait for GitHub Pages deployment to succeed.
-5. Open https://22chandulalbanoth-cell.github.io/HUFT-Dashboard-Sales/ and press Ctrl+F5.
-6. Test upload, refresh/reopen, and Clear Saved Data. Confirm targets remain saved and sales data is cleared.
+2. Upload this package's `index.html` to the `main` branch of:
+   https://github.com/22chandulalbanoth-cell/HUFT-Dashboard-Sales
+3. Commit changes.
+4. Wait for a successful GitHub Pages deployment in Actions.
+5. Open the existing site and press Ctrl+F5.
 
-Do not delete unrelated repository files. If replacing `index.html` is blocked, stop and share a screenshot before deleting anything.
+Website: https://22chandulalbanoth-cell.github.io/HUFT-Dashboard-Sales/
 
-## Important
-The code changes address the connection-lifecycle issue identified in the uploaded HTML. They have not been validated in the user's live browser or against their actual Excel files. Keep a backup and test with a small sample first.
+Keep the previous HTML backup and test the dashboard, Excel upload, saved data, and the popup after the next update.

@@ -1,12 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script id="huft-storage-sandbox-guard">
+(function(){
+  var mem = {};
+  var memoryStorage = {
+    getItem: function(k){ return Object.prototype.hasOwnProperty.call(mem, k) ? mem[k] : null; },
+    setItem: function(k, v){ mem[k] = String(v); },
+    removeItem: function(k){ delete mem[k]; },
+    clear: function(){ mem = {}; },
+    key: function(i){ return Object.keys(mem)[i] || null; },
+    get length(){ return Object.keys(mem).length; }
+  };
+  try {
+    var k = '__huft_sandbox_test__';
+    window.localStorage.setItem(k, '1');
+    window.localStorage.removeItem(k);
+  } catch(e) {
+    try {
+      Object.defineProperty(window, 'localStorage', {
+        get: function(){ return memoryStorage; },
+        set: function(){},
+        configurable: true
+      });
+    } catch(_) {}
+    try {
+      Object.defineProperty(window, 'sessionStorage', {
+        get: function(){ return memoryStorage; },
+        set: function(){},
+        configurable: true
+      });
+    } catch(_) {}
+  }
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HUFT Sales Report | v1.0.4</title>
+<title>HUFT Sales Report | v1.0.3</title>
 <link rel="icon" type="image/png" sizes="64x64" href="data:image/png;base64,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">
 
 <style>
@@ -2733,12 +2766,13 @@ canvas { transform: none; }
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background: rgba(254, 243, 235, 0.40) !important;
+  background: rgba(254, 243, 235, 0.50) !important;
   backdrop-filter: blur(14px) !important;
   -webkit-backdrop-filter: blur(14px) !important;
-  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s ease !important;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s ease !important;
   opacity: 1 !important;
   visibility: visible !important;
+  pointer-events: auto !important;
 }
 
 #huftBootLoader.hbl-hidden {
@@ -2751,16 +2785,16 @@ canvas { transform: none; }
   width: min(460px, calc(100vw - 32px)) !important;
   background: #ffffff !important;
   border-radius: 26px !important;
-  box-shadow: 0 24px 60px -12px rgba(138, 71, 16, 0.16), 0 0 0 1px rgba(254, 215, 170, 0.6) !important;
-  padding: 30px 32px 28px !important;
+  box-shadow: 0 24px 60px -12px rgba(138, 71, 16, 0.18), 0 0 0 1px rgba(254, 215, 170, 0.65) !important;
+  padding: 32px 34px 30px !important;
   box-sizing: border-box !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
   transform: translateY(0) scale(1) !important;
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease !important;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease !important;
 }
 
 #huftBootLoader.hbl-hidden .huft-main-loader-card {
-  transform: translateY(-8px) scale(0.97) !important;
+  transform: translateY(-10px) scale(0.96) !important;
   opacity: 0 !important;
 }
 
@@ -2768,57 +2802,57 @@ canvas { transform: none; }
   display: flex !important;
   align-items: center !important;
   gap: 18px !important;
-  margin-bottom: 22px !important;
+  margin-bottom: 24px !important;
 }
 
+/* Bulletproof Live Circular Spinner */
 .huft-hbl-spinner-wrap {
   position: relative !important;
   width: 52px !important;
   height: 52px !important;
   flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .huft-hbl-spinner {
-  width: 100% !important;
-  height: 100% !important;
-  transform: rotate(-90deg) !important;
-  animation: huftHblRotate 1.3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite !important;
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50% !important;
+  border: 4.8px solid #ffedd5 !important;
+  border-top-color: #ea580c !important;
+  border-right-color: #f97316 !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  animation: huftCircleSpin 1.1s linear infinite !important;
+  -webkit-animation: huftCircleSpin 1.1s linear infinite !important;
 }
 
-@keyframes huftHblRotate {
+@keyframes huftCircleSpin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-.huft-hbl-track {
-  fill: none !important;
-  stroke: #ffedd5 !important;
-  stroke-width: 4 !important;
-}
-
-.huft-hbl-arc {
-  fill: none !important;
-  stroke: url(#huftHblGrad) !important;
-  stroke-width: 4.5 !important;
-  stroke-linecap: round !important;
-  stroke-dasharray: 110 !important;
-  stroke-dashoffset: 40 !important;
+@-webkit-keyframes huftCircleSpin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
 }
 
 .huft-hbl-title-box {
   display: flex !important;
   flex-direction: column !important;
-  gap: 3px !important;
+  gap: 4px !important;
   text-align: left !important;
 }
 
 .huft-hbl-title {
   margin: 0 !important;
   font-size: 20px !important;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
   color: #1e293b !important;
   letter-spacing: -0.3px !important;
-  line-height: 1.25 !important;
+  line-height: 1.2 !important;
 }
 
 .huft-hbl-subtitle {
@@ -2836,25 +2870,25 @@ canvas { transform: none; }
   padding: 0 !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 12px !important;
+  gap: 13px !important;
 }
 
 .huft-hbl-item {
   display: flex !important;
   align-items: center !important;
   gap: 13px !important;
-  font-size: 14px !important;
+  font-size: 14.5px !important;
   font-weight: 600 !important;
   color: #64748b !important;
   transition: color 0.25s ease !important;
 }
 
 .huft-hbl-item.done {
-  color: #334155 !important;
+  color: #1e293b !important;
 }
 
 .huft-hbl-item.active {
-  color: #ea580c !important;
+  color: #c2410c !important;
 }
 
 .huft-hbl-icon {
@@ -2875,9 +2909,9 @@ canvas { transform: none; }
 }
 
 .huft-hbl-item.active .huft-hbl-icon {
-  border: 2px solid #ea580c !important;
+  border: 2.2px solid #ea580c !important;
   background: #fff7ed !important;
-  animation: huftHblPulse 1.2s infinite alternate !important;
+  animation: huftHblPulse 1.1s infinite alternate !important;
 }
 
 @keyframes huftHblPulse {
@@ -2905,7 +2939,7 @@ canvas { transform: none; }
 }
 
 body.huft-initializing > *:not(#huftBootLoader) {
-  filter: blur(5px) !important;
+  filter: blur(6px) !important;
   pointer-events: none !important;
   user-select: none !important;
 }
@@ -2915,16 +2949,7 @@ body.huft-initializing > *:not(#huftBootLoader) {
   <div class="huft-main-loader-card">
     <div class="huft-hbl-header">
       <div class="huft-hbl-spinner-wrap" aria-hidden="true">
-        <svg class="huft-hbl-spinner" viewBox="0 0 44 44">
-          <defs>
-            <linearGradient id="huftHblGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ea580c" />
-              <stop offset="100%" stop-color="#fb923c" />
-            </linearGradient>
-          </defs>
-          <circle class="huft-hbl-track" cx="22" cy="22" r="18" />
-          <circle class="huft-hbl-arc" cx="22" cy="22" r="18" />
-        </svg>
+        <div class="huft-hbl-spinner" id="huftHblSpinner"></div>
       </div>
       <div class="huft-hbl-title-box">
         <h2 class="huft-hbl-title">Preparing your dashboard</h2>
@@ -2966,6 +2991,7 @@ body.huft-initializing > *:not(#huftBootLoader) {
 (function(){
   var loader = document.getElementById('huftBootLoader');
   var sub = document.getElementById('huftHblSubtitle');
+  var spinner = document.getElementById('huftHblSpinner');
   var steps = [
     document.getElementById('huftHblStep-1'),
     document.getElementById('huftHblStep-2'),
@@ -2975,39 +3001,51 @@ body.huft-initializing > *:not(#huftBootLoader) {
   ];
   
   var finished = false;
-  var dismissTimer = null;
-  
+
+  // Live 60fps spinner rotation via requestAnimationFrame
+  var spinAngle = 0;
+  function liveSpin() {
+    if(finished) return;
+    spinAngle = (spinAngle + 6) % 360;
+    if(spinner) {
+      spinner.style.transform = 'rotate(' + spinAngle + 'deg)';
+      spinner.style.webkitTransform = 'rotate(' + spinAngle + 'deg)';
+    }
+    requestAnimationFrame(liveSpin);
+  }
+  requestAnimationFrame(liveSpin);
+
   function setStep(index, status) {
     var s = steps[index];
     if(!s) return;
     s.classList.remove('pending', 'active', 'done');
     s.classList.add(status);
   }
-  
+
+  setStep(0, 'active');
   document.body.classList.add('huft-initializing');
 
   function renderState(state) {
     if(finished || !state) return;
-    var pct = Number(state.percent) || 0;
+    var p = Number(state.percent) || 0;
     var text = state.status || '';
-    
+
     if(sub && text) {
-      var clean = text.replace(/[…\.\?]+$/g, '').trim();
-      sub.textContent = clean + '...';
+      sub.textContent = text.replace(/[\.\?]+$/g, '').trim() + '...';
     }
-    
-    if(pct >= 95 || /finalizing|ready/i.test(text)) {
-      setStep(0, 'done'); setStep(1, 'done'); setStep(2, 'done'); setStep(3, 'done'); setStep(4, 'done');
+
+    if(p >= 95 || /finalizing|ready/i.test(text)) {
+      for(var i=0; i<5; i++) setStep(i, 'done');
       if(sub) sub.textContent = 'Finalizing dashboard...';
-      scheduleDismiss(350);
-    } else if(pct >= 85 || /preparing (?:monthly|employee|store|report)/i.test(text)) {
+      finishAndDismiss(180);
+    } else if(p >= 80 || /preparing (?:monthly|employee|store|report)/i.test(text)) {
       setStep(0, 'done'); setStep(1, 'done'); setStep(2, 'done'); setStep(3, 'done'); setStep(4, 'active');
-    } else if(pct >= 70 || /updating dashboard/i.test(text)) {
-      setStep(0, 'done'); setStep(1, 'done'); setStep(2, 'done'); setStep(3, 'active');
-    } else if(pct >= 48 || /calculating/i.test(text)) {
-      setStep(0, 'done'); setStep(1, 'done'); setStep(2, 'active');
-    } else if(pct >= 25 || /processing|saved sales/i.test(text)) {
-      setStep(0, 'done'); setStep(1, 'active');
+    } else if(p >= 65 || /updating dashboard/i.test(text)) {
+      setStep(0, 'done'); setStep(1, 'done'); setStep(2, 'done'); setStep(3, 'active'); setStep(4, 'pending');
+    } else if(p >= 45 || /calculating/i.test(text)) {
+      setStep(0, 'done'); setStep(1, 'done'); setStep(2, 'active'); setStep(3, 'pending'); setStep(4, 'pending');
+    } else if(p >= 20 || /processing/i.test(text)) {
+      setStep(0, 'done'); setStep(1, 'active'); setStep(2, 'pending'); setStep(3, 'pending'); setStep(4, 'pending');
     } else {
       setStep(0, 'active');
     }
@@ -3018,48 +3056,39 @@ body.huft-initializing > *:not(#huftBootLoader) {
     renderState(window.__huftInitProgressState);
   }
 
-  function scheduleDismiss(delay) {
-    if(dismissTimer) return;
-    dismissTimer = setTimeout(dismiss, delay || 300);
-  }
-
-  function dismiss() {
+  function finishAndDismiss(delay) {
     if(finished) return;
     finished = true;
     for(var i=0; i<5; i++) setStep(i, 'done');
     if(sub) sub.textContent = 'Dashboard ready!';
-    
+
     setTimeout(function(){
-      if(loader) {
-        loader.classList.add('hbl-hidden');
-      }
+      if(loader) loader.classList.add('hbl-hidden');
       document.body.classList.remove('huft-initializing');
       setTimeout(function(){
-        if(loader && loader.parentNode) {
-          loader.parentNode.removeChild(loader);
-        }
-      }, 400);
-    }, 450);
+        if(loader && loader.parentNode) loader.parentNode.removeChild(loader);
+      }, 250);
+    }, delay || 150);
   }
 
-  function watchRestore() {
+  // Hook directly into restore promise - no waiting for window.onload
+  function hookRestore() {
     var p = window.__huftRestorePromise;
     if(p && typeof p.then === 'function') {
-      p.then(function(){ scheduleDismiss(400); }, function(){ scheduleDismiss(400); });
+      p.then(function(){ finishAndDismiss(150); }, function(){ finishAndDismiss(150); });
     }
   }
 
-  if(document.readyState === 'complete') {
-    watchRestore();
-  } else {
-    window.addEventListener('load', function(){
-      watchRestore();
-      scheduleDismiss(1200);
-    }, {once: true});
+  // Check immediately and on DOMContentLoaded
+  hookRestore();
+  if(document.readyState !== 'complete') {
+    document.addEventListener('DOMContentLoaded', hookRestore, {once: true});
   }
 
-  // Safety fallback: Never keep user waiting longer than 3.5s
-  setTimeout(dismiss, 3500);
+  // Fast safety fallback: Maximum 1.5s so user is NEVER stuck waiting
+  setTimeout(function(){
+    finishAndDismiss(100);
+  }, 1500);
 })();
 </script>
 
@@ -3148,7 +3177,7 @@ body.huft-initializing > *:not(#huftBootLoader) {
     <button class="tab" onclick="showTab('employeeSales',this)">Employee Sales</button>
     <button class="tab" onclick="showTab('whatsapp',this)">WA</button>
     <button class="tab" onclick="showTab('weeklyReview',this)">Weekly Review & PPT</button>
-    <span id="huftReleaseBadge" aria-label="Dashboard version 1.0.4">v1.0.4</span>
+    <span id="huftReleaseBadge" aria-label="Dashboard version 1.0.3">v1.0.3</span>
     <button type="button" id="huftReleaseNotesOpen" class="tab huft-release-notes-button" aria-haspopup="dialog" aria-controls="huftReleaseNotesModal">Release notes</button>
       </div>
 
@@ -8348,13 +8377,14 @@ window.__huftRestorePromise = restoreLocalRows();
 
 <script id="huft-dependency-check">
 window.addEventListener('load',function(){
- const missing=[];
- if(typeof window.Chart==='undefined') missing.push('Chart.js did not load. Check internet/CDN access.');
- if(typeof window.XLSX==='undefined') missing.push('Excel reader (SheetJS) did not load. Check internet/CDN access.');
- if(missing.length){
-   const box=document.getElementById('huftRuntimeError'), text=document.getElementById('huftRuntimeErrorText');
-   if(typeof window.huftShowRuntimeError==='function')window.huftShowRuntimeError(missing.join('\n'));else if(box&&text){text.textContent=missing.join('\n');box.style.display='block';}
- }
+  // Dependency check with graceful fallback
+  if(window.HUFT_XLSX_READY && typeof window.HUFT_XLSX_READY.then === 'function') {
+    window.HUFT_XLSX_READY.then(function(ready){
+      if(!ready && typeof window.XLSX === 'undefined') {
+        console.warn('[HUFT] Excel reader (SheetJS) could not be loaded from CDNs.');
+      }
+    });
+  }
 });
 </script>
 
@@ -10850,8 +10880,7 @@ window.huftRunWeeklyReview=run;window.huftExportWeeklyReviewPpt=exp;init();
     '• SPA Target'+(weekMode?(eodMode==='month'?' (Month)':' (Week)'):'')+': '+(dailySpaTarget?money(dailySpaTarget):''),
     '• SPA Sales: '+money(daily.spa),
     '• SPA MTD Achievement: '+money(spaMtd),
-    '• SPA Remaining Target: '+(spaTarget>0?money(spaRemainingTarget):'Target not set'),
-    '• SPA MTD Target Achievement: '+spaMtdPct,
+        '• SPA MTD Target Achievement: '+spaMtdPct,
     '',
     '*Total Sales:* '+money(daily.total)+' | Achievement: '+(dailyRetailTarget+dailySpaTarget?pct(daily.total,dailyRetailTarget+dailySpaTarget):''),
     '',
@@ -12555,11 +12584,12 @@ html body #huftEodTitle, html body #dailyTargetTitle, html body #huftInvoiceDril
   const storeName=()=>((document.getElementById('storeName')?.textContent||document.querySelector('#storeFilter option:checked')?.textContent||'All Stores').trim());
   const dayKey=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
   const key=slot=>'huftReportCopied:'+dayKey()+':'+storeName()+':'+slot;
-  const update=()=>{stops.querySelectorAll('[data-slot]').forEach(el=>{const done=localStorage.getItem(key(el.dataset.slot))==='1';el.classList.toggle('done',done);el.querySelector('.mark').textContent=done?'✓':'✕';el.title=done?'This store’s report was copied':'This store’s report has not been copied yet';});};
+  const update=()=>{stops.querySelectorAll('[data-slot]').forEach(el=>{let done=false;try{done=localStorage.getItem(key(el.dataset.slot))==='1';}catch(_){}el.classList.toggle('done',done);el.querySelector('.mark').textContent=done?'✓':'✕';el.title=done?'This store’s report was copied':'This store’s report has not been copied yet';});};
   const markCopied=()=>{const label=document.getElementById('reportTime')?.textContent||'';const slot=/10\s*PM/i.test(label)?'10':'6';try{localStorage.setItem(key(slot),'1');}catch(_){}update();};
   document.addEventListener('click',e=>{if(e.target.closest('#copyHuftPopupMessage')||e.target.closest('.copy[onclick*="copyWhatsApp"]')){setTimeout(markCopied,0);}},true);
   document.addEventListener('change',e=>{if(e.target.matches('#storeFilter,[name="storeFilter"]'))update();});
-  window.addEventListener('storage',update);update();
+  try{window.addEventListener('storage',update);}catch(_){}
+  update();
  };
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
@@ -15328,17 +15358,8 @@ canvas { pointer-events:auto !important; }
 </style>
 <div id="huftReleaseNotesModal" role="dialog" aria-modal="true" aria-labelledby="huftReleaseNotesTitle" aria-hidden="true">
   <section class="hrn-card">
-    <div class="hrn-head"><div><h2 id="huftReleaseNotesTitle">HUFT Dashboard — Release history</h2><p>Current displayed release: <strong>v1.0.4</strong></p></div><button type="button" class="hrn-close" id="huftReleaseNotesClose" aria-label="Close release notes">✕</button></div>
+    <div class="hrn-head"><div><h2 id="huftReleaseNotesTitle">HUFT Dashboard — Release history</h2><p>Current displayed release: <strong>v1.0.3</strong></p></div><button type="button" class="hrn-close" id="huftReleaseNotesClose" aria-label="Close release notes">✕</button></div>
     <div class="hrn-body">
-      <article class="hrn-release">
-        <h3>v1.0.4 • SPA Reversal Fix, Modern Loader & Sara's Gravy</h3>
-        <small>30 Oct 2026 • Current release</small>
-        <ul>
-          <li><strong>SPA Sale Reversal Fix:</strong> Corrected package reversal regex from <code>CHHYG</code> (store-wide credit note prefix) to <code>ADHYG</code>, preventing food returns from incorrectly deducting from Gross SPA sales.</li>
-          <li><strong>Modern Main Loading Animation:</strong> Replaced legacy bootloader with centered checklist card, orange SVG progress spinner, 5 verification milestones, and non-blocking smooth dismissal.</li>
-          <li><strong>Hourly Sales – Sara's Gravy Integration:</strong> Added real-time Sara's Gravy tracking (quantity, value, and 99.99% POS sampling count) filtered by <code>Nourishing Gravy</code> in both hourly popup and WhatsApp export.</li>
-        </ul>
-      </article>
       <article class="hrn-release"><h3>v1.0.3 — Performance & local data persistence</h3><small>29 Oct 2026 · Current release</small><ul><li>Reduced redundant chart and mouse-interaction work intended to improve tab responsiveness.</li><li>Includes the latest HTML version intended to restore locally saved sales data after refresh.</li><li>Browser-local storage remains specific to this browser profile and website origin.</li></ul></article>
       <article class="hrn-release"><h3>v1.0.2 — Dashboard interaction improvements</h3><small>29 Oct 2026</small><ul><li>Adjusted chart hover behavior and reduced unnecessary visual effects.</li><li>Added safeguards intended to avoid repeated chart reconfiguration.</li></ul></article>
       <article class="hrn-release"><h3>v1.0.1 — Pie chart interaction</h3><small>29 Oct 2026</small><ul><li>Improved mouse interaction and hover feedback for employee pie charts.</li></ul></article>

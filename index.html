@@ -5220,7 +5220,7 @@ Hearty: ${foodQtyWithSamples(reportDay,"HUFT Hearty",x["HeartyQ"])} | ₹${Math.
 Meowsi: ${x["MeowsiQ"].toFixed(0)} Qty | ₹${Math.round(x["MeowsiA"]).toLocaleString("en-IN")}/-
 NutriMeow: ${x["NutriMeowQ"].toFixed(0)} Qty | ₹${Math.round(x["NutriMeowA"]).toLocaleString("en-IN")}/-
 NutriWag: ${x["NutriWagQ"].toFixed(0)} Qty | ₹${Math.round(x["NutriWagA"]).toLocaleString("en-IN")}/-
-TOTAL FOOD SALE: ₹${Math.round(x.foodTotal).toLocaleString("en-IN")}/-`;
+TOTAL FOOD SALE: ₹${Math.round((Number(x["Sara's WholesomeA"])||0)+(Number(x["HeartyA"])||0)+(Number(x["MeowsiA"])||0)+(Number(x["NutriMeowA"])||0)+(Number(x["NutriWagA"])||0)+(Number(getSarasGravyMetrics(reportDay)?.amount)||0)).toLocaleString("en-IN")}/-`;
 }
 
 function updateLiveReport(){
@@ -5269,7 +5269,8 @@ function updateLiveReport(){
  setReportText("reportMeowsi","🐱 Meowsi: "+x["MeowsiQ"].toFixed(0)+" Qty | "+money(x["MeowsiA"])+"/-");
  setReportText("reportNutriMeow","🐾 NutriMeow: "+x["NutriMeowQ"].toFixed(0)+" Qty | "+money(x["NutriMeowA"])+"/-");
  setReportText("reportNutriWag","🐕 NutriWag: "+x["NutriWagQ"].toFixed(0)+" Qty | "+money(x["NutriWagA"])+"/-");
- setReportText("reportTotal",hasSalesData?("💰 TOTAL FOOD SALE: "+money(x.foodTotal)+"/-"):"💰 TOTAL FOOD SALE: Upload sales data");
+ const totalHuftFood=(Number(x["Sara's WholesomeA"])||0)+(Number(x["HeartyA"])||0)+(Number(x["MeowsiA"])||0)+(Number(x["NutriMeowA"])||0)+(Number(x["NutriWagA"])||0)+(Number(sg.amount)||0);
+ setReportText("reportTotal",hasSalesData?("💰 TOTAL FOOD SALE: "+money(totalHuftFood)+"/-"):"💰 TOTAL FOOD SALE: Upload sales data");
  if(!hasSalesData){ ["reportRetail","reportSpa","reportPackages","reportSalesTotal","reportSara","reportSarasGravy","reportHearty","reportMeowsi","reportNutriMeow","reportNutriWag"].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=el.textContent.split(":")[0]+": Upload sales data";}); }
 
  setReportText("saraStat",x["Sara's WholesomeQ"].toFixed(0)+" Qty | "+money(x["Sara's WholesomeA"]));
@@ -12520,8 +12521,12 @@ html body #huftEodTitle, html body #dailyTargetTitle, html body #huftInvoiceDril
     const targetDay=(typeof getHuftReportDay==='function'?getHuftReportDay():todayKey);
     const chosen=candidates.find(r=>r.date.key===todayKey)||candidates.find(r=>r.date.key===targetDay)||candidates[0]||null;
     const cell=i=>chosen?(Number(String(chosen.tr.cells[i]?.textContent||'0').replace(/[^0-9.-]/g,''))||0):0;
+    const reportDayKey=chosen?.date?.key||targetDay||todayKey;
+    let gravySale=0;
+    try{if(typeof getSarasGravyMetrics==='function')gravySale=Number(getSarasGravyMetrics(reportDayKey)?.amount)||0;}catch(_){}
     const brands=[{name:"Sara's Wholesome",q:3,a:4},{name:'Hearty',q:5,a:6},{name:'Meowsi',q:7,a:8},{name:'NutriMeow',q:9,a:10},{name:'NutriWag',q:11,a:12}].map(b=>({...b,qty:cell(b.q),sale:cell(b.a)}));
-    return {chosen,brands,retail:cell(1),spa:cell(2),packages:cell(14),food:brands.reduce((sum,b)=>sum+b.sale,0),store:(document.getElementById('storeName')?.textContent||'All Stores').trim(),todayKey,toKey};
+    const totalFood=brands.reduce((sum,b)=>sum+b.sale,0)+gravySale;
+    return {chosen,brands,retail:cell(1),spa:cell(2),packages:cell(14),food:totalFood,gravySale,reportDayKey,store:(document.getElementById('storeName')?.textContent||'All Stores').trim(),todayKey,toKey};
   }
   function render(){
     const d=getReport();if(!d)return;
@@ -12533,8 +12538,14 @@ html body #huftEodTitle, html body #dailyTargetTitle, html body #huftInvoiceDril
     set('reportRetail','• Retail Sale: '+money(d.retail)+'/-');set('reportSpa','• SPA Sale: '+money(d.spa)+'/-');set('reportPackages','• SPA Packages Redeemed: '+d.packages.toLocaleString('en-IN'));set('reportSalesTotal','• Total Sale: '+money(d.retail+d.spa)+'/-');
     const needles=["HUFT Sara's Wholesome",'HUFT Hearty','HUFT Meowsi','HUFT NutriMeow','HUFT NutriWag'];
     d.brands.forEach((b,i)=>{let samples=0;try{if(typeof sampleQtyForDay==='function')samples=sampleQtyForDay(d.todayKey,needles[i]);}catch(e){};set(['reportSara','reportHearty','reportMeowsi','reportNutriMeow','reportNutriWag'][i],'• '+b.name+': '+b.qty.toLocaleString('en-IN')+' Qty'+(samples>0?' (Sample: '+samples.toLocaleString('en-IN')+' Qty)':'')+' | '+money(b.sale)+'/-');});
-    try{const sg=getSarasGravyMetrics(d.todayKey);set('reportSarasGravy','• Sara\'s Gravy: '+sg.qty.toLocaleString('en-IN')+' Qty'+(sg.sample>0?' (Sample: '+sg.sample.toLocaleString('en-IN')+' Qty)':'')+' | '+money(sg.amount)+'/-');}catch(e){}
-    set('reportTotal','• Total HUFT Food Sale: '+money(d.food)+'/-');
+    let sgMetrics={qty:0,amount:0,sample:0};
+    try{
+      const reportKey=d.reportDayKey||d.todayKey;
+      if(typeof getSarasGravyMetrics==='function')sgMetrics=getSarasGravyMetrics(reportKey);
+      set('reportSarasGravy','• Sara\'s Gravy: '+sgMetrics.qty.toLocaleString('en-IN')+' Qty'+(sgMetrics.sample>0?' (Sample: '+sgMetrics.sample.toLocaleString('en-IN')+' Qty)':'')+' | '+money(sgMetrics.amount)+'/-');
+    }catch(e){}
+    const totalFood=d.brands.reduce((sum,b)=>sum+b.sale,0)+(Number(sgMetrics.amount)||0);
+    set('reportTotal','• Total HUFT Food Sale: '+money(totalFood)+'/-');
     const status=popup.querySelector('#huftPopupRefreshStatus');if(status){const label=d.chosen?'Current-day sales':'No current-day sales rows • showing ₹0';status.textContent=label+' • '+dateText+(d.chosen?' • refreshed just now':'');}
   }
   function place(){if(!open)return;const vw=document.documentElement.clientWidth||innerWidth,vh=document.documentElement.clientHeight||innerHeight,edge=10,gap=14,r=panel.getBoundingClientRect(),w=r.width||Math.min(370,vw-20),h=r.height||Math.min(360,vh-20);let left=x+gap,top=y+gap;if(left+w>vw-edge)left=x-w-gap;if(top+h>vh-edge)top=y-h-gap;left=Math.max(edge,Math.min(left,vw-w-edge));top=Math.max(edge,Math.min(top,vh-h-edge));panel.style.setProperty('left',Math.round(left)+'px','important');panel.style.setProperty('top',Math.round(top)+'px','important');}

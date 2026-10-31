@@ -1,0 +1,14 @@
+name = "huft-sales-ai-worker"
+main = "worker.js"
+compatibility_date = "2024-10-01"
+
+[vars]
+SUPABASE_URL = "https://your-project.supabase.co"
+ALLOWED_ORIGINS = "https://22chandulalbanoth-cell.github.io,http://localhost:3000,http://127.0.0.1:3000"
+MAX_REQUESTS_PER_HOUR = "25"
+GEMINI_MODEL = "gemini-1.5-flash"
+
+# Cloudflare Secrets to configure via 'wrangler secret put <KEY>':
+# 1. GEMINI_API_KEY
+# 2. SUPABASE_SERVICE_ROLE_KEY
+# 3. SUPABASE_JWT_SECRET

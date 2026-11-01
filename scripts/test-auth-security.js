@@ -72,7 +72,7 @@ vm.runInContext(engineCode, sandbox);
 
 // Test 1: Only Hyderguda is Central Admin by default
 runTest("Test 1: Only Hyderguda is assigned Central Admin by default", () => {
-  const hydergudaAccount = sandbox.MOCK_STORE_ACCOUNTS.find(a => a.email === 'hyderguda@huft.com');
+  const hydergudaAccount = sandbox.MOCK_STORE_ACCOUNTS.find(a => a.email === 'hyderguda@example.test');
   assert(hydergudaAccount, "Hyderguda account must exist");
   assert.strictEqual(hydergudaAccount.status, 'active', "Hyderguda must be active");
   assert.strictEqual(hydergudaAccount.store_id, 'Hyderguda', "Store must be Hyderguda");
@@ -81,7 +81,7 @@ runTest("Test 1: Only Hyderguda is assigned Central Admin by default", () => {
 
 // Test 2: No other store has admin privileges
 runTest("Test 2: No other store has admin privileges (all others are store managers)", () => {
-  const otherStores = ['banjarahills@huft.com', 'madhapur@huft.com', 'goldenmile@huft.com', 'himayathnagar@huft.com'];
+  const otherStores = ['banjarahills@example.test', 'madhapur@example.test', 'goldenmile@example.test', 'himayathnagar@example.test'];
   otherStores.forEach(email => {
     const account = sandbox.MOCK_STORE_ACCOUNTS.find(a => a.email === email);
     assert(account, `Store account ${email} must exist`);
@@ -90,12 +90,12 @@ runTest("Test 2: No other store has admin privileges (all others are store manag
 
   const adminAccounts = sandbox.MOCK_STORE_ACCOUNTS.filter(a => a.role === 'admin');
   assert.strictEqual(adminAccounts.length, 1, "There must be exactly ONE admin account");
-  assert.strictEqual(adminAccounts[0].email, 'hyderguda@huft.com', "The only admin account must be Hyderguda");
+  assert.strictEqual(adminAccounts[0].email, 'hyderguda@example.test', "The only admin account must be Hyderguda");
 });
 
 // Test 3: Reject Inactive / Pending Account
 runTest("Test 3: Reject Pending Account approval status", () => {
-  const pendingAccount = sandbox.MOCK_STORE_ACCOUNTS.find(a => a.email === 'pending@huft.com');
+  const pendingAccount = sandbox.MOCK_STORE_ACCOUNTS.find(a => a.email === 'pending@example.test');
   assert(pendingAccount, "Pending account exists for test");
   let threw = false;
   try {
@@ -109,7 +109,7 @@ runTest("Test 3: Reject Pending Account approval status", () => {
 
 // Test 4: Reject Deactivated Account
 runTest("Test 4: Reject Deactivated Account status", () => {
-  const deactAccount = sandbox.MOCK_STORE_ACCOUNTS.find(a => a.email === 'deactivated@huft.com');
+  const deactAccount = sandbox.MOCK_STORE_ACCOUNTS.find(a => a.email === 'deactivated@example.test');
   assert(deactAccount, "Deactivated account exists for test");
   let threw = false;
   try {
@@ -125,7 +125,7 @@ runTest("Test 4: Reject Deactivated Account status", () => {
 runTest("Test 5: Central Admin Account Approval Transition", () => {
   const testUser = {
     id: "usr-test-1",
-    email: "newmgr@huft.com",
+    email: "newmgr@example.test",
     store_id: "Madhapur",
     role: "store_manager",
     status: "pending_approval"
@@ -152,7 +152,7 @@ runTest("Test 6: Customer Phone Number PII Masking Guard", () => {
 runTest("Test 7: Store Isolation - Store Manager cannot access other store records", () => {
   sandbox.userProfile = {
     id: "mgr-1",
-    email: "banjarahills@huft.com",
+    email: "banjarahills@example.test",
     role: "store_manager",
     store_id: "Banjara Hills",
     status: "active"
@@ -169,7 +169,7 @@ runTest("Test 8: Hyderguda Central Admin has global access to all 5 stores", () 
   const allowedStores = ["Hyderguda", "Banjara Hills", "Madhapur", "Golden Mile", "Himayathnagar"];
   sandbox.userProfile = {
     id: "hyderguda-admin-001",
-    email: "hyderguda@huft.com",
+    email: "hyderguda@example.test",
     role: "admin",
     store_id: "Hyderguda",
     status: "active"
@@ -219,3 +219,6 @@ if (passedTests !== totalTests) {
 } else {
   console.log("🎉 ALL USER REPOSITORY VERIFICATION CHECKS PASSED SUCCESSFULLY!");
 }
+
+console.log(`\nResult: ${passedTests}/${totalTests} passed`);
+if (passedTests !== totalTests) process.exit(1);

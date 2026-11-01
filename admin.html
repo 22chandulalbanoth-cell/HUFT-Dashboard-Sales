@@ -1344,12 +1344,12 @@
               <div class="space-y-3 text-xs">
                 <div>
                   <label class="block text-slate-500 font-medium mb-1">Supabase Endpoint URL</label>
-                  <input type="text" id="cfgSupabaseUrl" readonly value="https://sumoyszqxxuarwzpzsgw.supabase.co"
+                  <input type="text" id="cfgSupabaseUrl" readonly value="https://wyqksfncdlwjduyispmb.supabase.co"
                     class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 font-mono text-slate-700 text-[11px]" />
                 </div>
                 <div>
                   <label class="block text-slate-500 font-medium mb-1">Public Anonymous Client Key</label>
-                  <input type="password" id="cfgSupabaseKey" readonly value="sb_publishable_uVAPgHwmyBlY5gbop_Mqcw_CTNK7eOT"
+                  <input type="password" id="cfgSupabaseKey" readonly value="sb_publishable_aWp9LDntXl0nRVMS3laNJQ_ycDrJK7Z"
                     class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 font-mono text-slate-700 text-[11px]" />
                 </div>
                 <div class="pt-2 flex items-center justify-between">
@@ -1528,7 +1528,7 @@
   <!-- ==================== CORE JAVASCRIPT ENGINE (STATE & DATA) ==================== -->
   <script>
     const SUPABASE_URL = localStorage.getItem("central_control_supabase_url") || localStorage.getItem("huft_supabase_url") || "https://wyqksfncdlwjduyispmb.supabase.co";
-    const SUPABASE_ANON_KEY = localStorage.getItem("central_control_supabase_anon_key") || localStorage.getItem("huft_supabase_anon_key") || "";
+    const SUPABASE_ANON_KEY = localStorage.getItem("central_control_supabase_anon_key") || localStorage.getItem("huft_supabase_anon_key") || "sb_publishable_aWp9LDntXl0nRVMS3laNJQ_ycDrJK7Z";
     let supabase = null;
 
     try {
@@ -1637,8 +1637,32 @@
       return AUTHORIZED_ADMIN_EMAILS.includes(email.toLowerCase().trim());
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", async function() {
       checkAuthState();
+      if (supabase && supabase.auth && (!currentAdminSession || currentAdminSession.role !== "CENTRAL_ADMIN")) {
+        try {
+          const { data } = await supabase.auth.getSession();
+          if (data?.session?.user) {
+            const { data: profile } = await supabase
+              .from("profiles")
+              .select("id, email, role, active")
+              .eq("id", data.session.user.id)
+              .single();
+            if (profile && profile.role === "CENTRAL_ADMIN" && profile.active === true) {
+              currentAdminSession = {
+                id: profile.id,
+                email: profile.email || data.session.user.email,
+                name: "Chandu (Central Admin)",
+                role: "CENTRAL_ADMIN"
+              };
+              try { sessionStorage.setItem("central_admin_session", JSON.stringify(currentAdminSession)); } catch(e){}
+              checkAuthState();
+            }
+          }
+        } catch(e) {
+          console.warn("Session restore info:", e);
+        }
+      }
       renderAllSections();
       initTelemetryCharts();
     });
@@ -1817,6 +1841,9 @@
     }
 
     function handleAdminSignOut() {
+      if (supabase && supabase.auth) {
+        try { supabase.auth.signOut(); } catch(e){}
+      }
       try {
         recordAuditEvent("ADMIN_LOGOUT", currentAdminSession ? currentAdminSession.email : "admin", "SUCCESS", {});
       } catch(e){}

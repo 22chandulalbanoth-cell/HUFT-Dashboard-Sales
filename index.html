@@ -4786,26 +4786,30 @@ button:hover, .btn:hover, .btn-auth-header:hover, .portal-btn-primary:hover,
       </form>
 
       <!-- VIEW 2: SIGN UP / REQUEST ACCESS -->
-      <form id="portalSignUpForm" onsubmit="handlePortalSignUp(event)" style="display:none;" novalidate>
+      <form id="portalSignUpForm" onsubmit="handlePortalSignUp(event)" style="display:none;" autocomplete="off" novalidate>
+        <!-- Autofill decoy inputs to capture browser autofill -->
+        <input type="text" style="display:none;" tabindex="-1" autocomplete="username" aria-hidden="true">
+        <input type="password" style="display:none;" tabindex="-1" autocomplete="current-password" aria-hidden="true">
+
         <div class="portal-field">
           <label for="portalRegStore">Store Name</label>
-          <input type="text" id="portalRegStore" placeholder="e.g. Banjara Hills, Madhapur, Jubilee Hills" required>
+          <input type="text" id="portalRegStore" placeholder="e.g. Banjara Hills, Madhapur, Jubilee Hills" required autocomplete="off" value="">
         </div>
 
         <div class="portal-field" style="margin-top:12px;">
           <label for="portalRegEmail">Login Mail ID</label>
-          <input type="email" id="portalRegEmail" placeholder="e.g. banjarahills@huft.com" required autocomplete="username">
+          <input type="email" id="portalRegEmail" placeholder="e.g. banjarahills@huft.com" required autocomplete="new-password" value="">
         </div>
 
         <div class="portal-field" style="position:relative; margin-top:12px;">
           <label for="portalRegPassword">Password</label>
-          <input type="password" id="portalRegPassword" placeholder="Create password (min. 6 characters)" required minlength="6" style="padding-right:75px;">
+          <input type="password" id="portalRegPassword" placeholder="Create password (min. 6 characters)" required minlength="6" autocomplete="new-password" value="" style="padding-right:75px;">
           <button type="button" class="portal-toggle-pw" onclick="togglePortalPw('portalRegPassword', this)">Show</button>
         </div>
 
         <div class="portal-field" style="position:relative; margin-top:12px;">
           <label for="portalRegPasswordConfirm">Re-enter Password</label>
-          <input type="password" id="portalRegPasswordConfirm" placeholder="Re-enter password" required minlength="6" style="padding-right:75px;">
+          <input type="password" id="portalRegPasswordConfirm" placeholder="Re-enter password" required minlength="6" autocomplete="new-password" value="" style="padding-right:75px;">
           <button type="button" class="portal-toggle-pw" onclick="togglePortalPw('portalRegPasswordConfirm', this)">Show</button>
         </div>
 
@@ -19920,6 +19924,21 @@ document.addEventListener('DOMContentLoaded', async () => {
       if(btnUp) btnUp.className = "portal-tab-btn active";
       const sub = document.getElementById("portalSubheading");
       if(sub) sub.textContent = "New Store Access Request";
+      // Clear Request Access inputs so no default or autofilled credentials appear
+      const clearRequestFields = function(){
+        const rStore = document.getElementById("portalRegStore");
+        const rEmail = document.getElementById("portalRegEmail");
+        const rPass = document.getElementById("portalRegPassword");
+        const rPassC = document.getElementById("portalRegPasswordConfirm");
+        if(rStore) rStore.value = "";
+        if(rEmail) rEmail.value = "";
+        if(rPass) rPass.value = "";
+        if(rPassC) rPassC.value = "";
+      };
+      clearRequestFields();
+      setTimeout(clearRequestFields, 30);
+      setTimeout(clearRequestFields, 120);
+      setTimeout(clearRequestFields, 300);
     } else if(tab === "status"){
       if(formIn) formIn.style.display = "none";
       if(formUp) formUp.style.display = "none";
@@ -20269,6 +20288,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Check session on page load
   window.addEventListener("DOMContentLoaded", function(){
+    // Ensure Request Access fields start completely empty
+    const rStore = document.getElementById("portalRegStore");
+    const rEmail = document.getElementById("portalRegEmail");
+    const rPass = document.getElementById("portalRegPassword");
+    const rPassC = document.getElementById("portalRegPasswordConfirm");
+    if(rStore) rStore.value = "";
+    if(rEmail) rEmail.value = "";
+    if(rPass) rPass.value = "";
+    if(rPassC) rPassC.value = "";
     getHuftStoreAccounts();
     const saved = sessionStorage.getItem("huft_active_session") || localStorage.getItem("huft_mock_session");
     if(saved){

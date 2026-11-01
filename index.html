@@ -2933,133 +2933,242 @@ canvas { transform: none; }
 
 .authModalCard {
   background: #ffffff;
-  border: 1px solid #fed7aa;
-  border-radius: 18px;
-  width: min(480px, calc(100vw - 32px));
-  max-height: 94vh;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  width: min(440px, calc(100vw - 28px));
+  max-height: 92vh;
   overflow-y: auto;
-  box-shadow: 0 25px 75px rgba(0, 0, 0, .28);
-  padding: 26px 24px;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+  padding: 28px 26px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 .authBrandTitle {
-  font-size: 22px;
-  font-weight: 900;
-  color: #9a3412;
-  letter-spacing: -.3px;
+  font-size: 19px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
 }
 
+/* Modern Segmented Navigation Tabs */
 .authTabs {
   display: flex;
-  border-bottom: 2px solid #f1f5f9;
-  margin-bottom: 18px;
-  gap: 8px;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  gap: 4px;
+  border: none;
 }
 
 .authTabBtn {
-  padding: 8px 14px;
-  border: 0;
-  background: transparent;
+  flex: 1;
+  padding: 9px 12px;
+  border-radius: 9px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   color: #64748b;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
+  background: transparent;
+  border: none;
   cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.authTabBtn:hover {
+  color: #0f172a;
 }
 
 .authTabBtn.active {
-  color: #9a3412;
-  border-bottom-color: #9a3412;
+  background: #ffffff;
+  color: #0f172a;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .authInputGroup {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  margin-bottom: 14px;
+  margin-bottom: 15px;
 }
 
 .authInputGroup label {
-  font-size: 11px;
-  font-weight: 700;
-  color: #475569;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
 }
 
 .authInputGroup input, .authInputGroup select {
-  height: 38px;
-  border: 1px solid #cbd5e1;
-  border-radius: 7px;
-  padding: 8px 12px;
-  font-size: 13px;
-  background: #ffffff;
+  height: 42px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 13.5px;
+  background: #f8fafc;
+  color: #0f172a;
   box-sizing: border-box;
+  transition: all 0.15s ease;
+  width: 100%;
 }
 
 .authInputGroup input:focus, .authInputGroup select:focus {
-  border-color: #f97316;
+  border-color: #0f172a;
+  background: #ffffff;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, .15);
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
 }
 
 .btn-auth-submit {
   width: 100%;
-  height: 42px;
-  background: #9a3412;
+  height: 44px;
+  background: #0f172a;
   color: #ffffff;
   border: 0;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 800;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(154, 52, 18, .25);
-  transition: background .15s ease;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .btn-auth-submit:hover {
-  background: #7c2d12;
+  background: #1e293b;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
 }
 
-.authDemoAccounts {
-  margin-top: 20px;
-  padding: 12px;
-  background: #fffaf5;
-  border: 1px dashed #fed7aa;
-  border-radius: 8px;
+.btn-auth-submit:active {
+  transform: translateY(0);
 }
 
-.authDemoTitle {
-  font-size: 11px;
-  font-weight: 800;
-  color: #9a3412;
-  margin-bottom: 8px;
+/* Dedicated Quick 1-Click Sign-In for Hyderguda (Sole Admin) */
+.auth-quick-single-box {
+  margin-top: 22px;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  transition: all 0.2s ease;
+}
+
+.auth-quick-single-box:hover {
+  border-color: #cbd5e1;
+  background: #f1f5f9;
+}
+
+.auth-quick-single-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 
-.authDemoGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 6px;
-}
-
-.btn-demo-account {
-  padding: 7px 9px;
-  background: #ffffff;
-  border: 1px solid #fed7aa;
-  border-radius: 5px;
+.auth-quick-title-text {
   font-size: 11px;
   font-weight: 700;
-  color: #4b2e1b;
-  cursor: pointer;
-  text-align: left;
-  transition: all .12s ease;
+  color: #475569;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.btn-demo-account:hover {
+.auth-quick-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid #a7f3d0;
+}
+
+.btn-quick-hyderguda-card {
+  width: 100%;
+  padding: 10px 14px;
+  background: #ffffff;
+  border: 1.5px solid #fed7aa;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 6px rgba(234, 88, 12, 0.08);
+}
+
+.btn-quick-hyderguda-card:hover {
   background: #fff7ed;
-  border-color: #f97316;
+  border-color: #ea580c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.15);
+}
+
+.quick-hyderguda-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ffedd5;
+  color: #c2410c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.quick-hyderguda-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.quick-hyderguda-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.quick-hyderguda-desc {
+  font-size: 10.5px;
+  color: #9a3412;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.quick-hyderguda-arrow {
+  font-size: 13px;
+  color: #ea580c;
+  font-weight: 700;
+}
+
+/* Request Access Informational Banner */
+.request-access-banner {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: #1e40af;
+  line-height: 1.45;
+}
+
+.request-access-banner strong {
+  font-weight: 700;
+  color: #1d4ed8;
 }
 
 /* Central Admin Panel Modal */
@@ -16393,22 +16502,27 @@ canvas { pointer-events:auto !important; }
   <!-- Authentication & Access Management Modal -->
   <div id="authModalOverlay" class="authModalOverlay hidden" role="dialog" aria-modal="true" aria-labelledby="authBrandTitle">
     <div class="authModalCard">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <div>
-          <div class="authBrandTitle" id="authBrandTitle">HUFT Store Access</div>
-          <div style="font-size:12px; color:#667085; margin-top:2px;">Multi-Store Sales &amp; AI Intelligence Portal</div>
+      <!-- Modal Header -->
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:36px; height:36px; border-radius:50%; background:#0f172a; color:#ffffff; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">
+            🐾
+          </div>
+          <div>
+            <div class="authBrandTitle" id="authBrandTitle">HUFT Store Portal</div>
+            <div style="font-size:12px; color:#64748b; margin-top:2px;">Sales Analytics &amp; Store Management</div>
+          </div>
         </div>
-        <button type="button" onclick="hideLoginModal()" style="border:0; background:transparent; font-size:20px; cursor:pointer; color:#94a3b8;" title="Close">✕</button>
+        <button type="button" onclick="hideLoginModal()" class="gpt-btn-close" style="width:30px; height:30px; font-size:16px;" title="Close">✕</button>
       </div>
 
       <!-- Alert Box -->
       <div id="authAlertBox" class="hidden"></div>
 
-      <!-- Auth Navigation Tabs -->
+      <!-- Modern Segmented Navigation Tabs -->
       <div class="authTabs">
         <button type="button" class="authTabBtn active" id="tabBtn-signin" onclick="switchAuthView('signin')">Sign In</button>
-        <button type="button" class="authTabBtn" id="tabBtn-signup" onclick="switchAuthView('signup')">Request Store Access</button>
-        <button type="button" class="authTabBtn" id="tabBtn-forgot" onclick="switchAuthView('forgot')">Forgot Password</button>
+        <button type="button" class="authTabBtn" id="tabBtn-signup" onclick="switchAuthView('signup')">Request Access</button>
       </div>
 
       <!-- View 1: Sign In -->
@@ -16419,65 +16533,57 @@ canvas { pointer-events:auto !important; }
             <input type="email" id="signInEmail" value="hyderguda@huft.com" placeholder="e.g. hyderguda@huft.com" required autocomplete="username">
           </div>
           <div class="authInputGroup">
-            <div style="display:flex; justify-content:space-between;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
               <label for="signInPassword">Password</label>
-              <a href="javascript:void(0)" onclick="switchAuthView('forgot')" style="font-size:11px; color:#9a3412; text-decoration:none;">Forgot password?</a>
+              <a href="javascript:void(0)" onclick="switchAuthView('forgot')" style="font-size:11.5px; color:#64748b; text-decoration:none; font-weight:600;">Forgot password?</a>
             </div>
             <input type="password" id="signInPassword" value="HuftStore#2026" placeholder="••••••••" required autocomplete="current-password">
           </div>
-          <button type="submit" id="signInBtn" class="btn-auth-submit" style="margin-top:8px;">Sign In to Store</button>
+          <button type="submit" id="signInBtn" class="btn-auth-submit">Sign In to Store</button>
         </form>
 
         <div style="text-align:center; margin-top:14px; font-size:12px; color:#64748b;">
           Need access for a new store? 
-          <a href="javascript:void(0)" onclick="switchAuthView('signup')" style="font-weight:700; color:#9a3412; text-decoration:none;">Request Store Account</a>
+          <a href="javascript:void(0)" onclick="switchAuthView('signup')" style="font-weight:700; color:#0f172a; text-decoration:none;">Request Access</a>
         </div>
 
-        <!-- Quick Demo Sandbox Logins for instantaneous testing -->
-        <div class="authDemoAccounts">
-          <div class="authDemoTitle">
-            <span>⚡ QUICK TEST ACCOUNTS</span>
-            <span style="font-size:10px; font-weight:600; color:#94a3b8;">Click to fill &amp; sign in</span>
+        <!-- Dedicated Quick 1-Click Sign-In: ONLY Hyderguda (Sole Central Admin) -->
+        <div class="auth-quick-single-box">
+          <div class="auth-quick-single-header">
+            <span class="auth-quick-title-text">⚡ Quick Access (Default Admin)</span>
+            <span class="auth-quick-badge">1-Click</span>
           </div>
-          <div class="authDemoGrid">
-            <button type="button" class="btn-demo-account" style="grid-column: span 2; background: #fff7ed; border: 1.5px solid #f97316;" onclick="quickDemoLogin('hyderguda@huft.com')">
-              👑 Hyderguda (Central Admin &amp; Default Store)<br><small style="color:#c2410c; font-weight:700;">Sole Admin Store • Global Store Access &amp; AI Control</small>
-            </button>
-            <button type="button" class="btn-demo-account" onclick="quickDemoLogin('banjarahills@huft.com')">
-              🏪 Banjara Hills<br><small style="color:#64748b;">Store Manager Only</small>
-            </button>
-            <button type="button" class="btn-demo-account" onclick="quickDemoLogin('madhapur@huft.com')">
-              🏪 Madhapur<br><small style="color:#64748b;">Store Manager Only</small>
-            </button>
-            <button type="button" class="btn-demo-account" onclick="quickDemoLogin('goldenmile@huft.com')">
-              🏪 Golden Mile<br><small style="color:#64748b;">Store Manager Only</small>
-            </button>
-            <button type="button" class="btn-demo-account" onclick="quickDemoLogin('himayathnagar@huft.com')">
-              🏪 Himayathnagar<br><small style="color:#64748b;">Store Manager Only</small>
-            </button>
-            <button type="button" class="btn-demo-account" onclick="quickDemoLogin('pending@huft.com')">
-              ⏳ Pending Account<br><small style="color:#64748b;">Tests rejection</small>
-            </button>
-            <button type="button" class="btn-demo-account" onclick="quickDemoLogin('deactivated@huft.com')">
-              ✕ Deactivated<br><small style="color:#64748b;">Tests deactivation</small>
-            </button>
-          </div>
+          <button type="button" class="btn-quick-hyderguda-card" onclick="quickDemoLogin('hyderguda@huft.com')">
+            <div class="quick-hyderguda-avatar">👑</div>
+            <div class="quick-hyderguda-text">
+              <div class="quick-hyderguda-title">Hyderguda (Central Admin)</div>
+              <div class="quick-hyderguda-desc">Sole Central Administrator • Full Store &amp; AI Access</div>
+            </div>
+            <div class="quick-hyderguda-arrow">➔</div>
+          </button>
         </div>
       </div>
 
       <!-- View 2: Request Store Access / Sign Up -->
       <div id="authView-signup" class="auth-view-pane hidden">
+        <div class="request-access-banner">
+          <span style="font-size:18px;">🛡️</span>
+          <div>
+            <strong>Central Admin Approval Required</strong><br>
+            New store requests are reviewed and activated by Hyderguda Central Administrator.
+          </div>
+        </div>
         <form onsubmit="handleSignUpSubmit(event)">
           <div class="authInputGroup">
             <label for="signUpName">Manager Full Name</label>
-            <input type="text" id="signUpName" placeholder="e.g. Ramesh Kumar" required>
+            <input type="text" id="signUpName" placeholder="e.g. Store Manager Name" required>
           </div>
           <div class="authInputGroup">
             <label for="signUpEmail">Official Store Email</label>
             <input type="email" id="signUpEmail" placeholder="e.g. banjarahills@huft.com" required autocomplete="username">
           </div>
           <div class="authInputGroup">
-            <label for="signUpStore">Assign Store Permission</label>
+            <label for="signUpStore">Select Store Permission</label>
             <select id="signUpStore" required>
               <option value="Hyderguda" selected>Hyderguda (Admin &amp; Default Store)</option>
               <option value="Banjara Hills">Banjara Hills</option>
@@ -16490,14 +16596,12 @@ canvas { pointer-events:auto !important; }
             <label for="signUpPassword">Password (minimum 8 characters)</label>
             <input type="password" id="signUpPassword" placeholder="••••••••" required minlength="8" autocomplete="new-password">
           </div>
-          <button type="submit" id="signUpBtn" class="btn-auth-submit" style="margin-top:8px;">Submit Access Request</button>
+          <button type="submit" id="signUpBtn" class="btn-auth-submit">Submit Access Request</button>
         </form>
-        <p style="font-size:11px; color:#64748b; margin-top:10px; line-height:1.4;">
-          🔒 <strong>Store Access Policy:</strong> Hyderguda is the sole designated Central Administrator store by default. Accounts registered for other stores are strictly Store Managers requiring central approval.
-        </p>
-        <div style="text-align:center; margin-top:12px; font-size:12px;">
+
+        <div style="text-align:center; margin-top:14px; font-size:12px; color:#64748b;">
           Already have an authorized account? 
-          <a href="javascript:void(0)" onclick="switchAuthView('signin')" style="font-weight:700; color:#9a3412; text-decoration:none;">Sign In</a>
+          <a href="javascript:void(0)" onclick="switchAuthView('signin')" style="font-weight:700; color:#0f172a; text-decoration:none;">Sign In</a>
         </div>
       </div>
 
@@ -16506,15 +16610,15 @@ canvas { pointer-events:auto !important; }
         <form onsubmit="handleForgotSubmit(event)">
           <div class="authInputGroup">
             <label for="forgotEmail">Registered Store Email</label>
-            <input type="email" id="forgotEmail" placeholder="e.g. madhapur@huft.com" required>
+            <input type="email" id="forgotEmail" placeholder="e.g. store@huft.com" required>
           </div>
-          <p style="font-size:11px; color:#64748b; margin-bottom:14px; line-height:1.4;">
+          <p style="font-size:11.5px; color:#64748b; margin-bottom:14px; line-height:1.5;">
             Enter your official store email. We will generate a secure one-time password recovery link.
           </p>
           <button type="submit" class="btn-auth-submit">Send Password Recovery Link</button>
         </form>
         <div style="text-align:center; margin-top:14px; font-size:12px;">
-          <a href="javascript:void(0)" onclick="switchAuthView('signin')" style="font-weight:700; color:#9a3412; text-decoration:none;">← Back to Sign In</a>
+          <a href="javascript:void(0)" onclick="switchAuthView('signin')" style="font-weight:700; color:#0f172a; text-decoration:none;">← Back to Sign In</a>
         </div>
       </div>
 

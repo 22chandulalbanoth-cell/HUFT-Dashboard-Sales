@@ -3879,13 +3879,13 @@ body:not(.huft-logged-in) #huftWelcomeOverlay {
 :root {
   --portal-brand: #ff7f3f;
   --portal-brand-deep: #e5622a;
-  --portal-brand-glow: rgba(255,127,63, .45);
-  --portal-accent: #ffb38a;
-  --portal-bg-1: #1f0d05;
-  --portal-bg-2: #3a1a0c;
-  --portal-text: #fff7f2;
-  --portal-muted: rgba(255,247,242, .65);
-  --portal-radius: 28px;
+  --portal-brand-glow: rgba(255,127,63, .35);
+  --portal-bg: #fbf8f5;
+  --portal-card-bg: #ffffff;
+  --portal-border: rgba(229, 98, 42, 0.18);
+  --portal-text: #2a1208;
+  --portal-muted: #7c6559;
+  --portal-radius: 24px;
 }
 
 #huftPortalRoot {
@@ -3899,7 +3899,7 @@ body:not(.huft-logged-in) #huftWelcomeOverlay {
   display: grid !important;
   place-items: center !important;
   padding: max(24px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom)) !important;
-  background: radial-gradient(circle at 50% 45%, rgba(229, 98, 42, 0.45) 0%, rgba(58, 26, 12, 0.82) 55%, #180a04 100%) !important;
+  background: radial-gradient(circle at 50% 25%, rgba(255, 127, 63, 0.1) 0%, rgba(251, 248, 245, 0.98) 60%, #f4eee7 100%) !important;
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
   color: var(--portal-text) !important;
   box-sizing: border-box !important;
@@ -3908,36 +3908,43 @@ body:not(.huft-logged-in) #huftWelcomeOverlay {
   pointer-events: auto !important;
 }
 
+#huftPortalRoot::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ff7f3f, #e5622a, #ff9e5c);
+  z-index: 10;
+}
+
 #huftPortalRoot.portal-hidden {
   display: none !important;
 }
 
-/* Background animated glow & orbs */
+/* Background animated subtle ambient orbs */
 .portal-bg {
   position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
 }
 .portal-bg-grad {
   position: absolute; inset: -20%;
-  background: conic-gradient(from 0deg at 50% 50%, #e5622a, #3a1a0c, #ff7f3f, #1f0d05, #e5622a);
-  filter: blur(90px); opacity: .55;
-  animation: portal-spin 28s linear infinite;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 127, 63, 0.08) 0%, rgba(246, 239, 233, 0.6) 50%, transparent 80%);
+  filter: blur(80px); opacity: .7;
 }
-@keyframes portal-spin { to { transform: rotate(360deg); } }
 
 .portal-orb {
-  position: absolute; border-radius: 50%; filter: blur(40px); opacity: .6;
-  animation: portal-float 14s ease-in-out infinite;
+  position: absolute; border-radius: 50%; filter: blur(50px); opacity: .45;
+  animation: portal-float 16s ease-in-out infinite;
 }
-.portal-orb.a { width: 340px; height: 340px; background: #ff9a5c; top: -80px; left: -60px; }
-.portal-orb.b { width: 280px; height: 280px; background: #e5622a; bottom: -60px; right: -40px; animation-delay: -5s; }
-.portal-orb.c { width: 180px; height: 180px; background: #ffd2b5; top: 45%; left: 60%; opacity: .25; animation-delay: -9s; }
+.portal-orb.a { width: 360px; height: 360px; background: rgba(255, 179, 138, 0.5); top: -80px; left: -60px; }
+.portal-orb.b { width: 300px; height: 300px; background: rgba(255, 127, 63, 0.25); bottom: -60px; right: -40px; animation-delay: -6s; }
+.portal-orb.c { width: 200px; height: 200px; background: rgba(255, 210, 181, 0.4); top: 45%; left: 60%; animation-delay: -10s; }
 @keyframes portal-float {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(40px, -30px) scale(1.08); }
-  66% { transform: translate(-30px, 25px) scale(.95); }
+  33% { transform: translate(30px, -25px) scale(1.05); }
+  66% { transform: translate(-25px, 20px) scale(.96); }
 }
 
-#portal-particles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+#portal-particles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.6; }
 
 .portal-stage {
   position: relative;
@@ -3948,152 +3955,172 @@ body:not(.huft-logged-in) #huftWelcomeOverlay {
   margin: auto;
 }
 
+/* Crisp, clean, luxury white card matching dashboard */
 .portal-card {
   position: relative !important;
-  background: rgba(255, 255, 255, 0.07) !important;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  background: #ffffff !important;
+  border: 1.5px solid var(--portal-border) !important;
   border-radius: var(--portal-radius) !important;
   padding: 42px 36px 34px !important;
-  backdrop-filter: blur(24px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .15) !important;
-  transform-style: preserve-3d;
+  box-shadow: 0 20px 48px rgba(74, 32, 12, 0.08), 0 2px 8px rgba(0, 0, 0, 0.03) !important;
   box-sizing: border-box !important;
-  animation: portal-enter .8s cubic-bezier(.2, .8, .2, 1) both;
+  animation: portal-enter .7s cubic-bezier(.2, .8, .2, 1) both;
 }
 @keyframes portal-enter {
-  from { opacity: 0; transform: translateY(24px) scale(.97); }
+  from { opacity: 0; transform: translateY(20px) scale(.98); }
   to   { opacity: 1; transform: none; }
 }
 
 .portal-brand { text-align: center; margin-bottom: 24px; }
 .portal-logo {
-  position: relative; width: 76px; height: 76px; margin: 0 auto 16px; border-radius: 22px;
-  background: #ff7f3f;
-  box-shadow: 0 10px 25px rgba(255,127,63,.4);
+  position: relative; width: 72px; height: 72px; margin: 0 auto 16px; border-radius: 20px;
+  background: linear-gradient(135deg, #ff7f3f, #e5622a);
+  box-shadow: 0 8px 24px rgba(229, 98, 42, 0.32);
   transform: none !important;
   animation: none !important;
 }
 .portal-logo-clip {
-  position: absolute; inset: 0; border-radius: 22px; overflow: hidden;
+  position: absolute; inset: 0; border-radius: 20px; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
 }
 .portal-brand-logo {
-  display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 22px;
+  display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 20px;
   transform: none !important;
   animation: none !important;
 }
 
 .portal-brand h1 {
-  margin: 0; font-size: 25px; font-weight: 800; letter-spacing: -.01em;
-  color: #ffffff;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -.02em;
+  color: #2a1208;
+  font-family: 'Inter', system-ui, sans-serif;
 }
-.portal-brand p { margin: 6px 0 0; color: var(--portal-muted); font-size: 14px; }
+.portal-brand p { margin: 6px 0 0; color: #7c6559; font-size: 13.5px; font-weight: 600; }
 
-/* Inputs matching user design */
+/* Form field styling matching dashboard */
 .portal-field { position: relative; margin-bottom: 14px; }
+.portal-field label {
+  display: block; font-size: 12.5px; font-weight: 700; color: #4a2c1f;
+  margin-bottom: 6px; text-align: left;
+}
 .portal-field input, .portal-field select {
-  width: 100%; height: 56px; padding: 0 18px;
-  border-radius: 14px; border: 1.5px solid rgba(255, 255, 255, .12);
-  background: rgba(35, 16, 7, 0.48); color: #ffffff;
-  font-family: inherit; font-size: 15px; outline: none; box-sizing: border-box;
+  width: 100%; height: 50px; padding: 0 16px;
+  border-radius: 12px; border: 1.5px solid #e2d5cb;
+  background: #fdfbf9; color: #2a1208;
+  font-family: inherit; font-size: 14.5px; outline: none; box-sizing: border-box;
   transition: border-color .2s, box-shadow .2s, background .2s;
 }
 .portal-field input::placeholder {
-  color: rgba(255, 247, 242, 0.52);
-  font-size: 15px;
+  color: #a38f83; font-size: 14px;
 }
 .portal-field input:focus, .portal-field select:focus {
   border-color: #ff7f3f;
-  background: rgba(35, 16, 7, 0.75);
-  box-shadow: 0 0 0 3px rgba(255,127,63, .25);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 127, 63, 0.18);
 }
 
 .portal-toggle-pw {
-  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.1); border: 0; color: #ffffff;
-  font-family: inherit; font-size: 13px; font-weight: 600;
-  padding: 7px 14px; border-radius: 10px; cursor: pointer;
-  transition: background .2s;
+  position: absolute; right: 10px; top: 32px;
+  background: #f5ede6; border: 1px solid #e2d5cb; color: #5c4337;
+  font-family: inherit; font-size: 12.5px; font-weight: 600;
+  padding: 6px 12px; border-radius: 8px; cursor: pointer;
+  transition: all .2s;
 }
-.portal-toggle-pw:hover { background: rgba(255, 255, 255, 0.2); }
+.portal-toggle-pw:hover { background: #ebdcd0; color: #2a1208; }
 
-/* Row: keep signed in + forgot pw */
+/* Keep me signed in */
 .portal-row {
   display: flex; justify-content: space-between; align-items: center;
-  margin: 18px 0 24px; font-size: 13.5px;
+  margin: 16px 0 20px; font-size: 13px;
 }
 .portal-check {
-  display: flex; align-items: center; gap: 10px;
-  color: rgba(255, 247, 242, 0.7); cursor: pointer; user-select: none;
+  display: flex; align-items: center; gap: 9px;
+  color: #5c4337; cursor: pointer; user-select: none; font-weight: 500;
 }
 .portal-check input {
   appearance: none; -webkit-appearance: none;
-  width: 18px; height: 18px; border-radius: 6px;
-  border: 1.5px solid rgba(255,255,255,.3);
+  width: 17px; height: 17px; border-radius: 5px;
+  border: 1.5px solid #d4c2b3;
   display: grid; place-items: center; cursor: pointer; margin: 0;
-  background: transparent; transition: all .2s;
+  background: #ffffff; transition: all .2s;
 }
 .portal-check input:checked {
-  background: #ff7f3f; border-color: #ff7f3f;
+  background: #e5622a; border-color: #e5622a;
 }
 .portal-check input:checked::after {
-  content: ""; width: 8px; height: 4px;
-  border-left: 2px solid #1f0d05; border-bottom: 2px solid #1f0d05;
+  content: ""; width: 7px; height: 4px;
+  border-left: 2px solid #ffffff; border-bottom: 2px solid #ffffff;
   transform: rotate(-45deg); margin-top: -2px;
 }
-.portal-row a {
-  color: rgba(255, 247, 242, 0.7); text-decoration: none; font-size: 13.5px;
-  transition: color .2s;
-}
-.portal-row a:hover { color: #ffffff; }
 
-/* Peach / orange Sign In Button */
+/* Signature HUFT Orange Button */
 .portal-btn-primary {
-  width: 100%; height: 56px; border: 0; border-radius: 16px;
-  font-family: inherit; font-size: 16px; font-weight: 700; color: #1a0f07;
-  background: #ff9e5c;
+  width: 100%; height: 52px; border: 0; border-radius: 12px;
+  font-family: inherit; font-size: 15.5px; font-weight: 700; color: #ffffff;
+  background: linear-gradient(135deg, #ff7f3f, #e5622a);
   cursor: pointer;
-  box-shadow: 0 12px 30px rgba(255,127,63, .35);
+  box-shadow: 0 8px 22px rgba(229, 98, 42, 0.32);
   transition: transform .15s, box-shadow .2s, filter .2s;
   display: flex; align-items: center; justify-content: center;
 }
 .portal-btn-primary:hover {
-  box-shadow: 0 16px 40px rgba(255,127,63, .5);
+  box-shadow: 0 12px 28px rgba(229, 98, 42, 0.45);
   transform: translateY(-1px);
-  filter: brightness(1.04);
+  filter: brightness(1.03);
 }
 .portal-btn-primary:active { transform: scale(.99); }
 .portal-btn-primary:disabled { cursor: not-allowed; opacity: 0.7; }
 
 /* Alert banner */
 .portal-alert {
-  display: none; margin-bottom: 16px; padding: 11px 14px; border-radius: 12px;
-  font-size: 13px; line-height: 1.4; color: #ffe4e6;
-  background: rgba(244, 63, 94, .18); border: 1px solid rgba(253, 164, 175, .35);
+  display: none; margin-bottom: 16px; padding: 10px 14px; border-radius: 10px;
+  font-size: 12.5px; font-weight: 600; line-height: 1.4; color: #9f1239;
+  background: #fff1f2; border: 1px solid #fecdd3;
 }
 .portal-alert.show { display: block; }
-.portal-alert.info { background: rgba(255,127,63, .18); border-color: rgba(255,179,138, .35); color: #ffe9dc; }
-
-/* Request access footer divider */
-.portal-request {
-  margin-top: 26px; padding-top: 22px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  text-align: center; font-size: 14px; color: rgba(255, 247, 242, 0.65);
-}
-.portal-request a {
-  color: #ff9e5c; font-weight: 700; text-decoration: none;
-}
-.portal-request a:hover { text-decoration: underline; }
+.portal-alert.info { background: #fff7ed; border-color: #ffedd5; color: #c2410c; }
 
 .portal-footer {
-  margin: 18px 0 0; text-align: center; font-size: 12px; color: rgba(255, 247, 242, 0.45);
+  margin: 22px 0 0; text-align: center; font-size: 11.5px; color: #9c8578; font-weight: 500;
 }
 </style>
 
 
 <!-- UNIFIED LUXURY DARK ESPRESSO GLASS THEME FOR ENTIRE SITE -->
+<style id="huft-all-tabs-unified-theme">
+/* Harmonize Weekly Review & All Tabs to Official HUFT Brand Palette */
+.wr-hero {
+  background: linear-gradient(135deg, #2a1208 0%, #4a2110 50%, #e5622a 100%) !important;
+  color: #ffffff !important;
+  border-radius: 18px !important;
+  box-shadow: 0 10px 30px rgba(42, 18, 8, 0.18) !important;
+}
+.wr-hero .dashTitle { color: #ffffff !important; }
+.wr-hero .dashSub { color: rgba(255, 247, 242, 0.8) !important; }
+.wr-eyebrow { color: #ffb38a !important; font-weight: 700 !important; }
+
+/* Consistent card borders and backgrounds across all tabs */
+.page .card, .page .dashPanel, .page .panel, .page .stat, .page .kpi, .page .employee-kpi-shell {
+  background: #ffffff !important;
+  border: 1px solid rgba(229, 98, 42, 0.14) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 16px rgba(74, 32, 12, 0.04) !important;
+}
+
+/* Ensure all tab titles have rich espresso contrast */
+.dashTitle, .panelTitle, .employee-kpi-title {
+  color: #2a1208 !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-weight: 800 !important;
+}
+
+/* Ensure all table headers in comparison tabs match */
+.page table th {
+  background: #f7f0e8 !important;
+  color: #2a1208 !important;
+  border-bottom: 2px solid #e5622a !important;
+  font-weight: 700 !important;
+}
+</style>
 </head>
 <body>
 
@@ -17533,9 +17560,6 @@ function setAuthAlert(msg, type = "error") {
   if (typeof window.setPortalAlert === "function") {
     window.setPortalAlert(msg);
   }
-}`;
-  box.style.display = "block";
-  box.classList.remove("hidden");
 }
 
 /**

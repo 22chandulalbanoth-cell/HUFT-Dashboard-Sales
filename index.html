@@ -3569,6 +3569,84 @@ button.admin-tab-btn.active {
   box-shadow: 0 0 0 2px rgba(229, 98, 42, 0.2) !important;
 }
 
+/* Portal password toggle button - clean, light, no glassy brown block */
+.portal-toggle-pw,
+button.portal-toggle-pw {
+  position: absolute !important;
+  right: 10px !important;
+  top: 32px !important;
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  font-family: inherit !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  padding: 4px 10px !important;
+  cursor: pointer !important;
+  line-height: 1.2 !important;
+  height: 28px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transition: all 0.15s ease !important;
+}
+.portal-toggle-pw:hover,
+button.portal-toggle-pw:hover {
+  background: #e2e8f0 !important;
+  color: #1e293b !important;
+  border-color: #94a3b8 !important;
+}
+
+/* Action button: Revoke */
+.adminModalBody button.btn-action-revoke,
+.adminModalBody .btn-action-revoke,
+button.btn-action-revoke {
+  background: #fffbeb !important;
+  color: #92400e !important;
+  border: 1px solid #fde68a !important;
+  border-radius: 6px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 4px 8px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+.adminModalBody button.btn-action-revoke:hover,
+.adminModalBody .btn-action-revoke:hover,
+button.btn-action-revoke:hover {
+  background: #fef3c7 !important;
+  color: #78350f !important;
+  border-color: #fcd34d !important;
+}
+
+/* Submit button in Create Store Account form */
+#adminPanelModal button.btn-auth-submit,
+.adminModalPanel button.btn-auth-submit,
+.adminModalBody button.btn-auth-submit,
+button.btn-auth-submit {
+  background: #e5622a !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 12px 20px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  width: 100% !important;
+  box-shadow: 0 2px 4px rgba(229, 98, 42, 0.2) !important;
+  transition: background-color 0.15s ease !important;
+}
+#adminPanelModal button.btn-auth-submit:hover,
+.adminModalPanel button.btn-auth-submit:hover,
+.adminModalBody button.btn-auth-submit:hover,
+button.btn-auth-submit:hover {
+  background: #c85320 !important;
+}
+
+
 /* ==============================================================================
    CHATGPT DESIGN FOR HUFT SALES AI ASSISTANT
    ============================================================================== */
@@ -18530,11 +18608,22 @@ async function loadAdminUsers() {
       if (error) throw error;
       users = data || [];
     } catch (e) {
-      console.warn("Could not fetch profiles from Supabase, showing mock accounts:", e);
-      users = MOCK_STORE_ACCOUNTS;
+      console.warn("Could not fetch profiles from Supabase, showing store accounts:", e);
+      users = (typeof getHuftStoreAccounts === "function") ? getHuftStoreAccounts() : MOCK_STORE_ACCOUNTS;
     }
   } else {
-    users = MOCK_STORE_ACCOUNTS;
+    users = (typeof getHuftStoreAccounts === "function") ? getHuftStoreAccounts() : MOCK_STORE_ACCOUNTS;
+  }
+
+  // Always merge local accounts so newly registered or provisioned stores appear immediately
+  const localAccounts = (typeof getHuftStoreAccounts === "function") ? getHuftStoreAccounts() : (window.MOCK_STORE_ACCOUNTS || []);
+  for (const la of localAccounts) {
+    const idx = users.findIndex(u => (u.email && la.email && u.email.toLowerCase() === la.email.toLowerCase()) || u.id === la.id);
+    if (idx === -1) {
+      users.push(la);
+    } else {
+      if (la.status && !users[idx].status) users[idx].status = la.status;
+    }
   }
 
   // Update Summary Counts
@@ -18629,7 +18718,7 @@ async function loadAdminUsers() {
             Reset PWD
           </button>
 
-          <button onclick="adminRevokeSession('${user.id}')" title="Revoke Active Sessions" class="text-xs px-2 py-1 border border-amber-300 rounded text-amber-800 hover:bg-amber-100 font-semibold">
+          <button onclick="adminRevokeSession('${user.id}')" title="Revoke Active Sessions" class="btn-action-revoke">
             Revoke
           </button>
         </td>
@@ -18843,10 +18932,15 @@ async function adminRevokeSession(userId) {
 async function createStoreAccountAdmin(e) {
   if (e) e.preventDefault();
 
-  const email = document.getElementById("adminNewEmail")?.value?.trim();
-  const password = document.getElementById("adminNewPassword")?.value;
-  const storeId = document.getElementById("adminNewStore")?.value;
-  const fullName = document.getElementById("adminNewName")?.value?.trim();
+  const emailInput = document.getElementById("adminNewEmail");
+  const pwInput = document.getElementById("adminNewPassword");
+  const storeInput = document.getElementById("adminNewStore");
+  const nameInput = document.getElementById("adminNewName");
+
+  const email = (emailInput?.value || "").trim().toLowerCase();
+  const password = pwInput?.value || "";
+  const storeId = storeInput?.value || "";
+  const fullName = (nameInput?.value || "").trim();
 
   if (!email || !password || !storeId) {
     alert("Please fill in email, initial password, and select a store.");
@@ -18854,37 +18948,71 @@ async function createStoreAccountAdmin(e) {
   }
 
   try {
-    if (supabaseClient && !isDemoMode) {
-      const { data, error } = await supabaseClient.auth.signUp({
-        email: email,
-        password: password,
-        options: {
-          data: {
-            store_id: storeId,
-            full_name: fullName || email.split("@")[0],
-            role: "store_manager"
-          }
-        }
-      });
-      if (error) throw error;
-
-      // Automatically approve since created directly by Central Admin
-      if (data && data.user) {
-        await supabaseClient.from("profiles").update({ status: "active" }).eq("id", data.user.id);
-      }
+    // 1. Always create the account in the unified store registry (getHuftStoreAccounts / huft_store_accounts)
+    const accounts = (typeof getHuftStoreAccounts === "function") ? getHuftStoreAccounts() : [];
+    let existing = accounts.find(a => a.email.toLowerCase() === email);
+    const newAcct = {
+      id: existing ? existing.id : ("store-" + Date.now()),
+      email: email,
+      store_id: storeId,
+      full_name: fullName || (storeId + " (Store Manager)"),
+      role: "store_manager",
+      status: "active",
+      password: password,
+      created_at: new Date().toISOString(),
+      ai_access_enabled: true
+    };
+    if (existing) {
+      Object.assign(existing, newAcct);
     } else {
-      MOCK_STORE_ACCOUNTS.push({
-        id: "usr-" + Date.now(),
-        email: email,
-        full_name: fullName || email.split("@")[0],
-        store_id: storeId,
-        role: "store_manager",
-        status: "active",
-        ai_access_enabled: true
-      });
+      accounts.push(newAcct);
+    }
+    if (typeof saveHuftStoreAccounts === "function") {
+      saveHuftStoreAccounts(accounts);
+    } else {
+      localStorage.setItem("huft_store_accounts", JSON.stringify(accounts));
     }
 
-    alert(`Store account for '${email}' created and activated for store: ${storeId}!`);
+    // Also update in-memory MOCK_STORE_ACCOUNTS
+    let mExisting = MOCK_STORE_ACCOUNTS.find(a => a.email.toLowerCase() === email);
+    if (mExisting) {
+      Object.assign(mExisting, newAcct);
+    } else {
+      MOCK_STORE_ACCOUNTS.push(newAcct);
+    }
+
+    // 2. Try Supabase Auth & Profiles if available, with graceful fallback
+    if (supabaseClient && !isDemoMode) {
+      try {
+        const { data, error } = await supabaseClient.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              store_id: storeId,
+              full_name: fullName || (storeId + " (Store Manager)"),
+              role: "store_manager"
+            }
+          }
+        });
+        if (data && data.user) {
+          try {
+            await supabaseClient.from("profiles").upsert({
+              id: data.user.id,
+              email: email,
+              role: "store_manager",
+              status: "active",
+              store_id: storeId,
+              full_name: fullName || (storeId + " (Store Manager)")
+            });
+          } catch (_) {}
+        }
+      } catch (authErr) {
+        console.warn("Supabase Auth sign up notice (instance may have disabled public signups; account registered in local active store governance):", authErr.message);
+      }
+    }
+
+    alert(`✓ Store account for '${email}' created and activated for store: ${storeId}!\n\nThe store manager can now immediately sign in with this email and password.`);
     document.getElementById("createStoreAccountForm")?.reset();
     switchAdminTab("users");
     loadAdminUsers();

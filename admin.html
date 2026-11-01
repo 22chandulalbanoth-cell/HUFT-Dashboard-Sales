@@ -2174,10 +2174,10 @@
       saveState("approvals", approvals);
 
       try {
-        const approvedEmails = JSON.parse(localStorage.getItem("huft_approved_emails") || "[]");
+        const approvedEmails = JSON.parse(localStorage.getItem("platform_approved_emails") || "[]");
         if (!approvedEmails.includes(req.email.toLowerCase())) {
           approvedEmails.push(req.email.toLowerCase());
-          localStorage.setItem("huft_approved_emails", JSON.stringify(approvedEmails));
+          localStorage.setItem("platform_approved_emails", JSON.stringify(approvedEmails));
         }
       } catch (e) {}
 

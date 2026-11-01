@@ -17981,8 +17981,8 @@ if (typeof window !== "undefined") {
  * Initializes the Supabase client
  */
 function initSupabase() {
-  let url = localStorage.getItem("huft_supabase_url"); if (!url || url.includes("xyzcompany")) { url = DEFAULT_SUPABASE_URL; localStorage.setItem("huft_supabase_url", url); }
-  let key = localStorage.getItem("huft_supabase_anon_key"); if (!key || key.includes("dummy")) { key = DEFAULT_SUPABASE_ANON_KEY; localStorage.setItem("huft_supabase_anon_key", key); }
+  let url = localStorage.getItem("huft_supabase_url"); if (!url || url.includes("xyzcompany") || url.includes("sumoyszqxxuarwzpzsgw")) { url = DEFAULT_SUPABASE_URL; localStorage.setItem("huft_supabase_url", url); }
+  let key = localStorage.getItem("huft_supabase_anon_key"); if (!key || key.includes("dummy") || key.includes("uVAPgHwmyBlY5gbop")) { key = DEFAULT_SUPABASE_ANON_KEY; localStorage.setItem("huft_supabase_anon_key", key); }
 
   if (window.supabase && typeof window.supabase.createClient === "function" && url && key && !url.includes("xyzcompany")) {
     try {

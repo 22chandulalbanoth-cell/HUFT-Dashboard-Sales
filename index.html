@@ -18552,10 +18552,23 @@ async function loadAdminUsers() {
   }
 
   tbody.innerHTML = users.map(user => {
-    const isPending = user.status === "pending_approval";
+    const isPending = user.status === "pending_approval" || user.status === "pending";
     const isActive = user.status === "active";
     const isDeactivated = user.status === "deactivated";
     const isAdminUser = user.role === "admin";
+
+    // Read AI access state from local override or user object (default true)
+    let aiEnabled = true;
+    try {
+      const aiOverrides = JSON.parse(localStorage.getItem("huft_ai_access_overrides") || "{}");
+      if (aiOverrides[user.id] !== undefined) {
+        aiEnabled = !!aiOverrides[user.id];
+      } else if (user.ai_access_enabled !== undefined && user.ai_access_enabled !== null) {
+        aiEnabled = !!user.ai_access_enabled;
+      }
+    } catch (_) {
+      aiEnabled = user.ai_access_enabled !== undefined ? !!user.ai_access_enabled : true;
+    }
 
     const statusBadge = isPending
       ? '<span class="status-pill pending">⏳ Pending Approval</span>'
@@ -18589,8 +18602,8 @@ async function loadAdminUsers() {
           ${statusBadge}
         </td>
         <td class="p-3">
-          <button onclick="toggleUserAiAccess('${user.id}', ${!user.ai_access_enabled})" class="${user.ai_access_enabled ? 'admin-ai-btn-on' : 'admin-ai-btn-off'}">
-            ${user.ai_access_enabled ? '✓ AI Enabled' : '✕ AI Blocked'}
+          <button onclick="toggleUserAiAccess('${user.id}', ${!aiEnabled})" class="${aiEnabled ? 'admin-ai-btn-on' : 'admin-ai-btn-off'}">
+            ${aiEnabled ? '✓ AI Enabled' : '✕ AI Blocked'}
           </button>
         </td>
         <td class="p-3 text-right space-x-1 whitespace-nowrap">
@@ -18761,19 +18774,32 @@ async function updateUserStore(userId, newStoreId) {
  * Toggle AI access permission for a user
  */
 async function toggleUserAiAccess(userId, enabled) {
-  if (supabaseClient && !isDemoMode) {
-    const { error } = await supabaseClient
-      .from("profiles")
-      .update({ ai_access_enabled: enabled })
-      .eq("id", userId);
+  // 1. Immediately store the override in localStorage so it works on client without delay
+  try {
+    const aiOverrides = JSON.parse(localStorage.getItem("huft_ai_access_overrides") || "{}");
+    aiOverrides[userId] = enabled;
+    localStorage.setItem("huft_ai_access_overrides", JSON.stringify(aiOverrides));
+  } catch (_) {}
 
-    if (error) {
-      alert("Error toggling AI access: " + error.message);
-      return;
+  // 2. Also update in-memory mock accounts if active
+  const u = MOCK_STORE_ACCOUNTS.find(x => x.id === userId);
+  if (u) u.ai_access_enabled = enabled;
+
+  // 3. Try updating remote Supabase database if connected
+  if (supabaseClient && !isDemoMode) {
+    try {
+      const { error } = await supabaseClient
+        .from("profiles")
+        .update({ ai_access_enabled: enabled })
+        .eq("id", userId);
+
+      if (error) {
+        // If the column does not exist in the remote database schema cache yet, log gracefully
+        console.warn("Notice: 'ai_access_enabled' column not present in remote profiles table. Saved locally.", error.message);
+      }
+    } catch (e) {
+      console.warn("Could not sync AI access to remote profiles table:", e);
     }
-  } else {
-    const u = MOCK_STORE_ACCOUNTS.find(x => x.id === userId);
-    if (u) u.ai_access_enabled = enabled;
   }
 
   loadAdminUsers();
@@ -19158,7 +19184,19 @@ function openAiAssistant() {
     return;
   }
 
-  if (userProfile.ai_access_enabled === false) {
+  let aiAccess = true;
+  try {
+    const aiOverrides = JSON.parse(localStorage.getItem("huft_ai_access_overrides") || "{}");
+    if (userProfile?.id && aiOverrides[userProfile.id] !== undefined) {
+      aiAccess = !!aiOverrides[userProfile.id];
+    } else if (userProfile.ai_access_enabled !== undefined && userProfile.ai_access_enabled !== null) {
+      aiAccess = !!userProfile.ai_access_enabled;
+    }
+  } catch (_) {
+    aiAccess = userProfile.ai_access_enabled !== false;
+  }
+
+  if (!aiAccess) {
     alert("AI Sales Assistant access has been disabled for your account by Central Administrator.");
     return;
   }

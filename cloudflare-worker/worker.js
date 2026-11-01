@@ -17,11 +17,12 @@ export default {
   async fetch(request, env, ctx) {
     // 1. CORS Preflight & Headers
     const origin = request.headers.get("Origin") || "";
-    const allowedOrigins = (env.ALLOWED_ORIGINS || "*").split(",").map(o => o.trim());
-    const isAllowed = allowedOrigins.includes("*") || allowedOrigins.includes(origin);
+    const allowedOrigins = (env.ALLOWED_ORIGINS || "https://22chandulalbanoth-cell.github.io").split(",").map(o => o.trim()).filter(o => o && o !== "*");
+    if (allowedOrigins.length === 0) return new Response("Server misconfigured: no allowed origins", { status: 500 });
+    const isAllowed = allowedOrigins.includes(origin);
 
     const corsHeaders = {
-      "Access-Control-Allow-Origin": isAllowed ? origin : allowedOrigins[0] || "*",
+      "Access-Control-Allow-Origin": isAllowed ? origin : allowedOrigins[0],
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Store-ID",
       "Access-Control-Max-Age": "86400",

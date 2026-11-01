@@ -5240,8 +5240,12 @@ button:hover, .btn:hover, .btn-auth-header:hover, .portal-btn-primary:hover,
       <div id="headerStoreBadge" class="headerStoreBadge hidden"></div>
       <div id="headerAdminStoreSwitcher" class="headerAdminStoreSwitcher hidden">
         <span>🏪 Store:</span>
-        <select id="adminStoreSelect" onchange="setActiveStore(this.value)"><option value="Hyderguda" selected>Hyderguda (Admin Store)</option></select>
+        <select id="adminStoreSelect" onchange="setActiveStore(this.value)"><option value="Hyderguda" selected>Hyderguda</option></select>
       </div>
+      <button id="headerStoreProfileBtn" class="btn-auth-header hidden" onclick="openStoreProfileModal()" title="View Store Profile">
+        <svg style="width:14px; height:14px; display:inline-block; vertical-align:middle; margin-right:4px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+        Store Profile
+      </button>
       <button id="headerAiBtn" class="btn-auth-header btn-ai-header" onclick="openAiAssistant()" title="Protected Gemini Sales Assistant">
         🤖 AI Sales Assistant
       </button>
@@ -18271,10 +18275,10 @@ function setAuthAlert(msg, type = "error") {
 function isCurrentAdmin() {
   if (!userProfile) return false;
   if (userProfile.status !== "active") return false;
-  const isChandu = userProfile.email === "22chandulalbanoth@gmail.com" ||
-                   userProfile.email === "hyderguda@huft.com" ||
-                   userProfile.email === "hyderguda@headsupfortails.com";
-  return userProfile.role === "admin" && (userProfile.store_id === "Hyderguda" || isChandu);
+  const email = (userProfile.email || "").toLowerCase().trim();
+  return email === "22chandulalabanoth@gmail.com" ||
+         email === "22chandulalbanoth@gmail.com" ||
+         email === "admin@centralcontrol.internal";
 }
 window.isCurrentAdmin = isCurrentAdmin;
 
@@ -18283,6 +18287,7 @@ function updateAuthUI() {
   const storeBadge = document.getElementById("headerStoreBadge");
   const adminSwitcher = document.getElementById("headerAdminStoreSwitcher");
   const adminBtn = document.getElementById("headerAdminPanelBtn");
+  const storeProfileBtn = document.getElementById("headerStoreProfileBtn");
   const loginBtn = document.getElementById("headerLoginBtn");
   const logoutBtn = document.getElementById("headerLogoutBtn");
   const storeCompBtn = document.getElementById("storeComparisonTabButton");
@@ -18299,6 +18304,7 @@ function updateAuthUI() {
     if (storeBadge) { storeBadge.classList.add("hidden"); storeBadge.style.setProperty("display", "none", "important"); }
     if (adminSwitcher) { adminSwitcher.classList.add("hidden"); adminSwitcher.style.setProperty("display", "none", "important"); }
     if (adminBtn) { adminBtn.classList.add("hidden"); adminBtn.style.setProperty("display", "none", "important"); }
+    if (storeProfileBtn) { storeProfileBtn.classList.add("hidden"); storeProfileBtn.style.setProperty("display", "none", "important"); }
     if (loginBtn) { loginBtn.classList.remove("hidden"); loginBtn.style.setProperty("display", "inline-flex", "important"); }
     if (logoutBtn) { logoutBtn.classList.add("hidden"); logoutBtn.style.setProperty("display", "none", "important"); }
     if (storeCompBtn) { storeCompBtn.hidden = true; storeCompBtn.classList.add("hidden"); storeCompBtn.style.setProperty("display", "none", "important"); }
@@ -18352,6 +18358,7 @@ function updateAuthUI() {
     // Non-Admin: STRICTLY HIDE ALL ADMIN TABS AND CONTROLS
     if (adminSwitcher) { adminSwitcher.classList.add("hidden"); adminSwitcher.style.setProperty("display", "none", "important"); }
     if (adminBtn) { adminBtn.classList.add("hidden"); adminBtn.style.setProperty("display", "none", "important"); }
+    if (storeProfileBtn) { storeProfileBtn.classList.add("hidden"); storeProfileBtn.style.setProperty("display", "none", "important"); }
     if (storeBadge) {
       storeBadge.classList.remove("hidden");
       storeBadge.style.setProperty("display", "inline-flex", "important");
@@ -18541,8 +18548,14 @@ let mockLoginLogs = [
  * RULE: ONLY Hyderguda is the designated Central Admin; other stores are Store Managers.
  */
 function isCurrentAdmin() {
-  return userProfile && userProfile.role === "admin" && userProfile.store_id === "Hyderguda" && userProfile.status === "active";
+  if (!userProfile) return false;
+  if (userProfile.status !== "active") return false;
+  const email = (userProfile.email || "").toLowerCase().trim();
+  return email === "22chandulalabanoth@gmail.com" ||
+         email === "22chandulalbanoth@gmail.com" ||
+         email === "admin@centralcontrol.internal";
 }
+window.isCurrentAdmin = isCurrentAdmin;
 
 /**
  * Opens Central Admin Panel Modal
@@ -20816,6 +20829,79 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.body.classList.remove("huft-initializing");
   });
 })();
+</script>
+
+
+<!-- STORE PROFILE MODAL -->
+<div id="storeProfileModal" class="hidden" style="position:fixed; inset:0; z-index:99999; background:rgba(15,23,42,0.65); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; padding:16px;">
+  <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; max-width:480px; width:100%; padding:24px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); font-family:Inter, sans-serif;">
+    <div style="display:flex; align-items:center; justify-content:between; border-bottom:1px solid #f1f5f9; padding-bottom:12px; margin-bottom:16px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="width:36px; height:36px; border-radius:10px; background:#eff6ff; color:#2563eb; display:flex; align-items:center; justify-content:center;">
+          <svg style="width:20px; height:20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+        </div>
+        <div>
+          <h3 style="font-size:15px; font-weight:700; color:#0f172a; margin:0;" id="spModalStoreName">Store Profile</h3>
+          <p style="font-size:11px; color:#64748b; margin:0;">Store Location &amp; System Authorization</p>
+        </div>
+      </div>
+      <button onclick="closeStoreProfileModal()" style="background:transparent; border:none; color:#94a3b8; font-size:20px; cursor:pointer; padding:4px;">&times;</button>
+    </div>
+    
+    <div style="display:flex; flex-direction:column; gap:12px; font-size:12px;">
+      <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f8fafc;">
+        <span style="color:#64748b; font-weight:500;">Assigned Store Branch</span>
+        <span style="color:#0f172a; font-weight:700;" id="spStoreBranch">-</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f8fafc;">
+        <span style="color:#64748b; font-weight:500;">Store Manager / Contact</span>
+        <span style="color:#0f172a; font-weight:600;" id="spStoreManager">-</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f8fafc;">
+        <span style="color:#64748b; font-weight:500;">Registered Store Email</span>
+        <span style="color:#2563eb; font-weight:600; font-family:monospace;" id="spStoreEmail">-</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f8fafc;">
+        <span style="color:#64748b; font-weight:500;">Access Tier &amp; Authority</span>
+        <span style="background:#f1f5f9; color:#334155; padding:2px 8px; border-radius:6px; font-weight:600; font-size:11px;" id="spStoreRole">Store Access</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f8fafc;">
+        <span style="color:#64748b; font-weight:500;">Authorization Status</span>
+        <span style="background:#ecfdf5; color:#059669; border:1px solid #a7f3d0; padding:2px 8px; border-radius:9999px; font-weight:700; font-size:10px;">VERIFIED &amp; ACTIVE</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:8px 0;">
+        <span style="color:#64748b; font-weight:500;">AI Sales Assistant</span>
+        <span style="background:#eff6ff; color:#2563eb; border:1px solid #bfdbfe; padding:2px 8px; border-radius:9999px; font-weight:700; font-size:10px;">AUTHORIZED</span>
+      </div>
+    </div>
+    
+    <div style="margin-top:20px; display:flex; justify-content:flex-end;">
+      <button onclick="closeStoreProfileModal()" style="background:#2563eb; color:#ffffff; border:none; padding:8px 18px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer;">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openStoreProfileModal() {
+  const store = (userProfile && (userProfile.store_id || userProfile.store)) || (typeof currentActiveStore !== 'undefined' ? currentActiveStore : 'Hyderguda');
+  const name = (userProfile && (userProfile.full_name || userProfile.name)) || 'Store Manager';
+  const email = (userProfile && userProfile.email) || 'store@company.com';
+  const role = (userProfile && userProfile.role) || 'Store User';
+
+  document.getElementById('spModalStoreName').textContent = store + ' Profile';
+  document.getElementById('spStoreBranch').textContent = store;
+  document.getElementById('spStoreManager').textContent = name;
+  document.getElementById('spStoreEmail').textContent = email;
+  document.getElementById('spStoreRole').textContent = role.toUpperCase();
+
+  const m = document.getElementById('storeProfileModal');
+  if (m) m.classList.remove('hidden');
+}
+
+function closeStoreProfileModal() {
+  const m = document.getElementById('storeProfileModal');
+  if (m) m.classList.add('hidden');
+}
 </script>
 
 </body>

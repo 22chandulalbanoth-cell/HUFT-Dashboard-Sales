@@ -4121,6 +4121,186 @@ body:not(.huft-logged-in) #huftWelcomeOverlay {
   font-weight: 700 !important;
 }
 </style>
+<style id="huft-simple-flat-buttons-theme">
+/* ==============================================================================
+   SIMPLE, FLAT, NON-GLASSY BUTTONS FOR ENTIRE SHEET (HEADER, TABS, ACTIONS)
+   ============================================================================== */
+
+/* Base reset for all buttons: remove glassy shine, blur, specular gradients */
+button, .btn, .btn-auth-header, .portal-btn-primary, .tab, .toolbar button, 
+.dashActions button, .employee-action, .dtp-btn, .portal-tab-btn {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+button:hover, .btn:hover, .btn-auth-header:hover, .portal-btn-primary:hover, 
+.tab:hover, .toolbar button:hover, .dashActions button:hover {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Header Buttons: Clean, flat, simple solid styles */
+.headerAuthControls {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.btn-auth-header {
+  height: 34px !important;
+  padding: 0 14px !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: background-color 0.15s ease !important;
+}
+
+/* AI Sales Assistant: Flat solid HUFT orange */
+#headerAiBtn, .btn-ai-header {
+  background: #e5622a !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+#headerAiBtn:hover, .btn-ai-header:hover {
+  background: #c85320 !important;
+}
+
+/* Central Admin Button: Flat solid dark slate */
+#headerAdminPanelBtn, .btn-admin-header {
+  background: #1e293b !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+#headerAdminPanelBtn:hover, .btn-admin-header:hover {
+  background: #0f172a !important;
+}
+
+/* Logout Button: Flat solid warm espresso / brown */
+#headerLogoutBtn {
+  background: #7c2d12 !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+#headerLogoutBtn:hover {
+  background: #60220d !important;
+}
+
+/* Sign In Button in Header */
+#headerLoginBtn {
+  background: #e5622a !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+#headerLoginBtn:hover {
+  background: #c85320 !important;
+}
+
+/* Portal primary button: Flat clean solid orange */
+.portal-btn-primary {
+  width: 100% !important;
+  height: 48px !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-family: inherit !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  background: #e5622a !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background-color 0.15s ease !important;
+}
+.portal-btn-primary:hover {
+  background: #c85320 !important;
+  box-shadow: none !important;
+}
+
+/* Portal Tabs: clean flat pills */
+.portal-tabs {
+  display: flex !important;
+  background: #f5ede6 !important;
+  padding: 4px !important;
+  border-radius: 10px !important;
+  margin-bottom: 20px !important;
+  border: 1px solid #ebdcd0 !important;
+  gap: 4px !important;
+}
+.portal-tab-btn {
+  flex: 1 !important;
+  padding: 8px 12px !important;
+  border: none !important;
+  border-radius: 7px !important;
+  font-family: inherit !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #7c6559 !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  transition: all 0.15s ease !important;
+}
+.portal-tab-btn:hover {
+  color: #2a1208 !important;
+}
+.portal-tab-btn.active {
+  background: #ffffff !important;
+  color: #e5622a !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
+}
+
+/* Toolbar buttons: flat clean styling */
+.toolbar button.primary, button.toolbar3d.primary, #huftRefreshLatestPOS {
+  background: #e5622a !important;
+  border: 1px solid #c85320 !important;
+  border-radius: 8px !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+  font-weight: 700 !important;
+}
+.toolbar button.primary:hover, #huftRefreshLatestPOS:hover {
+  background: #c85320 !important;
+}
+
+.toolbar .huft-water-upload, #huftWaterUploadButton {
+  background: #3a1a0c !important;
+  border: 1px solid #2a1208 !important;
+  border-radius: 8px !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+.toolbar .huft-water-upload:hover, #huftWaterUploadButton:hover {
+  background: #2a1208 !important;
+}
+
+.toolbar .huft-clear-saved-data, #huftClearSavedData {
+  background: #ffffff !important;
+  border: 1px solid #e2d5cb !important;
+  border-radius: 8px !important;
+  color: #c2410c !important;
+  box-shadow: none !important;
+}
+.toolbar .huft-clear-saved-data:hover, #huftClearSavedData:hover {
+  background: #fff7ed !important;
+  border-color: #ea580c !important;
+}
+</style>
 </head>
 <body>
 
@@ -4493,7 +4673,7 @@ body:not(.huft-logged-in) #huftWelcomeOverlay {
 
 
 
-<!-- SINGLE HUFT STORE PORTAL (OFFICIAL LOGIN GATE) -->
+<!-- SINGLE HUFT STORE PORTAL (OFFICIAL LOGIN & REGISTRATION GATE) -->
 <div id="huftPortalRoot">
   <div class="portal-bg" aria-hidden="true">
     <div class="portal-bg-grad"></div>
@@ -4512,34 +4692,129 @@ body:not(.huft-logged-in) #huftWelcomeOverlay {
           </div>
         </div>
         <h1>HUFT Store Portal</h1>
-        <p>Central Administrator Login</p>
+        <p id="portalSubheading">Sales Analytics &amp; Store Management</p>
       </header>
+
+      <!-- Nav Tabs: Sign In / Request Access -->
+      <div class="portal-tabs" id="portalTabsNav">
+        <button type="button" id="tabBtnPortalSignIn" class="portal-tab-btn active" onclick="switchPortalTab('signin')">Sign In</button>
+        <button type="button" id="tabBtnPortalSignUp" class="portal-tab-btn" onclick="switchPortalTab('signup')">Request Access</button>
+      </div>
 
       <div id="portalAlert" class="portal-alert" role="alert"></div>
 
+      <!-- VIEW 1: SIGN IN -->
       <form id="portalLoginForm" onsubmit="handlePortalSignIn(event)" novalidate>
         <div class="portal-field">
-          <label for="portalEmail" style="display:block; font-size:12px; font-weight:600; color:rgba(255,247,242,0.85); margin-bottom:6px; text-align:left;">Admin Email</label>
-          <input type="email" id="portalEmail" value="22chandulalbanoth@gmail.com" placeholder="22chandulalbanoth@gmail.com" required autocomplete="username">
+          <label for="portalEmail">Login Email ID</label>
+          <input type="email" id="portalEmail" value="22chandulalbanoth@gmail.com" placeholder="e.g. 22chandulalbanoth@gmail.com" required autocomplete="username">
         </div>
 
         <div class="portal-field" style="position:relative; margin-top:14px;">
-          <label for="portalPassword" style="display:block; font-size:12px; font-weight:600; color:rgba(255,247,242,0.85); margin-bottom:6px; text-align:left;">Password</label>
+          <label for="portalPassword">Password</label>
           <input type="password" id="portalPassword" value="Chandu@123" placeholder="Password" required autocomplete="current-password" style="padding-right:75px;">
-          <button type="button" class="portal-toggle-pw" id="portalTogglePw" onclick="togglePortalPw()" style="top:32px;">Show</button>
+          <button type="button" class="portal-toggle-pw" id="portalTogglePw" onclick="togglePortalPw('portalPassword', this)">Show</button>
         </div>
 
-        <div class="portal-row" style="margin-top:14px; margin-bottom:18px;">
+        <div class="portal-row">
           <label class="portal-check">
             <input type="checkbox" id="portalRemember" checked>
             <span>Keep me signed in</span>
           </label>
+          <a href="javascript:void(0)" onclick="checkSavedPendingStatus()" style="color:#e5622a; font-weight:600; text-decoration:none; font-size:12.5px;">Check Request Status</a>
         </div>
 
         <button class="portal-btn-primary" id="portalSubmitBtn" type="submit">
           Sign In
         </button>
+
+        <div style="text-align:center; margin-top:18px; font-size:13px; color:#7c6559;">
+          Need access for a new store? 
+          <a href="javascript:void(0)" onclick="switchPortalTab('signup')" style="font-weight:700; color:#e5622a; text-decoration:none;">Request Access</a>
+        </div>
       </form>
+
+      <!-- VIEW 2: SIGN UP / REQUEST ACCESS -->
+      <form id="portalSignUpForm" onsubmit="handlePortalSignUp(event)" style="display:none;" novalidate>
+        <div class="portal-field">
+          <label for="portalRegStore">Store Name</label>
+          <input type="text" id="portalRegStore" placeholder="e.g. Banjara Hills, Madhapur, Jubilee Hills" required>
+        </div>
+
+        <div class="portal-field" style="margin-top:12px;">
+          <label for="portalRegEmail">Login Mail ID</label>
+          <input type="email" id="portalRegEmail" placeholder="e.g. banjarahills@huft.com" required autocomplete="username">
+        </div>
+
+        <div class="portal-field" style="position:relative; margin-top:12px;">
+          <label for="portalRegPassword">Password</label>
+          <input type="password" id="portalRegPassword" placeholder="Create password (min. 6 characters)" required minlength="6" style="padding-right:75px;">
+          <button type="button" class="portal-toggle-pw" onclick="togglePortalPw('portalRegPassword', this)">Show</button>
+        </div>
+
+        <div class="portal-field" style="position:relative; margin-top:12px;">
+          <label for="portalRegPasswordConfirm">Re-enter Password</label>
+          <input type="password" id="portalRegPasswordConfirm" placeholder="Re-enter password" required minlength="6" style="padding-right:75px;">
+          <button type="button" class="portal-toggle-pw" onclick="togglePortalPw('portalRegPasswordConfirm', this)">Show</button>
+        </div>
+
+        <button class="portal-btn-primary" id="portalSignUpSubmitBtn" type="submit" style="margin-top:18px;">
+          Submit Access Request
+        </button>
+
+        <div style="text-align:center; margin-top:16px; font-size:13px; color:#7c6559;">
+          Already have an approved account? 
+          <a href="javascript:void(0)" onclick="switchPortalTab('signin')" style="font-weight:700; color:#e5622a; text-decoration:none;">Sign In</a>
+        </div>
+      </form>
+
+      <!-- VIEW 3: REQUEST STATUS VIEW -->
+      <div id="portalStatusView" style="display:none; text-align:center;">
+        <div style="width:56px; height:56px; margin:0 auto 12px; border-radius:50%; background:#fff7ed; border:2px solid #fdba74; display:flex; align-items:center; justify-content:center; font-size:24px;">
+          ⏳
+        </div>
+        <h2 style="font-size:19px; font-weight:800; color:#2a1208; margin:0 0 6px;">Access Request Pending</h2>
+        <p style="font-size:13px; color:#7c6559; margin:0 0 16px;">Your store request has been sent for Central Admin authorization.</p>
+
+        <div style="background:#fcf9f6; border:1.5px solid #ebdcd0; border-radius:14px; padding:16px; text-align:left; margin-bottom:18px; font-size:13px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span style="color:#7c6559; font-weight:600;">Store Name:</span>
+            <strong style="color:#2a1208;" id="statusStoreName">—</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span style="color:#7c6559; font-weight:600;">Login Mail ID:</span>
+            <strong style="color:#2a1208;" id="statusEmail">—</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span style="color:#7c6559; font-weight:600;">Status:</span>
+            <span id="statusBadge" style="background:#fef3c7; color:#92400e; padding:3px 10px; border-radius:12px; font-weight:700; font-size:12px;">⏳ Pending Approval</span>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span style="color:#7c6559; font-weight:600;">Requested At:</span>
+            <span style="color:#5c4337;" id="statusTime">Today</span>
+          </div>
+        </div>
+
+        <!-- Flow indicator -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; font-size:11.5px; font-weight:700; color:#8c776b;">
+          <div style="color:#16a34a;">✓ Request Submitted</div>
+          <div>➔</div>
+          <div style="color:#ea580c;">⏳ Admin Review</div>
+          <div>➔</div>
+          <div>🔓 Workspace Access</div>
+        </div>
+
+        <p style="font-size:12px; line-height:1.45; color:#7c6559; margin-bottom:18px;">
+          Once approved by Central Administrator (<strong>22chandulalbanoth@gmail.com</strong>), you can sign in with your registered email and password to use your store workspace.
+        </p>
+
+        <button type="button" class="portal-btn-primary" onclick="recheckCurrentStatus()" style="margin-bottom:10px;">
+          ↻ Check Approval Status
+        </button>
+        <button type="button" onclick="switchPortalTab('signin')" style="background:#ffffff; border:1px solid #d4c2b3; color:#5c4337; border-radius:10px; padding:11px; width:100%; font-weight:700; cursor:pointer; font-size:13.5px;">
+          ← Back to Sign In
+        </button>
+      </div>
 
       <p class="portal-footer">
         Heads Up For Tails • Central Administrator Portal
@@ -17930,7 +18205,61 @@ async function loadAdminUsers() {
 /**
  * Approve pending user account
  */
-async function approveUserAccount(userId) {
+// Updated approveUserAccount with persistence & notification
+window.approveUserAccount = async function(userId) {
+  const accounts = (typeof getHuftStoreAccounts === "function") ? getHuftStoreAccounts() : window.MOCK_STORE_ACCOUNTS;
+  const u = accounts.find(x => x.id === userId);
+  if (!u) {
+    alert("Store record not found.");
+    return;
+  }
+
+  u.status = "active";
+  if(typeof saveHuftStoreAccounts === "function"){
+    saveHuftStoreAccounts(accounts);
+  } else {
+    localStorage.setItem("huft_store_accounts", JSON.stringify(accounts));
+  }
+
+  // Also sync to Supabase if connected
+  if(window.supabaseClient){
+    try {
+      await window.supabaseClient.from("profiles").update({ status: "active" }).eq("id", userId);
+    } catch(e){}
+  }
+
+  if(typeof renderUserGovernanceTable === "function") renderUserGovernanceTable();
+  if(typeof updateAdminPendingBadge === "function") updateAdminPendingBadge();
+  alert("✓ Store '" + (u.store_id || u.email) + "' has been APPROVED!\nThe store manager can now sign in using their registered email and password to use the workspace.");
+};
+
+window.rejectUserAccount = function(userId){
+  const accounts = (typeof getHuftStoreAccounts === "function") ? getHuftStoreAccounts() : window.MOCK_STORE_ACCOUNTS;
+  const u = accounts.find(x => x.id === userId);
+  if(!u) return;
+  u.status = "rejected";
+  if(typeof saveHuftStoreAccounts === "function") saveHuftStoreAccounts(accounts);
+  if(typeof renderUserGovernanceTable === "function") renderUserGovernanceTable();
+  if(typeof updateAdminPendingBadge === "function") updateAdminPendingBadge();
+  alert("Store access for " + (u.store_id || u.email) + " has been declined.");
+};
+
+window.updateAdminPendingBadge = function(){
+  const accounts = (typeof getHuftStoreAccounts === "function") ? getHuftStoreAccounts() : (window.MOCK_STORE_ACCOUNTS || []);
+  const pendingCount = accounts.filter(a => a.status === "pending").length;
+  const btn = document.getElementById("headerAdminPanelBtn");
+  if(btn){
+    if(pendingCount > 0){
+      btn.innerHTML = '⚙️ Store Approvals <span style="background:#ef4444; color:#fff; padding:2px 7px; border-radius:10px; font-size:11px; margin-left:4px; font-weight:800;">' + pendingCount + '</span>';
+      btn.style.boxShadow = "none";
+    } else {
+      btn.innerHTML = '⚙️ Central Admin';
+      btn.style.boxShadow = "none";
+    }
+  }
+};
+
+async function legacyApproveUserAccount(userId) {
   if (!confirm("Approve this store account and grant access to the sales dashboard?")) return;
 
   if (supabaseClient && !isDemoMode) {
@@ -19327,13 +19656,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         w = canvas.width = window.innerWidth;
         h = canvas.height = window.innerHeight;
       });
-      const parts = Array.from({length: 28}, () => ({
+      const parts = Array.from({length: 24}, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
         r: Math.random() * 2 + 0.8,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: -Math.random() * 0.4 - 0.1,
-        a: Math.random() * 0.5 + 0.2
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: -Math.random() * 0.35 - 0.1,
+        a: Math.random() * 0.4 + 0.15
       }));
       function anim(){
         ctx.clearRect(0,0,w,h);
@@ -19354,13 +19683,83 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   } catch(e){}
 
-  window.togglePortalPw = function(){
-    const input = document.getElementById("portalPassword");
-    const btn = document.getElementById("portalTogglePw");
-    if(!input || !btn) return;
+  // Load persistent store accounts from localStorage
+  window.getHuftStoreAccounts = function(){
+    let accounts = [];
+    try {
+      const saved = localStorage.getItem("huft_store_accounts");
+      if(saved) accounts = JSON.parse(saved);
+    } catch(e){}
+    if(!Array.isArray(accounts) || accounts.length === 0){
+      accounts = [
+        {
+          id: "admin-chandu-001",
+          email: "22chandulalbanoth@gmail.com",
+          role: "admin",
+          status: "active",
+          store_id: "Hyderguda",
+          full_name: "Chandu (Central Admin)",
+          password: "Chandu@123",
+          ai_access_enabled: true
+        }
+      ];
+      localStorage.setItem("huft_store_accounts", JSON.stringify(accounts));
+    }
+    window.MOCK_STORE_ACCOUNTS = accounts;
+    return accounts;
+  };
+
+  window.saveHuftStoreAccounts = function(accounts){
+    window.MOCK_STORE_ACCOUNTS = accounts;
+    try {
+      localStorage.setItem("huft_store_accounts", JSON.stringify(accounts));
+    } catch(e){}
+  };
+
+  // Switch between tabs: 'signin', 'signup', 'status'
+  window.switchPortalTab = function(tab){
+    const formIn = document.getElementById("portalLoginForm");
+    const formUp = document.getElementById("portalSignUpForm");
+    const viewSt = document.getElementById("portalStatusView");
+    const btnIn = document.getElementById("tabBtnPortalSignIn");
+    const btnUp = document.getElementById("tabBtnPortalSignUp");
+    const nav = document.getElementById("portalTabsNav");
+    const alert = document.getElementById("portalAlert");
+    if(alert) { alert.className = "portal-alert"; alert.textContent = ""; }
+
+    if(nav) nav.style.display = (tab === "status") ? "none" : "flex";
+
+    if(tab === "signin"){
+      if(formIn) formIn.style.display = "block";
+      if(formUp) formUp.style.display = "none";
+      if(viewSt) viewSt.style.display = "none";
+      if(btnIn) btnIn.className = "portal-tab-btn active";
+      if(btnUp) btnUp.className = "portal-tab-btn";
+      const sub = document.getElementById("portalSubheading");
+      if(sub) sub.textContent = "Sales Analytics & Store Management";
+    } else if(tab === "signup"){
+      if(formIn) formIn.style.display = "none";
+      if(formUp) formUp.style.display = "block";
+      if(viewSt) viewSt.style.display = "none";
+      if(btnIn) btnIn.className = "portal-tab-btn";
+      if(btnUp) btnUp.className = "portal-tab-btn active";
+      const sub = document.getElementById("portalSubheading");
+      if(sub) sub.textContent = "New Store Access Request";
+    } else if(tab === "status"){
+      if(formIn) formIn.style.display = "none";
+      if(formUp) formUp.style.display = "none";
+      if(viewSt) viewSt.style.display = "block";
+      const sub = document.getElementById("portalSubheading");
+      if(sub) sub.textContent = "Access Request Status";
+    }
+  };
+
+  window.togglePortalPw = function(fieldId, btn){
+    const input = document.getElementById(fieldId || "portalPassword");
+    if(!input) return;
     const isPw = input.type === "password";
     input.type = isPw ? "text" : "password";
-    btn.textContent = isPw ? "Hide" : "Show";
+    if(btn) btn.textContent = isPw ? "Hide" : "Show";
   };
 
   window.setPortalAlert = function(msg, isInfo = false){
@@ -19370,26 +19769,193 @@ document.addEventListener('DOMContentLoaded', async () => {
     el.className = "portal-alert show" + (isInfo ? " info" : "");
   };
 
+  // Sign Up Handler
+  window.handlePortalSignUp = async function(e){
+    if(e) e.preventDefault();
+    const storeInput = document.getElementById("portalRegStore");
+    const emailInput = document.getElementById("portalRegEmail");
+    const pwInput = document.getElementById("portalRegPassword");
+    const pwConfInput = document.getElementById("portalRegPasswordConfirm");
+    const btn = document.getElementById("portalSignUpSubmitBtn");
+
+    const storeName = (storeInput ? storeInput.value : "").trim();
+    const email = (emailInput ? emailInput.value : "").trim().toLowerCase();
+    const password = pwInput ? pwInput.value : "";
+    const confirmPw = pwConfInput ? pwConfInput.value : "";
+
+    if(!storeName){
+      setPortalAlert("Please enter your Store Name.");
+      if(storeInput) storeInput.focus();
+      return;
+    }
+    if(!email || !email.includes("@")){
+      setPortalAlert("Please enter a valid Login Email ID.");
+      if(emailInput) emailInput.focus();
+      return;
+    }
+    if(!password || password.length < 6){
+      setPortalAlert("Password must be at least 6 characters.");
+      if(pwInput) pwInput.focus();
+      return;
+    }
+    if(password !== confirmPw){
+      setPortalAlert("Passwords do not match. Please verify.");
+      if(pwConfInput) pwConfInput.focus();
+      return;
+    }
+
+    if(btn){
+      btn.disabled = true;
+      btn.textContent = "Submitting Request...";
+    }
+
+    const accounts = getHuftStoreAccounts();
+    const existing = accounts.find(a => a.email.toLowerCase() === email);
+
+    if(existing && existing.status === "active"){
+      if(btn){ btn.disabled = false; btn.textContent = "Submit Access Request"; }
+      setPortalAlert("An account with this email is already active! Please Sign In.");
+      return;
+    }
+
+    // Create or update request
+    const requestRecord = {
+      id: existing ? existing.id : ("store-" + Date.now()),
+      email: email,
+      store_id: storeName,
+      full_name: storeName + " (Store Manager)",
+      role: "store_manager",
+      status: "pending",
+      password: password,
+      created_at: new Date().toISOString(),
+      ai_access_enabled: true
+    };
+
+    if(existing){
+      Object.assign(existing, requestRecord);
+    } else {
+      accounts.push(requestRecord);
+    }
+    saveHuftStoreAccounts(accounts);
+
+    // Save active request context for status checking
+    localStorage.setItem("huft_pending_req_email", email);
+    localStorage.setItem("huft_pending_req_store", storeName);
+    localStorage.setItem("huft_pending_req_time", new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+
+    // Sync to Supabase if available
+    if(window.supabaseClient){
+      try {
+        await window.supabaseClient.from("huft_store_requests").insert([{
+          email: email,
+          store_id: storeName,
+          status: "pending",
+          created_at: new Date().toISOString()
+        }]);
+      } catch(err){}
+    }
+
+    setTimeout(() => {
+      if(btn){ btn.disabled = false; btn.textContent = "Submit Access Request"; }
+      displayPendingStatus(requestRecord);
+    }, 400);
+  };
+
+  window.displayPendingStatus = function(record){
+    switchPortalTab("status");
+    const nameEl = document.getElementById("statusStoreName");
+    const mailEl = document.getElementById("statusEmail");
+    const badgeEl = document.getElementById("statusBadge");
+    const timeEl = document.getElementById("statusTime");
+
+    if(nameEl) nameEl.textContent = record.store_id || record.store_name || "Store";
+    if(mailEl) mailEl.textContent = record.email;
+    if(timeEl) timeEl.textContent = new Date(record.created_at || Date.now()).toLocaleDateString() + " " + new Date(record.created_at || Date.now()).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+
+    if(badgeEl){
+      if(record.status === "active"){
+        badgeEl.textContent = "✓ Approved & Active";
+        badgeEl.style.background = "#dcfce7";
+        badgeEl.style.color = "#15803d";
+      } else if(record.status === "rejected"){
+        badgeEl.textContent = "✕ Access Declined";
+        badgeEl.style.background = "#fee2e2";
+        badgeEl.style.color = "#b91c1c";
+      } else {
+        badgeEl.textContent = "⏳ Pending Admin Approval";
+        badgeEl.style.background = "#fef3c7";
+        badgeEl.style.color = "#92400e";
+      }
+    }
+  };
+
+  window.recheckCurrentStatus = function(){
+    const mail = localStorage.getItem("huft_pending_req_email");
+    if(!mail){
+      setPortalAlert("No recent request found. Please submit an access request.", true);
+      switchPortalTab("signup");
+      return;
+    }
+    const accounts = getHuftStoreAccounts();
+    const acct = accounts.find(a => a.email.toLowerCase() === mail.toLowerCase());
+    if(!acct){
+      setPortalAlert("Request not found. Please register.", true);
+      switchPortalTab("signup");
+      return;
+    }
+
+    if(acct.status === "active"){
+      alert("🎉 Great news! Your store account has been APPROVED by Central Admin! You can now sign in with your email and password.");
+      switchPortalTab("signin");
+      const emailInput = document.getElementById("portalEmail");
+      const pwInput = document.getElementById("portalPassword");
+      if(emailInput) emailInput.value = acct.email;
+      if(pwInput) pwInput.value = acct.password || "";
+      setPortalAlert("Your account is approved! Click 'Sign In' to open your store workspace.", true);
+      return;
+    }
+
+    displayPendingStatus(acct);
+    setPortalAlert("Status refreshed: Still awaiting Central Admin approval.", true);
+  };
+
+  window.checkSavedPendingStatus = function(){
+    const mail = localStorage.getItem("huft_pending_req_email");
+    if(mail){
+      const accounts = getHuftStoreAccounts();
+      const acct = accounts.find(a => a.email.toLowerCase() === mail.toLowerCase());
+      if(acct){
+        displayPendingStatus(acct);
+        return;
+      }
+    }
+    switchPortalTab("signup");
+  };
+
+  // Unlocks Dashboard Workspace
   window.unlockDashboardForUser = function(userProfile){
     sessionStorage.setItem("huft_active_session", JSON.stringify(userProfile));
     localStorage.setItem("huft_mock_session", JSON.stringify(userProfile));
     window.userProfile = userProfile;
 
-    // Hide single portal immediately
+    // Hide portal immediately
     const portal = document.getElementById("huftPortalRoot");
     if(portal) portal.classList.add("portal-hidden");
-
-    // Close any modal overlay if lingering
-    const modal = document.getElementById("authModalOverlay");
-    if(modal) modal.classList.add("hidden");
 
     document.body.classList.add("huft-logged-in");
     document.body.classList.remove("huft-initializing");
 
-    // Reveal Dashboard App (keeps original HTML theme)
+    // Reveal Dashboard App
     const app = document.getElementById("huftAppRoot");
     if(app) {
       app.style.display = "block";
+    }
+
+    // Set active store context
+    if(userProfile.store_id){
+      try {
+        if(typeof setActiveStore === "function") setActiveStore(userProfile.store_id);
+      } catch(e){}
     }
 
     // Trigger data load after login
@@ -19402,6 +19968,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       try { updateAuthUI(); } catch(e){}
     }
 
+    // Check pending count for admin
+    if(userProfile.role === "admin" && typeof updateAdminPendingBadge === "function"){
+      updateAdminPendingBadge();
+    }
+
     // Dismiss boot loader
     if(typeof window.huftBootLoaderDismiss === "function") window.huftBootLoaderDismiss();
     const loader = document.getElementById("huftBootLoader");
@@ -19412,6 +19983,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   };
 
+  // Sign In Handler
   window.handlePortalSignIn = async function(e){
     if(e) e.preventDefault();
     const emailInput = document.getElementById("portalEmail");
@@ -19421,7 +19993,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btn = document.getElementById("portalSubmitBtn");
 
     if(!email){
-      setPortalAlert("Please enter your admin email.");
+      setPortalAlert("Please enter your Login Email ID.");
       if(emailInput) emailInput.focus();
       return;
     }
@@ -19431,17 +20003,15 @@ document.addEventListener('DOMContentLoaded', async () => {
       btn.textContent = "Signing In...";
     }
 
-    // Single Authorized Central Admin:
-    // Email: 22chandulalbanoth@gmail.com (with fallback aliases hyderguda@huft.com, hyderguda@headsupfortails.com, chandu)
-    // Password: Chandu@123 (or HuftStore#2026)
+    // 1. Check Central Admin
     const isAdminEmail = email === "22chandulalbanoth@gmail.com" ||
-                         email.includes("hyderguda") ||
-                         email.includes("chandu") ||
-                         email.includes("admin");
+                         email === "hyderguda@huft.com" ||
+                         email === "hyderguda@headsupfortails.com" ||
+                         email.includes("chandu");
 
-    const isValidPassword = password === "Chandu@123" || password === "HuftStore#2026" || password.length >= 6;
+    const isValidAdminPassword = password === "Chandu@123" || password === "HuftStore#2026" || password.length >= 6;
 
-    if (isAdminEmail && isValidPassword) {
+    if (isAdminEmail && isValidAdminPassword) {
       const adminProfile = {
         id: "admin-chandu-001",
         email: "22chandulalbanoth@gmail.com",
@@ -19457,11 +20027,51 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
+    // 2. Check Registered Store Accounts
+    const accounts = getHuftStoreAccounts();
+    const matchedAccount = accounts.find(a => a.email.toLowerCase() === email);
+
+    if(matchedAccount){
+      if(matchedAccount.password && matchedAccount.password !== password){
+        if(btn){ btn.disabled = false; btn.textContent = "Sign In"; }
+        setPortalAlert("Incorrect password for store account. Please try again.");
+        return;
+      }
+
+      if(matchedAccount.status === "pending"){
+        if(btn){ btn.disabled = false; btn.textContent = "Sign In"; }
+        displayPendingStatus(matchedAccount);
+        return;
+      }
+
+      if(matchedAccount.status === "rejected"){
+        if(btn){ btn.disabled = false; btn.textContent = "Sign In"; }
+        setPortalAlert("Your access request was declined by Central Admin. Please contact 22chandulalbanoth@gmail.com.");
+        return;
+      }
+
+      if(matchedAccount.status === "active"){
+        const storeProfile = {
+          id: matchedAccount.id,
+          email: matchedAccount.email,
+          role: "store_manager",
+          status: "active",
+          store_id: matchedAccount.store_id || "Hyderguda",
+          full_name: matchedAccount.full_name || (matchedAccount.store_id + " Manager"),
+          ai_access_enabled: matchedAccount.ai_access_enabled !== false
+        };
+        setTimeout(() => {
+          unlockDashboardForUser(storeProfile);
+        }, 250);
+        return;
+      }
+    }
+
     if(btn){
       btn.disabled = false;
       btn.textContent = "Sign In";
     }
-    setPortalAlert("Invalid credentials. Access is restricted to Central Administrator (22chandulalbanoth@gmail.com).");
+    setPortalAlert("Account not found. Click 'Request Access' above to register your store.");
   };
 
   window.portalSignOut = function(){
@@ -19473,19 +20083,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     if(app) app.style.display = "none";
     const portal = document.getElementById("huftPortalRoot");
     if(portal) portal.classList.remove("portal-hidden");
-    const modal = document.getElementById("authModalOverlay");
-    if(modal) modal.classList.add("hidden");
     const btn = document.getElementById("portalSubmitBtn");
     if(btn){
       btn.disabled = false;
       btn.textContent = "Sign In";
     }
-    const alert = document.getElementById("portalAlert");
-    if(alert) alert.className = "portal-alert";
+    switchPortalTab("signin");
   };
 
   // Check session on page load
   window.addEventListener("DOMContentLoaded", function(){
+    getHuftStoreAccounts();
     const saved = sessionStorage.getItem("huft_active_session") || localStorage.getItem("huft_mock_session");
     if(saved){
       try {

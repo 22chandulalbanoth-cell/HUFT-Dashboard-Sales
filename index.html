@@ -1153,12 +1153,9 @@ table thead th,.table thead th{background:#ffedd5!important;color:#7c2d12!import
    const message=e&&e.message?e.message:'Script or resource failed to load';
    show(message+(e&&e.filename?'\n'+e.filename+(e.lineno?':'+e.lineno:''):''));
  });
- window.addEventListener('unhandledrejection',e=>{
-   const reason=e&&e.reason;
-   show('Unhandled promise rejection: '+(reason&&reason.stack?reason.stack:reason&&reason.message?reason.message:String(reason)));
- });
+ window.addEventListener('unhandledrejection',e=>{const reason=e&&e.reason;const msg=(reason&&reason.stack?reason.stack:reason&&reason.message?reason.message:String(reason));if(/user gesture|showDirectoryPicker|AbortError/i.test(msg))return;show('Unhandled promise rejection: '+msg);});
  const nativeConsoleError=console.error.bind(console);
- console.error=(...args)=>{nativeConsoleError(...args);show(args.map(v=>v&&v.stack?v.stack:String(v)).join(' '));};
+ console.error=(...args)=>{nativeConsoleError(...args);const msg=args.map(v=>v&&v.stack?v.stack:String(v)).join(' ');if(/user gesture|showDirectoryPicker|AbortError|Downloads connection/i.test(msg))return;show(msg);};
 })();
 
 
@@ -14103,7 +14100,7 @@ html body #huftEodTitle, html body #dailyTargetTitle, html body #huftInvoiceDril
   try{
    if(!('showDirectoryPicker' in window)){say('Automatic Downloads access needs Chrome or Edge with folder access enabled.',true);setButtonText('Downloads unavailable');return;}
    let dir=await readHandle().catch(()=>null);
-   if(!dir&&allowPicker){say('Choose the Downloads folder once to connect automatic loading…');dir=await window.showDirectoryPicker({id:'huft-pos-downloads',mode:'read'});await saveHandle(dir);}
+   if(!dir&&allowPicker){if(navigator.userActivation&&!navigator.userActivation.isActive){say('Click Refresh to connect Downloads folder.');setButtonText('Connect Downloads');return;}say('Choose the Downloads folder once to connect automatic loading…');dir=await window.showDirectoryPicker({id:'huft-pos-downloads',mode:'read'});await saveHandle(dir);}
    if(!dir){say('Click Refresh and select Downloads once to connect.');setButtonText('Connect Downloads');return;}
    let permission=await dir.queryPermission({mode:'read'});
    if(permission!=='granted'&&allowPicker)permission=await dir.requestPermission({mode:'read'});
@@ -14119,7 +14116,7 @@ html body #huftEodTitle, html body #dailyTargetTitle, html body #huftInvoiceDril
    window.uploadExcel(file);
   }catch(err){
    if(err&&err.name==='AbortError'){say('Downloads connection cancelled. Click Refresh to connect when ready.');setButtonText('Connect Downloads');}
-   else{console.error('Automatic latest POS loading failed:',err);say('Could not load the latest POS file: '+(err?.message||String(err)),true);setButtonText('Try Latest POS Again');}
+   else{console.warn('Automatic latest POS loading notice:',err);say('Click Upload Excel or Refresh to load sales data.',false);setButtonText('Upload Excel');}
   }finally{busy=false;if(b&&b.isConnected&&(!window.huftUploadInProgress))b.disabled=false;}
  }
  window.refreshSalesDashboard=function(){
@@ -19746,6 +19743,9 @@ function getActiveStore() {
 }
 
 function setActiveStore(storeName) {
+  if (typeof userProfile !== "undefined" && userProfile && userProfile.role !== "admin") {
+    storeName = userProfile.store_id || currentActiveStore || "Hyderguda";
+  }
   currentActiveStore = storeName;
   const storeNameEl = document.getElementById("storeName");
   if (storeNameEl) storeNameEl.textContent = storeName;
@@ -19757,8 +19757,8 @@ function setActiveStore(storeName) {
       pendingStoreNames = new Set([storeName]);
     }
     if (typeof updateStoreFilterLabel === "function") updateStoreFilterLabel();
-    if (typeof refreshSalesDashboard === "function") {
-      refreshSalesDashboard();
+    if (typeof refreshDashboardFromCurrentRows === "function") {
+      refreshDashboardFromCurrentRows();
     } else if (typeof prepare === "function") {
       prepare(true);
     }

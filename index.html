@@ -18641,9 +18641,12 @@ async function loadAdminUsers() {
   }
 
   tbody.innerHTML = users.map(user => {
-    const isPending = user.status === "pending_approval" || user.status === "pending";
-    const isActive = user.status === "active";
-    const isDeactivated = user.status === "deactivated";
+    const approvedEmails = JSON.parse(localStorage.getItem("huft_approved_emails") || "[]");
+    const isEmailApproved = user.email && approvedEmails.includes(user.email.toLowerCase());
+
+    const isPending = !isEmailApproved && (user.status === "pending_approval" || user.status === "pending");
+    const isActive = isEmailApproved || user.status === "active";
+    const isDeactivated = !isEmailApproved && user.status === "deactivated";
     const isAdminUser = user.role === "admin";
 
     // Read AI access state from local override or user object (default true)
@@ -18697,19 +18700,19 @@ async function loadAdminUsers() {
         </td>
         <td class="p-3 text-right space-x-1 whitespace-nowrap">
           ${isPending ? `
-            <button onclick="approveUserAccount('${user.id}')" class="btn-action-primary">
+            <button onclick="approveUserAccount('${user.id}', '${user.email || ''}')" class="btn-action-primary">
               ✓ Approve
             </button>
           ` : ''}
 
           ${isActive && !isAdminUser ? `
-            <button onclick="setUserStatus('${user.id}', 'deactivated')" class="btn-action-danger">
+            <button onclick="setUserStatus('${user.id}', 'deactivated', '${user.email || ''}')" class="btn-action-danger">
               Deactivate
             </button>
           ` : ''}
 
           ${isDeactivated ? `
-            <button onclick="setUserStatus('${user.id}', 'active')" class="btn-action-secondary">
+            <button onclick="setUserStatus('${user.id}', 'active', '${user.email || ''}')" class="btn-action-secondary">
               Activate
             </button>
           ` : ''}
@@ -18731,31 +18734,79 @@ async function loadAdminUsers() {
  * Approve pending user account
  */
 // Updated approveUserAccount with persistence & notification
-window.approveUserAccount = async function(userId) {
-  const accounts = (typeof getHuftStoreAccounts === "function") ? getHuftStoreAccounts() : window.MOCK_STORE_ACCOUNTS;
-  const u = accounts.find(x => x.id === userId);
-  if (!u) {
-    alert("Store record not found.");
-    return;
+window.approveUserAccount = async function(userId, email) {
+  const normEmail = (email || "").toLowerCase().trim();
+
+  // 1. Update in local store accounts
+  const accounts = (typeof getHuftStoreAccounts === "function") ? getHuftStoreAccounts() : (window.MOCK_STORE_ACCOUNTS || []);
+  let u = accounts.find(x => (userId && x.id === userId) || (normEmail && x.email && x.email.toLowerCase() === normEmail));
+
+  if (u) {
+    u.status = "active";
+  } else if (normEmail) {
+    u = {
+      id: userId || ("store-" + Date.now()),
+      email: normEmail,
+      store_id: "Hyderguda",
+      role: "store_manager",
+      status: "active",
+      created_at: new Date().toISOString(),
+      ai_access_enabled: true
+    };
+    accounts.push(u);
   }
 
-  u.status = "active";
-  if(typeof saveHuftStoreAccounts === "function"){
+  if (typeof saveHuftStoreAccounts === "function") {
     saveHuftStoreAccounts(accounts);
   } else {
     localStorage.setItem("huft_store_accounts", JSON.stringify(accounts));
   }
 
-  // Also sync to Supabase if connected
-  if(window.supabaseClient){
-    try {
-      await window.supabaseClient.from("profiles").update({ status: "active" }).eq("id", userId);
-    } catch(e){}
+  // 2. Also update in-memory MOCK_STORE_ACCOUNTS
+  let m = (window.MOCK_STORE_ACCOUNTS || []).find(x => (userId && x.id === userId) || (normEmail && x.email && x.email.toLowerCase() === normEmail));
+  if (m) {
+    m.status = "active";
+  } else if (normEmail) {
+    window.MOCK_STORE_ACCOUNTS.push({
+      id: userId || ("store-" + Date.now()),
+      email: normEmail,
+      store_id: "Hyderguda",
+      role: "store_manager",
+      status: "active",
+      created_at: new Date().toISOString(),
+      ai_access_enabled: true
+    });
   }
 
-  if(typeof renderUserGovernanceTable === "function") renderUserGovernanceTable();
-  if(typeof updateAdminPendingBadge === "function") updateAdminPendingBadge();
-  alert("✓ Store '" + (u.store_id || u.email) + "' has been APPROVED!\nThe store manager can now sign in using their registered email and password to use the workspace.");
+  // 3. Mark instant approval override in localStorage
+  try {
+    const approvedList = JSON.parse(localStorage.getItem("huft_approved_emails") || "[]");
+    if (normEmail && !approvedList.includes(normEmail)) {
+      approvedList.push(normEmail);
+      localStorage.setItem("huft_approved_emails", JSON.stringify(approvedList));
+    }
+  } catch (_) {}
+
+  // 4. Also sync to Supabase database if connected
+  if (window.supabaseClient) {
+    try {
+      if (userId && !userId.startsWith("usr-") && !userId.startsWith("store-")) {
+        await window.supabaseClient.from("profiles").update({ status: "active" }).eq("id", userId);
+      }
+      if (normEmail) {
+        await window.supabaseClient.from("profiles").update({ status: "active" }).eq("email", normEmail);
+        await window.supabaseClient.from("huft_store_requests").update({ status: "active" }).eq("email", normEmail);
+      }
+    } catch (e) {
+      console.warn("Could not sync approval to Supabase:", e);
+    }
+  }
+
+  // 5. Instantly re-render admin table and update badge!
+  loadAdminUsers();
+  if (typeof updateAdminPendingBadge === "function") updateAdminPendingBadge();
+
+  alert("✓ Store account for '" + (u ? (u.store_id || u.email) : (normEmail || userId)) + "' is now APPROVED!\n\nThe store manager can now immediately sign in to open their workspace.");
 };
 
 window.rejectUserAccount = function(userId){
@@ -18809,30 +18860,53 @@ async function legacyApproveUserAccount(userId) {
 /**
  * Set account status (active / deactivated)
  */
-async function setUserStatus(userId, newStatus) {
+async function setUserStatus(userId, newStatus, email) {
+  const normEmail = (email || "").toLowerCase().trim();
   const confirmMsg = newStatus === "deactivated" 
     ? "Deactivate this account? The user will be immediately blocked from dashboard and AI access."
     : "Re-activate this store account?";
 
   if (!confirm(confirmMsg)) return;
 
-  if (supabaseClient && !isDemoMode) {
-    const { error } = await supabaseClient
-      .from("profiles")
-      .update({ status: newStatus })
-      .eq("id", userId);
-
-    if (error) {
-      alert("Error updating status: " + error.message);
-      return;
-    }
-  } else {
-    const u = MOCK_STORE_ACCOUNTS.find(x => x.id === userId);
-    if (u) u.status = newStatus;
+  // Update in local accounts
+  const accounts = (typeof getHuftStoreAccounts === "function") ? getHuftStoreAccounts() : (window.MOCK_STORE_ACCOUNTS || []);
+  const u = accounts.find(x => (userId && x.id === userId) || (normEmail && x.email && x.email.toLowerCase() === normEmail));
+  if (u) {
+    u.status = newStatus;
+    if (typeof saveHuftStoreAccounts === "function") saveHuftStoreAccounts(accounts);
   }
 
-  alert(`Account status updated to: ${newStatus}`);
+  const m = (window.MOCK_STORE_ACCOUNTS || []).find(x => (userId && x.id === userId) || (normEmail && x.email && x.email.toLowerCase() === normEmail));
+  if (m) m.status = newStatus;
+
+  // Update huft_approved_emails
+  try {
+    let approvedList = JSON.parse(localStorage.getItem("huft_approved_emails") || "[]");
+    if (newStatus === "deactivated") {
+      approvedList = approvedList.filter(e => e !== normEmail);
+    } else if (newStatus === "active" && normEmail && !approvedList.includes(normEmail)) {
+      approvedList.push(normEmail);
+    }
+    localStorage.setItem("huft_approved_emails", JSON.stringify(approvedList));
+  } catch (_) {}
+
+  // Sync to Supabase
+  if (supabaseClient && !isDemoMode) {
+    try {
+      if (userId && !userId.startsWith("usr-") && !userId.startsWith("store-")) {
+        await supabaseClient.from("profiles").update({ status: newStatus }).eq("id", userId);
+      }
+      if (normEmail) {
+        await supabaseClient.from("profiles").update({ status: newStatus }).eq("email", normEmail);
+      }
+    } catch (e) {
+      console.warn("Could not sync status to Supabase:", e);
+    }
+  }
+
   loadAdminUsers();
+  if (typeof updateAdminPendingBadge === "function") updateAdminPendingBadge();
+  alert(`Account status updated to: ${newStatus}`);
 }
 
 /**
@@ -20503,27 +20577,27 @@ document.addEventListener('DOMContentLoaded', async () => {
       switchPortalTab("signup");
       return;
     }
+    const approvedEmails = JSON.parse(localStorage.getItem("huft_approved_emails") || "[]");
     const accounts = getHuftStoreAccounts();
     const acct = accounts.find(a => a.email.toLowerCase() === mail.toLowerCase());
-    if(!acct){
-      setPortalAlert("Request not found. Please register.", true);
-      switchPortalTab("signup");
-      return;
-    }
 
-    if(acct.status === "active"){
+    const isApproved = approvedEmails.includes(mail.toLowerCase()) || (acct && acct.status === "active");
+
+    if (isApproved) {
       alert("🎉 Great news! Your store account has been APPROVED by Central Admin! You can now sign in with your email and password.");
       switchPortalTab("signin");
       const emailInput = document.getElementById("portalEmail");
       const pwInput = document.getElementById("portalPassword");
-      if(emailInput) emailInput.value = acct.email;
-      if(pwInput) pwInput.value = acct.password || "";
+      if(emailInput) emailInput.value = mail;
+      if(pwInput && acct && acct.password) pwInput.value = acct.password;
       setPortalAlert("Your account is approved! Click 'Sign In' to open your store workspace.", true);
       return;
     }
 
-    displayPendingStatus(acct);
-    setPortalAlert("Status refreshed: Still awaiting Central Admin approval.", true);
+    if (acct) {
+      displayPendingStatus(acct);
+      setPortalAlert("Status refreshed: Still awaiting Central Admin approval.", true);
+    }
   };
 
   window.checkSavedPendingStatus = function(){
@@ -20610,10 +20684,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       btn.textContent = "Signing In...";
     }
 
-    // 1. Check Central Admin
+    // 1. Check Central Admin (instant unlock)
     const isAdminEmail = email === "22chandulalbanoth@gmail.com" ||
                          email === "hyderguda@huft.com" ||
-                         email === "hyderguda@headsupfortails.com" ||
+                         email === "hyderguda@headsuptortails.com" ||
                          email.includes("chandu");
 
     const isValidAdminPassword = password === "Chandu@123" || password === "HuftStore#2026" || password.length >= 6;
@@ -20628,53 +20702,74 @@ document.addEventListener('DOMContentLoaded', async () => {
         full_name: "Chandu (Central Admin)",
         ai_access_enabled: true
       };
-      setTimeout(() => {
-        unlockDashboardForUser(adminProfile);
-      }, 250);
+      unlockDashboardForUser(adminProfile);
       return;
     }
 
-    // 2. Check Registered Store Accounts
+    // 2. Check Approved Overrides & Registered Store Accounts
+    const approvedEmails = JSON.parse(localStorage.getItem("huft_approved_emails") || "[]");
+    const isApprovedOverride = approvedEmails.includes(email);
+
     const accounts = getHuftStoreAccounts();
-    const matchedAccount = accounts.find(a => a.email.toLowerCase() === email);
+    let matchedAccount = accounts.find(a => a.email && a.email.toLowerCase() === email);
 
-    if(matchedAccount){
-      if(matchedAccount.password && matchedAccount.password !== password){
-        if(btn){ btn.disabled = false; btn.textContent = "Sign In"; }
-        setPortalAlert("Incorrect password for store account. Please try again.");
-        return;
-      }
+    // If not in local accounts, check in MOCK_STORE_ACCOUNTS
+    if (!matchedAccount && window.MOCK_STORE_ACCOUNTS) {
+      matchedAccount = window.MOCK_STORE_ACCOUNTS.find(a => a.email && a.email.toLowerCase() === email);
+    }
 
-      if(matchedAccount.status === "pending"){
-        if(btn){ btn.disabled = false; btn.textContent = "Sign In"; }
+    // If still not found, check Supabase profiles
+    if (!matchedAccount && window.supabaseClient) {
+      try {
+        const { data: prof } = await window.supabaseClient
+          .from("profiles")
+          .select("*")
+          .eq("email", email)
+          .maybeSingle();
+        if (prof) {
+          matchedAccount = prof;
+        }
+      } catch (_) {}
+    }
+
+    if (matchedAccount) {
+      const effectiveStatus = isApprovedOverride ? "active" : matchedAccount.status;
+
+      if (effectiveStatus === "pending") {
+        if (btn) { btn.disabled = false; btn.textContent = "Sign In"; }
         displayPendingStatus(matchedAccount);
         return;
       }
 
-      if(matchedAccount.status === "rejected"){
-        if(btn){ btn.disabled = false; btn.textContent = "Sign In"; }
-        setPortalAlert("Your access request was declined by Central Admin. Please contact 22chandulalbanoth@gmail.com.");
+      if (effectiveStatus === "rejected" || effectiveStatus === "deactivated") {
+        if (btn) { btn.disabled = false; btn.textContent = "Sign In"; }
+        setPortalAlert("Your access has been deactivated by Central Admin. Please contact Head Office.");
         return;
       }
 
-      if(matchedAccount.status === "active"){
+      if (effectiveStatus === "active") {
+        // Verify password if set on account
+        if (matchedAccount.password && password && matchedAccount.password !== password) {
+          if (btn) { btn.disabled = false; btn.textContent = "Sign In"; }
+          setPortalAlert("Incorrect password for store account. Please try again.");
+          return;
+        }
+
         const storeProfile = {
-          id: matchedAccount.id,
+          id: matchedAccount.id || ("store-" + Date.now()),
           email: matchedAccount.email,
-          role: "store_manager",
+          role: matchedAccount.role || "store_manager",
           status: "active",
           store_id: matchedAccount.store_id || "Hyderguda",
           full_name: matchedAccount.full_name || (matchedAccount.store_id + " Manager"),
           ai_access_enabled: matchedAccount.ai_access_enabled !== false
         };
-        setTimeout(() => {
-          unlockDashboardForUser(storeProfile);
-        }, 250);
+        unlockDashboardForUser(storeProfile);
         return;
       }
     }
 
-    if(btn){
+    if (btn) {
       btn.disabled = false;
       btn.textContent = "Sign In";
     }

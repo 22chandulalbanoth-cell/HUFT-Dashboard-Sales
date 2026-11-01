@@ -19368,7 +19368,8 @@ async function loadAdminSystemStatus() {
         timestamp: new Date().toISOString(),
         github: {
           repo: "22chandulalbanoth-cell/HUFT-Dashboard-Sales",
-          pages_url: "https://22chandulalbanoth-cell.github.io/HUFT-Dashboard-Sales/",
+          pages_url: (typeof window !== "undefined" ? window.location.origin + window.location.pathname : "https://huft-sales-dashboard.pages.dev/"),
+          hosting_platform: (typeof window !== "undefined" && window.location.hostname.includes("pages.dev") ? "Cloudflare Pages" : "GitHub Pages"),
           branch: "main",
           status: "OPERATIONAL",
           workflow: "Validate and Deploy (.github/workflows/deploy.yml)",

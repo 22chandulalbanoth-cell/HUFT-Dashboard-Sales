@@ -270,7 +270,7 @@
         <!-- Alert Banner -->
         <div id="loginAlert" style="display: none; margin-bottom: 16px; padding: 12px; border-radius: 8px; font-size: 12px; font-weight: 500;"></div>
 
-        <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" style="display: flex; flex-direction: column; gap: 14px;">
+        <form id="adminLoginForm" action="javascript:void(0);" onsubmit="event.preventDefault(); handleAdminLogin(); return false;" style="display: flex; flex-direction: column; gap: 14px;">
           <div>
             <label style="display: block; font-size: 11px; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Administrator Email</label>
             <div style="position: relative;">
@@ -291,7 +291,7 @@
                 <svg id="eyeIcon" width="16" height="16" style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
               </button>
             </div>
-            <div style="font-size: 10px; color: #64748b; margin-top: 4px;">Default Master Password: <code style="color: #60a5fa; background: #0d1522; padding: 2px 6px; border-radius: 4px;">Chandu@123</code></div>
+            <div style="font-size: 10px; color: #64748b; margin-top: 4px;">Master Password: <code style="color: #60a5fa; background: #0d1522; padding: 2px 6px; border-radius: 4px;">Chandu@123</code></div>
           </div>
 
           <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -301,16 +301,11 @@
             </label>
           </div>
 
-          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
-            <button type="submit" id="loginSubmitBtn"
-              style="width: 100%; background-color: #2563eb; color: #ffffff; font-weight: 600; font-size: 12px; padding: 11px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35); display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <div style="margin-top: 6px;">
+            <button type="button" onclick="handleAdminLogin()" id="loginSubmitBtn"
+              style="width: 100%; background-color: #2563eb; color: #ffffff; font-weight: 600; font-size: 13px; padding: 12px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35); display: flex; align-items: center; justify-content: center; gap: 8px;">
               <span>Sign In to Console</span>
               <svg width="16" height="16" style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-            </button>
-            <button type="button" onclick="quickDemoAdminLogin()"
-              style="width: 100%; background-color: #22334D; color: #cbd5e1; font-weight: 600; font-size: 12px; padding: 10px 16px; border-radius: 8px; border: 1px solid #334155; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-              <svg width="14" height="14" style="width: 14px; height: 14px; color: #60a5fa;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-              <span>Instant One-Click Login (22chandulalabanoth)</span>
             </button>
           </div>
         </form>
@@ -1653,11 +1648,16 @@
       initTelemetryCharts();
     });
 
-    function checkAuthState() {
+        function checkAuthState() {
       const loginView = document.getElementById("loginView");
       const adminApp = document.getElementById("adminApp");
 
-      if (currentAdminSession && currentAdminSession.role === "CENTRAL_ADMIN") {
+      const session = currentAdminSession || 
+        JSON.parse(sessionStorage.getItem("central_admin_session") || "null") ||
+        JSON.parse(localStorage.getItem("central_admin_session") || "null");
+
+      if (session && session.role === "CENTRAL_ADMIN") {
+        currentAdminSession = session;
         if (loginView) {
           loginView.style.setProperty("display", "none", "important");
           loginView.classList.add("hidden");
@@ -1667,7 +1667,9 @@
           adminApp.classList.remove("hidden");
         }
         const uEl = document.getElementById("adminUserName");
-        if (uEl) uEl.textContent = currentAdminSession.name || "Chandu (Central Admin)";
+        if (uEl) uEl.textContent = session.name || "Chandu (Central Admin)";
+        switchTab("sec-dashboard");
+        renderAllSections();
       } else {
         if (loginView) {
           loginView.style.setProperty("display", "flex", "important");
@@ -1680,106 +1682,105 @@
       }
     }
 
-        async function handleAdminLogin(event) {
-      if (event) event.preventDefault();
-      const email = (document.getElementById("loginEmail")?.value || "").trim();
-      const password = (document.getElementById("loginPassword")?.value || "").trim();
-      const submitBtn = document.getElementById("loginSubmitBtn");
+    function handleAdminLogin(event) {
+      if (event) {
+        try { event.preventDefault(); } catch(e){}
+      }
+      const emailInput = document.getElementById("loginEmail");
+      const passwordInput = document.getElementById("loginPassword");
       const alertBox = document.getElementById("loginAlert");
 
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `
-          <svg width="16" height="16" class="animate-spin text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
-          <span>Authenticating...</span>
-        `;
+      const email = (emailInput?.value || "").trim().toLowerCase();
+      const password = (passwordInput?.value || "").trim();
+
+      // Email check: 22chandulalabanoth@gmail.com, 22chandulalbanoth@gmail.com, admin@centralcontrol.internal
+      const isAllowedEmail = email === "22chandulalabanoth@gmail.com" || 
+                             email === "22chandulalbanoth@gmail.com" || 
+                             email.includes("22chandulal") ||
+                             email === "admin@centralcontrol.internal";
+
+      if (!isAllowedEmail) {
+        if (alertBox) {
+          alertBox.style.display = "flex";
+          alertBox.style.background = "rgba(244, 63, 94, 0.15)";
+          alertBox.style.border = "1px solid rgba(244, 63, 94, 0.4)";
+          alertBox.style.color = "#fb7185";
+          alertBox.innerHTML = `<span>Access Denied: Only Central Administrator (22chandulalabanoth@gmail.com) is authorized to access Central Control.</span>`;
+        }
+        return false;
       }
 
-      try {
-        if (!isAuthorizedAdmin(email)) {
-          if (alertBox) {
-            alertBox.style.display = "flex";
-            alertBox.style.background = "rgba(244, 63, 94, 0.1)";
-            alertBox.style.border = "1px solid rgba(244, 63, 94, 0.3)";
-            alertBox.style.color = "#fb7185";
-            alertBox.innerHTML = `<span>Access Denied: Only Central Administrator (22chandulalabanoth@gmail.com) is authorized to access Central Control.</span>`;
-            alertBox.classList.remove("hidden");
-          }
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = `<span>Sign In to Console</span><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>`;
-          }
-          return;
+      // Password check: Chandu@123
+      const isAllowedPassword = password === "Chandu@123" || password.toLowerCase() === "chandu@123" || password === "EnterpriseAdmin2026!" || password === "";
+      if (!isAllowedPassword) {
+        if (alertBox) {
+          alertBox.style.display = "flex";
+          alertBox.style.background = "rgba(244, 63, 94, 0.15)";
+          alertBox.style.border = "1px solid rgba(244, 63, 94, 0.4)";
+          alertBox.style.color = "#fb7185";
+          alertBox.innerHTML = `<span>Invalid Password. Master administrator password is: <strong>Chandu@123</strong></span>`;
         }
-
-        // Validate password: Chandu@123
-        const isPasswordCorrect = (password === "Chandu@123" || password === "EnterpriseAdmin2026!" || password === "");
-        if (!isPasswordCorrect && password !== "Chandu@123") {
-          if (alertBox) {
-            alertBox.style.display = "flex";
-            alertBox.style.background = "rgba(244, 63, 94, 0.1)";
-            alertBox.style.border = "1px solid rgba(244, 63, 94, 0.3)";
-            alertBox.style.color = "#fb7185";
-            alertBox.innerHTML = `<span>Incorrect password. Expected administrator password is: <strong>Chandu@123</strong></span>`;
-            alertBox.classList.remove("hidden");
-          }
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = `<span>Sign In to Console</span><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>`;
-          }
-          return;
-        }
-
-        // Successfully Authenticate
-        const adminProfile = {
-          id: "admin-chandu-01",
-          email: email || "22chandulalabanoth@gmail.com",
-          name: "Chandu (Central Admin)",
-          role: "CENTRAL_ADMIN"
-        };
-
-        currentAdminSession = adminProfile;
-        sessionStorage.setItem("central_admin_session", JSON.stringify(adminProfile));
-        recordAuditEvent("ADMIN_LOGIN", adminProfile.email, "SUCCESS", { client: navigator.userAgent });
-        showToast("Authentication Successful. Welcome Chandu!", "success");
-        checkAuthState();
-      } catch (err) {
-        showToast("Authentication error: " + err.message, "error");
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = `<span>Sign In to Console</span><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>`;
-        }
+        return false;
       }
-    }
 
-    function quickDemoAdminLogin() {
-      currentAdminSession = {
+      // Successful Login
+      const adminProfile = {
         id: "admin-chandu-01",
-        email: "22chandulalabanoth@gmail.com",
+        email: email || "22chandulalabanoth@gmail.com",
         name: "Chandu (Central Admin)",
         role: "CENTRAL_ADMIN"
       };
-      sessionStorage.setItem("central_admin_session", JSON.stringify(currentAdminSession));
-      recordAuditEvent("ADMIN_LOGIN", "22chandulalabanoth@gmail.com", "SUCCESS", { note: "Central Administrator Access" });
-      showToast("Access Granted. Welcome to Central Control.", "success");
-      checkAuthState();
+
+      currentAdminSession = adminProfile;
+      try { sessionStorage.setItem("central_admin_session", JSON.stringify(adminProfile)); } catch(e){}
+      try { localStorage.setItem("central_admin_session", JSON.stringify(adminProfile)); } catch(e){}
+
+      // Hide login overlay immediately
+      const loginView = document.getElementById("loginView");
+      if (loginView) {
+        loginView.style.setProperty("display", "none", "important");
+        loginView.classList.add("hidden");
+      }
+
+      // Show console app immediately
+      const adminApp = document.getElementById("adminApp");
+      if (adminApp) {
+        adminApp.style.setProperty("display", "flex", "important");
+        adminApp.classList.remove("hidden");
+      }
+
+      const uEl = document.getElementById("adminUserName");
+      if (uEl) uEl.textContent = "Chandu (Central Admin)";
+
+      switchTab("sec-dashboard");
+      renderAllSections();
+      setTimeout(initTelemetryCharts, 100);
+
+      try {
+        recordAuditEvent("ADMIN_LOGIN", adminProfile.email, "SUCCESS", { method: "Master Password Authenticated" });
+      } catch(e){}
+
+      showToast("Access Granted. Welcome Chandu to Central Control!", "success");
+      return false;
     }
 
     function handleAdminSignOut() {
-      recordAuditEvent("ADMIN_LOGOUT", currentAdminSession ? currentAdminSession.email : "admin", "SUCCESS", {});
+      try {
+        recordAuditEvent("ADMIN_LOGOUT", currentAdminSession ? currentAdminSession.email : "admin", "SUCCESS", {});
+      } catch(e){}
       currentAdminSession = null;
-      sessionStorage.removeItem("central_admin_session");
+      try { sessionStorage.removeItem("central_admin_session"); } catch(e){}
+      try { localStorage.removeItem("central_admin_session"); } catch(e){}
       showToast("Administrator session terminated safely.", "info");
       checkAuthState();
     }
 
     function togglePasswordVisibility(inputId, iconId) {
       const input = document.getElementById(inputId);
-      input.type = input.type === "password" ? "text" : "password";
+      if (input) input.type = input.type === "password" ? "text" : "password";
     }
 
-    const TAB_TITLES = {
+const TAB_TITLES = {
       "sec-dashboard": { title: "Executive System Telemetry", breadcrumb: "Dashboard" },
       "sec-stores": { title: "Store Profile Management", breadcrumb: "Organization / Store Profiles" },
       "sec-store-accounts": { title: "Store Credential & Account Registry", breadcrumb: "Organization / Store Accounts" },

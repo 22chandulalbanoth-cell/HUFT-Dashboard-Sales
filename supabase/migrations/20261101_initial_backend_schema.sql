@@ -149,21 +149,29 @@ VALUES
 ON CONFLICT (setting_key) DO NOTHING;
 
 -- ==============================================================================
--- 12. ROW LEVEL SECURITY (RLS) POLICIES
+-- 12. ROW LEVEL SECURITY (RLS) POLICIES & FUNCTIONS
 -- ==============================================================================
 
-ALTER TABLE public.stores ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.user_store_access ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.registration_requests ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.password_reset_requests ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.login_activity ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.usage_logs ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.ai_usage_logs ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.system_settings ENABLE ROW LEVEL SECURITY;
+-- Dynamically ensure RLS is enabled on every table in public schema
+DO $$
+DECLARE r record;
+BEGIN
+  FOR r IN SELECT tablename FROM pg_tables WHERE schemaname = 'public' LOOP
+    EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', r.tablename);
+  END LOOP;
+END $$;
 
--- Helper Functions
+-- Helper Functions (Security Definer with isolated search_path)
+CREATE OR REPLACE FUNCTION public.current_profile_active()
+RETURNS BOOLEAN
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = public
+STABLE
+AS $$
+  SELECT coalesce((SELECT active FROM public.profiles WHERE id = auth.uid()), false)
+$$;
+
 CREATE OR REPLACE FUNCTION public.is_central_admin()
 RETURNS BOOLEAN
 LANGUAGE sql
@@ -171,14 +179,12 @@ SECURITY DEFINER
 SET search_path = public
 STABLE
 AS $$
-    SELECT EXISTS (
-        SELECT 1 FROM public.profiles p
-        JOIN public.user_store_access usa ON usa.user_id = p.id
-        WHERE p.id = auth.uid() 
-          AND p.role = 'CENTRAL_ADMIN' 
-          AND usa.store_id = 'Hyderguda' 
-          AND p.active = true
-    );
+  SELECT EXISTS (
+    SELECT 1 FROM public.profiles 
+    WHERE id = auth.uid() 
+      AND role = 'CENTRAL_ADMIN' 
+      AND active = true
+  )
 $$;
 
 CREATE OR REPLACE FUNCTION public.has_store_access(target_store TEXT)
@@ -188,25 +194,22 @@ SECURITY DEFINER
 SET search_path = public
 STABLE
 AS $$
-    SELECT (
-        public.is_central_admin() OR
-        EXISTS (
-            SELECT 1 FROM public.user_store_access usa
-            JOIN public.profiles p ON p.id = usa.user_id
-            WHERE usa.user_id = auth.uid()
-              AND usa.store_id = target_store
-              AND p.active = true
-        )
-    );
+  SELECT public.is_central_admin() OR (
+    EXISTS (
+      SELECT 1 FROM public.user_store_access usa
+      WHERE usa.user_id = auth.uid() 
+        AND usa.store_id = target_store
+    ) AND public.current_profile_active()
+  )
 $$;
 
--- RLS: stores (All authenticated active users can view stores list)
+-- RLS: stores (Central Admin or users with explicit store access)
 CREATE POLICY "stores_select_policy" ON public.stores
     FOR SELECT TO authenticated
-    USING (active = true);
+    USING (public.is_central_admin() OR public.has_store_access(id));
 
--- RLS: profiles (Users can view own profile; Central Admin can view and manage all)
-CREATE POLICY "profiles_select_own" ON public.profiles
+-- RLS: profiles (Self read; Central Admin read all & write)
+CREATE POLICY "profiles_select_policy" ON public.profiles
     FOR SELECT TO authenticated
     USING (id = auth.uid() OR public.is_central_admin());
 
@@ -215,88 +218,95 @@ CREATE POLICY "profiles_update_policy" ON public.profiles
     USING (public.is_central_admin())
     WITH CHECK (public.is_central_admin());
 
--- RLS: user_store_access (Users see their store assignments; Central Admin manages)
+-- RLS: user_store_access (Central Admin only or self read assigned stores)
 CREATE POLICY "usa_select_policy" ON public.user_store_access
     FOR SELECT TO authenticated
-    USING (user_id = auth.uid() OR public.is_central_admin());
+    USING (public.is_central_admin() OR (user_id = auth.uid() AND public.current_profile_active()));
 
 CREATE POLICY "usa_admin_manage" ON public.user_store_access
     FOR ALL TO authenticated
     USING (public.is_central_admin())
     WITH CHECK (public.is_central_admin());
 
--- RLS: registration_requests (Anyone can submit; only Central Admin can view & manage)
-CREATE POLICY "reg_requests_insert" ON public.registration_requests
-    FOR INSERT TO anon, authenticated
-    WITH CHECK (true);
-
-CREATE POLICY "reg_requests_admin_select" ON public.registration_requests
-    FOR SELECT TO authenticated
-    USING (public.is_central_admin());
-
-CREATE POLICY "reg_requests_admin_update" ON public.registration_requests
-    FOR UPDATE TO authenticated
+-- RLS: registration_requests (Central Admin only; submissions handled by Edge Function via service role)
+CREATE POLICY "reg_requests_admin_policy" ON public.registration_requests
+    FOR ALL TO authenticated
     USING (public.is_central_admin())
     WITH CHECK (public.is_central_admin());
 
--- RLS: password_reset_requests (Users can insert own; Central Admin views & approves)
-CREATE POLICY "pwd_reset_insert" ON public.password_reset_requests
-    FOR INSERT TO anon, authenticated
-    WITH CHECK (true);
-
-CREATE POLICY "pwd_reset_admin_select" ON public.password_reset_requests
-    FOR SELECT TO authenticated
-    USING (public.is_central_admin() OR user_id = auth.uid());
-
-CREATE POLICY "pwd_reset_admin_update" ON public.password_reset_requests
-    FOR UPDATE TO authenticated
+-- RLS: password_reset_requests (Central Admin only; submissions handled by Edge Function via service role)
+CREATE POLICY "pwd_reset_admin_policy" ON public.password_reset_requests
+    FOR ALL TO authenticated
     USING (public.is_central_admin())
     WITH CHECK (public.is_central_admin());
 
--- RLS: login_activity (Users insert own; Store Managers view own store; Central Admin views all)
+-- RLS: login_activity (Self read/insert; Central Admin reads all)
 CREATE POLICY "login_act_insert" ON public.login_activity
     FOR INSERT TO authenticated
     WITH CHECK (user_id = auth.uid());
 
 CREATE POLICY "login_act_select" ON public.login_activity
     FOR SELECT TO authenticated
-    USING (public.is_central_admin() OR (user_id = auth.uid()) OR public.has_store_access(store_id));
+    USING (public.is_central_admin() OR user_id = auth.uid());
 
--- RLS: usage_logs
+-- RLS: usage_logs (Scoped to verified store access)
 CREATE POLICY "usage_logs_insert" ON public.usage_logs
     FOR INSERT TO authenticated
     WITH CHECK (user_id = auth.uid());
 
 CREATE POLICY "usage_logs_select" ON public.usage_logs
     FOR SELECT TO authenticated
-    USING (public.is_central_admin() OR public.has_store_access(store_id));
+    USING (public.has_store_access(store_id));
 
--- RLS: ai_usage_logs
+-- RLS: ai_usage_logs (Scoped to verified store access)
 CREATE POLICY "ai_usage_insert" ON public.ai_usage_logs
     FOR INSERT TO authenticated
     WITH CHECK (user_id = auth.uid());
 
 CREATE POLICY "ai_usage_select" ON public.ai_usage_logs
     FOR SELECT TO authenticated
-    USING (public.is_central_admin() OR user_id = auth.uid());
+    USING (public.has_store_access(store_id));
 
--- RLS: audit_logs (Strictly Central Admin access; written via Security Definer functions)
+-- RLS: audit_logs (Strictly Central Admin access; writes via Edge Functions / Security Definer)
 CREATE POLICY "audit_logs_select" ON public.audit_logs
     FOR SELECT TO authenticated
     USING (public.is_central_admin());
 
--- RLS: system_settings (Authenticated read; Central Admin write)
-CREATE POLICY "settings_select" ON public.system_settings
-    FOR SELECT TO authenticated
-    USING (true);
+-- RLS: system_settings (Strictly Central Admin access)
+CREATE POLICY "settings_admin_policy" ON public.system_settings
+    FOR ALL TO authenticated
+    USING (public.is_central_admin())
+    WITH CHECK (public.is_central_admin());
 
-CREATE POLICY "settings_admin_update" ON public.system_settings
+-- RLS: rate_limits (Strictly Central Admin access; edge functions use service role)
+CREATE TABLE IF NOT EXISTS public.rate_limits (
+    key TEXT PRIMARY KEY,
+    count INT NOT NULL DEFAULT 1,
+    window_start TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+ALTER TABLE public.rate_limits ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "rate_limits_admin_policy" ON public.rate_limits
     FOR ALL TO authenticated
     USING (public.is_central_admin())
     WITH CHECK (public.is_central_admin());
 
 -- ==============================================================================
--- 13. AUTOMATIC 24-HOUR RETENTION CLEANUP
+-- 13. PERMISSIONS & ANONYMOUS ACCESS REVOCATION
+-- ==============================================================================
+
+-- Revoke all permissions from anon role
+REVOKE ALL ON SCHEMA public FROM anon;
+REVOKE ALL ON ALL TABLES IN SCHEMA public FROM anon;
+REVOKE ALL ON ALL FUNCTIONS IN SCHEMA public FROM anon;
+REVOKE ALL ON ALL SEQUENCES IN SCHEMA public FROM anon;
+
+-- Grant minimal required permissions to authenticated role
+GRANT USAGE ON SCHEMA public TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO authenticated;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO authenticated;
+
+-- ==============================================================================
+-- 14. AUTOMATIC 24-HOUR RETENTION CLEANUP
 -- ==============================================================================
 
 CREATE OR REPLACE FUNCTION public.cleanup_stale_monitoring_logs()

@@ -71,18 +71,18 @@ This guide details the step-by-step instructions to configure and deploy the **M
 
 ## Step 2: Central Administrator Account Bootstrapping
 
-**Hyderguda** (`hyderguda@huft.com`) is the sole designated Central Administrator store by default. All other stores (`Banjara Hills`, `Madhapur`, `Golden Mile`, `Himayathnagar`) are strictly assigned `store_manager` roles and cannot access administrative features.
+**Hyderguda** (`hyderguda@example.test`) is the sole designated Central Administrator store by default. All other stores (`Banjara Hills`, `Madhapur`, `Golden Mile`, `Himayathnagar`) are strictly assigned `store_manager` roles and cannot access administrative features.
 
 ### Option A: Automatic Registration
-1. In `supabase/schema.sql`, the trigger automatically assigns `role = 'admin'` and `status = 'active'` exclusively to `hyderguda@huft.com`.
-2. Registering with email `hyderguda@huft.com` will immediately grant Central Admin status for the store network.
+1. In `supabase/schema.sql`, the trigger automatically assigns `role = 'admin'` and `status = 'active'` exclusively to `hyderguda@example.test`.
+2. Registering with email `hyderguda@example.test` will immediately grant Central Admin status for the store network.
 
 ### Option B: Via SQL Editor
 To manually ensure Hyderguda is the central administrator:
 ```sql
 UPDATE public.profiles
 SET role = 'admin', status = 'active', store_id = 'Hyderguda'
-WHERE email = 'hyderguda@huft.com';
+WHERE email = 'hyderguda@example.test';
 ```
 
 ---
@@ -141,7 +141,7 @@ After deployment, Cloudflare will output your public worker URL:
 In your browser console or frontend settings, set your deployed Supabase and Worker endpoints:
 ```javascript
 localStorage.setItem("huft_supabase_url", "https://your-project-id.supabase.co");
-localStorage.setItem("huft_supabase_anon_key", "eyJhbGciOi...");
+localStorage.setItem("huft_supabase_anon_key", "<SUPABASE_ANON_KEY>");
 localStorage.setItem("huft_worker_url", "https://huft-sales-ai-worker.<your-subdomain>.workers.dev");
 ```
 *(When no custom endpoints are set, the application operates in **Secure Standalone Demo Mode** using in-memory mock accounts for instant offline security evaluation).*
@@ -172,11 +172,11 @@ The compiled file is created at:
 
 | Requirement | Test Scenario | Expected Result | Verified |
 | :--- | :--- | :--- | :---: |
-| **Store Login** | Enter `hyderguda@huft.com` with valid password | Successfully logs in; badge displays `Hyderguda` | ✅ |
+| **Store Login** | Enter `hyderguda@example.test` with valid password | Successfully logs in; badge displays `Hyderguda` | ✅ |
 | **Invalid Password** | Enter incorrect password | Login fails with user-friendly error; attempts logged | ✅ |
-| **Pending Approval** | Sign in as `pending@huft.com` | Blocked with message: *"Account Pending Central Admin Approval"* | ✅ |
-| **Deactivated User** | Sign in as `deactivated@huft.com` | Blocked with message: *"Account Deactivated"* | ✅ |
-| **Central Admin** | Sign in as `admin@huft.com` | Full store switcher enabled; Central Admin panel accessible | ✅ |
+| **Pending Approval** | Sign in as `pending@example.test` | Blocked with message: *"Account Pending Central Admin Approval"* | ✅ |
+| **Deactivated User** | Sign in as `deactivated@example.test` | Blocked with message: *"Account Deactivated"* | ✅ |
+| **Central Admin** | Sign in as `admin@example.test` | Full store switcher enabled; Central Admin panel accessible | ✅ |
 | **Admin Approval** | Admin clicks "Approve" on pending account | Status transitions to `active`; user can now sign in | ✅ |
 | **Store Isolation** | Hyderguda manager uploads Banjara Hills POS file | Parser blocks upload: *"Store Isolation Policy: Access Denied"* | ✅ |
 | **PII Phone Mask** | Ingest POS file with customer phone numbers | Numbers masked immediately to `******1234` | ✅ |

@@ -18548,19 +18548,7 @@ function isCurrentAdmin() {
  * Opens Central Admin Panel Modal
  */
 function openAdminPanel() {
-  if (!isCurrentAdmin()) {
-    alert("Access Denied: Only Central Administrators may access the Admin Management Panel.");
-    return;
-  }
-  const modal = document.getElementById("adminPanelModal");
-  if (modal) {
-    modal.classList.remove("hidden");
-    document.body.style.overflow = "hidden";
-    loadAdminUsers();
-    loadAdminAiUsage();
-    loadAdminLoginLogs();
-    loadAdminSystemStatus();
-  }
+  window.location.href = "admin.html";
 }
 
 /**

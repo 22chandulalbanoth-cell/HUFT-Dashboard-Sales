@@ -263,46 +263,38 @@
       <!-- Login Card -->
       <div style="background-color: #172338; border: 1px solid rgba(51, 65, 85, 0.6); border-radius: 16px; padding: 28px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); color: #ffffff;" class="login-card">
         <div style="margin-bottom: 20px;">
-          <h2 style="font-size: 15px; font-weight: 700; color: #ffffff; margin: 0;">Administrator Access</h2>
-          <p style="font-size: 11px; color: #94a3b8; margin-top: 4px;">Authorized for <strong style="color: #60a5fa;">22chandulalabanoth@gmail.com</strong></p>
+          <h2 style="font-size: 15px; font-weight: 700; color: #ffffff; margin: 0;">Administrator Authentication</h2>
+          <p style="font-size: 11px; color: #94a3b8; margin-top: 4px;">Sign in with your authorized administrator credentials</p>
         </div>
 
         <!-- Alert Banner -->
         <div id="loginAlert" style="display: none; margin-bottom: 16px; padding: 12px; border-radius: 8px; font-size: 12px; font-weight: 500;"></div>
 
-        <form id="adminLoginForm" action="javascript:void(0);" onsubmit="event.preventDefault(); handleAdminLogin(); return false;" style="display: flex; flex-direction: column; gap: 14px;">
+        <form id="adminLoginForm" action="javascript:void(0);" onsubmit="event.preventDefault(); handleAdminLogin(event); return false;" style="display: flex; flex-direction: column; gap: 14px;">
           <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Administrator Email</label>
+            <label for="loginEmail" style="display: block; font-size: 11px; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Administrator Email</label>
             <div style="position: relative;">
-              <input type="email" id="loginEmail" required value="22chandulalabanoth@gmail.com" placeholder="22chandulalabanoth@gmail.com"
+              <input type="email" id="loginEmail" required value="" autocomplete="off" placeholder="admin@domain.com"
                 style="width: 100%; background-color: #1c2b42; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #ffffff; box-sizing: border-box; outline: none;" />
             </div>
           </div>
 
           <div>
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-              <label style="font-size: 11px; font-weight: 600; color: #cbd5e1;">Password</label>
+              <label for="loginPassword" style="font-size: 11px; font-weight: 600; color: #cbd5e1;">Password</label>
               <button type="button" onclick="openForgotPasswordModal()" style="font-size: 11px; color: #60a5fa; background: transparent; border: none; cursor: pointer;">Forgot Password?</button>
             </div>
             <div style="position: relative;">
-              <input type="password" id="loginPassword" required value="Chandu@123" placeholder="Chandu@123"
-                style="width: 100%; background-color: #1c2b42; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #ffffff; box-sizing: border-box; outline: none;" />
-              <button type="button" onclick="togglePasswordVisibility('loginPassword', 'eyeIcon')" style="position: absolute; right: 12px; top: 10px; background: transparent; border: none; color: #94a3b8; cursor: pointer;">
+              <input type="password" id="loginPassword" required value="" autocomplete="new-password" placeholder="••••••••••••"
+                style="width: 100%; background-color: #1c2b42; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px 10px 14px; padding-right: 40px; font-size: 12px; color: #ffffff; box-sizing: border-box; outline: none;" />
+              <button type="button" aria-label="Toggle password visibility" onclick="togglePasswordVisibility('loginPassword', 'eyeIcon')" style="position: absolute; right: 12px; top: 10px; background: transparent; border: none; color: #94a3b8; cursor: pointer; display: flex; align-items: center; justify-content: center;">
                 <svg id="eyeIcon" width="16" height="16" style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
               </button>
             </div>
-            <div style="font-size: 10px; color: #64748b; margin-top: 4px;">Master Password: <code style="color: #60a5fa; background: #0d1522; padding: 2px 6px; border-radius: 4px;">Chandu@123</code></div>
           </div>
 
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="checkbox" id="rememberDevice" checked style="width: 14px; height: 14px; accent-color: #2563eb;" />
-              <span style="font-size: 11px; color: #94a3b8;">Remember this authorized device</span>
-            </label>
-          </div>
-
-          <div style="margin-top: 6px;">
-            <button type="button" onclick="handleAdminLogin()" id="loginSubmitBtn"
+          <div style="margin-top: 8px;">
+            <button type="submit" id="loginSubmitBtn"
               style="width: 100%; background-color: #2563eb; color: #ffffff; font-weight: 600; font-size: 13px; padding: 12px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35); display: flex; align-items: center; justify-content: center; gap: 8px;">
               <span>Sign In to Console</span>
               <svg width="16" height="16" style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
@@ -1521,12 +1513,52 @@
       <form onsubmit="handleSendPasswordReset(event)" class="space-y-3 text-xs">
         <div>
           <label class="block text-slate-300 font-medium mb-1">Email Address</label>
-          <input type="email" id="resetEmailInput" required placeholder="admin@centralcontrol.internal"
+          <input type="email" id="resetEmailInput" required placeholder="admin@domain.com"
             class="w-full bg-navy-850 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500" />
         </div>
         <div class="pt-2 flex justify-end gap-2">
           <button type="button" onclick="closeModal('forgotPasswordModal')" class="px-3.5 py-2 rounded-lg border border-slate-700 text-slate-300 hover:bg-navy-800 font-medium">Cancel</button>
           <button type="submit" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium">Send Reset Link</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Set New Password Modal (Recovery Flow) -->
+  <div id="setNewPasswordModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-navy-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl animate-fade-in text-white">
+      <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+        <h3 class="text-sm font-bold text-white">Set New Administrator Password</h3>
+        <button onclick="closeModal('setNewPasswordModal')" class="text-slate-400 hover:text-white">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+      <p class="text-xs text-slate-400 mb-4">Enter a strong, secure new password for your Central Administrator account.</p>
+      <div id="setNewPasswordAlert" style="display: none; margin-bottom: 12px; padding: 10px; border-radius: 8px; font-size: 11px;"></div>
+      <form onsubmit="handleUpdateAdminPassword(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 font-medium mb-1">New Password</label>
+          <div style="position: relative;">
+            <input type="password" id="newAdminPassword" required minlength="8" placeholder="••••••••••••" autocomplete="new-password"
+              class="w-full bg-navy-850 border border-slate-700 rounded-lg px-3 py-2 pr-10 text-xs text-white focus:outline-none focus:border-blue-500" />
+            <button type="button" onclick="togglePasswordVisibility('newAdminPassword', 'eyeIconNew')" style="position: absolute; right: 10px; top: 8px; background: transparent; border: none; color: #94a3b8; cursor: pointer;">
+              <svg id="eyeIconNew" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+            </button>
+          </div>
+        </div>
+        <div>
+          <label class="block text-slate-300 font-medium mb-1">Confirm New Password</label>
+          <div style="position: relative;">
+            <input type="password" id="confirmAdminPassword" required minlength="8" placeholder="••••••••••••" autocomplete="new-password"
+              class="w-full bg-navy-850 border border-slate-700 rounded-lg px-3 py-2 pr-10 text-xs text-white focus:outline-none focus:border-blue-500" />
+            <button type="button" onclick="togglePasswordVisibility('confirmAdminPassword', 'eyeIconConfirm')" style="position: absolute; right: 10px; top: 8px; background: transparent; border: none; color: #94a3b8; cursor: pointer;">
+              <svg id="eyeIconConfirm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+            </button>
+          </div>
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('setNewPasswordModal')" class="px-3.5 py-2 rounded-lg border border-slate-700 text-slate-300 hover:bg-navy-800 font-medium">Cancel</button>
+          <button type="submit" id="saveNewPasswordBtn" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium">Save New Password</button>
         </div>
       </form>
     </div>
@@ -1562,7 +1594,7 @@
     ];
 
     const DEFAULT_USERS = [
-      { id: "usr-01", name: "Chandu (Central Admin)", email: "22chandulalabanoth@gmail.com", store: "Central Control HQ", role: "CENTRAL_ADMIN", status: "active", ai_enabled: true, last_login: "Just now", created_at: "2026-01-10" },
+      { id: "usr-01", name: "Executive Administrator", email: "admin@centralcontrol.internal", store: "Central Control HQ", role: "CENTRAL_ADMIN", status: "active", ai_enabled: true, last_login: "Just now", created_at: "2026-01-10" },
       { id: "usr-02", name: "Sarah Jenkins", email: "sarah.j@company.com", store: "Downtown Branch", role: "STORE_MANAGER", status: "active", ai_enabled: true, last_login: "10 mins ago", created_at: "2026-02-14" },
       { id: "usr-03", name: "David Kim", email: "david.k@company.com", store: "North District Center", role: "STORE_MANAGER", status: "active", ai_enabled: true, last_login: "45 mins ago", created_at: "2026-03-01" },
       { id: "usr-04", name: "Priya Sharma", email: "priya.s@company.com", store: "Westside Plaza", role: "STORE_MANAGER", status: "active", ai_enabled: false, last_login: "2 hours ago", created_at: "2026-03-12" },
@@ -1631,33 +1663,91 @@
     let currentAdminSession = JSON.parse(sessionStorage.getItem("central_admin_session") || "null");
 
 
-    const AUTHORIZED_ADMIN_EMAILS = [
-      "22chandulalabanoth@gmail.com",
-      "22chandulalbanoth@gmail.com",
-      "admin@centralcontrol.internal"
-    ];
+    // Security: Rate limiting state for login attempts (max 5 failed attempts per 15 mins)
+    let loginAttemptsCount = 0;
+    let loginLockoutUntil = 0;
 
-    function isAuthorizedAdmin(email) {
-      if (!email) return false;
-      return AUTHORIZED_ADMIN_EMAILS.includes(email.toLowerCase().trim());
-    }
+    document.addEventListener("DOMContentLoaded", async function() {
+      // Clear any cached credentials from inputs on load
+      const emailInput = document.getElementById("loginEmail");
+      const passwordInput = document.getElementById("loginPassword");
+      if (emailInput) emailInput.value = "";
+      if (passwordInput) passwordInput.value = "";
 
-    document.addEventListener("DOMContentLoaded", function() {
-      checkAuthState();
+      await checkAuthState();
+      initAuthRecoveryListener();
       renderAllSections();
       initTelemetryCharts();
     });
 
-        function checkAuthState() {
+    /**
+     * Listen for Supabase password recovery tokens in URL or auth state
+     */
+    function initAuthRecoveryListener() {
+      try {
+        if (window.location.hash && window.location.hash.includes("type=recovery")) {
+          const modal = document.getElementById("setNewPasswordModal");
+          if (modal) modal.classList.remove("hidden");
+        }
+        if (supabase && supabase.auth && typeof supabase.auth.onAuthStateChange === "function") {
+          supabase.auth.onAuthStateChange((event, session) => {
+            if (event === "PASSWORD_RECOVERY") {
+              const modal = document.getElementById("setNewPasswordModal");
+              if (modal) modal.classList.remove("hidden");
+            }
+          });
+        }
+      } catch (err) {
+        console.warn("[Auth] Recovery listener initialization:", err.message);
+      }
+    }
+
+    /**
+     * Validates active Supabase session and enforces CENTRAL_ADMIN role verification
+     */
+    async function checkAuthState() {
       const loginView = document.getElementById("loginView");
       const adminApp = document.getElementById("adminApp");
 
-      const session = currentAdminSession || 
-        JSON.parse(sessionStorage.getItem("central_admin_session") || "null") ||
-        JSON.parse(localStorage.getItem("central_admin_session") || "null");
+      let activeSession = null;
 
-      if (session && session.role === "CENTRAL_ADMIN") {
-        currentAdminSession = session;
+      // 1. Check real Supabase Auth session first
+      if (supabase && supabase.auth) {
+        try {
+          const { data, error } = await supabase.auth.getSession();
+          if (!error && data?.session?.user) {
+            // Verify role in database public.profiles
+            const authUser = data.session.user;
+            const profile = await verifyAdminRole(authUser.id, authUser.email);
+            if (profile && (profile.role === "CENTRAL_ADMIN" || profile.role === "ADMIN") && profile.status === "active") {
+              activeSession = {
+                id: authUser.id,
+                email: authUser.email,
+                name: profile.full_name || "Central Administrator",
+                role: "CENTRAL_ADMIN"
+              };
+            } else {
+              // Not authorized as central admin
+              await supabase.auth.signOut();
+            }
+          }
+        } catch (e) {
+          console.warn("[Auth] Session validation error:", e.message);
+        }
+      }
+
+      // 2. Check session storage fallback (non-sensitive profile metadata only)
+      if (!activeSession) {
+        try {
+          const stored = JSON.parse(sessionStorage.getItem("central_admin_profile") || "null");
+          if (stored && (stored.role === "CENTRAL_ADMIN" || stored.role === "ADMIN")) {
+            activeSession = stored;
+          }
+        } catch (e) {}
+      }
+
+      if (activeSession) {
+        currentAdminSession = activeSession;
         if (loginView) {
           loginView.style.setProperty("display", "none", "important");
           loginView.classList.add("hidden");
@@ -1667,10 +1757,11 @@
           adminApp.classList.remove("hidden");
         }
         const uEl = document.getElementById("adminUserName");
-        if (uEl) uEl.textContent = session.name || "Chandu (Central Admin)";
+        if (uEl) uEl.textContent = activeSession.name || "Central Administrator";
         switchTab("sec-dashboard");
         renderAllSections();
       } else {
+        currentAdminSession = null;
         if (loginView) {
           loginView.style.setProperty("display", "flex", "important");
           loginView.classList.remove("hidden");
@@ -1682,97 +1773,323 @@
       }
     }
 
-    function handleAdminLogin(event) {
+    /**
+     * Query public.profiles to verify role and status
+     */
+    async function verifyAdminRole(userId, email) {
+      if (!supabase) return null;
+      try {
+        // Query by user_id
+        if (userId) {
+          const { data, error } = await supabase
+            .from("profiles")
+            .select("id, role, status, full_name, email")
+            .eq("user_id", userId)
+            .maybeSingle();
+          if (!error && data) return data;
+        }
+        // Fallback query by email
+        if (email) {
+          const { data, error } = await supabase
+            .from("profiles")
+            .select("id, role, status, full_name, email")
+            .eq("email", email.toLowerCase().trim())
+            .maybeSingle();
+          if (!error && data) return data;
+        }
+      } catch (err) {
+        console.warn("[Auth] Profile query warning:", err.message);
+      }
+      return null;
+    }
+
+    /**
+     * Authenticate Administrator using Supabase Auth backend
+     */
+    async function handleAdminLogin(event) {
       if (event) {
         try { event.preventDefault(); } catch(e){}
       }
+
       const emailInput = document.getElementById("loginEmail");
       const passwordInput = document.getElementById("loginPassword");
       const alertBox = document.getElementById("loginAlert");
+      const submitBtn = document.getElementById("loginSubmitBtn");
 
       const email = (emailInput?.value || "").trim().toLowerCase();
       const password = (passwordInput?.value || "").trim();
 
-      // Email check: 22chandulalabanoth@gmail.com, 22chandulalbanoth@gmail.com, admin@centralcontrol.internal
-      const isAllowedEmail = email === "22chandulalabanoth@gmail.com" || 
-                             email === "22chandulalbanoth@gmail.com" || 
-                             email.includes("22chandulal") ||
-                             email === "admin@centralcontrol.internal";
-
-      if (!isAllowedEmail) {
-        if (alertBox) {
-          alertBox.style.display = "flex";
-          alertBox.style.background = "rgba(244, 63, 94, 0.15)";
-          alertBox.style.border = "1px solid rgba(244, 63, 94, 0.4)";
-          alertBox.style.color = "#fb7185";
-          alertBox.innerHTML = `<span>Access Denied: Only Central Administrator (22chandulalabanoth@gmail.com) is authorized to access Central Control.</span>`;
-        }
-        return false;
-      }
-
-      // Password check: Chandu@123
-      const isAllowedPassword = password === "Chandu@123" || password.toLowerCase() === "chandu@123" || password === "EnterpriseAdmin2026!" || password === "";
-      if (!isAllowedPassword) {
-        if (alertBox) {
-          alertBox.style.display = "flex";
-          alertBox.style.background = "rgba(244, 63, 94, 0.15)";
-          alertBox.style.border = "1px solid rgba(244, 63, 94, 0.4)";
-          alertBox.style.color = "#fb7185";
-          alertBox.innerHTML = `<span>Invalid Password. Master administrator password is: <strong>Chandu@123</strong></span>`;
-        }
-        return false;
-      }
-
-      // Successful Login
-      const adminProfile = {
-        id: "admin-chandu-01",
-        email: email || "22chandulalabanoth@gmail.com",
-        name: "Chandu (Central Admin)",
-        role: "CENTRAL_ADMIN"
+      const showAlert = (msg, isError = true) => {
+        if (!alertBox) return;
+        alertBox.style.display = "flex";
+        alertBox.style.background = isError ? "rgba(244, 63, 94, 0.15)" : "rgba(16, 185, 129, 0.15)";
+        alertBox.style.border = isError ? "1px solid rgba(244, 63, 94, 0.4)" : "1px solid rgba(16, 185, 129, 0.4)";
+        alertBox.style.color = isError ? "#fb7185" : "#34d399";
+        alertBox.innerHTML = `<span>${msg}</span>`;
       };
 
-      currentAdminSession = adminProfile;
-      try { sessionStorage.setItem("central_admin_session", JSON.stringify(adminProfile)); } catch(e){}
-      try { localStorage.setItem("central_admin_session", JSON.stringify(adminProfile)); } catch(e){}
+      const hideAlert = () => {
+        if (alertBox) alertBox.style.display = "none";
+      };
 
-      // Hide login overlay immediately
-      const loginView = document.getElementById("loginView");
-      if (loginView) {
-        loginView.style.setProperty("display", "none", "important");
-        loginView.classList.add("hidden");
+      hideAlert();
+
+      // Check lockout timer
+      if (Date.now() < loginLockoutUntil) {
+        const remainingMin = Math.ceil((loginLockoutUntil - Date.now()) / 60000);
+        showAlert(`Too many failed attempts. Console locked for ${remainingMin} minute(s).`);
+        return false;
       }
 
-      // Show console app immediately
-      const adminApp = document.getElementById("adminApp");
-      if (adminApp) {
-        adminApp.style.setProperty("display", "flex", "important");
-        adminApp.classList.remove("hidden");
+      // Input validation
+      if (!email || !email.includes("@")) {
+        showAlert("Please enter a valid administrator email address.");
+        if (emailInput) emailInput.focus();
+        return false;
       }
 
-      const uEl = document.getElementById("adminUserName");
-      if (uEl) uEl.textContent = "Chandu (Central Admin)";
+      if (!password) {
+        showAlert("Please enter your administrator password.");
+        if (passwordInput) passwordInput.focus();
+        return false;
+      }
 
-      switchTab("sec-dashboard");
-      renderAllSections();
-      setTimeout(initTelemetryCharts, 100);
+      // Set button to loading state
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span>Verifying credentials...</span>`;
+      }
 
       try {
-        recordAuditEvent("ADMIN_LOGIN", adminProfile.email, "SUCCESS", { method: "Master Password Authenticated" });
-      } catch(e){}
+        if (!supabase || !supabase.auth) {
+          throw new Error("Unable to connect to authentication server.");
+        }
 
-      showToast("Access Granted. Welcome Chandu to Central Control!", "success");
+        // 1. Call Real Supabase Auth backend
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+        if (error || !data?.user) {
+          loginAttemptsCount++;
+          if (loginAttemptsCount >= 5) {
+            loginLockoutUntil = Date.now() + 15 * 60 * 1000;
+            showAlert("Security alert: 5 failed attempts reached. Console locked for 15 minutes.");
+          } else {
+            showAlert("Invalid email or password.");
+          }
+          if (passwordInput) passwordInput.value = "";
+          return false;
+        }
+
+        // 2. Verify Role & Status in public.profiles
+        const authUser = data.user;
+        const profile = await verifyAdminRole(authUser.id, authUser.email);
+
+        const isAdminRole = profile ? (profile.role === "CENTRAL_ADMIN" || profile.role === "ADMIN") : false;
+        const isActive = profile ? (profile.status === "active") : false;
+
+        // Fallback for primary configured admin user if profile row hasn't synced yet
+        const isEmergencyAdmin = (authUser.email === "22chandulalbanoth@gmail.com" || authUser.email === "22chandulalabanoth@gmail.com");
+
+        if (!isAdminRole && !isEmergencyAdmin) {
+          await supabase.auth.signOut();
+          showAlert("Administrator account not authorized.");
+          return false;
+        }
+
+        if (profile && !isActive) {
+          await supabase.auth.signOut();
+          showAlert("Administrator account inactive. Contact platform support.");
+          return false;
+        }
+
+        // Reset rate limiter on successful authentication
+        loginAttemptsCount = 0;
+        loginLockoutUntil = 0;
+
+        // Construct non-sensitive session profile (NO credentials or password hashes stored)
+        const adminProfile = {
+          id: authUser.id,
+          email: authUser.email,
+          name: profile?.full_name || "Central Administrator",
+          role: "CENTRAL_ADMIN"
+        };
+
+        currentAdminSession = adminProfile;
+        try {
+          sessionStorage.setItem("central_admin_profile", JSON.stringify(adminProfile));
+        } catch(e){}
+
+        // Clear input credentials immediately
+        if (emailInput) emailInput.value = "";
+        if (passwordInput) passwordInput.value = "";
+
+        // Dismiss login view
+        const loginView = document.getElementById("loginView");
+        if (loginView) {
+          loginView.style.setProperty("display", "none", "important");
+          loginView.classList.add("hidden");
+        }
+
+        // Display console
+        const adminApp = document.getElementById("adminApp");
+        if (adminApp) {
+          adminApp.style.setProperty("display", "flex", "important");
+          adminApp.classList.remove("hidden");
+        }
+
+        const uEl = document.getElementById("adminUserName");
+        if (uEl) uEl.textContent = adminProfile.name;
+
+        switchTab("sec-dashboard");
+        renderAllSections();
+        setTimeout(initTelemetryCharts, 100);
+
+        try {
+          recordAuditEvent("ADMIN_LOGIN", adminProfile.email, "SUCCESS", { method: "Supabase Backend Authentication" });
+        } catch(e){}
+
+        showToast("Access Granted. Welcome to Central Control Console.", "success");
+        return false;
+
+      } catch (err) {
+        console.error("[Auth] Login error:", err);
+        showAlert(err.message || "Unable to connect to authentication server.");
+        return false;
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span>Sign In to Console</span>
+            <svg width="16" height="16" style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>`;
+        }
+      }
+    }
+
+    /**
+     * Dispatch Password Recovery Email via Supabase
+     */
+    async function handleSendPasswordReset(event) {
+      if (event) {
+        try { event.preventDefault(); } catch(e){}
+      }
+      const emailInput = document.getElementById("resetEmailInput");
+      const email = (emailInput?.value || "").trim().toLowerCase();
+
+      if (!email || !email.includes("@")) {
+        showToast("Please enter a valid enterprise email address.", "error");
+        return false;
+      }
+
+      try {
+        if (!supabase || !supabase.auth) {
+          throw new Error("Authentication server is unreachable.");
+        }
+        const redirectUrl = window.location.origin + window.location.pathname;
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: redirectUrl
+        });
+
+        if (error) throw error;
+
+        closeModal("forgotPasswordModal");
+        if (emailInput) emailInput.value = "";
+        showToast("Password recovery link dispatched. Please check your inbox.", "success");
+      } catch (err) {
+        console.error("[Auth] Reset error:", err);
+        showToast("Unable to send recovery email: " + (err.message || "Server error"), "error");
+      }
       return false;
     }
 
-    function handleAdminSignOut() {
+    /**
+     * Set New Password after recovery token is received
+     */
+    async function handleUpdateAdminPassword(event) {
+      if (event) {
+        try { event.preventDefault(); } catch(e){}
+      }
+      const newPwdInput = document.getElementById("newAdminPassword");
+      const confirmPwdInput = document.getElementById("confirmAdminPassword");
+      const alertBox = document.getElementById("setNewPasswordAlert");
+      const saveBtn = document.getElementById("saveNewPasswordBtn");
+
+      const newPwd = (newPwdInput?.value || "").trim();
+      const confirmPwd = (confirmPwdInput?.value || "").trim();
+
+      const showAlert = (msg, isError = true) => {
+        if (!alertBox) return;
+        alertBox.style.display = "block";
+        alertBox.style.background = isError ? "rgba(244, 63, 94, 0.2)" : "rgba(16, 185, 129, 0.2)";
+        alertBox.style.color = isError ? "#fb7185" : "#34d399";
+        alertBox.textContent = msg;
+      };
+
+      if (!newPwd || newPwd.length < 8) {
+        showAlert("Password must be at least 8 characters long.");
+        return false;
+      }
+
+      if (newPwd !== confirmPwd) {
+        showAlert("Passwords do not match.");
+        return false;
+      }
+
+      if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Updating password...";
+      }
+
+      try {
+        if (!supabase || !supabase.auth) {
+          throw new Error("Authentication service is unavailable.");
+        }
+
+        const { error } = await supabase.auth.updateUser({ password: newPwd });
+        if (error) throw error;
+
+        showAlert("Password updated successfully! You may now sign in.", false);
+        setTimeout(() => {
+          closeModal("setNewPasswordModal");
+          if (newPwdInput) newPwdInput.value = "";
+          if (confirmPwdInput) confirmPwdInput.value = "";
+          if (alertBox) alertBox.style.display = "none";
+          showToast("Password updated successfully. Please sign in with your new password.", "success");
+        }, 1500);
+
+      } catch (err) {
+        showAlert(err.message || "Failed to update password.");
+      } finally {
+        if (saveBtn) {
+          saveBtn.disabled = false;
+          saveBtn.textContent = "Save New Password";
+        }
+      }
+      return false;
+    }
+
+    /**
+     * Terminate Administrator Session Safely
+     */
+    async function handleAdminSignOut() {
+      try {
+        if (supabase && supabase.auth) {
+          await supabase.auth.signOut();
+        }
+      } catch(e){}
+
       try {
         recordAuditEvent("ADMIN_LOGOUT", currentAdminSession ? currentAdminSession.email : "admin", "SUCCESS", {});
       } catch(e){}
+
       currentAdminSession = null;
-      try { sessionStorage.removeItem("central_admin_session"); } catch(e){}
+      try { sessionStorage.removeItem("central_admin_profile"); } catch(e){}
+      try { localStorage.removeItem("central_admin_profile"); } catch(e){}
       try { localStorage.removeItem("central_admin_session"); } catch(e){}
+
       showToast("Administrator session terminated safely.", "info");
-      checkAuthState();
+      await checkAuthState();
     }
 
     function togglePasswordVisibility(inputId, iconId) {

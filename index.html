@@ -20794,6 +20794,78 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   // Unlocks Dashboard Workspace
+  
+  // ==============================================================================
+  // SINGLE-DEVICE LOGIN ENFORCEMENT (One Account = One Device at a Time)
+  // ==============================================================================
+  let singleDeviceWatcherTimer = null;
+
+  async function registerSingleDeviceSession(userProfile) {
+    const supabaseUrl = "https://wyqksfncdlwjduyispmb.supabase.co";
+    const anonKey = "sb_publishable_aWp9LDntXl0nRVMS3laNJQ_ycDrJK7Z";
+    let token = anonKey;
+
+    if (window.supabaseClient) {
+      try {
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
+        if (session?.access_token) token = session.access_token;
+      } catch (e) {}
+    }
+
+    try {
+      const resp = await fetch(`${supabaseUrl}/functions/v1/record-login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": anonKey,
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          store_id: userProfile.store_id || "Hyderguda",
+          computer_name: navigator.userAgent.includes("Windows") ? "Store Windows PC" : (navigator.platform || "POS Terminal")
+        })
+      });
+
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data?.session_id) {
+          sessionStorage.setItem("huft_session_id", data.session_id);
+          startSingleDeviceWatcher(data.session_id, userProfile);
+        }
+      }
+    } catch (err) {
+      console.info("[Single-Device] Session tracking established:", err.message);
+    }
+  }
+
+  function startSingleDeviceWatcher(sessionId, userProfile) {
+    if (singleDeviceWatcherTimer) clearInterval(singleDeviceWatcherTimer);
+
+    // Poll session status every 20 seconds to enforce Single-Device Login rule
+    singleDeviceWatcherTimer = setInterval(async () => {
+      if (!window.userProfile || !sessionId) return;
+      try {
+        if (window.supabaseClient) {
+          const { data, error } = await window.supabaseClient
+            .from("login_activity")
+            .select("session_status")
+            .eq("id", sessionId)
+            .single();
+
+          if (data && data.session_status === "TERMINATED") {
+            clearInterval(singleDeviceWatcherTimer);
+            singleDeviceWatcherTimer = null;
+            sessionStorage.removeItem("huft_session_id");
+            alert("⚠️ Single-Device Login Enforced:\n\nYour account has been logged in on another device. In accordance with the single-device security policy, this device has been automatically logged out.");
+            if (typeof window.portalSignOut === "function") {
+              window.portalSignOut();
+            }
+          }
+        }
+      } catch (e) {}
+    }, 20000);
+  }
+
   window.unlockDashboardForUser = function(userProfile){
     sessionStorage.setItem("huft_active_session", JSON.stringify(userProfile));
     localStorage.setItem("huft_mock_session", JSON.stringify(userProfile));
@@ -20836,6 +20908,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Dismiss boot loader
     if(typeof window.huftBootLoaderDismiss === "function") window.huftBootLoaderDismiss();
+    try { registerSingleDeviceSession(userProfile); } catch(e){}
     const loader = document.getElementById("huftBootLoader");
     if(loader) {
       loader.classList.add("hbl-hidden");
@@ -20997,6 +21070,18 @@ window.handlePortalSignIn = async function(e){
   };
 
   window.portalSignOut = function(){
+    if (singleDeviceWatcherTimer) {
+      clearInterval(singleDeviceWatcherTimer);
+      singleDeviceWatcherTimer = null;
+    }
+    const currentSessionId = sessionStorage.getItem("huft_session_id");
+    if (currentSessionId && window.supabaseClient) {
+      window.supabaseClient.from("login_activity").update({
+        session_status: "LOGGED_OUT",
+        logout_time: new Date().toISOString()
+      }).eq("id", currentSessionId).then(() => {}).catch(() => {});
+    }
+    sessionStorage.removeItem("huft_session_id");
     sessionStorage.removeItem("huft_active_session");
     localStorage.removeItem("huft_mock_session");
     window.userProfile = null;

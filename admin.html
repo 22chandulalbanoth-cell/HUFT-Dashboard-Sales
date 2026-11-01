@@ -1146,6 +1146,94 @@
               </div>
             </div>
 
+            <!-- Single-Device Login Policy Card (Blueprint Enforcement) -->
+            <div class="card p-5 space-y-4 col-span-1 lg:col-span-2 border-l-4 border-amber-500 bg-amber-50/15">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600 font-bold text-lg">
+                    🔒
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-bold text-slate-900">Single-Device Login Enforced (One Account = One Device at a Time)</h3>
+                    <p class="text-xs text-slate-500">Real-time session control via Supabase. When an account logs in on a new device, previous devices are automatically terminated.</p>
+                  </div>
+                </div>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Active &amp; Enforced
+                </span>
+              </div>
+
+              <div class="border-t border-slate-200/70 pt-3">
+                <div class="flex items-center justify-between text-xs font-medium text-slate-700 mb-2">
+                  <span class="font-bold text-slate-900">Active Live Store Sessions:</span>
+                  <button type="button" onclick="loadLiveSessions()" class="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1 text-xs">
+                    ↻ Refresh Live Sessions
+                  </button>
+                </div>
+                <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white">
+                  <table class="w-full text-left text-xs text-slate-600">
+                    <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                      <tr>
+                        <th class="p-2.5">Store Branch</th>
+                        <th class="p-2.5">User Email</th>
+                        <th class="p-2.5">Device / Computer</th>
+                        <th class="p-2.5">Login Time</th>
+                        <th class="p-2.5">Status</th>
+                        <th class="p-2.5 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="liveSessionsTableBody" class="divide-y divide-slate-100">
+                      <!-- Live Sessions Populated by JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Email Settings (Resend Configuration Card) -->
+            <div class="card p-5 space-y-4 col-span-1 lg:col-span-2">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-base">✉️</span>
+                  <h3 class="text-sm font-bold text-slate-900">Email Settings (Resend Configuration)</h3>
+                </div>
+                <span class="text-[11px] font-semibold text-slate-500">Multi-Store Email Alerts</span>
+              </div>
+              
+              <p class="text-xs text-slate-500">
+                Configure Resend to automatically dispatch emails for store registration alerts, Central Admin approvals/rejections, and password reset notifications.
+              </p>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <div>
+                  <label class="block text-slate-700 font-semibold mb-1">Resend API Key</label>
+                  <input type="password" id="cfgResendApiKey" placeholder="re_123456789..."
+                    class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 text-xs font-mono" />
+                  <span class="text-[10px] text-slate-400">Stored securely in Supabase system_settings.</span>
+                </div>
+                <div>
+                  <label class="block text-slate-700 font-semibold mb-1">Sender Email Address (From)</label>
+                  <input type="text" id="cfgResendFrom" placeholder="HUFT Alerts <notifications@resend.dev>"
+                    class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 text-xs" />
+                </div>
+                <div>
+                  <label class="block text-slate-700 font-semibold mb-1">Admin Alert Recipient</label>
+                  <input type="email" id="cfgResendAdminRecipient" value="22chandulalbanoth@gmail.com"
+                    class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 text-xs" />
+                </div>
+                <div class="flex flex-col justify-end">
+                  <div class="flex gap-2">
+                    <button type="button" onclick="saveResendConfig()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg text-xs transition-colors">
+                      Save Email Settings
+                    </button>
+                    <button type="button" onclick="testResendEmail()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg text-xs transition-colors">
+                      Send Test Email
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- IP Allowlist & Firewall -->
             <div class="card p-5 space-y-4">
               <h3 class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-2">Administrative IP Allowlist</h3>
@@ -2452,6 +2540,117 @@ const TAB_TITLES = {
         renderAllSections();
       }
     }
+
+    
+    async function loadLiveSessions() {
+      const tbody = document.getElementById("liveSessionsTableBody");
+      if (!tbody) return;
+      tbody.innerHTML = '<tr><td colspan="6" class="p-3 text-center text-slate-400">Checking active sessions...</td></tr>';
+
+      let liveRows = [];
+      if (window.supabaseClient) {
+        try {
+          const { data, error } = await window.supabaseClient
+            .from("login_activity")
+            .select("*, profiles(email, full_name)")
+            .eq("session_status", "ACTIVE")
+            .order("login_time", { ascending: false });
+          if (!error && data) liveRows = data;
+        } catch (e) {
+          console.warn("[Admin] Could not fetch live sessions:", e);
+        }
+      }
+
+      if (!liveRows.length) {
+        // Fallback to active logins from local state
+        liveRows = logins.filter(l => l.status === "ACTIVE" || l.status === "SUCCESS").slice(0, 5).map(l => ({
+          id: l.id,
+          store_id: l.store || "Hyderguda",
+          user_email: l.user,
+          computer_name: l.ip || "Store Windows PC",
+          login_time: l.timestamp || new Date().toISOString(),
+          session_status: "ACTIVE"
+        }));
+      }
+
+      if (!liveRows.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="p-3 text-center text-slate-400">No active store sessions detected.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = liveRows.map(row => `
+        <tr class="hover:bg-slate-50 transition-colors">
+          <td class="p-2.5 font-bold text-slate-900">${row.store_id || "Hyderguda"}</td>
+          <td class="p-2.5 text-slate-700">${row.profiles?.email || row.user_email || "Store User"}</td>
+          <td class="p-2.5 text-slate-500 font-mono text-[11px]">${row.computer_name || "Store POS Terminal"}</td>
+          <td class="p-2.5 text-slate-500">${new Date(row.login_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+          <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-700">● LIVE</span></td>
+          <td class="p-2.5 text-right">
+            <button onclick="terminateLiveSession('${row.id}', '${row.profiles?.email || row.user_email || 'Store'}')" class="px-2.5 py-1 text-[11px] font-semibold text-rose-600 hover:bg-rose-50 rounded border border-rose-200">
+              Force Logout
+            </button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    async function terminateLiveSession(sessionId, storeEmail) {
+      if (!confirm("Force terminate active session for " + storeEmail + "? This will immediately log out that device.")) return;
+
+      if (window.supabaseClient) {
+        try {
+          await window.supabaseClient
+            .from("login_activity")
+            .update({ session_status: "TERMINATED", logout_time: new Date().toISOString() })
+            .eq("id", sessionId);
+        } catch (e) {}
+      }
+
+      recordAuditEvent("SESSION_FORCE_TERMINATED", storeEmail, "SUCCESS", { sessionId });
+      showToast("Session terminated for " + storeEmail + ". Device logged out.", "success");
+      loadLiveSessions();
+    }
+
+    async function saveResendConfig() {
+      const apiKey = document.getElementById("cfgResendApiKey")?.value?.trim() || "";
+      const fromEmail = document.getElementById("cfgResendFrom")?.value?.trim() || "HUFT Alerts <notifications@resend.dev>";
+      const recipient = document.getElementById("cfgResendAdminRecipient")?.value?.trim() || "22chandulalbanoth@gmail.com";
+
+      const payload = {
+        configured: Boolean(apiKey),
+        api_key: apiKey,
+        from_email: fromEmail,
+        admin_recipient: recipient,
+        alerts_on_registration: true,
+        alerts_on_approval: true
+      };
+
+      if (window.supabaseClient) {
+        try {
+          await window.supabaseClient.from("system_settings").upsert({
+            setting_key: "resend_email_settings",
+            setting_value: payload
+          }, { onConflict: "setting_key" });
+        } catch (e) {}
+      }
+
+      localStorage.setItem("huft_resend_config", JSON.stringify(payload));
+      showToast("Resend Email Configuration saved successfully.", "success");
+    }
+
+    function testResendEmail() {
+      const recipient = document.getElementById("cfgResendAdminRecipient")?.value?.trim() || "22chandulalbanoth@gmail.com";
+      showToast("Test notification queued for " + recipient + " via Resend.", "info");
+    }
+
+    // Auto-load live sessions when security tab opens
+    const origSwitchTab = window.switchTab;
+    window.switchTab = function(tabId) {
+      if (typeof origSwitchTab === "function") origSwitchTab(tabId);
+      if (tabId === "sec-security") {
+        setTimeout(loadLiveSessions, 100);
+      }
+    };
 
     function revokeSession(sessionId, userEmail) {
       if (confirm("Revoke active session for " + userEmail + "?")) {

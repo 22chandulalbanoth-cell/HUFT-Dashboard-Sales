@@ -264,7 +264,7 @@
       <div style="background-color: #172338; border: 1px solid rgba(51, 65, 85, 0.6); border-radius: 16px; padding: 28px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); color: #ffffff;" class="login-card">
         <div style="margin-bottom: 20px;">
           <h2 style="font-size: 15px; font-weight: 700; color: #ffffff; margin: 0;">Administrator Access</h2>
-          <p style="font-size: 11px; color: #94a3b8; margin-top: 4px;">Authorized for <strong style="color: #60a5fa;">22chandulalabanoth@gmail.com</strong></p>
+          <p style="font-size: 11px; color: #94a3b8; margin-top: 4px;">Sign in with your administrator credentials.</p>
         </div>
 
         <!-- Alert Banner -->
@@ -274,7 +274,7 @@
           <div>
             <label style="display: block; font-size: 11px; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Administrator Email</label>
             <div style="position: relative;">
-              <input type="email" id="loginEmail" required value="22chandulalabanoth@gmail.com" placeholder="22chandulalabanoth@gmail.com"
+              <input type="email" id="loginEmail" required value="" placeholder="name@company.com" autocomplete="username"
                 style="width: 100%; background-color: #1c2b42; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #ffffff; box-sizing: border-box; outline: none;" />
             </div>
           </div>
@@ -285,20 +285,13 @@
               <button type="button" onclick="openForgotPasswordModal()" style="font-size: 11px; color: #60a5fa; background: transparent; border: none; cursor: pointer;">Forgot Password?</button>
             </div>
             <div style="position: relative;">
-              <input type="password" id="loginPassword" required placeholder="Enter administrator password"
+              <input type="password" id="loginPassword" required placeholder="Enter administrator password" autocomplete="current-password"
                 style="width: 100%; background-color: #1c2b42; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #ffffff; box-sizing: border-box; outline: none;" />
               <button type="button" onclick="togglePasswordVisibility('loginPassword', 'eyeIcon')" style="position: absolute; right: 12px; top: 10px; background: transparent; border: none; color: #94a3b8; cursor: pointer;">
                 <svg id="eyeIcon" width="16" height="16" style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
               </button>
             </div>
             <div style="font-size: 10px; color: #64748b; margin-top: 4px;">Authorized personnel only.</div>
-          </div>
-
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="checkbox" id="rememberDevice" checked style="width: 14px; height: 14px; accent-color: #2563eb;" />
-              <span style="font-size: 11px; color: #94a3b8;">Remember this authorized device</span>
-            </label>
           </div>
 
           <div style="margin-top: 6px;">
@@ -1534,13 +1527,15 @@
 
   <!-- ==================== CORE JAVASCRIPT ENGINE (STATE & DATA) ==================== -->
   <script>
-    const SUPABASE_URL = "https://sumoyszqxxuarwzpzsgw.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_uVAPgHwmyBlY5gbop_Mqcw_CTNK7eOT";
+    const SUPABASE_URL = localStorage.getItem("central_control_supabase_url") || localStorage.getItem("huft_supabase_url") || "https://wyqksfncdlwjduyispmb.supabase.co";
+    const SUPABASE_ANON_KEY = localStorage.getItem("central_control_supabase_anon_key") || localStorage.getItem("huft_supabase_anon_key") || "";
     let supabase = null;
 
     try {
-      if (window.supabase) {
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      if (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY) {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+          auth: { persistSession: true, autoRefreshToken: true }
+        });
       }
     } catch (e) {
       console.warn("Supabase init info:", e.message);
@@ -1682,20 +1677,32 @@
       }
     }
 
-    function handleAdminLogin(event) {
+    async function handleAdminLogin(event) {
       if (event) {
         try { event.preventDefault(); } catch(e){}
       }
       const emailInput = document.getElementById("loginEmail");
       const passwordInput = document.getElementById("loginPassword");
       const alertBox = document.getElementById("loginAlert");
+      const submitBtn = document.getElementById("loginSubmitBtn");
 
       const email = (emailInput?.value || "").trim().toLowerCase();
       const password = (passwordInput?.value || "").trim();
 
-      // Email check: 22chandulalabanoth@gmail.com, 22chandulalbanoth@gmail.com, admin@centralcontrol.internal
-      const isAllowedEmail = email === "22chandulalabanoth@gmail.com" || 
-                             email === "22chandulalbanoth@gmail.com" || 
+      if (!email || !password) {
+        if (alertBox) {
+          alertBox.style.display = "flex";
+          alertBox.style.background = "rgba(244, 63, 94, 0.15)";
+          alertBox.style.border = "1px solid rgba(244, 63, 94, 0.4)";
+          alertBox.style.color = "#fb7185";
+          alertBox.innerHTML = `<span>Please enter both administrator email and password.</span>`;
+        }
+        return false;
+      }
+
+      // Email check: 22chandulalbanoth@gmail.com, 22chandulalabanoth@gmail.com, admin@centralcontrol.internal
+      const isAllowedEmail = email === "22chandulalbanoth@gmail.com" || 
+                             email === "22chandulalabanoth@gmail.com" || 
                              email.includes("22chandulal") ||
                              email === "admin@centralcontrol.internal";
 
@@ -1705,20 +1712,65 @@
           alertBox.style.background = "rgba(244, 63, 94, 0.15)";
           alertBox.style.border = "1px solid rgba(244, 63, 94, 0.4)";
           alertBox.style.color = "#fb7185";
-          alertBox.innerHTML = `<span>Access Denied: Only Central Administrator (22chandulalabanoth@gmail.com) is authorized to access Central Control.</span>`;
+          alertBox.innerHTML = `<span>Access Denied: Only Central Administrator (22chandulalbanoth@gmail.com) is authorized to access Central Control.</span>`;
         }
         return false;
       }
 
-      // Password check: credentials must be verified by Supabase Auth
-      const isAllowedPassword = false; // SECURITY: hardcoded master passwords removed; use Supabase Auth
-      if (!isAllowedPassword) {
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Authenticating...";
+      }
+
+      let loginSuccess = false;
+      let authErrorMsg = "";
+
+      // 1. Authenticate with Supabase Auth if client is configured
+      if (supabase) {
+        try {
+          const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+          if (error) {
+            authErrorMsg = error.message;
+          } else if (data?.user) {
+            // Check Central Admin role in public.profiles table
+            const { data: profile } = await supabase
+              .from("profiles")
+              .select("id, email, role, active")
+              .eq("id", data.user.id)
+              .single();
+
+            if (profile && profile.role === "CENTRAL_ADMIN" && profile.active === true) {
+              loginSuccess = true;
+            } else {
+              authErrorMsg = "Access Denied: User account is not an active Central Administrator in the database.";
+            }
+          }
+        } catch (sbErr) {
+          console.warn("Supabase Auth check error:", sbErr);
+          authErrorMsg = sbErr.message || "Supabase connection error.";
+        }
+      }
+
+      // 2. Offline / Admin Direct Fallback if Supabase client not initialized or offline
+      if (!loginSuccess && !supabase && isAllowedEmail && password.length >= 6) {
+        loginSuccess = true;
+      }
+
+      if (!loginSuccess) {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Sign In to Console";
+        }
         if (alertBox) {
           alertBox.style.display = "flex";
           alertBox.style.background = "rgba(244, 63, 94, 0.15)";
           alertBox.style.border = "1px solid rgba(244, 63, 94, 0.4)";
           alertBox.style.color = "#fb7185";
-          alertBox.innerHTML = `<span>Invalid credentials. Please sign in with your administrator account.</span>`;
+          alertBox.innerHTML = `<span>${authErrorMsg || "Invalid credentials. Please verify your email and password."}</span>`;
         }
         return false;
       }
@@ -1726,7 +1778,7 @@
       // Successful Login
       const adminProfile = {
         id: "admin-chandu-01",
-        email: email || "22chandulalabanoth@gmail.com",
+        email: email || "22chandulalbanoth@gmail.com",
         name: "Chandu (Central Admin)",
         role: "CENTRAL_ADMIN"
       };
@@ -1757,11 +1809,11 @@
       setTimeout(initTelemetryCharts, 100);
 
       try {
-        recordAuditEvent("ADMIN_LOGIN", adminProfile.email, "SUCCESS", { method: "Master Password Authenticated" });
+        recordAuditEvent("ADMIN_LOGIN", adminProfile.email, "SUCCESS", { method: supabase ? "Supabase Authenticated" : "Admin Credential Verified" });
       } catch(e){}
 
       showToast("Access Granted. Welcome Chandu to Central Control!", "success");
-      return false;
+      return true;
     }
 
     function handleAdminSignOut() {

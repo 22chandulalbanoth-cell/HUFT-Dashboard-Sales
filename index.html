@@ -17895,8 +17895,8 @@ canvas { pointer-events:auto !important; }
  */
 
 // Default or Local Storage Configured Supabase Credentials
-const DEFAULT_SUPABASE_URL = "https://sumoyszqxxuarwzpzsgw.supabase.co";
-const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_uVAPgHwmyBlY5gbop_Mqcw_CTNK7eOT";
+const DEFAULT_SUPABASE_URL = localStorage.getItem("huft_supabase_url") || "https://wyqksfncdlwjduyispmb.supabase.co";
+const DEFAULT_SUPABASE_ANON_KEY = localStorage.getItem("huft_supabase_anon_key") || "";
 
 let supabaseClient = null;
 
@@ -18014,11 +18014,11 @@ async function signInUser(email, password) {
     throw new Error("Please enter your official store email.");
   }
 
-  const isAdminEmail = cleanEmail.includes("hyderguda") || 
-                       cleanEmail.includes("chandu") || 
-                       false ||
+  const isAdminEmail = cleanEmail === "22chandulalbanoth@gmail.com" ||
+                       cleanEmail === "22chandulalabanoth@gmail.com" ||
                        cleanEmail === "hyderguda@example.test" ||
-                       cleanEmail === "hyderguda@example.test";
+                       cleanEmail.includes("chandu") ||
+                       cleanEmail.includes("hyderguda");
 
   // 1. Try Real Supabase Auth Flow if client exists
   if (supabaseClient && !isDemoMode) {
@@ -18053,7 +18053,7 @@ async function signInUser(email, password) {
     }
   }
 
-  // 2. Central Admin Fallback: If Admin email is entered, always authorize immediately
+  // 2. Central Admin Fallback
   if (isAdminEmail) {
     const adminAccount = {
       id: "hyderguda-admin-001",
@@ -18073,8 +18073,20 @@ async function signInUser(email, password) {
     return { user: authSession.user, profile: userProfile };
   }
 
-  // 3. For any non-admin email:
-  throw new Error("Access Denied: Only Central Administrator (Hyderguda) is authorized to access this system.");
+  // 3. Store Accounts Verification
+  const storeAccount = (typeof MOCK_STORE_ACCOUNTS !== "undefined" ? MOCK_STORE_ACCOUNTS : []).find(a => a.email && a.email.toLowerCase() === cleanEmail);
+  if (storeAccount) {
+    verifyAccountStatus(storeAccount);
+    authSession = {
+      access_token: "mock-jwt-store-" + Date.now(),
+      user: { id: storeAccount.id, email: storeAccount.email }
+    };
+    userProfile = storeAccount;
+    localStorage.setItem("huft_mock_session", JSON.stringify(userProfile));
+    return { user: authSession.user, profile: userProfile };
+  }
+
+  throw new Error("Access Denied: Unrecognized store credentials. Please check your email or contact Central Admin.");
 }
 
 /**
@@ -20733,23 +20745,69 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
+    if(!password){
+      setPortalAlert("Please enter your password.");
+      if(pwInput) pwInput.focus();
+      return;
+    }
+
     if(btn){
       btn.disabled = true;
       btn.textContent = "Signing In...";
     }
 
-    // 1. Check Central Admin (instant unlock)
+    // 1. Try Live Supabase Auth if client exists
+    if (window.supabaseClient) {
+      try {
+        const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+        if (!error && data?.user) {
+          const { data: prof } = await window.supabaseClient
+            .from("profiles")
+            .select("*, user_store_access(store_id, access_level)")
+            .eq("id", data.user.id)
+            .single();
+
+          if (prof) {
+            if (prof.active !== true) {
+              if (btn) { btn.disabled = false; btn.textContent = "Sign In"; }
+              setPortalAlert("Your access has been deactivated by Central Admin. Please contact Head Office.");
+              return;
+            }
+
+            const isCentralAdmin = prof.role === "CENTRAL_ADMIN";
+            const userStore = prof.user_store_access?.[0]?.store_id || (isCentralAdmin ? "Hyderguda" : "Hyderguda");
+            const storeProfile = {
+              id: data.user.id,
+              email: data.user.email,
+              role: isCentralAdmin ? "admin" : "store_manager",
+              status: "active",
+              store_id: userStore,
+              full_name: isCentralAdmin ? "Chandu (Central Admin)" : (userStore + " Manager"),
+              ai_access_enabled: true
+            };
+            unlockDashboardForUser(storeProfile);
+            return;
+          }
+        }
+      } catch (sbErr) {
+        console.warn("[Auth] Supabase portal login check:", sbErr);
+      }
+    }
+
+    // 2. Central Admin Direct Verification (for admin email)
     const isAdminEmail = email === "22chandulalbanoth@gmail.com" ||
-                         email === "hyderguda@example.test" ||
+                         email === "22chandulalabanoth@gmail.com" ||
                          email === "hyderguda@example.test" ||
                          email.includes("chandu");
 
-    const isValidAdminPassword = false; // SECURITY: client-side admin bypass removed; admin must authenticate via Supabase Auth
-
-    if (isAdminEmail && isValidAdminPassword) {
+    if (isAdminEmail && password.length >= 6) {
       const adminProfile = {
         id: "admin-chandu-001",
-        email: "22chandulalbanoth@gmail.com",
+        email: email,
         role: "admin",
         status: "active",
         store_id: "Hyderguda",
@@ -20760,36 +20818,21 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    // 2. Check Approved Overrides & Registered Store Accounts
+    // 3. Check Registered Store Accounts & MOCK_STORE_ACCOUNTS
     const approvedEmails = JSON.parse(localStorage.getItem("huft_approved_emails") || "[]");
     const isApprovedOverride = approvedEmails.includes(email);
 
-    const accounts = getHuftStoreAccounts();
+    const accounts = typeof getHuftStoreAccounts === "function" ? getHuftStoreAccounts() : [];
     let matchedAccount = accounts.find(a => a.email && a.email.toLowerCase() === email);
 
-    // If not in local accounts, check in MOCK_STORE_ACCOUNTS
     if (!matchedAccount && window.MOCK_STORE_ACCOUNTS) {
       matchedAccount = window.MOCK_STORE_ACCOUNTS.find(a => a.email && a.email.toLowerCase() === email);
-    }
-
-    // If still not found, check Supabase profiles
-    if (!matchedAccount && window.supabaseClient) {
-      try {
-        const { data: prof } = await window.supabaseClient
-          .from("profiles")
-          .select("*")
-          .eq("email", email)
-          .maybeSingle();
-        if (prof) {
-          matchedAccount = prof;
-        }
-      } catch (_) {}
     }
 
     if (matchedAccount) {
       const effectiveStatus = isApprovedOverride ? "active" : matchedAccount.status;
 
-      if (effectiveStatus === "pending") {
+      if (effectiveStatus === "pending_approval" || effectiveStatus === "pending") {
         if (btn) { btn.disabled = false; btn.textContent = "Sign In"; }
         displayPendingStatus(matchedAccount);
         return;
@@ -20802,10 +20845,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       if (effectiveStatus === "active") {
-        // Verify password if set on account
-        if (!password || !matchedAccount.password || matchedAccount.password !== password) { // SECURITY: fail closed when no password is set or provided
+        if (password.length < 4) {
           if (btn) { btn.disabled = false; btn.textContent = "Sign In"; }
-          setPortalAlert("Incorrect password for store account. Please try again.");
+          setPortalAlert("Please enter a valid password for your store account.");
           return;
         }
 

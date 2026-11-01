@@ -270,7 +270,7 @@
         <!-- Alert Banner -->
         <div id="loginAlert" style="display: none; margin-bottom: 16px; padding: 12px; border-radius: 8px; font-size: 12px; font-weight: 500;"></div>
 
-        <form id="adminLoginForm" action="javascript:void(0);" onsubmit="event.preventDefault(); handleAdminLogin(); return false;" style="display: flex; flex-direction: column; gap: 14px;">
+        <form id="adminLoginForm" action="javascript:void(0);" onsubmit="handleAdminLogin(event); return false;" style="display: flex; flex-direction: column; gap: 14px;">
           <div>
             <label style="display: block; font-size: 11px; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Administrator Email</label>
             <div style="position: relative;">
@@ -295,7 +295,7 @@
           </div>
 
           <div style="margin-top: 6px;">
-            <button type="button" onclick="handleAdminLogin()" id="loginSubmitBtn"
+            <button type="submit" id="loginSubmitBtn"
               style="width: 100%; background-color: #2563eb; color: #ffffff; font-weight: 600; font-size: 13px; padding: 12px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35); display: flex; align-items: center; justify-content: center; gap: 8px;">
               <span>Sign In to Console</span>
               <svg width="16" height="16" style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
@@ -1527,8 +1527,29 @@
 
   <!-- ==================== CORE JAVASCRIPT ENGINE (STATE & DATA) ==================== -->
   <script>
-    const SUPABASE_URL = localStorage.getItem("central_control_supabase_url") || localStorage.getItem("huft_supabase_url") || "https://wyqksfncdlwjduyispmb.supabase.co";
-    const SUPABASE_ANON_KEY = localStorage.getItem("central_control_supabase_anon_key") || localStorage.getItem("huft_supabase_anon_key") || "sb_publishable_aWp9LDntXl0nRVMS3laNJQ_ycDrJK7Z";
+    const STAGING_SUPABASE_URL = "https://wyqksfncdlwjduyispmb.supabase.co";
+    const STAGING_ANON_KEY = "sb_publishable_aWp9LDntXl0nRVMS3laNJQ_ycDrJK7Z";
+
+    // Auto-heal: Purge any decommissioned or poisoned project refs from localStorage
+    try {
+      ["central_control_supabase_url", "huft_supabase_url"].forEach(k => {
+        const v = localStorage.getItem(k);
+        if (v && v.includes("sumoyszqxxuarwzpzsgw")) {
+          localStorage.removeItem(k);
+        }
+      });
+      ["central_control_supabase_anon_key", "huft_supabase_anon_key"].forEach(k => {
+        const v = localStorage.getItem(k);
+        if (!v || v.includes("uVAPgHwmyBlY5gbop")) {
+          localStorage.removeItem(k);
+        }
+      });
+      localStorage.setItem("huft_supabase_url", STAGING_SUPABASE_URL);
+      localStorage.setItem("huft_supabase_anon_key", STAGING_KEY);
+    } catch(e){}
+
+    const SUPABASE_URL = STAGING_SUPABASE_URL;
+    const SUPABASE_ANON_KEY = STAGING_ANON_KEY;
     let supabase = null;
 
     try {
@@ -1687,8 +1708,8 @@
         }
         const uEl = document.getElementById("adminUserName");
         if (uEl) uEl.textContent = session.name || "Chandu (Central Admin)";
-        switchTab("sec-dashboard");
-        renderAllSections();
+        try { switchTab("sec-dashboard"); } catch(e){}
+        try { renderAllSections(); } catch(e){}
       } else {
         if (loginView) {
           loginView.style.setProperty("display", "flex", "important");
@@ -1828,9 +1849,9 @@
       const uEl = document.getElementById("adminUserName");
       if (uEl) uEl.textContent = "Chandu (Central Admin)";
 
-      switchTab("sec-dashboard");
-      renderAllSections();
-      setTimeout(initTelemetryCharts, 100);
+      try { switchTab("sec-dashboard"); } catch(e){}
+      try { renderAllSections(); } catch(e){}
+      try { setTimeout(initTelemetryCharts, 100); } catch(e){}
 
       try {
         recordAuditEvent("ADMIN_LOGIN", adminProfile.email, "SUCCESS", { method: supabase ? "Supabase Authenticated" : "Admin Credential Verified" });

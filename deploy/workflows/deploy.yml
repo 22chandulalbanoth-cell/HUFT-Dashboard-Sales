@@ -30,16 +30,7 @@ jobs:
 
       - name: Syntax and Integrity Check
         run: |
-          echo "Checking JavaScript syntax in index.html..."
-          node -e "
-            const fs = require('fs');
-            const html = fs.readFileSync('index.html', 'utf8');
-            if (!html.includes('id=\"huft-auth-ai-engine\"')) {
-              console.error('Missing huft-auth-ai-engine script!');
-              process.exit(1);
-            }
-            console.log('HTML and engine script verification passed.');
-          "
+          node scripts/check-inline-js.js
 
       - name: Run Security and Auth Test Suite
         run: |
@@ -53,7 +44,7 @@ jobs:
         run: |
           echo "Verifying no service-role secrets are committed..."
           ! grep -rn "SUPABASE_SERVICE_ROLE_KEY" index.html
-          ! grep -rn "service_role" index.html
+          ! grep -rn "service_role" index.html admin.html
 
   deploy:
     environment:

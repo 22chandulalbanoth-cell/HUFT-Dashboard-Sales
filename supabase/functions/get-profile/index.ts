@@ -1,6 +1,6 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { corsHeaders, handleCors } from '../_shared/cors.ts';
-import { authenticateRequest } from '../_shared/auth.ts';
+import { authenticateRequest, errorResponse } from '../_shared/auth.ts';
 
 serve(async (req) => {
   const cors = handleCors(req);
@@ -13,9 +13,6 @@ serve(async (req) => {
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
     );
   } catch (err: any) {
-    return new Response(
-      JSON.stringify({ ok: false, error: err.message }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 401 }
-    );
+    return errorResponse(err);
   }
 });

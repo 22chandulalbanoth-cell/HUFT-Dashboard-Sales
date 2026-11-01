@@ -1,6 +1,6 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { corsHeaders, handleCors } from '../_shared/cors.ts';
-import { getSupabaseAdmin } from '../_shared/auth.ts';
+import { errorResponse, getSupabaseAdmin } from '../_shared/auth.ts';
 
 serve(async (req) => {
   const cors = handleCors(req);
@@ -8,9 +8,12 @@ serve(async (req) => {
 
   try {
     const { email, store_id, requested_role } = await req.json();
-    if (!email || !store_id) {
+    const cleanEmail = String(email || '').trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!cleanEmail || !emailRegex.test(cleanEmail) || !store_id) {
       return new Response(
-        JSON.stringify({ ok: false, error: 'Email and store_id are required' }),
+        JSON.stringify({ ok: false, error: 'Valid email and store_id are required' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
       );
     }
@@ -19,8 +22,8 @@ serve(async (req) => {
     const adminClient = getSupabaseAdmin();
 
     const { data, error } = await adminClient.from('registration_requests').insert({
-      email: String(email).trim().toLowerCase(),
-      store_id: store_id,
+      email: cleanEmail,
+      store_id: String(store_id).trim(),
       requested_role: cleanRole,
       status: 'PENDING',
     }).select().single();
@@ -36,9 +39,6 @@ serve(async (req) => {
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 201 }
     );
   } catch (err: any) {
-    return new Response(
-      JSON.stringify({ ok: false, error: err.message }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
-    );
+    return errorResponse(err);
   }
 });

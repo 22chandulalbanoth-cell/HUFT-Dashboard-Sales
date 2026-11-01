@@ -7,25 +7,13 @@ serve(async (req) => {
   if (cors) return cors;
 
   try {
-    const supabase = getSupabaseAdmin();
-    const start = Date.now();
-    const { error } = await supabase.from('stores').select('id', { count: 'exact', head: true });
-    const latency = Date.now() - start;
-
     return new Response(
-      JSON.stringify({
-        ok: !error,
-        status: error ? 'DEGRADED' : 'HEALTHY',
-        database: error ? error.message : 'CONNECTED',
-        latency_ms: latency,
-        version: '1.0.4',
-        timestamp: new Date().toISOString(),
-      }),
+      JSON.stringify({ ok: true }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
     );
   } catch (err: any) {
     return new Response(
-      JSON.stringify({ ok: false, status: 'ERROR', error: err.message }),
+      JSON.stringify({ ok: false }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
     );
   }

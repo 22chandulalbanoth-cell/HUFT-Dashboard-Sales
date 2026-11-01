@@ -1,6 +1,6 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { corsHeaders, handleCors } from '../_shared/cors.ts';
-import { authenticateRequest, getSupabaseAdmin } from '../_shared/auth.ts';
+import { authenticateRequest, errorResponse, getSupabaseAdmin, requireStoreAccess } from '../_shared/auth.ts';
 
 serve(async (req) => {
   const cors = handleCors(req);
@@ -10,7 +10,7 @@ serve(async (req) => {
   let targetStore = 'Hyderguda';
 
   try {
-    const { user, profile } = await authenticateRequest(req);
+    const { user, profile, stores } = await authenticateRequest(req);
     currentUser = user;
 
     const { store_id, prompt, metrics, chat_history } = await req.json();
@@ -24,16 +24,7 @@ serve(async (req) => {
     }
 
     // Check store permission
-    const isCentralAdmin = profile.role === 'CENTRAL_ADMIN' &&
-      profile.user_store_access?.some((s: any) => s.store_id === 'Hyderguda');
-    const hasAccess = isCentralAdmin || profile.user_store_access?.some((s: any) => s.store_id === targetStore);
-
-    if (!hasAccess) {
-      return new Response(
-        JSON.stringify({ ok: false, error: `Forbidden: No access to store ${targetStore}` }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 403 }
-      );
-    }
+    requireStoreAccess({ profile, stores }, targetStore);
 
     const adminClient = getSupabaseAdmin();
 
@@ -92,13 +83,13 @@ serve(async (req) => {
       modelUsed = 'gemini-1.5-flash';
       const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelUsed}:generateContent?key=${encodeURIComponent(geminiKey)}`;
 
-      const systemPrompt = `You are the HUFT (Heads Up For Tails) Sales & Operations AI Assistant for store: ${targetStore}.
+      const systemPrompt = `You are the Store Sales & Operations AI Assistant for store: ${targetStore}.
 Answer concisely with actionable retail advice. Do not reveal customer PII or raw numbers unless permitted.
 Store context: ${JSON.stringify(safeMetrics)}`;
 
       const contents = [
         { role: 'user', parts: [{ text: systemPrompt }] },
-        { role: 'model', parts: [{ text: `Ready to assist HUFT ${targetStore} store.` }] },
+        { role: 'model', parts: [{ text: `Ready to assist ${targetStore} store.` }] },
         ...(chat_history || []).slice(-4),
         { role: 'user', parts: [{ text: sanitizedPrompt }] },
       ];
@@ -126,7 +117,7 @@ Store context: ${JSON.stringify(safeMetrics)}`;
         body: JSON.stringify({
           model: modelUsed,
           messages: [
-            { role: 'system', content: `HUFT Sales Assistant for store: ${targetStore}.` },
+            { role: 'system', content: `Sales Assistant for store: ${targetStore}.` },
             { role: 'user', content: sanitizedPrompt },
           ],
           max_tokens: 600,
@@ -176,9 +167,6 @@ Store context: ${JSON.stringify(safeMetrics)}`;
       }).catch(() => {});
     }
 
-    return new Response(
-      JSON.stringify({ ok: false, error: err.message }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
-    );
+    return errorResponse(err);
   }
 });

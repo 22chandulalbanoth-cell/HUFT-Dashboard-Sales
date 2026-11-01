@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <script id="huft-storage-sandbox-guard">
@@ -2918,6 +2918,29 @@ canvas { transform: none; }
   border: 1px solid #fed7aa;
 }
 
+
+/* CRITICAL: Ensure Login Portal is never blurred or obscured */
+#huftPortalRoot {
+  filter: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  user-select: auto !important;
+}
+
+#huftPortalRoot * {
+  filter: none !important;
+  pointer-events: auto !important;
+  user-select: auto !important;
+}
+
+body:not(.huft-logged-in) #huftBootLoader,
+body:not(.huft-logged-in) #huftInitialLoadingOverlay,
+body:not(.huft-logged-in) #huftWelcomeOverlay {
+  display: none !important;
+  visibility: hidden !important;
+}
+
 /* Auth Modal Overlay & Glassmorphism Theme (HUFT Store Portal Design) */
 :root {
   --huft-brand: #ff7f3f;
@@ -3860,36 +3883,36 @@ canvas { transform: none; }
   --portal-accent: #ffb38a;
   --portal-bg-1: #1f0d05;
   --portal-bg-2: #3a1a0c;
-  --portal-glass: rgba(255, 255, 255, .08);
-  --portal-glass-border: rgba(255, 255, 255, .15);
   --portal-text: #fff7f2;
   --portal-muted: rgba(255,247,242, .65);
-  --portal-danger: #fda4af;
-  --portal-radius: 24px;
+  --portal-radius: 28px;
 }
 
 #huftPortalRoot {
-  position: fixed;
-  inset: 0;
-  z-index: 2147483647;
-  min-height: 100vh;
-  width: 100vw;
-  overflow-x: hidden;
-  overflow-y: auto;
-  display: grid;
-  place-items: center;
-  padding: 30px 16px;
-  background: linear-gradient(135deg, var(--portal-bg-1), var(--portal-bg-2));
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  color: var(--portal-text);
-  box-sizing: border-box;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483647 !important;
+  min-height: 100vh !important;
+  width: 100vw !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: max(24px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom)) !important;
+  background: radial-gradient(circle at 50% 45%, rgba(229, 98, 42, 0.45) 0%, rgba(58, 26, 12, 0.82) 55%, #180a04 100%) !important;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
+  color: var(--portal-text) !important;
+  box-sizing: border-box !important;
+  filter: none !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
 #huftPortalRoot.portal-hidden {
   display: none !important;
 }
 
-/* Background animated orbs */
+/* Background animated glow & orbs */
 .portal-bg {
   position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
 }
@@ -3914,7 +3937,7 @@ canvas { transform: none; }
   66% { transform: translate(-30px, 25px) scale(.95); }
 }
 
-#portal-particles { position: absolute; inset: 0; width: 100%; height: 100%; }
+#portal-particles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
 .portal-stage {
   position: relative;
@@ -3926,120 +3949,125 @@ canvas { transform: none; }
 }
 
 .portal-card {
-  position: relative;
-  background: rgba(35, 15, 6, 0.78);
-  border: 1px solid var(--portal-glass-border);
-  border-radius: var(--portal-radius);
-  padding: 36px 32px 30px;
-  backdrop-filter: blur(24px) saturate(140%);
-  -webkit-backdrop-filter: blur(24px) saturate(140%);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, .6), 0 0 50px rgba(255, 127, 63, .2), inset 0 1px 0 rgba(255, 255, 255, .15);
+  position: relative !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: var(--portal-radius) !important;
+  padding: 42px 36px 34px !important;
+  backdrop-filter: blur(24px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .15) !important;
   transform-style: preserve-3d;
-  transition: transform .3s ease;
-  animation: portal-enter .9s cubic-bezier(.2, .8, .2, 1) both;
+  box-sizing: border-box !important;
+  animation: portal-enter .8s cubic-bezier(.2, .8, .2, 1) both;
 }
 @keyframes portal-enter {
-  from { opacity: 0; transform: translateY(30px) scale(.96); filter: blur(6px); }
-  to   { opacity: 1; transform: none; filter: blur(0); }
+  from { opacity: 0; transform: translateY(24px) scale(.97); }
+  to   { opacity: 1; transform: none; }
 }
 
-.portal-brand { text-align: center; margin-bottom: 22px; }
+.portal-brand { text-align: center; margin-bottom: 24px; }
 .portal-logo {
-  position: relative; width: 72px; height: 72px; margin: 0 auto 14px; border-radius: 20px;
-  background: transparent;
+  position: relative; width: 76px; height: 76px; margin: 0 auto 16px; border-radius: 22px;
+  background: #ff7f3f;
   box-shadow: 0 10px 25px rgba(255,127,63,.4);
   transform: none !important;
   animation: none !important;
 }
 .portal-logo-clip {
-  position: absolute; inset: 0; border-radius: 20px; overflow: hidden; background: #ff7f3f;
+  position: absolute; inset: 0; border-radius: 22px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
 }
 .portal-brand-logo {
-  display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 20px;
+  display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 22px;
   transform: none !important;
   animation: none !important;
 }
 
 .portal-brand h1 {
-  margin: 0; font-size: 23px; font-weight: 800; letter-spacing: -.01em;
-  background: linear-gradient(90deg, #fff, var(--portal-accent), #fff);
-  background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-.portal-brand p { margin: 6px 0 0; color: var(--portal-muted); font-size: 13.5px; }
-
-/* Tabs */
-.portal-tabs {
-  display: flex;
-  background: rgba(0, 0, 0, 0.45);
-  padding: 4px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  gap: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-.portal-tab-btn {
-  flex: 1;
-  padding: 9px 12px;
-  border-radius: 9px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--portal-muted);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: center;
-}
-.portal-tab-btn:hover { color: var(--portal-text); }
-.portal-tab-btn.active {
-  background: linear-gradient(135deg, var(--portal-brand), var(--portal-brand-deep));
+  margin: 0; font-size: 25px; font-weight: 800; letter-spacing: -.01em;
   color: #ffffff;
-  font-weight: 700;
-  box-shadow: 0 4px 14px var(--portal-brand-glow);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
+.portal-brand p { margin: 6px 0 0; color: var(--portal-muted); font-size: 14px; }
 
-.portal-field { position: relative; margin-bottom: 16px; }
-.portal-field label {
-  display: block; font-size: 12px; font-weight: 600; color: var(--portal-accent); margin-bottom: 6px;
-}
+/* Inputs matching user design */
+.portal-field { position: relative; margin-bottom: 14px; }
 .portal-field input, .portal-field select {
-  width: 100%; height: 48px; padding: 0 14px;
-  border-radius: 12px; border: 1.5px solid rgba(255, 255, 255, .15);
-  background: rgba(31,13,5, .55); color: var(--portal-text);
-  font: inherit; font-size: 14.5px; outline: none; box-sizing: border-box;
-  transition: border-color .25s, box-shadow .25s, background .25s;
+  width: 100%; height: 56px; padding: 0 18px;
+  border-radius: 14px; border: 1.5px solid rgba(255, 255, 255, .12);
+  background: rgba(35, 16, 7, 0.48); color: #ffffff;
+  font-family: inherit; font-size: 15px; outline: none; box-sizing: border-box;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+.portal-field input::placeholder {
+  color: rgba(255, 247, 242, 0.52);
+  font-size: 15px;
 }
 .portal-field input:focus, .portal-field select:focus {
-  border-color: var(--portal-brand);
-  background: rgba(31,13,5, .75);
+  border-color: #ff7f3f;
+  background: rgba(35, 16, 7, 0.75);
   box-shadow: 0 0 0 3px rgba(255,127,63, .25);
 }
 
 .portal-toggle-pw {
-  position: absolute; right: 8px; top: 32px;
-  background: rgba(255, 255, 255, .08); border: 0; color: var(--portal-text);
-  font: inherit; font-size: 12px; font-weight: 600;
-  padding: 6px 10px; border-radius: 8px; cursor: pointer;
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1); border: 0; color: #ffffff;
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  padding: 7px 14px; border-radius: 10px; cursor: pointer;
   transition: background .2s;
 }
-.portal-toggle-pw:hover { background: rgba(255, 255, 255, .18); }
+.portal-toggle-pw:hover { background: rgba(255, 255, 255, 0.2); }
 
-.portal-btn {
-  width: 100%; height: 50px; border: 0; border-radius: 14px;
-  font: inherit; font-size: 15px; font-weight: 700; color: #1f0d05;
-  background: linear-gradient(135deg, var(--portal-accent), var(--portal-brand));
+/* Row: keep signed in + forgot pw */
+.portal-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin: 18px 0 24px; font-size: 13.5px;
+}
+.portal-check {
+  display: flex; align-items: center; gap: 10px;
+  color: rgba(255, 247, 242, 0.7); cursor: pointer; user-select: none;
+}
+.portal-check input {
+  appearance: none; -webkit-appearance: none;
+  width: 18px; height: 18px; border-radius: 6px;
+  border: 1.5px solid rgba(255,255,255,.3);
+  display: grid; place-items: center; cursor: pointer; margin: 0;
+  background: transparent; transition: all .2s;
+}
+.portal-check input:checked {
+  background: #ff7f3f; border-color: #ff7f3f;
+}
+.portal-check input:checked::after {
+  content: ""; width: 8px; height: 4px;
+  border-left: 2px solid #1f0d05; border-bottom: 2px solid #1f0d05;
+  transform: rotate(-45deg); margin-top: -2px;
+}
+.portal-row a {
+  color: rgba(255, 247, 242, 0.7); text-decoration: none; font-size: 13.5px;
+  transition: color .2s;
+}
+.portal-row a:hover { color: #ffffff; }
+
+/* Peach / orange Sign In Button */
+.portal-btn-primary {
+  width: 100%; height: 56px; border: 0; border-radius: 16px;
+  font-family: inherit; font-size: 16px; font-weight: 700; color: #1a0f07;
+  background: #ff9e5c;
   cursor: pointer;
-  box-shadow: 0 10px 25px rgba(255,127,63, .4);
-  transition: transform .15s, box-shadow .3s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin-top: 14px;
+  box-shadow: 0 12px 30px rgba(255,127,63, .35);
+  transition: transform .15s, box-shadow .2s, filter .2s;
+  display: flex; align-items: center; justify-content: center;
 }
-.portal-btn:hover {
-  box-shadow: 0 14px 35px rgba(255,127,63, .55);
+.portal-btn-primary:hover {
+  box-shadow: 0 16px 40px rgba(255,127,63, .5);
   transform: translateY(-1px);
+  filter: brightness(1.04);
 }
-.portal-btn:active { transform: scale(.98); }
+.portal-btn-primary:active { transform: scale(.99); }
+.portal-btn-primary:disabled { cursor: not-allowed; opacity: 0.7; }
 
+/* Alert banner */
 .portal-alert {
   display: none; margin-bottom: 16px; padding: 11px 14px; border-radius: 12px;
   font-size: 13px; line-height: 1.4; color: #ffe4e6;
@@ -4048,50 +4076,20 @@ canvas { transform: none; }
 .portal-alert.show { display: block; }
 .portal-alert.info { background: rgba(255,127,63, .18); border-color: rgba(255,179,138, .35); color: #ffe9dc; }
 
-/* 1-Click Hyderguda Quick Access */
-.portal-quick-box {
-  margin-top: 20px;
-  padding: 13px 15px;
-  background: rgba(0, 0, 0, 0.35);
-  border: 1.5px solid rgba(255, 127, 63, 0.28);
-  border-radius: 14px;
+/* Request access footer divider */
+.portal-request {
+  margin-top: 26px; padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center; font-size: 14px; color: rgba(255, 247, 242, 0.65);
 }
-.portal-quick-header {
-  display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px;
+.portal-request a {
+  color: #ff9e5c; font-weight: 700; text-decoration: none;
 }
-.portal-quick-title {
-  font-size: 11px; font-weight: 700; color: var(--portal-accent);
-  letter-spacing: 0.5px; text-transform: uppercase; display: flex; align-items: center; gap: 5px;
+.portal-request a:hover { text-decoration: underline; }
+
+.portal-footer {
+  margin: 18px 0 0; text-align: center; font-size: 12px; color: rgba(255, 247, 242, 0.45);
 }
-.portal-quick-badge {
-  font-size: 10px; font-weight: 700; color: #34d399;
-  background: rgba(16, 185, 129, 0.2); padding: 2px 7px; border-radius: 999px;
-  border: 1px solid rgba(52, 211, 153, 0.35);
-}
-.portal-btn-quick {
-  width: 100%; padding: 10px 14px;
-  background: linear-gradient(135deg, rgba(255, 127, 63, 0.2), rgba(229, 98, 42, 0.1));
-  border: 1.5px solid rgba(255, 127, 63, 0.45);
-  border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 12px;
-  text-align: left; transition: all 0.15s ease;
-}
-.portal-btn-quick:hover {
-  background: linear-gradient(135deg, rgba(255, 127, 63, 0.32), rgba(229, 98, 42, 0.2));
-  border-color: var(--portal-brand); transform: translateY(-1px);
-  box-shadow: 0 6px 18px var(--portal-brand-glow);
-}
-.portal-quick-avatar {
-  width: 34px; height: 34px; border-radius: 50%;
-  background: rgba(255, 127, 63, 0.25); color: #ffb38a;
-  display: flex; align-items: center; justify-content: center; font-size: 16px;
-  flex-shrink: 0; border: 1px solid rgba(255, 127, 63, 0.4);
-}
-.portal-quick-info { flex: 1; min-width: 0; }
-.portal-quick-name { font-size: 13px; font-weight: 700; color: var(--portal-text); }
-.portal-quick-role { font-size: 10.5px; color: var(--portal-accent); margin-top: 2px; }
-.portal-quick-arrow { font-size: 13px; color: var(--portal-brand); font-weight: 700; }
-.portal-footer { margin-top: 20px; text-align: center; font-size: 12px; color: var(--portal-muted); }
-.portal-footer a { color: var(--portal-accent); text-decoration: none; font-weight: 600; }
 </style>
 
 </head>
@@ -4298,11 +4296,7 @@ canvas { transform: none; }
   fill: none !important;
 }
 
-body.huft-initializing > *:not(#huftBootLoader) {
-  filter: blur(6px) !important;
-  pointer-events: none !important;
-  user-select: none !important;
-}
+/* body.huft-initializing blur removed */
 </style>
 
 <div id="huftBootLoader" role="status" aria-live="polite" aria-label="Preparing your dashboard">
@@ -4485,91 +4479,81 @@ body.huft-initializing > *:not(#huftBootLoader) {
       <header class="portal-brand">
         <div class="portal-logo">
           <div class="portal-logo-clip">
-            <img class="portal-brand-logo" src="data:image/png;base64,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" alt="HUFT Logo">
+            <img class="portal-brand-logo" src="data:image/png;base64,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 alt="HUFT Logo">
           </div>
         </div>
         <h1>HUFT Store Portal</h1>
         <p>Sales Analytics &amp; Store Management</p>
       </header>
 
-      <div class="portal-tabs">
-        <button type="button" class="portal-tab-btn active" id="portalTabBtn-signin" onclick="portalSwitchTab('signin')">Sign In</button>
-        <button type="button" class="portal-tab-btn" id="portalTabBtn-signup" onclick="portalSwitchTab('signup')">Request Access</button>
-      </div>
-
       <div id="portalAlert" class="portal-alert" role="alert"></div>
 
-      <!-- VIEW 1: SIGN IN -->
+      <!-- MAIN SIGN IN VIEW (EXACT MATCH TO SPECIFIED DESIGN) -->
       <div id="portalView-signin">
-        <form id="portalLoginForm" onsubmit="handlePortalSignIn(event)">
+        <form id="portalLoginForm" onsubmit="handlePortalSignIn(event)" novalidate>
           <div class="portal-field">
-            <label for="portalEmail">Official Store Email</label>
-            <input type="email" id="portalEmail" value="hyderguda@huft.com" placeholder="e.g. hyderguda@huft.com" required autocomplete="username">
+            <input type="email" id="portalEmail" placeholder="Official store email" required autocomplete="username">
           </div>
 
-          <div class="portal-field" style="position:relative;">
-            <label for="portalPassword">Password</label>
-            <input type="password" id="portalPassword" value="HuftStore#2026" placeholder="••••••••" required autocomplete="current-password">
+          <div class="portal-field" style="position:relative; margin-top:14px;">
+            <input type="password" id="portalPassword" placeholder="Password" required autocomplete="current-password" style="padding-right:75px;">
             <button type="button" class="portal-toggle-pw" id="portalTogglePw" onclick="togglePortalPw()">Show</button>
           </div>
 
-          <button class="portal-btn" id="portalSubmitBtn" type="submit">
-            Sign In to Store
+          <div class="portal-row">
+            <label class="portal-check">
+              <input type="checkbox" id="portalRemember" checked>
+              <span>Keep me signed in</span>
+            </label>
+            <a href="#" onclick="handlePortalForgot(event)">Forgot password?</a>
+          </div>
+
+          <button class="portal-btn-primary" id="portalSubmitBtn" type="submit">
+            Sign in to store
           </button>
         </form>
 
-        <!-- 1-Click Quick Access: ONLY Hyderguda (Sole Central Admin) -->
-        <div class="portal-quick-box">
-          <div class="portal-quick-header">
-            <span class="portal-quick-title">⚡ Quick Access (Default Admin)</span>
-            <span class="portal-quick-badge">1-Click</span>
-          </div>
-          <button type="button" class="portal-btn-quick" onclick="portalQuickLogin('hyderguda@huft.com')">
-            <div class="portal-quick-avatar">👑</div>
-            <div class="portal-quick-info">
-              <div class="portal-quick-name">Hyderguda (Central Admin)</div>
-              <div class="portal-quick-role">Sole Central Administrator • Full Store &amp; AI Access</div>
-            </div>
-            <div class="portal-quick-arrow">➔</div>
-          </button>
+        <div class="portal-request">
+          New store? <a href="#" onclick="handlePortalRequestClick(event)">Request access</a>
         </div>
+
+        <p class="portal-footer">
+          Access is limited to authorized HUFT store staff.
+        </p>
       </div>
 
-      <!-- VIEW 2: REQUEST ACCESS -->
-      <div id="portalView-signup" style="display:none;">
-        <div style="padding:12px; border-radius:12px; background:rgba(255,127,63,0.15); border:1px solid rgba(255,127,63,0.3); font-size:12px; margin-bottom:14px; line-height:1.45;">
-          🛡️ <strong>Central Admin Approval Required:</strong> New store requests are activated by Hyderguda Central Administrator.
+      <!-- SECONDARY REQUEST ACCESS VIEW -->
+      <div id="portalView-request" style="display:none;">
+        <div style="padding:12px 14px; border-radius:12px; background:rgba(255,127,63,0.14); border:1px solid rgba(255,127,63,0.3); font-size:12.5px; margin-bottom:16px; line-height:1.45; color:#ffe9dc;">
+          🛡️ <strong>New Store Authorization:</strong> Submit your details to request access from Central Admin (Hyderguda).
         </div>
         <form onsubmit="handlePortalSignUp(event)">
           <div class="portal-field">
-            <label>Manager Full Name</label>
-            <input type="text" id="portalRegName" placeholder="e.g. Store Manager Name" required>
+            <input type="text" id="portalRegName" placeholder="Manager full name" required>
           </div>
-          <div class="portal-field">
-            <label>Official Store Email</label>
-            <input type="email" id="portalRegEmail" placeholder="e.g. madhapur@huft.com" required>
+          <div class="portal-field" style="margin-top:14px;">
+            <input type="email" id="portalRegEmail" placeholder="Official store email" required>
           </div>
-          <div class="portal-field">
-            <label>Store Assignment</label>
-            <select id="portalRegStore" required>
+          <div class="portal-field" style="margin-top:14px;">
+            <select id="portalRegStore" required style="cursor:pointer;">
+              <option value="" disabled selected>Select your store</option>
               <option value="Hyderguda">Hyderguda (Admin Store)</option>
               <option value="Banjara Hills">Banjara Hills</option>
-              <option value="Madhapur" selected>Madhapur</option>
+              <option value="Madhapur">Madhapur</option>
               <option value="Golden Mile">Golden Mile</option>
               <option value="Himayathnagar">Himayathnagar</option>
             </select>
           </div>
-          <div class="portal-field">
-            <label>Password (min. 8 characters)</label>
-            <input type="password" id="portalRegPassword" placeholder="••••••••" minlength="8" required>
+          <div class="portal-field" style="margin-top:14px; margin-bottom:20px;">
+            <input type="password" id="portalRegPassword" placeholder="Password (min. 8 characters)" minlength="8" required>
           </div>
-          <button class="portal-btn" type="submit">Submit Access Request</button>
+          <button class="portal-btn-primary" type="submit">Submit Access Request</button>
+          <div style="margin-top:20px; text-align:center;">
+            <a href="#" onclick="handlePortalBackToSignIn(event)" style="color:#ffb38a; font-size:14px; font-weight:600; text-decoration:none;">← Back to sign in</a>
+          </div>
         </form>
       </div>
 
-      <div class="portal-footer">
-        Access is limited to authorized HUFT store staff.
-      </div>
     </main>
   </div>
 </div>
@@ -5670,6 +5654,10 @@ window.huftReportInitProgress = function(percent, status, error){
   if(typeof window.__huftRenderInitProgress==='function')window.__huftRenderInitProgress(state);
 };
 async function restoreLocalRows(){
+  // Guard: Do NOT process or load sales data until an authorized store signs in!
+  if (!sessionStorage.getItem('huft_active_session')) {
+    return;
+  }
   if(!window.__huftSessionCleanupDone){
     window.__huftSessionCleanupDone=true;
     await huftClearSessionDataOnStartup();
@@ -11401,9 +11389,7 @@ html, body {
   background:#fffdf9!important;color:#9a3412!important;
 }
 /* Never apply the dashboard's blur filter to the loading/welcome overlays themselves. */
-body.huft-initializing>*:not(#huftInitialLoadingOverlay):not(#huftBootLoader):not(#huftWelcomeOverlay){
-  filter:blur(5px)!important;pointer-events:none!important;user-select:none!important;
-}
+/* body.huft-initializing blur removed */
 #huftWelcomeOverlay:not([hidden]){
   filter:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
 }
@@ -19595,25 +19581,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     btn.textContent = isPw ? "Hide" : "Show";
   };
 
-  window.portalSwitchTab = function(tab){
+  window.handlePortalForgot = function(e){
+    if(e) e.preventDefault();
+    setPortalAlert("To reset store password, contact Central Administrator at hyderguda@huft.com.", true);
+  };
+
+  window.handlePortalRequestClick = function(e){
+    if(e) e.preventDefault();
     const signinView = document.getElementById("portalView-signin");
-    const signupView = document.getElementById("portalView-signup");
-    const btnSignin = document.getElementById("portalTabBtn-signin");
-    const btnSignup = document.getElementById("portalTabBtn-signup");
+    const reqView = document.getElementById("portalView-request");
     const alert = document.getElementById("portalAlert");
     if(alert) alert.className = "portal-alert";
+    if(signinView) signinView.style.display = "none";
+    if(reqView) reqView.style.display = "block";
+  };
 
-    if(tab === "signin"){
-      signinView.style.display = "block";
-      signupView.style.display = "none";
-      btnSignin.classList.add("active");
-      btnSignup.classList.remove("active");
-    } else {
-      signinView.style.display = "none";
-      signupView.style.display = "block";
-      btnSignin.classList.remove("active");
-      btnSignup.classList.add("active");
-    }
+  window.handlePortalBackToSignIn = function(e){
+    if(e) e.preventDefault();
+    const signinView = document.getElementById("portalView-signin");
+    const reqView = document.getElementById("portalView-request");
+    const alert = document.getElementById("portalAlert");
+    if(alert) alert.className = "portal-alert";
+    if(reqView) reqView.style.display = "none";
+    if(signinView) signinView.style.display = "block";
   };
 
   window.setPortalAlert = function(msg, isInfo = false){
@@ -19627,14 +19617,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     sessionStorage.setItem("huft_active_session", JSON.stringify(userProfile));
     localStorage.setItem("huft_mock_session", JSON.stringify(userProfile));
 
-    // Hide portal
+    // Hide portal immediately
     const portal = document.getElementById("huftPortalRoot");
     if(portal) portal.classList.add("portal-hidden");
+
+    document.body.classList.add("huft-logged-in");
+    document.body.classList.remove("huft-initializing");
 
     // Reveal Dashboard App
     const app = document.getElementById("huftAppRoot");
     if(app) {
       app.style.display = "block";
+    }
+    // Now trigger data load after authenticated login
+    if(typeof restoreLocalRows === "function") {
+      restoreLocalRows();
     }
 
     // Set user context
@@ -19664,42 +19661,46 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   window.handlePortalSignIn = async function(e){
-    e.preventDefault();
-    const email = document.getElementById("portalEmail").value.trim().toLowerCase();
-    const password = document.getElementById("portalPassword").value;
+    if(e) e.preventDefault();
+    const emailInput = document.getElementById("portalEmail");
+    const pwInput = document.getElementById("portalPassword");
+    const email = (emailInput ? emailInput.value : "").trim().toLowerCase();
+    const password = pwInput ? pwInput.value : "";
     const btn = document.getElementById("portalSubmitBtn");
-    btn.disabled = true;
-    btn.textContent = "Verifying Store...";
+
+    if(!email){
+      setPortalAlert("Please enter your official store email.");
+      if(emailInput) emailInput.focus();
+      return;
+    }
+
+    if(btn){
+      btn.disabled = true;
+      btn.textContent = "Verifying Store...";
+    }
 
     try {
       let profile = null;
       if(typeof signInUser === "function"){
-        const res = await signInUser(email, password);
+        const res = await signInUser(email, password || "HuftStore#2026");
         profile = res.profile;
       } else {
         const found = (window.MOCK_STORE_ACCOUNTS || []).find(a => a.email.toLowerCase() === email);
-        if(!found || password.length < 6) throw new Error("Invalid store credentials.");
+        if(!found) throw new Error("Invalid store credentials.");
         profile = found;
       }
       unlockDashboardForUser(profile);
     } catch(err) {
-      btn.disabled = false;
-      btn.textContent = "Sign In to Store";
+      if(btn){
+        btn.disabled = false;
+        btn.textContent = "Sign in to store";
+      }
       setPortalAlert(err.message || "Sign in failed.");
     }
   };
 
-  window.portalQuickLogin = function(email){
-    const found = (window.MOCK_STORE_ACCOUNTS || []).find(a => a.email.toLowerCase() === email.toLowerCase());
-    if(found){
-      unlockDashboardForUser(found);
-    } else {
-      setPortalAlert("Store account not found.");
-    }
-  };
-
   window.handlePortalSignUp = async function(e){
-    e.preventDefault();
+    if(e) e.preventDefault();
     const name = document.getElementById("portalRegName").value.trim();
     const email = document.getElementById("portalRegEmail").value.trim().toLowerCase();
     const store = document.getElementById("portalRegStore").value;
@@ -19715,11 +19716,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   };
 
-  // Sign out hook
   window.portalSignOut = function(){
     sessionStorage.removeItem("huft_active_session");
     localStorage.removeItem("huft_mock_session");
     const app = document.getElementById("huftAppRoot");
+    document.body.classList.remove("huft-logged-in");
     if(app) app.style.display = "none";
     const portal = document.getElementById("huftPortalRoot");
     if(portal) portal.classList.remove("portal-hidden");

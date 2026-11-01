@@ -4159,7 +4159,7 @@ button:hover, .btn:hover, .btn-auth-header:hover, .portal-btn-primary:hover,
   border-radius: 8px !important;
   border: none !important;
   cursor: pointer !important;
-  display: inline-flex !important;
+  display: inline-flex;
   align-items: center !important;
   gap: 6px !important;
   transition: background-color 0.15s ease !important;
@@ -4207,6 +4207,50 @@ button:hover, .btn:hover, .btn-auth-header:hover, .portal-btn-primary:hover,
 }
 #headerLoginBtn:hover {
   background: #c85320 !important;
+}
+
+/* Strict visibility rules for admin and auth elements */
+.hidden,
+[hidden],
+.btn-auth-header.hidden,
+#headerAdminPanelBtn.hidden,
+#headerAdminStoreSwitcher.hidden,
+#headerLoginBtn.hidden,
+#headerLogoutBtn.hidden,
+#headerUserBadge.hidden,
+#headerStoreBadge.hidden,
+#storeComparisonTabButton.hidden,
+#storeComparisonTabButton[hidden],
+#weeklyReviewTabButton.hidden,
+#weeklyReviewTabButton[hidden],
+#globalStoreFilter.hidden,
+#globalStoreFilter[hidden],
+#adminPanelModal.hidden,
+.admin-tab-btn.hidden {
+  display: none !important;
+}
+
+/* Strip glass and gradient animations from weekly review buttons */
+#weeklyReview button, #weeklyReview .wr-tabs button, #weeklyReview .wr-rail-btn {
+  background: #e5622a !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  animation: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transform: none !important;
+}
+#weeklyReview button::before, #weeklyReview .wr-tabs button::before {
+  display: none !important;
+}
+#weeklyReview button:hover, #weeklyReview .wr-tabs button:hover {
+  background: #c85320 !important;
+  transform: none !important;
+}
+#weeklyReview .wr-tabs button.on {
+  background: #1e293b !important;
+  color: #fff !important;
 }
 
 /* Portal primary button: Flat clean solid orange */
@@ -4916,7 +4960,7 @@ button:hover, .btn:hover, .btn-auth-header:hover, .portal-btn-primary:hover,
     <button class="tab" id="storeComparisonTabButton" hidden onclick="showTab('storeComparison',this)">Store Comparison</button>
     <button class="tab" onclick="showTab('employeeSales',this)">Employee Sales</button>
     <button class="tab" onclick="showTab('whatsapp',this)">WA</button>
-    <button class="tab" onclick="showTab('weeklyReview',this)">Weekly Review & PPT</button>
+    <button class="tab hidden" id="weeklyReviewTabButton" hidden onclick="showTab('weeklyReview',this)">Weekly Review & PPT</button>
     <span id="huftReleaseBadge" aria-label="Dashboard version 1.0.3">v1.0.3</span>
     <button type="button" id="huftReleaseNotesOpen" class="tab huft-release-notes-button" aria-haspopup="dialog" aria-controls="huftReleaseNotesModal">Release notes</button>
       </div>
@@ -6235,10 +6279,13 @@ function filterGlobalStoreOptions(){
 function initializeStoreFilter(resetSelection=true){
  const wrap=document.getElementById('globalStoreFilter'),opts=document.getElementById('globalStoreOptions');
  if(!wrap||!opts)return;
+ const isAdmin = typeof isCurrentAdmin === "function" ? isCurrentAdmin() : !!(window.userProfile && window.userProfile.role === "admin");
  const names=availableStoreNames();
- // Show the selector only when the current source really contains multiple stores.
- // Clear any stale open panel/options when switching back to a single-store file.
- if(names.length<=1){
+ // Show the selector only when admin and current source contains multiple stores.
+ if(names.length<=1 || !isAdmin){
+   wrap.hidden=true;
+   wrap.classList.add('hidden');
+   wrap.style.setProperty('display', 'none', 'important');
    wrap.hidden=true;
    const panel=document.getElementById('globalStoreFilterPanel');
    const button=document.getElementById('globalStoreFilterButton');
@@ -9209,6 +9256,13 @@ function refreshComparison(){
 
 let __huftTabRefreshToken=0;
 function showTab(id,btn){
+ if((id === 'storeComparison' || id === 'weeklyReview')){
+   const isAdmin = typeof isCurrentAdmin === "function" ? isCurrentAdmin() : !!(window.userProfile && window.userProfile.role === "admin");
+   if(!isAdmin){
+     alert("This section is restricted to Central Admin.");
+     return;
+   }
+ }
  const target=document.getElementById(id);
  if(!target || !btn) return;
  const alreadyActive=target.classList.contains("active") && btn.classList.contains("active");
@@ -10790,9 +10844,32 @@ function storeTargetWrite(data){
 function storeTargetValue(name,type){const d=storeTargetRead();return Math.max(0,Number(d[name]?.[type])||0);}
 function updateStoreComparisonTabVisibility(){
  const btn=document.getElementById('storeComparisonTabButton'),page=document.getElementById('storeComparison');if(!btn||!page)return;
+ const isAdmin = typeof isCurrentAdmin === "function" ? isCurrentAdmin() : !!(window.userProfile && window.userProfile.role === "admin");
+ if (!isAdmin) {
+   btn.hidden = true;
+   btn.classList.add("hidden");
+   btn.style.setProperty("display", "none", "important");
+   if(page.classList.contains('active')){
+     page.classList.remove('active');
+     const dbBtn=document.querySelector('.tabs .tab[onclick*="dashboard"]')||document.querySelector('.tabs .tab');
+     const db=document.getElementById('dashboard');
+     if(db)db.classList.add('active');
+     document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('active'));
+     if(dbBtn)dbBtn.classList.add('active');
+   }
+   return;
+ }
  const source=Array.isArray(allStoreRows)&&allStoreRows.length?allStoreRows:(Array.isArray(rows)?rows:[]);
  const names=[...new Set(source.map(storeLabelForRow).filter(Boolean).filter(n=>!(/^(?:OdooBot|Public user)$/i.test(String(n).trim()))))];
- const show=names.length>1;btn.hidden=!show;
+ const show=names.length>1;
+ btn.hidden=!show;
+ if(show){
+   btn.classList.remove("hidden");
+   btn.style.display="";
+ } else {
+   btn.classList.add("hidden");
+   btn.style.setProperty("display", "none", "important");
+ }
  if(!show&&page.classList.contains('active')){page.classList.remove('active');const dbBtn=document.querySelector('.tabs .tab[onclick*="dashboard"]')||document.querySelector('.tabs .tab');const db=document.getElementById('dashboard');if(db)db.classList.add('active');document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('active'));if(dbBtn)dbBtn.classList.add('active');}
 }
 function storeCompareGetData(){
@@ -17840,6 +17917,16 @@ function setAuthAlert(msg, type = "error") {
 /**
  * Updates Header UI with Authentication State, Store Badges, and Admin Controls
  */
+function isCurrentAdmin() {
+  if (!userProfile) return false;
+  if (userProfile.status !== "active") return false;
+  const isChandu = userProfile.email === "22chandulalbanoth@gmail.com" ||
+                   userProfile.email === "hyderguda@huft.com" ||
+                   userProfile.email === "hyderguda@headsupfortails.com";
+  return userProfile.role === "admin" && (userProfile.store_id === "Hyderguda" || isChandu);
+}
+window.isCurrentAdmin = isCurrentAdmin;
+
 function updateAuthUI() {
   const userBadge = document.getElementById("headerUserBadge");
   const storeBadge = document.getElementById("headerStoreBadge");
@@ -17847,28 +17934,39 @@ function updateAuthUI() {
   const adminBtn = document.getElementById("headerAdminPanelBtn");
   const loginBtn = document.getElementById("headerLoginBtn");
   const logoutBtn = document.getElementById("headerLogoutBtn");
+  const storeCompBtn = document.getElementById("storeComparisonTabButton");
+  const weeklyReviewBtn = document.getElementById("weeklyReviewTabButton");
+  const storeCompPage = document.getElementById("storeComparison");
+  const weeklyReviewPage = document.getElementById("weeklyReview");
+  const globalStoreFilter = document.getElementById("globalStoreFilter");
+
+  const isAdmin = isCurrentAdmin();
 
   if (!userProfile) {
     // Logged Out State
-    if (userBadge) userBadge.classList.add("hidden");
-    if (storeBadge) storeBadge.classList.add("hidden");
-    if (adminSwitcher) adminSwitcher.classList.add("hidden");
-    if (adminBtn) adminBtn.classList.add("hidden");
-    if (loginBtn) loginBtn.classList.remove("hidden");
-    if (logoutBtn) logoutBtn.classList.add("hidden");
+    if (userBadge) { userBadge.classList.add("hidden"); userBadge.style.setProperty("display", "none", "important"); }
+    if (storeBadge) { storeBadge.classList.add("hidden"); storeBadge.style.setProperty("display", "none", "important"); }
+    if (adminSwitcher) { adminSwitcher.classList.add("hidden"); adminSwitcher.style.setProperty("display", "none", "important"); }
+    if (adminBtn) { adminBtn.classList.add("hidden"); adminBtn.style.setProperty("display", "none", "important"); }
+    if (loginBtn) { loginBtn.classList.remove("hidden"); loginBtn.style.setProperty("display", "inline-flex", "important"); }
+    if (logoutBtn) { logoutBtn.classList.add("hidden"); logoutBtn.style.setProperty("display", "none", "important"); }
+    if (storeCompBtn) { storeCompBtn.hidden = true; storeCompBtn.classList.add("hidden"); storeCompBtn.style.setProperty("display", "none", "important"); }
+    if (weeklyReviewBtn) { weeklyReviewBtn.hidden = true; weeklyReviewBtn.classList.add("hidden"); weeklyReviewBtn.style.setProperty("display", "none", "important"); }
+    if (globalStoreFilter) { globalStoreFilter.hidden = true; globalStoreFilter.classList.add("hidden"); globalStoreFilter.style.setProperty("display", "none", "important"); }
     return;
   }
 
   // Logged In State
-  if (loginBtn) loginBtn.classList.add("hidden");
-  if (logoutBtn) logoutBtn.classList.remove("hidden");
+  if (loginBtn) { loginBtn.classList.add("hidden"); loginBtn.style.setProperty("display", "none", "important"); }
+  if (logoutBtn) { logoutBtn.classList.remove("hidden"); logoutBtn.style.setProperty("display", "inline-flex", "important"); }
 
   // User Profile Badge
   if (userBadge) {
     userBadge.classList.remove("hidden");
+    userBadge.style.setProperty("display", "inline-flex", "important");
     userBadge.innerHTML = `
-      <span class="user-role-pill ${userProfile.role === 'admin' ? 'admin' : 'manager'}">
-        ${userProfile.role === 'admin' ? '👑 Hyderguda (Admin)' : '🏪 Store Manager'}
+      <span class="user-role-pill ${isAdmin ? 'admin' : 'manager'}">
+        ${isAdmin ? '👑 Hyderguda (Admin)' : '🏪 Store Manager'}
       </span>
       <span style="font-size:11px; font-weight:600; color:#475569;">${userProfile.email}</span>
     `;
@@ -17876,25 +17974,83 @@ function updateAuthUI() {
 
   // Store Badge & Switcher for Admin
   const activeStore = (typeof getActiveStore === "function" ? getActiveStore() : userProfile.store_id || "Hyderguda");
-  if (userProfile.role === "admin" && userProfile.store_id === "Hyderguda") {
-    if (storeBadge) storeBadge.classList.add("hidden");
+  if (isAdmin) {
+    // Central Admin State
+    if (storeBadge) { storeBadge.classList.add("hidden"); storeBadge.style.setProperty("display", "none", "important"); }
     if (adminSwitcher) {
       adminSwitcher.classList.remove("hidden");
+      adminSwitcher.style.setProperty("display", "inline-flex", "important");
       const sel = document.getElementById("adminStoreSelect");
       if (sel) sel.value = activeStore;
     }
-    if (adminBtn) adminBtn.classList.remove("hidden");
+    if (adminBtn) {
+      adminBtn.classList.remove("hidden");
+      adminBtn.style.setProperty("display", "inline-flex", "important");
+    }
+    // Show Weekly Review & PPT for admin
+    if (weeklyReviewBtn) {
+      weeklyReviewBtn.hidden = false;
+      weeklyReviewBtn.classList.remove("hidden");
+      weeklyReviewBtn.style.display = "";
+    }
+    // Show Store Comparison tab if multiple stores exist
+    if (typeof updateStoreComparisonTabVisibility === "function") {
+      updateStoreComparisonTabVisibility();
+    }
   } else {
-    if (adminSwitcher) adminSwitcher.classList.add("hidden");
-    if (adminBtn) adminBtn.classList.add("hidden");
+    // Non-Admin: STRICTLY HIDE ALL ADMIN TABS AND CONTROLS
+    if (adminSwitcher) { adminSwitcher.classList.add("hidden"); adminSwitcher.style.setProperty("display", "none", "important"); }
+    if (adminBtn) { adminBtn.classList.add("hidden"); adminBtn.style.setProperty("display", "none", "important"); }
     if (storeBadge) {
       storeBadge.classList.remove("hidden");
-      storeBadge.innerHTML = `📍 <strong>Store:</strong> ${activeStore}`;
+      storeBadge.style.setProperty("display", "inline-flex", "important");
+      storeBadge.innerHTML = `📍 <strong>Store:</strong> ${userProfile.store_id || activeStore}`;
+    }
+    // Hide Store Comparison tab
+    if (storeCompBtn) {
+      storeCompBtn.hidden = true;
+      storeCompBtn.classList.add("hidden");
+      storeCompBtn.style.setProperty("display", "none", "important");
+    }
+    // Hide Weekly Review & PPT tab
+    if (weeklyReviewBtn) {
+      weeklyReviewBtn.hidden = true;
+      weeklyReviewBtn.classList.add("hidden");
+      weeklyReviewBtn.style.setProperty("display", "none", "important");
+    }
+    // If user is currently on an admin-only page, switch back to dashboard
+    if (storeCompPage && storeCompPage.classList.contains("active")) {
+      storeCompPage.classList.remove("active");
+      const dbBtn = document.querySelector('.tabs .tab[onclick*="dashboard"]') || document.querySelector('.tabs .tab');
+      const db = document.getElementById("dashboard");
+      if (db) db.classList.add("active");
+      document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove("active"));
+      if (dbBtn) dbBtn.classList.add("active");
+    }
+    if (weeklyReviewPage && weeklyReviewPage.classList.contains("active")) {
+      weeklyReviewPage.classList.remove("active");
+      const dbBtn = document.querySelector('.tabs .tab[onclick*="dashboard"]') || document.querySelector('.tabs .tab');
+      const db = document.getElementById("dashboard");
+      if (db) db.classList.add("active");
+      document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove("active"));
+      if (dbBtn) dbBtn.classList.add("active");
+    }
+    // Hide global store filter for non-admin
+    if (globalStoreFilter) {
+      globalStoreFilter.hidden = true;
+      globalStoreFilter.classList.add("hidden");
+      globalStoreFilter.style.setProperty("display", "none", "important");
+    }
+    // Ensure admin panel modal is closed
+    const adminModal = document.getElementById("adminPanelModal");
+    if (adminModal) {
+      adminModal.classList.add("hidden");
+      adminModal.style.setProperty("display", "none", "important");
     }
   }
 
   const storeNameEl = document.getElementById("storeName");
-  if (storeNameEl) storeNameEl.textContent = activeStore;
+  if (storeNameEl) storeNameEl.textContent = isAdmin ? activeStore : (userProfile.store_id || activeStore);
 }
 
 /**
@@ -20089,6 +20245,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       btn.textContent = "Sign In";
     }
     switchPortalTab("signin");
+    if(typeof updateAuthUI === "function") updateAuthUI();
   };
 
   // Check session on page load

@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script id="huft-head-portal-signout">
+(function() {
+  window.portalSignOut = function() {
+    try {
+      sessionStorage.removeItem('huft_active_session');
+      sessionStorage.removeItem('huft_user_profile');
+      sessionStorage.removeItem('huft_auth_user');
+      localStorage.removeItem('huft_active_session');
+    } catch(e) {}
+    window.location.href = '/';
+  };
+})();
+</script>
+
 <script id="huft-storage-sandbox-guard">
 (function(){
   var mem = {};

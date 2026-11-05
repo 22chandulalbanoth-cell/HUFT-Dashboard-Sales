@@ -4683,6 +4683,126 @@ button:hover, .btn:hover, .btn-auth-header:hover, .portal-btn-primary:hover,
   border-color: #ea580c !important;
 }
 </style>
+
+<style id="huft-modern-glassmorphic-theme">
+/* HUFT Modern Enterprise Glassmorphism Theme */
+:root {
+  --huft-glass-bg: rgba(255, 255, 255, 0.88);
+  --huft-glass-border: rgba(138, 54, 0, 0.12);
+  --huft-copper: #8a3600;
+  --huft-card-shadow: 0 4px 20px -2px rgba(18, 25, 39, 0.06), 0 2px 6px -1px rgba(18, 25, 39, 0.04);
+  --huft-card-shadow-hover: 0 12px 28px -4px rgba(138, 54, 0, 0.14), 0 4px 12px -2px rgba(18, 25, 39, 0.06);
+}
+body {
+  background: radial-gradient(circle at 10% 20%, #fff7ed 0%, #fef3e2 40%, #fbe8d0 100%) !important;
+  min-height: 100vh;
+}
+.header {
+  background: var(--huft-glass-bg) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--huft-glass-border) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 14px 28px !important;
+}
+.brand {
+  font-weight: 800 !important;
+  background: linear-gradient(135deg, #6c2a00 0%, #b84413 50%, #d97732 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.2px !important;
+}
+.sub#storeName {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid rgba(138, 54, 0, 0.16);
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+  color: #8a3600;
+  margin-top: 4px;
+}
+.sub#storeName::before {
+  content: "●";
+  color: #10b981;
+  font-size: 10px;
+}
+.tabs {
+  gap: 8px !important;
+  padding: 6px !important;
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 12px;
+  border: 1px solid rgba(138, 54, 0, 0.08);
+  margin-bottom: 20px !important;
+}
+.tab {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  color: #64748b !important;
+  border-radius: 8px !important;
+  padding: 8px 18px !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  box-shadow: none !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.tab:hover {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #8a3600 !important;
+  border-color: rgba(138, 54, 0, 0.15) !important;
+  transform: translateY(-1px);
+}
+.tab.active {
+  background: linear-gradient(135deg, #8a3600 0%, #b84413 100%) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 14px rgba(138, 54, 0, 0.3) !important;
+}
+.kpi {
+  background: var(--huft-glass-bg) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--huft-glass-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--huft-card-shadow) !important;
+  padding: 16px 18px !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.kpi:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--huft-card-shadow-hover) !important;
+  border-color: rgba(138, 54, 0, 0.25) !important;
+}
+.dashPanel, .card, .panel, .toolbar {
+  background: var(--huft-glass-bg) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--huft-glass-border) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--huft-card-shadow) !important;
+}
+.tableWrap {
+  border-radius: 10px !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+table th {
+  background: #fff8f1 !important;
+  color: #7c2d12 !important;
+  font-weight: 800 !important;
+  border-bottom: 2px solid #fed7aa !important;
+}
+table tr:hover td {
+  background: rgba(254, 243, 199, 0.35);
+}
+</style>
 </head>
 <body>
 
@@ -9923,98 +10043,162 @@ function uploadExcel(fileOverride){
  reader.onerror=function(){setUploadState("File read failed",0);huftFinishUpload(false,"The browser could not read this file. Please save it locally and try again.");};
  reader.onload=function(e){
    try{
-     huftSetTask('read','done'); huftMarkActive('worksheet',isCSV?'Reading CSV rows…':'Reading workbook and worksheet…');
-     setUploadState("Parsing file",30);
-     let matrix;
-     if(isCSV){
-       matrix=parseCSVText(String(e.target.result||'').replace(/^\uFEFF/,''));
-     }else{
-       // Wait for the multi-CDN loader; a failed first CDN should not stop the upload.
-       const readWorkbook=function(){
-       if(typeof XLSX==='undefined'||!XLSX||typeof XLSX.read!=='function'){
-         setUploadState("Excel reader unavailable — try CSV",0);
-         huftFinishUpload(false,"The Excel reader could not load. Check your connection or upload CSV.");
-         alert("The Excel reader could not load from the available CDNs. Check your internet connection or export the worksheet as CSV and upload that file.");
+     huftSetTask('read','done');
+     huftMarkActive('worksheet',isCSV?'Reading CSV rows…':'Reading workbook in background worker…');
+     setUploadState(isCSV?"Reading CSV rows…":"Parsing Excel workbook in background worker…",20);
+
+     function applyProcessedRows(arr){
+       if(!Array.isArray(arr)||!arr.length){
+         setUploadState("No sales rows found",0);
+         huftFinishUpload(false,"No sales rows could be read. Check the required columns and try again.");
+         alert("No sales rows could be read. Expected date/time in column B, store in C, product in J, category in K, brand in M, quantity in N and sale value in Q.");
          return;
        }
-       const wb=XLSX.read(e.target.result,{type:"array",cellDates:true});
-       if(!wb.SheetNames||!wb.SheetNames.length) throw new Error("No worksheet was found in this workbook.");
-       const ws=wb.Sheets[wb.SheetNames[0]];
-       matrix=XLSX.utils.sheet_to_json(ws,{header:1,defval:"",raw:true,blankrows:false});
-       huftSetTask('worksheet','done');
-       };
-       // Loader promise is already running from page start; resolve before reading XLSX.
-       if(window.HUFT_XLSX_READY && typeof window.HUFT_XLSX_READY.then==='function'){
-         window.HUFT_XLSX_READY.then(function(){
-           try { readWorkbook(); continueUpload(); }
-           catch(err){ setUploadState("Upload failed",0); huftFinishUpload(false,err.message||String(err)); alert("Upload failed: "+(err.message||err)); }
-         });
+       const validMapped=arr.filter(r=>parseDate(r["Date"]));
+       huftUpdateUploadFileInfo(name,null,validMapped);
+       const salesMapped=arr.filter(r=>hasNumericValue(r["Order Lines/Subtotal"])||(hasNumericValue(r["Order Lines/Product/Sales Price"])&&hasNumericValue(r["Order Lines/Quantity"])));
+       if(!validMapped.length){
+         setUploadState("Date column not recognised",0);
+         huftFinishUpload(false,"No valid dates found in column B. Please check the date column.");
+         alert("No valid dates found in column B. Supported examples: Excel dates, 2026-09-18 20:22:16, or 18/09/2026.");
          return;
        }
-       readWorkbook();
-     }
-     function continueUpload(){
-     if(!Array.isArray(matrix)||!matrix.length){setUploadState("No rows found",0);huftFinishUpload(false,"No data rows found. Check that the first worksheet or CSV is not empty.");alert("No data rows found. Check that the first worksheet or CSV is not empty.");return;}
-     huftMarkActive('map','Mapping HUFT columns and validating sales records…');
-     setUploadState("Mapping HUFT columns B/C/J/K/M/N/Q",50);
-     const arr=normalizeWorkbookRows(matrix);
-     if(!arr.length){setUploadState("No sales rows found",0);huftFinishUpload(false,"No sales rows could be read. Check the required columns and try again.");alert("No sales rows could be read. Expected date/time in column B, store in C, product in J, category in K, brand in M, quantity in N and sale value in Q.");return;}
-     const validMapped=arr.filter(r=>parseDate(r["Date"]));
-     huftUpdateUploadFileInfo(name,matrix,validMapped);
-     const salesMapped=arr.filter(r=>hasNumericValue(r["Order Lines/Subtotal"])||(hasNumericValue(r["Order Lines/Product/Sales Price"])&&hasNumericValue(r["Order Lines/Quantity"])));
-     if(!validMapped.length){setUploadState("Date column not recognised",0);huftFinishUpload(false,"No valid dates found in column B. Please check the date column.");alert("No valid dates found in column B. Supported examples: Excel dates, 2026-09-18 20:22:16, or 18/09/2026.");return;}
-     if(!salesMapped.length){setUploadState("Sales column not recognised",0);huftFinishUpload(false,"No numeric sale values found in column Q. Please check the sales column.");alert("No numeric sale values found in column Q. Please confirm that Q contains line subtotal/sale value, not text or merged cells.");return;}
-     // Commit only after all validation passes, so a bad upload cannot replace the previous good dataset.
-     huftSetTask('map','done');
-     rows=arr;
-     window.__huftDataVersion=(window.__huftDataVersion||0)+1;
-     window.__huftTabRenderedVersion=window.__huftTabRenderedVersion||{};
-     clearDayCache();
-     huftMarkActive('save','Keeping sales data in session memory…');
-     setUploadState("Saving sales data locally",65);
-     // Do not finish the upload until the latest parsed dataset is committed to IndexedDB.
-     saveRowsLocally(rows,name).then(function(){
-       huftSetTask('save','done');
-       huftMarkActive('prepare','Preparing sales report…');
-       setUploadState("Preparing sales report",80);
-       setTimeout(function(){
-         try{
-           prepare(false);allStoreRows=rows.slice();initializeStoreFilter(true);clearDayCache();updateLiveReport();refreshTable();huftSetTask('prepare','done');huftMarkActive('dashboard','Updating dashboard cards, charts and comparisons…');dashboardDirty=true;
-           try{refreshDashboard();dashboardDirty=false;}catch(dashErr){console.warn("Dashboard refresh after upload failed:",dashErr);}
-           try{refreshStoreComparison();updateStoreComparisonTabVisibility();}catch(compareErr){console.warn("Store comparison refresh after upload failed:",compareErr);}
-           huftSetTask('dashboard','done');
-           const fn=document.getElementById("fileNamePlain");if(fn)fn.textContent=name;
-           setUploadState("Upload complete",100);
-           huftFinishUpload(true,'Dashboard ready. Latest sales data saved locally and will restore after refresh on this browser/device.');
-           // Briefly present the real success state, then hand off to the welcome popup.
-           setTimeout(function(){
-             const uploadOverlay=document.getElementById('huftUploadOverlay');
-             if(uploadOverlay)uploadOverlay.hidden=true;
-             // Welcome is for initial page load only; do not reopen it after Excel uploads.
-             const welcomeOverlay=document.getElementById('huftWelcomeOverlay');
-             if(welcomeOverlay)welcomeOverlay.hidden=true;
-           },180);
-         }catch(err){
-           console.error("HUFT report preparation failed:",err);
-           const detail = (err && (err.message || err.name)) ? String(err.message || err.name) : String(err || "Unknown error");
-           setUploadState("Report failed: "+detail,0);
-           huftFinishUpload(false,"The session data was loaded, but the dashboard could not be prepared: "+detail);
-           const diagnostic = document.getElementById("uploadDiagnostics");
-           if (diagnostic) {
-             diagnostic.hidden = false;
-             diagnostic.textContent = "Report preparation failed: " + detail + (err && err.stack ? "\n" + String(err.stack).split("\n").slice(0,3).join("\n") : "");
+       if(!salesMapped.length){
+         setUploadState("Sales column not recognised",0);
+         huftFinishUpload(false,"No numeric sale values found in column Q. Please check the sales column.");
+         alert("No numeric sale values found in column Q. Please confirm that Q contains line subtotal/sale value, not text or merged cells.");
+         return;
+       }
+       huftSetTask('map','done');
+       rows=arr;
+       window.__huftDataVersion=(window.__huftDataVersion||0)+1;
+       window.__huftTabRenderedVersion=window.__huftTabRenderedVersion||{};
+       clearDayCache();
+       huftMarkActive('save','Keeping sales data in session memory…');
+       setUploadState("Saving sales data locally",65);
+       saveRowsLocally(rows,name).then(function(){
+         huftSetTask('save','done');
+         huftMarkActive('prepare','Preparing sales report…');
+         setUploadState("Preparing sales report",80);
+         setTimeout(function(){
+           try{
+             prepare(false);
+             allStoreRows=rows.slice();
+             initializeStoreFilter(true);
+             clearDayCache();
+             updateLiveReport();
+             refreshTable();
+             huftSetTask('prepare','done');
+             huftMarkActive('dashboard','Updating dashboard cards, charts and comparisons…');
+             dashboardDirty=true;
+             try{refreshDashboard();dashboardDirty=false;}catch(dashErr){console.warn("Dashboard refresh after upload failed:",dashErr);}
+             try{refreshStoreComparison();updateStoreComparisonTabVisibility();}catch(compareErr){console.warn("Store comparison refresh after upload failed:",compareErr);}
+             huftSetTask('dashboard','done');
+             const fn=document.getElementById("fileNamePlain");if(fn)fn.textContent=name;
+             setUploadState("Upload complete",100);
+             huftFinishUpload(true,'Dashboard ready. Latest sales data saved locally and will restore after refresh on this browser/device.');
+             setTimeout(function(){
+               const uploadOverlay=document.getElementById('huftUploadOverlay');
+               if(uploadOverlay)uploadOverlay.hidden=true;
+               const welcomeOverlay=document.getElementById('huftWelcomeOverlay');
+               if(welcomeOverlay)welcomeOverlay.hidden=true;
+             },180);
+           }catch(err){
+             console.error("HUFT report preparation failed:",err);
+             const detail=(err&&(err.message||err.name))?String(err.message||err.name):String(err||"Unknown error");
+             setUploadState("Report failed: "+detail,0);
+             huftFinishUpload(false,"The session data was loaded, but the dashboard could not be prepared: "+detail);
+             const diagnostic=document.getElementById("uploadDiagnostics");
+             if(diagnostic){
+               diagnostic.hidden=false;
+               diagnostic.textContent="Report preparation failed: "+detail+(err&&err.stack?"\n"+String(err.stack).split("\n").slice(0,3).join("\n"):"");
+             }
+             alert("The file was saved, but the report could not be prepared. Error: "+detail);
            }
-           alert("The file was saved, but the report could not be prepared. Error: " + detail);
-         }
-       },10);
-     }).catch(saveErr=>{
-       console.error("Could not auto-save sales data locally:",saveErr);
-       setUploadState("Data loaded but not saved",0);
-       huftFinishUpload(false,"Browser storage failed. The data may be lost after refresh.");
-       alert("The report loaded, but browser storage failed. The data may be lost after refresh. Details: "+(saveErr.message||"storage error"));
-     });
+         },10);
+       }).catch(saveErr=>{
+         console.error("Could not auto-save sales data locally:",saveErr);
+         setUploadState("Data loaded but not saved",0);
+         huftFinishUpload(false,"Browser storage failed. The data may be lost after refresh.");
+         alert("The report loaded, but browser storage failed. The data may be lost after refresh. Details: "+(saveErr.message||"storage error"));
+       });
      }
-     if(isCSV){huftSetTask('worksheet','done');continueUpload();}
+
+     if(typeof window.Worker==='function'){
+       try{
+         const worker=new Worker('scripts/worker-excel.js');
+         worker.onmessage=function(ev){
+           const data=ev.data;
+           if(data.type==='progress'){
+             setUploadState(data.stage,data.percent);
+             if(data.percent<50) huftMarkActive('worksheet',data.stage);
+             else huftMarkActive('map',data.stage);
+           }else if(data.type==='complete'){
+             worker.terminate();
+             applyProcessedRows(data.rows);
+           }else if(data.type==='error'){
+             worker.terminate();
+             console.warn("Background worker error, falling back to main thread:",data.message);
+             fallbackMainThread();
+           }
+         };
+         worker.onerror=function(err){
+           worker.terminate();
+           console.warn("Background worker failure, falling back to main thread:",err);
+           fallbackMainThread();
+         };
+         worker.postMessage({fileData:e.target.result,isCSV:isCSV,fileName:name});
+         return;
+       }catch(wErr){
+         console.warn("Worker creation failed, falling back to main thread:",wErr);
+       }
+     }
+
+     fallbackMainThread();
+
+     function fallbackMainThread(){
+       let matrix;
+       if(isCSV){
+         matrix=parseCSVText(String(e.target.result||'').replace(/^\uFEFF/,''));
+         huftSetTask('worksheet','done');
+         finishMainThread();
+       }else{
+         const readWorkbook=function(){
+           if(typeof XLSX==='undefined'||!XLSX||typeof XLSX.read!=='function'){
+             setUploadState("Excel reader unavailable — try CSV",0);
+             huftFinishUpload(false,"The Excel reader could not load. Check your connection or upload CSV.");
+             alert("The Excel reader could not load from the available CDNs. Check your internet connection or export the worksheet as CSV and upload that file.");
+             return;
+           }
+           const wb=XLSX.read(e.target.result,{type:"array",cellDates:true});
+           if(!wb.SheetNames||!wb.SheetNames.length) throw new Error("No worksheet was found in this workbook.");
+           const ws=wb.Sheets[wb.SheetNames[0]];
+           matrix=XLSX.utils.sheet_to_json(ws,{header:1,defval:"",raw:true,blankrows:false});
+           huftSetTask('worksheet','done');
+         };
+         if(window.HUFT_XLSX_READY && typeof window.HUFT_XLSX_READY.then==='function'){
+           window.HUFT_XLSX_READY.then(function(){
+             try{ readWorkbook(); finishMainThread(); }
+             catch(err){ setUploadState("Upload failed",0); huftFinishUpload(false,err.message||String(err)); alert("Upload failed: "+(err.message||err)); }
+           });
+           return;
+         }
+         readWorkbook();
+         finishMainThread();
+       }
+       function finishMainThread(){
+         if(!Array.isArray(matrix)||!matrix.length){
+           setUploadState("No rows found",0);
+           huftFinishUpload(false,"No data rows found. Check that the first worksheet or CSV is not empty.");
+           alert("No data rows found. Check that the first worksheet or CSV is not empty.");
+           return;
+         }
+         huftMarkActive('map','Mapping HUFT columns and validating sales records…');
+         setUploadState("Mapping HUFT columns B/C/J/K/M/N/Q",50);
+         const arr=normalizeWorkbookRows(matrix);
+         applyProcessedRows(arr);
+       }
+     }
    }catch(err){
      console.error("HUFT upload failed:",err);
      setUploadState("Upload failed",0);
@@ -17078,7 +17262,8 @@ html body .tabs .tab.active:hover::after{
   const invLabel=x=>x.invoice==='—'?'— (Order '+esc((x.order.split('/').pop())||'')+')':esc(x.invoice);
   const head='<tr><th>Date</th><th>Invoices</th><th class="n">Items</th><th class="n">Qty</th><th class="n">Retail</th><th class="n">SPA</th><th class="n">Amount</th></tr>';
   const body=days.map((d,i)=>'<tr class="ps-inv" data-i="'+i+'" title="Click to open this date"><td><span class="ps-caret">▸</span> '+esc(fmtDate(d.date))+'</td><td>'+d.invs.map(invLabel).join(', ')+'</td><td class="n">'+d.items+'</td><td class="n">'+d.qty.toLocaleString('en-IN',{maximumFractionDigits:2})+'</td><td class="n">'+esc(inr(d.retail))+'</td><td class="n">'+esc(inr(d.spa))+'</td><td class="n">'+esc(inr(d.amount))+'</td></tr>').join('');
-  open(nm[0]||'Customer','Mobile '+phone+(nm.length>1?' • also seen as: '+nm.slice(1,3).join(', '):''),
+  const maskedCustomerPhone = (phone && String(phone).replace(/\D/g,'').length >= 10) ? ('******' + String(phone).replace(/\D/g,'').slice(-4)) : (phone || '—');
+  open(nm[0]||'Customer','Mobile '+maskedCustomerPhone+(nm.length>1?' • also seen as: '+nm.slice(1,3).join(', '):''),
    (backHtml||'')+'<div class="ps-tags">'+tagHtml(fi.tags)+'<span class="ps-legend">Frequent ≤30 days • Regular ≤75 • Low frequency >75 • Stopped buying = no purchase for 3× usual gap (min 90 days)</span></div><div class="ps-kpis">'+kp.map(k=>'<div class="ps-kpi"><span>'+esc(k[0])+'</span><b>'+esc(k[1])+'</b><small>'+esc(k[2])+'</small></div>').join('')+'</div>'+
    (catChips?'<div class="ps-cats">'+catChips+'</div>':'')+
    '<div class="ps-bar"><b>Purchase history by date • '+days.length+' date'+(days.length===1?'':'s')+' • '+inv.length+' invoice'+(inv.length===1?'':'s')+' <span class="ps-legend">(click a date to open it)</span></b><button type="button" class="ps-back" id="huftPsToggle">Expand all</button></div><div class="ps-tablewrap"><table id="huftPsInvTable">'+head+body+'</table></div>');

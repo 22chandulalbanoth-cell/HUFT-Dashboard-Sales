@@ -1213,7 +1213,7 @@
                 </div>
                 <div>
                   <label class="block text-slate-700 font-semibold mb-1">Sender Email Address (From)</label>
-                  <input type="text" id="cfgResendFrom" placeholder="HUFT Alerts <notifications@resend.dev>"
+                  <input type="text" id="cfgResendFrom" placeholder="HUFT Alerts &lt;notifications@resend.dev&gt;"
                     class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 text-xs" />
                 </div>
                 <div>
@@ -1633,7 +1633,7 @@
         }
       });
       localStorage.setItem("huft_supabase_url", STAGING_SUPABASE_URL);
-      localStorage.setItem("huft_supabase_anon_key", STAGING_KEY);
+      localStorage.setItem("huft_supabase_anon_key", STAGING_ANON_KEY);
     } catch(e){}
 
     const SUPABASE_URL = STAGING_SUPABASE_URL;
@@ -1986,6 +1986,7 @@ const TAB_TITLES = {
     };
 
     function switchTab(tabId) {
+      window.switchTab = switchTab;
       document.querySelectorAll("main > section").forEach(sec => {
         sec.classList.add("hidden");
         sec.style.display = "none";

@@ -5349,6 +5349,102 @@ table tr:hover td {
 }
 </style>
 
+
+<style id="huft-single-bottom-profile-style">
+/* HUFT Single Bottom-Left Profile & Light Aesthetic Controls */
+.headerAuthControls #headerStoreProfileBtn { display: none !important; }
+.sidebar-footer {
+  margin-top: auto !important;
+  padding: 12px 10px !important;
+  border-top: 1px solid rgba(124, 58, 237, 0.12) !important;
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-radius: 0 0 0 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+.sidebar-profile-card {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 8px 10px !important;
+  border-radius: 12px !important;
+  background: rgba(248, 245, 255, 0.8) !important;
+  border: 1px solid rgba(124, 58, 237, 0.18) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+.sidebar-profile-card:hover {
+  background: rgba(238, 230, 254, 0.95) !important;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15) !important;
+  transform: translateY(-1px) !important;
+}
+.profile-avatar {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #7c3aed, #db2777) !important;
+  color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  flex-shrink: 0 !important;
+}
+.profile-name {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #1e1537 !important;
+  line-height: 1.2 !important;
+}
+.profile-role {
+  font-size: 11px !important;
+  color: #6b5f86 !important;
+}
+
+/* Light styling for buttons - user requested: no heavy background colorings, simple round buttons */
+.toolbar button, .huft-water-upload, button.primary {
+  background: rgba(255, 255, 255, 0.85) !important;
+  color: #5b21b6 !important;
+  border: 1px solid rgba(124, 58, 237, 0.25) !important;
+  box-shadow: 0 2px 6px rgba(124, 58, 237, 0.08) !important;
+  border-radius: 9999px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+.toolbar button:hover, .huft-water-upload:hover, button.primary:hover {
+  background: #7c3aed !important;
+  color: #ffffff !important;
+  border-color: #7c3aed !important;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Sidebar Fixed / Frozen on page scroll */
+aside.huft-sidebar, #huftLeftNav {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  height: 100vh !important;
+  z-index: 1000 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+.huft-ultra-main {
+  margin-left: 72px !important;
+  min-height: 100vh !important;
+  transition: margin-left 0.3s cubic-bezier(0.2, 0.9, 0.25, 1) !important;
+}
+aside.huft-sidebar:not(.collapsed) ~ .huft-ultra-main,
+body.sidebar-open .huft-ultra-main {
+  margin-left: 240px !important;
+}
+</style>
+
 </head>
 <body>
 
@@ -5808,10 +5904,7 @@ table tr:hover td {
     <div class="headerAuthControls" id="headerAuthControls">
       <div id="headerUserBadge" class="headerUserBadge hidden"></div>
       <div id="headerStoreBadge" class="headerStoreBadge">🏪 Hyderguda</div>
-      <button id="headerStoreProfileBtn" class="btn-auth-header" onclick="openStoreProfileModal()" title="View Store Profile & Authorization">
-        <svg style="width:14px; height:14px; display:inline-block; vertical-align:middle; margin-right:4px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
-        Store Profile
-      </button>
+      <!-- headerStoreProfileBtn removed: profile kept strictly in sidebar bottom corner -->
     </div>
     <!-- /HUFT-AUTH-HEADER-CONTROLS -->
 
@@ -21262,6 +21355,55 @@ window.portalSignOut = function() {
         if (txt) txt.textContent = 'Expand';
       }
     } catch(e) {}
+  });
+})();
+</script>
+
+
+<script id="huft-cloud-calculation-engine">
+(function(){
+  console.log('HUFT Cloud Calculation Engine initialized');
+  const SUPABASE_FN = 'https://wyqksfncdlwjduyispmb.supabase.co/functions/v1/calculate-sales';
+  
+  window.runCloudCalculation = async function(storeId, rowsData) {
+    try {
+      console.log('Offloading calculation to cloud backend...', storeId);
+      const targetStore = storeId || localStorage.getItem('huft_selected_store') || 'hyderguda';
+      
+      let res;
+      if (rowsData && Array.isArray(rowsData) && rowsData.length > 0) {
+        // Send rows to cloud edge function for encrypted server-side calculation
+        res = await fetch(SUPABASE_FN + '?store_id=' + encodeURIComponent(targetStore), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ store_id: targetStore, rows: rowsData.slice(0, 5000) })
+        });
+      } else {
+        // Fetch pre-calculated cached metrics from cloud
+        res = await fetch(SUPABASE_FN + '?store_id=' + encodeURIComponent(targetStore));
+      }
+      
+      if (!res.ok) throw new Error('Cloud function returned ' + res.status);
+      const data = await res.json();
+      console.log('Cloud calculation result received successfully:', data);
+      
+      if (data && data.report) {
+        window.cloudReport = data.report;
+        // Broadcast event for UI update without browser freeze
+        window.dispatchEvent(new CustomEvent('huft-cloud-report-ready', { detail: data.report }));
+      }
+      return data;
+    } catch(err) {
+      console.warn('Cloud calculation fallback to lightweight client mode:', err.message);
+      return null;
+    }
+  };
+  
+  // Auto-fetch on dashboard boot
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(function(){
+      window.runCloudCalculation('hyderguda');
+    }, 500);
   });
 })();
 </script>

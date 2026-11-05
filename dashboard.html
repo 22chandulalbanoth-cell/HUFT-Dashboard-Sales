@@ -4804,81 +4804,85 @@ table tr:hover td {
 }
 </style>
 
-<style id="huft-ultra-glassy-sidebar-theme">
+
+
+<style id="huft-light-ultra-glassy-theme">
 /* ================================================================
-   HUFT ULTRA GLASSY SIDEBAR & MOTION GRAPHIC THEME
-   Transforms the dashboard into a world-class SaaS web application
-   with vertical left navigation, smooth motion graphics, and profile.
+   HUFT PREMIUM LIGHT ULTRA GLASSY THEME & SIDEBAR
+   Light, crisp, luxury frosted glass finish with warm copper accents.
+   Engineered for zero text overlap, high legibility, and smooth motion.
    ================================================================ */
 :root {
-  --ultra-sidebar-width: 250px;
-  --ultra-bg: #0f1422;
-  --ultra-glass-panel: rgba(22, 30, 49, 0.72);
-  --ultra-glass-card: rgba(28, 38, 62, 0.65);
-  --ultra-glass-border: rgba(227, 123, 82, 0.22);
-  --ultra-glass-border-subtle: rgba(255, 255, 255, 0.08);
-  --ultra-copper: #e37b52;
-  --ultra-copper-glow: rgba(227, 123, 82, 0.35);
-  --ultra-text-main: #f8fafc;
-  --ultra-text-muted: #94a3b8;
-  --ultra-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--ultra-glass-border-subtle);
-  --ultra-card-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.25);
-  --ultra-card-hover: 0 16px 36px -6px rgba(227, 123, 82, 0.2);
+  --huft-sidebar-w: 240px;
+  --huft-bg: #fdfaf6;
+  --huft-glass-sidebar: rgba(255, 255, 255, 0.92);
+  --huft-glass-card: rgba(255, 255, 255, 0.88);
+  --huft-glass-border: rgba(194, 65, 12, 0.14);
+  --huft-glass-border-subtle: rgba(0, 0, 0, 0.06);
+  --huft-copper: #c2410c;
+  --huft-copper-hover: #ea580c;
+  --huft-copper-light: #fff7ed;
+  --huft-text-head: #1c1917;
+  --huft-text-body: #334155;
+  --huft-text-muted: #64748b;
+  --huft-shadow-card: 0 4px 16px -2px rgba(120, 53, 15, 0.05), 0 1px 3px rgba(0,0,0,0.03);
+  --huft-shadow-hover: 0 10px 24px -3px rgba(194, 65, 12, 0.12), 0 2px 6px rgba(0,0,0,0.04);
 }
 
+* { box-sizing: border-box; }
+
 body {
-  margin: 0;
-  padding: 0;
-  background: radial-gradient(circle at 15% 15%, #1b2438 0%, #111728 50%, #0a0e19 100%) !important;
-  color: var(--ultra-text-main) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: radial-gradient(circle at 10% 10%, #fffbf6 0%, #fdf8f3 45%, #f5eee6 100%) !important;
+  color: var(--huft-text-body) !important;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* Master App Layout Container */
+/* Master Flex Layout */
 #huftAppRoot {
   display: flex !important;
   min-height: 100vh;
   width: 100%;
 }
 
-/* Left Ultra Glassy Sidebar */
+/* LEFT SIDEBAR NAVIGATION */
 .huft-ultra-sidebar {
-  width: var(--ultra-sidebar-width);
-  min-width: var(--ultra-sidebar-width);
-  background: var(--ultra-glass-panel);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border-right: 1px solid var(--ultra-glass-border-subtle);
+  width: var(--huft-sidebar-w);
+  min-width: var(--huft-sidebar-w);
+  background: var(--huft-glass-sidebar) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-right: 1px solid var(--huft-glass-border) !important;
   display: flex;
   flex-direction: column;
   position: sticky;
   top: 0;
   height: 100vh;
-  z-index: 1000;
-  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.25);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 999;
+  box-shadow: 2px 0 18px rgba(138, 54, 0, 0.04);
 }
 
 .sidebar-header {
-  padding: 22px 20px 16px;
+  padding: 20px 18px 16px;
   display: flex;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid var(--ultra-glass-border-subtle);
+  border-bottom: 1px solid var(--huft-glass-border-subtle);
 }
 
 .sidebar-brand-icon {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #e37b52 0%, #b84413 100%);
+  background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  box-shadow: 0 4px 16px var(--ultra-copper-glow);
+  font-size: 20px;
+  box-shadow: 0 4px 12px rgba(194, 65, 12, 0.28);
 }
 
 .sidebar-brand-text {
@@ -4887,60 +4891,59 @@ body {
 }
 
 .sidebar-brand-name {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
-  letter-spacing: -0.3px;
-  color: #fff;
-  background: linear-gradient(135deg, #ffffff 0%, #fcd34d 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #1e1b18;
+  letter-spacing: -0.2px;
 }
 
 .sidebar-brand-sub {
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 10.5px;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--ultra-copper);
+  color: var(--huft-copper);
 }
 
 .sidebar-store-pill {
-  margin: 14px 16px 8px;
-  padding: 8px 12px;
-  background: rgba(227, 123, 82, 0.12);
-  border: 1px solid rgba(227, 123, 82, 0.25);
-  border-radius: 10px;
+  margin: 12px 14px 6px;
+  padding: 7px 11px;
+  background: #fff3e8;
+  border: 1px solid #fed7aa;
+  border-radius: 9px;
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
-  color: #ffedd5;
+  color: #9a3412;
 }
 
 .store-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #10b981;
-  box-shadow: 0 0 8px #10b981;
-  animation: huftStoreDotPulse 2s infinite ease-in-out;
+  box-shadow: 0 0 6px #10b981;
+  animation: huftStorePulse 2s infinite ease-in-out;
 }
 
-@keyframes huftStoreDotPulse {
+@keyframes huftStorePulse {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
+  50% { opacity: 0.45; transform: scale(0.85); }
 }
 
-/* Sidebar Navigation Tabs */
+/* Sidebar Navigation Tabs (Clean Order & Working Only) */
 .sidebar-nav.tabs {
   flex: 1;
   overflow-y: auto;
-  padding: 12px 14px;
+  padding: 10px 12px;
   display: flex !important;
   flex-direction: column !important;
-  gap: 6px !important;
+  gap: 5px !important;
   margin-bottom: 0 !important;
+  border: none !important;
+  background: transparent !important;
 }
 
 .sidebar-nav.tabs .tab {
@@ -4948,35 +4951,35 @@ body {
   text-align: left;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px !important;
-  border-radius: 10px !important;
+  gap: 11px;
+  padding: 10px 13px !important;
+  border-radius: 9px !important;
   background: transparent !important;
   border: 1px solid transparent !important;
-  color: var(--ultra-text-muted) !important;
-  font-size: 13.5px !important;
+  color: var(--huft-text-muted) !important;
+  font-size: 13px !important;
   font-weight: 600 !important;
   cursor: pointer;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .sidebar-nav.tabs .tab:hover {
-  background: rgba(255, 255, 255, 0.06) !important;
-  color: #fff !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  transform: translateX(4px);
+  background: #fff7ed !important;
+  color: var(--huft-copper) !important;
+  border-color: #ffedd5 !important;
+  transform: translateX(3px);
 }
 
 .sidebar-nav.tabs .tab.active {
-  background: linear-gradient(135deg, rgba(227, 123, 82, 0.25) 0%, rgba(184, 68, 19, 0.35) 100%) !important;
+  background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%) !important;
   color: #ffffff !important;
-  border: 1px solid var(--ultra-copper) !important;
-  box-shadow: 0 4px 18px var(--ultra-copper-glow) !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 14px rgba(194, 65, 12, 0.3) !important;
   font-weight: 700 !important;
 }
 
 .tab-ico {
-  font-size: 16px;
+  font-size: 15px;
   min-width: 20px;
   text-align: center;
 }
@@ -4987,41 +4990,42 @@ body {
 
 /* Sidebar Footer Profile Card */
 .sidebar-footer {
-  padding: 14px;
-  border-top: 1px solid var(--ultra-glass-border-subtle);
-  background: rgba(15, 20, 34, 0.45);
+  padding: 12px;
+  border-top: 1px solid var(--huft-glass-border-subtle);
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .sidebar-profile-card {
-  padding: 10px 12px;
-  background: var(--ultra-glass-card);
-  border: 1px solid var(--ultra-glass-border-subtle);
-  border-radius: 12px;
+  padding: 9px 11px;
+  background: #ffffff;
+  border: 1px solid var(--huft-glass-border);
+  border-radius: 11px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
 }
 
 .sidebar-profile-card:hover {
-  background: rgba(227, 123, 82, 0.15);
-  border-color: var(--ultra-copper);
+  background: #fff7ed;
+  border-color: var(--huft-copper);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 12px rgba(194, 65, 12, 0.12);
 }
 
 .profile-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #e37b52 0%, #d97732 100%);
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%);
   color: #fff;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 13.5px;
 }
 
 .profile-meta {
@@ -5030,45 +5034,45 @@ body {
 }
 
 .profile-name {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
-  color: #fff;
+  color: #1e1b18;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .profile-role {
-  font-size: 11px;
-  color: var(--ultra-copper);
+  font-size: 10.5px;
+  color: var(--huft-copper);
   font-weight: 600;
 }
 
 .profile-info-btn {
   background: transparent;
   border: none;
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
-  padding: 4px;
-  opacity: 0.8;
+  padding: 2px;
+  color: var(--huft-text-muted);
 }
 
-/* Right Main Content Area */
+/* RIGHT MAIN WORKSPACE */
 .huft-ultra-main {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
-/* Top Glass Header */
+/* Header (Light Glassy Finish) */
 .huft-ultra-main .header {
-  background: var(--ultra-glass-panel) !important;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--ultra-glass-border-subtle) !important;
-  padding: 14px 28px !important;
-  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.15);
+  background: var(--huft-glass-sidebar) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--huft-glass-border) !important;
+  padding: 12px 28px !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -5076,54 +5080,114 @@ body {
   position: sticky;
   top: 0;
   z-index: 900;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .header-title {
   margin: 0;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 800;
-  color: #fff;
-  background: linear-gradient(135deg, #fff 0%, #ffedd5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #1e1b18;
+  letter-spacing: -0.2px;
 }
 
-/* Main Container & Glass Panels */
-.huft-ultra-main .container {
-  padding: 24px 32px !important;
+.sub#storeName {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--huft-copper);
+  background: #fff3e8;
+  padding: 3px 9px;
+  border-radius: 12px;
+  border: 1px solid #fed7aa;
+}
+
+/* Customer Search Bar */
+.huft-ps-form {
+  max-width: 380px;
   flex: 1;
 }
 
+.huft-ps-box {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.huft-ps-box:focus-within {
+  border-color: var(--huft-copper) !important;
+  box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.12) !important;
+}
+
+.huft-ps-box input {
+  color: #1e1b18 !important;
+}
+
+/* Main Container */
+.huft-ultra-main .container {
+  padding: 20px 28px !important;
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Toolbar */
 .toolbar {
-  background: var(--ultra-glass-panel) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--ultra-glass-border-subtle) !important;
-  border-radius: 14px !important;
-  padding: 16px !important;
-  box-shadow: var(--ultra-shadow);
-  margin-bottom: 22px !important;
+  background: var(--huft-glass-card) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--huft-glass-border) !important;
+  border-radius: 12px !important;
+  padding: 13px 16px !important;
+  box-shadow: var(--huft-shadow-card);
+  margin-bottom: 18px !important;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.toolbar .field {
+  color: #431407 !important;
+  font-weight: 700 !important;
+  font-size: 11.5px;
+}
+
+.toolbar input[type=date] {
+  background: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 7px;
+  color: #1e1b18 !important;
+  font-size: 12px;
+}
+
+.toolbar button.primary {
+  background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  font-weight: 700;
+  border-radius: 7px;
 }
 
 /* ================================================================
-   MOTION GRAPHICS: TAB SHIFTING & 3D ROTATING ENTRANCE
+   MOTION GRAPHICS: TAB SHIFTING & 3D CHART ROTATION
    ================================================================ */
 .page.active {
   display: block !important;
-  animation: huftTabMotionShift 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  animation: huftTabSlideInSmooth 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
   transform-origin: top center;
 }
 
-@keyframes huftTabMotionShift {
+@keyframes huftTabSlideInSmooth {
   0% {
     opacity: 0;
-    transform: translateY(22px) scale(0.985);
+    transform: translateY(10px) scale(0.995);
   }
   100% {
     opacity: 1;
@@ -5131,81 +5195,146 @@ body {
   }
 }
 
-/* 3D Chart Rotation on Tab Shift */
 .page.active canvas {
-  animation: huftChart3DRotate 0.55s cubic-bezier(0.34, 1.3, 0.64, 1) forwards !important;
-  transform-origin: center center;
+  animation: huftChart3DRotateSmooth 0.45s cubic-bezier(0.34, 1.25, 0.64, 1) forwards !important;
 }
 
-@keyframes huftChart3DRotate {
+@keyframes huftChart3DRotateSmooth {
   0% {
-    opacity: 0.2;
-    transform: perspective(700px) rotateX(12deg) translateY(10px) scale(0.96);
+    opacity: 0.35;
+    transform: perspective(600px) rotateX(7deg) translateY(5px);
   }
   100% {
     opacity: 1;
-    transform: perspective(700px) rotateX(0deg) translateY(0) scale(1);
+    transform: perspective(600px) rotateX(0deg) translateY(0);
   }
 }
 
-/* Glassmorphic Metric KPI Cards */
+/* KPI Cards (Light Frosted Glass) */
 .kpi {
-  background: var(--ultra-glass-card) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--ultra-glass-border-subtle) !important;
-  border-radius: 14px !important;
-  padding: 18px 20px !important;
-  box-shadow: var(--ultra-card-shadow) !important;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  background: var(--huft-glass-card) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--huft-glass-border) !important;
+  border-radius: 12px !important;
+  padding: 14px 16px !important;
+  box-shadow: var(--huft-shadow-card) !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .kpi:hover {
-  transform: translateY(-4px) scale(1.015);
-  border-color: var(--ultra-copper) !important;
-  box-shadow: var(--ultra-card-hover) !important;
+  transform: translateY(-2px);
+  border-color: var(--huft-copper) !important;
+  box-shadow: var(--huft-shadow-hover) !important;
+}
+
+.kpi span {
+  color: var(--huft-text-muted) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
 }
 
 .kpi b {
-  color: #ffffff !important;
-  font-size: 24px !important;
+  color: #1e1b18 !important;
+  font-size: 21px !important;
+  font-weight: 800 !important;
+  margin: 6px 0 2px;
+}
+
+.kpi small {
+  color: var(--huft-text-muted) !important;
+  font-size: 10px !important;
+}
+
+/* Charts & Panels */
+.dashPanel, .card, .panel {
+  background: var(--huft-glass-card) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--huft-glass-border) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--huft-shadow-card) !important;
+  color: var(--huft-text-body) !important;
+}
+
+.chartHead {
+  color: var(--huft-copper) !important;
   font-weight: 800 !important;
 }
 
-.dashPanel, .card, .panel {
-  background: var(--ultra-glass-card) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--ultra-glass-border-subtle) !important;
-  border-radius: 16px !important;
-  box-shadow: var(--ultra-card-shadow) !important;
-  color: #f1f5f9 !important;
-}
-
-/* Data Tables Sticky Modern Styling */
+/* Data Tables */
 .tableWrap {
-  border: 1px solid var(--ultra-glass-border-subtle) !important;
-  border-radius: 12px !important;
-  background: rgba(15, 20, 34, 0.8) !important;
-  box-shadow: var(--ultra-shadow) !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  background: #ffffff !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
 }
 
 table th {
-  background: #1b2438 !important;
-  color: #ffedd5 !important;
+  background: #fff3e8 !important;
+  color: #9a3412 !important;
   font-weight: 800 !important;
-  border-bottom: 2px solid var(--ultra-copper) !important;
+  border-bottom: 2px solid #fdba74 !important;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 table td {
-  border-color: rgba(255, 255, 255, 0.08) !important;
-  color: #e2e8f0 !important;
+  border-color: #f1f5f9 !important;
+  color: #334155 !important;
 }
 
 table tr:hover td {
-  background: rgba(227, 123, 82, 0.12) !important;
+  background: #fff8f1 !important;
+}
+
+.totalRow {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+  font-weight: 800;
+}
+
+/* Header Action Buttons */
+.btn-auth-header {
+  background: #ffffff !important;
+  border: 1px solid #fed7aa !important;
+  color: #9a3412 !important;
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  transition: all 0.15s ease;
+}
+
+.btn-auth-header:hover {
+  background: #fff7ed !important;
+  border-color: var(--huft-copper) !important;
+  transform: translateY(-1px);
+}
+
+/* Compact subtle last sale updated status */
+.lastSaleStamp {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  color: #78716c !important;
+  background: rgba(245, 245, 244, 0.7) !important;
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  border-radius: 6px !important;
+  padding: 2px 7px !important;
+  line-height: 1.2 !important;
+}
+
+/* Hide any remaining storage widgets */
+#huftStorageMini, .huft-storage-mini {
+  display: none !important;
 }
 </style>
+
 </head>
 <body>
 
@@ -5596,7 +5725,7 @@ table tr:hover td {
       <span id="sidebarStoreName" class="store-title">Hyderguda Store</span>
     </div>
 
-    <!-- Navigation Tabs on Left Side -->
+    <!-- Navigation Tabs on Left Side (Verified Working Only) -->
     <nav class="sidebar-nav tabs" role="tablist">
       <button class="tab active" onclick="showTab('dashboard',this)" role="tab">
         <span class="tab-ico">📊</span>
@@ -5610,25 +5739,17 @@ table tr:hover td {
         <span class="tab-ico">📅</span>
         <span class="tab-txt">Month Compare</span>
       </button>
-      <button class="tab" onclick="showTab('emp',this)" role="tab">
+      <button class="tab" onclick="showTab('employeeSales',this)" role="tab">
         <span class="tab-ico">👥</span>
         <span class="tab-txt">Staff Sales</span>
       </button>
       <button class="tab" onclick="showTab('whatsapp',this)" role="tab">
         <span class="tab-ico">💬</span>
-        <span class="tab-txt">WhatsApp Gen</span>
-      </button>
-      <button class="tab" id="sidebarStoreCompareBtn" onclick="showTab('storeComparison',this)" role="tab">
-        <span class="tab-ico">🏪</span>
-        <span class="tab-txt">Store Compare</span>
-      </button>
-      <button class="tab" onclick="showTab('hourly',this)" role="tab">
-        <span class="tab-ico">⏱️</span>
-        <span class="tab-txt">Hourly Sales</span>
+        <span class="tab-txt">WhatsApp &amp; EOD</span>
       </button>
     </nav>
 
-    <!-- Sidebar Profile Card (Clickable to open profile details) -->
+    <!-- Sidebar Profile Card (Clickable to open profile details & logout) -->
     <div class="sidebar-footer">
       <div class="sidebar-profile-card" onclick="openStoreProfileModal()" title="View Store Profile & Authorization">
         <div class="profile-avatar" id="sidebarAvatar">H</div>
@@ -5641,6 +5762,9 @@ table tr:hover td {
     </div>
   </aside>
   <div class="huft-ultra-main">
+
+
+  
 
 <header class="header">
   <div>
@@ -5657,38 +5781,16 @@ table tr:hover td {
   <div class="headerDateInfo">
     <div class="sub" id="rangeText"></div>
     <div class="lastSaleStamp" id="lastSaleStamp">Last sale updated: waiting for sales data</div>
-    <div id="huftStorageMini" class="huft-storage-mini" title="Browser storage usage and saved sales data" role="status" aria-live="polite">
-      <span class="huft-storage-live-dot" aria-hidden="true"></span>
-      <span class="huft-storage-copy"><strong id="huftStorageUsage">Checking…</strong><small id="huftStorageMeta">Saved data status</small></span>
-      <span class="huft-storage-meter" aria-hidden="true"><i id="huftStorageMeterFill"></i></span>
-      <span class="huft-storage-percent" id="huftStoragePercent">—</span>
     </div>
-  </div>
 
 
     <!-- HUFT-AUTH-HEADER-CONTROLS -->
     <div class="headerAuthControls" id="headerAuthControls">
       <div id="headerUserBadge" class="headerUserBadge hidden"></div>
-      <div id="headerStoreBadge" class="headerStoreBadge hidden"></div>
-      <div id="headerAdminStoreSwitcher" class="headerAdminStoreSwitcher hidden">
-        <span>🏪 Store:</span>
-        <select id="adminStoreSelect" onchange="setActiveStore(this.value)"><option value="Hyderguda" selected>Hyderguda</option></select>
-      </div>
-      <button id="headerStoreProfileBtn" class="btn-auth-header hidden" onclick="openStoreProfileModal()" title="View Store Profile">
+      <div id="headerStoreBadge" class="headerStoreBadge">🏪 Hyderguda</div>
+      <button id="headerStoreProfileBtn" class="btn-auth-header" onclick="openStoreProfileModal()" title="View Store Profile & Authorization">
         <svg style="width:14px; height:14px; display:inline-block; vertical-align:middle; margin-right:4px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
         Store Profile
-      </button>
-      <button id="headerAiBtn" class="btn-auth-header btn-ai-header" onclick="openAiAssistant()" title="Protected Gemini Sales Assistant">
-        🤖 AI Sales Assistant
-      </button>
-      <button id="headerAdminPanelBtn" class="btn-auth-header btn-admin-header hidden" onclick="openAdminPanel()" title="Central Administrator Control Center">
-        ⚙️ Central Admin
-      </button>
-      <button id="headerLoginBtn" class="btn-auth-header" onclick="portalSignOut()">
-        🔑 Sign In
-      </button>
-      <button id="headerLogoutBtn" class="btn-auth-header hidden" onclick="portalSignOut()">
-        🚪 Logout
       </button>
     </div>
     <!-- /HUFT-AUTH-HEADER-CONTROLS -->
@@ -11523,7 +11625,7 @@ section:has(.foodComparePanel){margin-bottom:0!important;padding-bottom:0!import
  const $=id=>document.getElementById(id);
  function ensurePopup(){let ov=$('huftDatePopupOverlay');if(ov)return ov;ov=document.createElement('div');ov.id='huftDatePopupOverlay';ov.className='huftDatePopupOverlay';ov.innerHTML='<section class="huftDatePopup" role="dialog" aria-modal="true" aria-labelledby="huftDatePopupTitle"><header class="huftDatePopupHead"><h3 id="huftDatePopupTitle">Daily Sale Details</h3><button type="button" class="huftDatePopupClose" aria-label="Close">×</button></header><div class="huftDatePopupBody"><div class="huftDatePopupGrid" id="huftDatePopupGrid"></div></div></section>';document.body.appendChild(ov);ov.addEventListener('click',e=>{if(e.target===ov||e.target.closest('.huftDatePopupClose'))ov.classList.remove('show')});document.addEventListener('keydown',e=>{if(e.key==='Escape')ov.classList.remove('show')});return ov;}
  function enhance(){const body=$('dailyBody');if(!body)return;Array.from(body.rows).forEach(row=>{if(!row.cells.length||row.cells[0].querySelector('.huft-date-plus'))return;const date=row.cells[0].textContent.trim();if(!date||!/[0-9]{1,2}[-/ ][0-9]{1,2}[-/ ][0-9]{4}/.test(date))return;const b=document.createElement('button');b.type='button';b.className='huft-date-plus';b.textContent='+';b.title='Show details for '+date;b.setAttribute('aria-label','Show daily sale details for '+date);b.addEventListener('click',e=>{e.stopPropagation();const table=row.closest('table');const heads=Array.from(table.tHead.rows[0].cells);const grid=$('huftDatePopupGrid');grid.replaceChildren();Array.from(row.cells).forEach((cell,i)=>{const item=document.createElement('div');item.className='huftDatePopupItem';const label=document.createElement('div');label.className='huftDatePopupLabel';label.textContent=heads[i]?.innerText.replace(/\s+/g,' ').trim()||('Column '+(i+1));const value=document.createElement('div');value.className='huftDatePopupValue';value.textContent=cell.innerText.replace(/^\+\s*/, '').trim()||'—';item.append(label,value);grid.appendChild(item)});$('huftDatePopupTitle').textContent='Daily Sale Details • '+date;ensurePopup().classList.add('show')});row.cells[0].prepend(b);});}
- function init(){enhance();const body=$('dailyBody');if(body&&window.MutationObserver)new MutationObserver(()=>enhance()).observe(body,{childList:true,subtree:true,characterData:true});setTimeout(enhance,500);setTimeout(enhance,1500);}
+ function init(){enhance();setTimeout(enhance,500);setTimeout(enhance,1500);}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
@@ -17949,10 +18051,9 @@ function setMask(on){maskOn=on;try{localStorage.setItem('huft_v26_mask_phones',o
   if(on)maskNode(document.body);else{const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let x;while((x=w.nextNode())){if(orig.has(x)){x.nodeValue=orig.get(x);orig.delete(x);}}}}
 let mo=null,mTimer=0;
 function startMask(){
-  if(mo)return;const q=new Set();
-  mo=new MutationObserver(ms=>{ms.forEach(m=>{if(m.type==='childList')m.addedNodes.forEach(a=>q.add(a));else if(m.type==='characterData')q.add(m.target);});
-    if(!mTimer)mTimer=setTimeout(()=>{mTimer=0;if(maskOn)q.forEach(n=>safe(()=>maskNode(n),'mask'));q.clear();},120);});
-  mo.observe(document.body,{childList:true,subtree:true});
+  if(maskOn){
+    document.querySelectorAll('.tableWrap, table, #huftPsResults, #employeeSales, #huftDailyBody, #dailyBody').forEach(el=>safe(()=>maskNode(el),'mask'));
+  }
 }
 
 /* ---------- 8. Wiring ---------- */
@@ -21006,8 +21107,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       </div>
     </div>
     
-    <div style="margin-top:20px; display:flex; justify-content:flex-end;">
-      <button onclick="closeStoreProfileModal()" style="background:#2563eb; color:#ffffff; border:none; padding:8px 18px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer;">Close</button>
+    <div style="margin-top:20px; padding-top:14px; border-top:1px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center;">
+      <button type="button" onclick="closeStoreProfileModal()" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer;">Close</button>
+      <button type="button" id="spModalLogoutBtn" onclick="portalSignOut()" style="background:#dc2626; color:#ffffff; border:none; padding:8px 18px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(220,38,38,0.25);">
+        <svg style="width:14px; height:14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+        Sign Out / Logout
+      </button>
     </div>
   </div>
 </div>
@@ -21088,6 +21193,19 @@ function closeStoreProfileModal() {
     window.syncSidebarProfile();
   });
 })();
+</script>
+
+
+<script id="huft-portal-signout-handler">
+window.portalSignOut = function() {
+  try {
+    sessionStorage.removeItem('huft_active_session');
+    sessionStorage.removeItem('huft_user_profile');
+    sessionStorage.removeItem('huft_auth_user');
+    localStorage.removeItem('huft_active_session');
+  } catch(e) {}
+  window.location.href = '/';
+};
 </script>
 
 </body>

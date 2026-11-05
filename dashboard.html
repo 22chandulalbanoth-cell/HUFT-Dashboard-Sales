@@ -3,15 +3,26 @@
 <head>
 <script id="huft-head-portal-signout">
 (function() {
-  window.portalSignOut = function() {
-    try {
-      sessionStorage.removeItem('huft_active_session');
-      sessionStorage.removeItem('huft_user_profile');
-      sessionStorage.removeItem('huft_auth_user');
-      localStorage.removeItem('huft_active_session');
-    } catch(e) {}
-    window.location.href = '/';
-  };
+  
+
+window.portalSignOut = function() {
+  try {
+    sessionStorage.clear();
+    localStorage.removeItem('huft_mock_session');
+    localStorage.removeItem('huft_active_session');
+    localStorage.removeItem('huft_user_profile');
+    localStorage.removeItem('huft_auth_user');
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const k = localStorage.key(i);
+      if (k && (k.startsWith('sb-') || k.startsWith('huft_'))) {
+        localStorage.removeItem(k);
+      }
+    }
+  } catch(e) {}
+  window.location.replace('/');
+};
+
+
 })();
 </script>
 
@@ -5715,7 +5726,7 @@ table tr:hover td {
   <!-- LEFT ULTRA GLASSY SIDEBAR NAVIGATION -->
   <aside class="huft-ultra-sidebar" id="huftSidebar">
     <div class="sidebar-header">
-      <div class="sidebar-brand-icon" onclick="toggleSidebarCollapse()" title="Click to Collapse / Expand Sidebar">🐾</div>
+      <div class="sidebar-brand-icon" onclick="toggleSidebarCollapse()" title="Toggle Sidebar" style="font-size:16px; font-weight:bold; color:#fff;">☰</div>
       <div class="sidebar-brand-text">
         <span class="sidebar-brand-name">HUFT</span>
         <span class="sidebar-brand-sub">Sales Suite</span>
@@ -6257,7 +6268,7 @@ table tr:hover td {
             <span class="msgLine" id="reportPackages">• SPA Packages Redeemed: 0</span>
             <span class="msgLine" id="reportSalesTotal">• Total Sale: ₹0/-</span>
             <br>
-            <span class="msgLine msgSectionHeading">🐾 HUFT Food Sales</span>
+            <span class="msgLine msgSectionHeading"> HUFT Food Sales</span>
             <span class="msgLine" id="reportSara">• Sara's Wholesome: 0 Qty | ₹0/-</span>
             <span class="msgLine" id="reportSarasGravy">• Sara's Gravy: 0 Qty | ₹0/-</span>
             <span class="msgLine" id="reportHearty">• Hearty: 0 Qty | ₹0/-</span>
@@ -7960,7 +7971,7 @@ function updateLiveReport(){
 
  setReportText("reportTitle",liveTitle());
  setReportText("reportDate",hasSalesData?"📅 Date: "+new Date(today+"T00:00:00").toLocaleDateString("en-IN",{day:"2-digit",month:"long",year:"numeric"}):"📅 Date: Upload sales data");
- setReportText("reportTime","⏰ "+liveTitle()+" 🐾");
+ setReportText("reportTime","⏰ "+liveTitle()+" ");
  setReportText("reportStore","📍 "+document.getElementById("storeName").textContent);
  setReportText("reportRetail",hasSalesData?"• Retail Sale: "+money(x.retail)+"/-":"• Retail Sale: Upload sales data");
  setReportText("reportSpa",hasSalesData?"• SPA Sale: "+money(x.spa)+"/-":"• SPA Sale: Upload sales data");
@@ -7971,7 +7982,7 @@ function updateLiveReport(){
  setReportText("reportSarasGravy","🍲 Sara's Gravy: "+(sg.sample>0?sg.qty.toFixed(0)+" Qty (Sample: "+sg.sample.toFixed(0)+" Qty)":sg.qty.toFixed(0)+" Qty")+" | "+money(sg.amount)+"/-");
  setReportText("reportHearty","🥣 Hearty: "+foodQtyWithSamples(today,"HUFT Hearty",x["HeartyQ"])+" | "+money(x["HeartyA"])+"/-");
  setReportText("reportMeowsi","🐱 Meowsi: "+x["MeowsiQ"].toFixed(0)+" Qty | "+money(x["MeowsiA"])+"/-");
- setReportText("reportNutriMeow","🐾 NutriMeow: "+x["NutriMeowQ"].toFixed(0)+" Qty | "+money(x["NutriMeowA"])+"/-");
+ setReportText("reportNutriMeow"," NutriMeow: "+x["NutriMeowQ"].toFixed(0)+" Qty | "+money(x["NutriMeowA"])+"/-");
  setReportText("reportNutriWag","🐕 NutriWag: "+x["NutriWagQ"].toFixed(0)+" Qty | "+money(x["NutriWagA"])+"/-");
  const totalHuftFood=(Number(x["Sara's WholesomeA"])||0)+(Number(x["HeartyA"])||0)+(Number(x["MeowsiA"])||0)+(Number(x["NutriMeowA"])||0)+(Number(x["NutriWagA"])||0)+(Number(sg.amount)||0);
  setReportText("reportTotal",hasSalesData?("💰 TOTAL FOOD SALE: "+money(totalHuftFood)+"/-"):"💰 TOTAL FOOD SALE: Upload sales data");
@@ -8457,7 +8468,7 @@ function updateStoreAIAnalysis(){
  '✔️ *Status:* '+(combinedGap>=0?'✅ Ahead by '+money0(combinedGap):'⚠️ Short by '+money0(Math.abs(combinedGap)))+' (till-date target pace)\n\n'+
  '💰 *Till Date*\n• Target: '+money0(target*elapsed/daysInMonth)+'\n• Sale: '+money0(totals.total)+'\n\n'+
  '🛍️ *Retail Till Date Gap:* '+(retailGap>=0?'✅ Ahead by ':'⚠️ Short by ')+money0(Math.abs(retailGap))+'\n'+
- '🐾 *SPA Till Date Gap:* '+(spaGap>=0?'✅ Ahead by ':'⚠️ Short by ')+money0(Math.abs(spaGap))+'\n\n'+
+ ' *SPA Till Date Gap:* '+(spaGap>=0?'✅ Ahead by ':'⚠️ Short by ')+money0(Math.abs(spaGap))+'\n\n'+
  '📅 *Month View*\n• Balance Target: '+money0(bal(totals.total,target))+'\n• % Achieved: '+Math.round(ach(totals.total,target))+'%\n• % Pending: '+Math.max(0,100-Math.round(ach(totals.total,target)))+'%\n• Total Target: '+money0(target)+'\n• Total Sale: '+money0(totals.total)+'\n• Per Day Required: '+money0(dailyRequired)+'\n\n'+
  '📈 *Performance*\n• % Diff vs Target Pace: '+(combinedGap>=0?'+':'-')+pctFmt(target>0?Math.abs(combinedGap)/(target*elapsed/daysInMonth||1)*100:0)+'\n• Highest Sale: '+money0(allHi.hi)+' (on '+allHi.hiDate+')\n• Lowest Sale: '+money0(allHi.lo)+' (on '+allHi.loDate+')\n• Avg Sale/Day: '+money0(avg(totals.total))+'\n• Projected Run Rate: '+money0(combinedRun)+' vs Target '+money0(target)+' ('+Math.round(ach(combinedRun,target))+'%)\n\n'+
  '⚠️ *Team Focus:* '+(combinedRun<target?'Increase daily sales pace, follow up refill customers, improve add-on sales, check stock-outs and push SPA bookings.':'Maintain sales momentum, protect product availability and continue add-on sales and SPA rebooking.')+'\n\n_Projection is based on sales recorded through '+dateLabel(latestKey)+' and assumes a steady daily pace._';
@@ -17208,7 +17219,7 @@ html body .tabs .tab.active:hover::after{
  ];
  window.renderHuftWhatsAppPreview=function(raw){
   const root=document.getElementById('huftEodWhatsAppPreview');if(!root)return;
-  const lines=String(raw||'').split(/\r?\n/);const __sm=String(raw||'').match(/\*Store Name:\s*([^*\n]+)\*/);const storeLabel='HUFT — '+(__sm?__sm[1].trim():'Store');let html='<div class="huft-wa-chat-head"><div class="huft-wa-avatar">🐾</div><div>'+escapeHtml(storeLabel)+'<span class="huft-wa-chat-sub">End of Day Report</span></div></div><div class="huft-wa-chat-body"><div class="huft-wa-message"><div class="huft-wa-report-title">📊 HUFT SALES UPDATE</div>';
+  const lines=String(raw||'').split(/\r?\n/);const __sm=String(raw||'').match(/\*Store Name:\s*([^*\n]+)\*/);const storeLabel='HUFT — '+(__sm?__sm[1].trim():'Store');let html='<div class="huft-wa-chat-head"><div class="huft-wa-avatar"></div><div>'+escapeHtml(storeLabel)+'<span class="huft-wa-chat-sub">End of Day Report</span></div></div><div class="huft-wa-chat-body"><div class="huft-wa-message"><div class="huft-wa-report-title">📊 HUFT SALES UPDATE</div>';
   let group='Overview',body=[];
   const tableRow=(line)=>{
    let t=String(line).replace(/^•\s*/, '').replace(/^\*|\*$/g,'').trim();
@@ -17224,7 +17235,7 @@ html body .tabs .tab.active:hover::after{
    if(/^\*(Date|Week|Month):\*/.test(line)){html+='<div class="huft-wa-line">'+inline(line)+'</div>';continue;}
    if(/^\*SPA\*/.test(line)){flush();group='✂️ SPA';continue;}
    if(/^\*Total Sales:\*/.test(line)){flush();group='📊 Total Sales';{const m=line.match(/^\*Total Sales:\*\s*(.*?)\s*\|\s*Achievement:\s*(.*)$/);if(m){body.push('• Total Sales: '+m[1]);body.push('• Achievement: '+(m[2]||''));}else body.push(line);}continue;}
-   if(/^\*Pet\*/.test(line)){flush();group='🐾 Pets';continue;}
+   if(/^\*Pet\*/.test(line)){flush();group=' Pets';continue;}
    if(/^\*Sampling\*/.test(line)){flush();group='🎁 Sampling';continue;}
    if(/^\*Individual Employee Sales/.test(line)){flush();group='👥 '+line.replace(/^\*|:?\*$/g,'');continue;}
    if(/^\*FINAL MTD SUMMARY\*/.test(line)){flush();group='🎯 Final MTD Summary';continue;}
@@ -21206,15 +21217,24 @@ function closeStoreProfileModal() {
 
 
 <script id="huft-portal-signout-handler">
+
 window.portalSignOut = function() {
   try {
-    sessionStorage.removeItem('huft_active_session');
-    sessionStorage.removeItem('huft_user_profile');
-    sessionStorage.removeItem('huft_auth_user');
+    sessionStorage.clear();
+    localStorage.removeItem('huft_mock_session');
     localStorage.removeItem('huft_active_session');
+    localStorage.removeItem('huft_user_profile');
+    localStorage.removeItem('huft_auth_user');
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const k = localStorage.key(i);
+      if (k && (k.startsWith('sb-') || k.startsWith('huft_'))) {
+        localStorage.removeItem(k);
+      }
+    }
   } catch(e) {}
-  window.location.href = '/';
+  window.location.replace('/');
 };
+
 </script>
 
 

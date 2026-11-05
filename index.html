@@ -1,6 +1,19 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script id="huft-auth-logout-guard">
+(function() {
+  // If user just signed out, ensure all session traces are dead
+  if (document.referrer && document.referrer.includes('/dashboard')) {
+    try {
+      sessionStorage.clear();
+      localStorage.removeItem('huft_mock_session');
+      localStorage.removeItem('huft_active_session');
+    } catch(e) {}
+  }
+})();
+</script>
+
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="theme-color" content="#111626">

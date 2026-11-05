@@ -198,6 +198,11 @@
         </form>
       </section>
 
+            <div style="margin: 18px 0 10px; text-align: center;">
+        <a href="/dashboard" style="color:#fff; background:linear-gradient(135deg, #8a3600 0%, #b84413 100%); text-decoration:none; display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:10px; font-weight:800; font-size:14px; box-shadow:0 4px 14px rgba(138,54,0,0.35); transition:transform 0.15s;">
+          Open Live Sales Dashboard &rarr;
+        </a>
+      </div>
       <p class="fine"><strong>No store account yet?</strong> Ask your HUFT administrator to send an invitation. Passwords are never saved in this page’s browser storage.</p>
     </section>
     <section class="login-panel hidden" id="setupPanel" aria-labelledby="setupTitle">
@@ -207,7 +212,7 @@
     </section>
   </main>
   <section id="dashboardApp" class="hidden" aria-label="HUFT Sales Report dashboard"><iframe id="dashboardFrame" title="HUFT Sales Report dashboard" loading="eager"></iframe></section>
-<script>
+<script id="huft-auth-ai-engine">
 (()=>{
   const DEFAULT_SUPABASE_URL = 'https://wyqksfncdlwjduyispmb.supabase.co';
   const DEFAULT_SUPABASE_KEY = 'sb_publishable_aWp9LDntXl0nRVMS3laNJQ_ycDrJK7Z';
@@ -293,11 +298,7 @@
   };
 
   function openDashboard() {
-    document.body.classList.add('portal-dashboard');
-    const app = $('dashboardApp');
-    if (app) app.classList.remove('hidden');
-    const frame = $('dashboardFrame');
-    if (!frame.src) frame.src = new URL('dashboard.html', location.href).href;
+    window.location.href = '/dashboard';
   }
 
   async function getStore(user) {

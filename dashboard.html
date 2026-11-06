@@ -2509,9 +2509,10 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
     } catch(e) {}
     if (window.userProfile) Object.assign(prof, window.userProfile);
 
-    const store = prof.store_id || prof.store || 'Hyderguda';
+    const rawStore = prof.store_id || (typeof prof.store === 'object' && prof.store ? (prof.store.store_name || prof.store.id) : prof.store) || 'Banjara Hills';
+    const store = typeof sanitizeStoreDisplayName === 'function' ? sanitizeStoreDisplayName(rawStore) : String(rawStore || 'Banjara Hills');
     const name = prof.full_name || prof.name || (store + ' Manager');
-    const email = prof.email || (store.toLowerCase() + '@headsupfortails.com');
+    const email = (prof.user && prof.user.email) || prof.email || (store.toLowerCase().replace(/[^a-z0-9]/g, '') + '@storeintelligence.com');
     const role = (prof.role === 'admin' || prof.role === 'CENTRAL_ADMIN') ? 'Central Admin' : 'Store Manager';
     const initial = store.charAt(0).toUpperCase();
 

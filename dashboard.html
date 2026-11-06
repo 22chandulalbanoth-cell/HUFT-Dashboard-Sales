@@ -68,7 +68,7 @@ window.portalSignOut = function() {
 <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HUFT Sales Report | v1.0.3</title>
+<title>Sales Pulse Report | v1.0.3</title>
 <link rel="icon" type="image/png" sizes="64x64" href="data:image/png;base64,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">
 
 <style>
@@ -5445,8 +5445,338 @@ body.sidebar-open .huft-ultra-main {
 }
 </style>
 
+
+<style id="huft-sleek-stick-sidebar-and-popups">
+/* ================================================================
+   SALES PULSE: SLENDER STICK SIDEBAR & GLOSSY POPUPS THEME
+   - Slender 64px stick/rail sidebar fixed to left
+   - Reactive icons that POP OUT TO THE RIGHT on hover / tab switch
+   - Ultra glossy mouse-tracking popups with gentle blinking light effects
+   - Soft luxury violet & rose glass aesthetic (orange completely replaced)
+   - Smooth tab shifting animation
+   ================================================================ */
+
+:root {
+  --rail-w: 64px !important;
+  --uv-violet: #7c3aed !important;
+  --uv-magenta: #db2777 !important;
+  --uv-cyan: #06b6d4 !important;
+  --uv-ink: #1e1537 !important;
+  --uv-muted: #6b5f86 !important;
+  --uv-soft-bg: #faf7ff !important;
+  --uv-glass-pill: rgba(255, 255, 255, 0.85) !important;
+}
+
+body {
+  background: linear-gradient(135deg, #fdf4f9 0%, #f5f3ff 50%, #eff6ff 100%) !important;
+  color: var(--uv-ink) !important;
+  overflow-x: hidden !important;
+}
+
+/* 1. SLENDER STICK SIDEBAR */
+aside.huft-ultra-sidebar, #huftSidebar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: var(--rail-w) !important;
+  max-width: var(--rail-w) !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-right: 1px solid rgba(124, 58, 237, 0.16) !important;
+  box-shadow: 4px 0 24px rgba(124, 58, 237, 0.08) !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  padding: 14px 0 !important;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  overflow: visible !important;
+}
+
+/* Slender stick header */
+.sidebar-header {
+  padding: 0 0 14px 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.1) !important;
+}
+.sidebar-brand-icon {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #7c3aed, #db2777) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #fff !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3) !important;
+  transition: transform 0.2s ease !important;
+}
+.sidebar-brand-icon:hover {
+  transform: scale(1.08) rotate(5deg) !important;
+}
+.sidebar-brand-text, .sidebar-store-pill {
+  display: none !important;
+}
+
+/* Main wrapper margin adjusts to slender stick */
+.huft-ultra-main, .container, .header {
+  margin-left: var(--rail-w) !important;
+  box-sizing: border-box !important;
+}
+
+/* 2. REACTIVE ICONS POPPING OUT TO THE RIGHT */
+.sidebar-nav.tabs {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  margin-top: 14px !important;
+  width: 100% !important;
+  align-items: center !important;
+  overflow: visible !important;
+}
+
+.sidebar-nav.tabs .tab {
+  position: relative !important;
+  width: 44px !important;
+  height: 44px !important;
+  margin: 0 auto !important;
+  border-radius: 14px !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(124, 58, 237, 0.14) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.06) !important;
+  transition: transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease, box-shadow 0.26s ease !important;
+  overflow: visible !important;
+}
+
+/* POP OUT TO THE RIGHT ON HOVER & ACTIVE */
+.sidebar-nav.tabs .tab:hover {
+  transform: translateX(12px) scale(1.14) !important; /* POPS TO RIGHT */
+  background: #ffffff !important;
+  border-color: #7c3aed !important;
+  box-shadow: 4px 6px 20px rgba(124, 58, 237, 0.28) !important;
+  z-index: 100 !important;
+}
+
+.sidebar-nav.tabs .tab.active {
+  transform: translateX(10px) scale(1.1) !important; /* Active sticks out to right */
+  background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%) !important;
+  border: none !important;
+  box-shadow: 4px 8px 22px rgba(124, 58, 237, 0.38) !important;
+  z-index: 90 !important;
+}
+
+.tab-3d-box {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: auto !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.tab-glyph {
+  font-size: 20px !important;
+  line-height: 1 !important;
+  transition: transform 0.2s ease !important;
+}
+
+.sidebar-nav.tabs .tab.active .tab-glyph {
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)) !important;
+  animation: tabGlyphPulse 2.2s infinite ease-in-out !important;
+}
+
+@keyframes tabGlyphPulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.7)); }
+  50% { transform: scale(1.12); filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1)); }
+}
+
+.tab-txt {
+  display: none !important;
+}
+
+/* Collapsed tooltips on hover */
+.sidebar-nav.tabs .tab::after {
+  content: attr(data-title);
+  position: absolute !important;
+  left: 60px !important;
+  top: 50% !important;
+  transform: translateY(-50%) translateX(-6px) !important;
+  background: rgba(30, 21, 55, 0.94) !important;
+  color: #ffffff !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: opacity 0.2s ease, transform 0.2s ease !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2) !important;
+  z-index: 1000 !important;
+}
+
+.sidebar-nav.tabs .tab:hover::after {
+  opacity: 1 !important;
+  transform: translateY(-50%) translateX(4px) !important;
+}
+
+/* Single Profile Pill at Bottom Left */
+.sidebar-footer {
+  margin-top: auto !important;
+  padding: 10px 0 !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  border-top: 1px solid rgba(124, 58, 237, 0.1) !important;
+}
+.sidebar-profile-card {
+  width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 2px solid rgba(124, 58, 237, 0.25) !important;
+  box-shadow: 0 2px 10px rgba(124, 58, 237, 0.12) !important;
+  transition: transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease !important;
+}
+.sidebar-profile-card:hover {
+  transform: translateX(8px) scale(1.15) !important;
+  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.3) !important;
+  border-color: #db2777 !important;
+}
+.sidebar-profile-card .profile-avatar {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #7c3aed, #db2777) !important;
+  color: #fff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 800 !important;
+  font-size: 13px !important;
+}
+.sidebar-profile-card .profile-meta, .sidebar-toggle-btn {
+  display: none !important;
+}
+
+/* 3. SMOOTH TAB SHIFTING ANIMATION */
+.page {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.page.active {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 4. ULTRA GLOSSY MOUSE-TRACKING POPUPS WITH GENTLE BLINK LIGHTS */
+.huft-tracking-popup,
+#huftHourlyPopup,
+.huft-hourly-popup,
+.huftPopupPanel,
+.chartDetail,
+.modal-content,
+[role="dialog"] > section,
+.huft-glossy-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 244, 255, 0.86) 100%) !important;
+  backdrop-filter: blur(24px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 16px 40px -10px rgba(124, 58, 237, 0.25), 0 0 0 1px rgba(124, 58, 237, 0.12), inset 0 1px 1px rgba(255, 255, 255, 1) !important;
+  border-radius: 16px !important;
+}
+
+/* Gentle blinking glow on popup badges and key letters */
+.huft-tracking-popup b,
+.huftPopupPanel h3,
+.huft-hourly-popup .badge,
+.huft-blink-glow {
+  animation: softBlinkGlow 2.5s infinite ease-in-out !important;
+}
+
+@keyframes softBlinkGlow {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 2px rgba(124, 58, 237, 0.3));
+  }
+  50% {
+    opacity: 0.72;
+    filter: drop-shadow(0 0 8px rgba(219, 39, 119, 0.65));
+  }
+}
+
+/* REPLACE ALL ORANGE THEME WITH LIGHT PASTEL GLASS */
+.brand {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 22px !important;
+  background: linear-gradient(135deg, #7c3aed, #db2777) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  letter-spacing: -0.02em !important;
+}
+
+button.primary, .toolbar button, .huft-water-upload {
+  background: #ffffff !important;
+  color: #7c3aed !important;
+  border: 1px solid rgba(124, 58, 237, 0.25) !important;
+  border-radius: 9999px !important;
+  padding: 8px 18px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.08) !important;
+  transition: all 0.2s ease !important;
+}
+
+button.primary:hover, .toolbar button:hover, .huft-water-upload:hover {
+  background: linear-gradient(135deg, #7c3aed, #db2777) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.3) !important;
+  transform: translateY(-1px) !important;
+}
+
+.header {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.12) !important;
+  box-shadow: 0 2px 12px rgba(124, 58, 237, 0.04) !important;
+}
+
+.card, .panel, .kpi, .stat {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(124, 58, 237, 0.12) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 18px rgba(124, 58, 237, 0.05) !important;
+}
+.kpi b, .stat b {
+  color: #7c3aed !important;
+}
+</style>
+
 </head>
-<body>
+<body class="huft-sidebar-collapsed">
 
 
 
@@ -5820,11 +6150,11 @@ body.sidebar-open .huft-ultra-main {
 <div id="huftAppRoot">
 
   <!-- LEFT ULTRA GLASSY SIDEBAR NAVIGATION -->
-  <aside class="huft-ultra-sidebar" id="huftSidebar">
+  <aside class="huft-ultra-sidebar is-collapsed" id="huftSidebar">
     <div class="sidebar-header">
       <div class="sidebar-brand-icon" onclick="toggleSidebarCollapse()" title="Toggle Sidebar" style="font-size:16px; font-weight:bold; color:#fff;">☰</div>
       <div class="sidebar-brand-text">
-        <span class="sidebar-brand-name">HUFT</span>
+        <span class="sidebar-brand-name">Pulse</span>
         <span class="sidebar-brand-sub">Sales Suite</span>
       </div>
     </div>
@@ -5884,7 +6214,7 @@ body.sidebar-open .huft-ultra-main {
 
 <header class="header">
   <div>
-    <div class="brand">HUFT Sales Report</div>
+    <div class="brand">Sales Pulse Report</div>
     <div class="sub" id="storeName">Loading store...</div>
   </div>
   <form class="huft-ps-form" id="huftPhoneSearchForm" role="search" autocomplete="off" onsubmit="return false">
@@ -6123,7 +6453,7 @@ body.sidebar-open .huft-ultra-main {
       <div>
         <div class="employee-kpi-eyebrow">TEAM PERFORMANCE • RETAIL & FOOD</div>
         <div class="employee-kpi-title">Employee Monthly Performance</div>
-        <div class="employee-kpi-sub">Employee sales, editable targets, HUFT food performance and productivity metrics. Uses employee names from POS Column AC (Employees).</div>
+        <div class="employee-kpi-sub">Employee sales, editable targets, Premium Food performance and productivity metrics. Uses employee names from POS Column AC (Employees).</div>
       </div>
       <div class="employee-kpi-actions">
         <div class="employee-name-filter" id="employeeNameFilterWrap"><span>EMPLOYEE</span><button type="button" class="employee-multi-trigger" id="employeeNameFilterTrigger" aria-expanded="false" aria-controls="employeeNameFilterMenu" onclick="toggleEmployeeNameMenu()">All Employees <span aria-hidden="true">▾</span></button><div class="employee-multi-menu" id="employeeNameFilterMenu" hidden><div class="employee-multi-menu-head"><label><input type="checkbox" id="employeeSelectAll" checked onchange="toggleAllEmployeeNames(this.checked)"> <b>All Employees</b></label></div><div id="employeeNameOptions"></div><div class="employee-multi-menu-foot"><span id="employeeSelectedCount">All employees selected</span><button type="button" onclick="applyEmployeeNameSelection()">Apply</button></div></div></div>
@@ -6149,18 +6479,18 @@ body.sidebar-open .huft-ultra-main {
     <div class="employee-summary-grid">
       <div class="employee-summary-card"><span>Retail Sales Achieved</span><b id="empRetailTotal">₹0</b><small>Retail only • SPA Services excluded</small></div>
       <div class="employee-summary-card"><span>Retail Target</span><b id="empRetailTargetTotal">₹0</b><small>Editable employee targets</small></div>
-      <div class="employee-summary-card"><span>HUFT Food Sold</span><b id="empFoodTotal">₹0</b><small>Sara's, Hearty, Meowsi, NutriMeow & NutriWag</small></div>
-      <div class="employee-summary-card"><span>HUFT Food Target</span><b id="empFoodTargetTotal">₹0</b><small>Editable employee food targets</small></div>
+      <div class="employee-summary-card"><span>Food Sold</span><b id="empFoodTotal">₹0</b><small>Sara's, Hearty, Meowsi, NutriMeow & NutriWag</small></div>
+      <div class="employee-summary-card"><span>Food Target</span><b id="empFoodTargetTotal">₹0</b><small>Editable employee food targets</small></div>
     </div>
 
     <div class="employee-panel">
       <div class="employee-panel-head">
-        <div><h3>Staff Key Performance Indicators</h3><p>Enter or update Retail Target and HUFT Food Target. Targets are saved in this browser.</p></div>
-        <div class="employee-legend"><span class="legend-dot retail-dot"></span> Retail <span class="legend-dot food-dot"></span> HUFT Food</div>
+        <div><h3>Staff Key Performance Indicators</h3><p>Enter or update Retail Target and Food Target. Targets are saved in this browser.</p></div>
+        <div class="employee-legend"><span class="legend-dot retail-dot"></span> Retail <span class="legend-dot food-dot"></span> Premium Food</div>
       </div>
       <div class="employee-table-scroll">
         <table class="employee-kpi-table" id="employeeKpiTable">
-          <thead id="employeeMonthlySalesHead"><tr><th>Employee</th><th>Retail Target</th><th>ACH</th><th>ACH %</th><th>Backlog</th><th>Req. RR / Day</th><th>ASPD</th><th>Expected Closing</th><th>Exp. ACH %</th><th>Sales Contribution</th><th>HUFT Food Sold</th><th>HUFT Food Target</th><th>Food ACH %</th><th>Cat Litter</th></tr></thead>
+          <thead id="employeeMonthlySalesHead"><tr><th>Employee</th><th>Retail Target</th><th>ACH</th><th>ACH %</th><th>Backlog</th><th>Req. RR / Day</th><th>ASPD</th><th>Expected Closing</th><th>Exp. ACH %</th><th>Sales Contribution</th><th>Food Sold</th><th>Food Target</th><th>Food ACH %</th><th>Cat Litter</th></tr></thead>
           <tbody id="employeeMonthlySalesBody"><tr><td colspan="14">Upload sales data to view employee performance.</td></tr></tbody>
         </table>
       </div>
@@ -6171,7 +6501,7 @@ body.sidebar-open .huft-ultra-main {
       <div class="employee-panel-head"><div><h3>Employee Productivity & Product Mix</h3><p>Bill count uses distinct invoice references. Retail-only WOW bills follow the dashboard date/store filters; SPA and mixed-service invoices are excluded. Unassigned retail bills appear separately.</p></div></div>
       <div class="employee-table-scroll">
         <table class="employee-kpi-table employee-product-table" id="employeeProductTable">
-          <thead id="employeeProductHead"><tr><th>Employee</th><th>Bills</th><th>WOW Bills (≥ ₹10,000)</th><th>Qty</th><th>ABV</th><th>UPT</th><th>ASP</th><th>Hearty</th><th>Meowsi</th><th>NutriMeow</th><th>Sara's</th><th>NutriWag</th><th>HUFT Food Contribution</th><th>Packages Sold (Qty)</th><th>Package Sales (₹)</th><th>Treat Bills</th><th>Treat Bill %</th></tr></thead>
+          <thead id="employeeProductHead"><tr><th>Employee</th><th>Bills</th><th>WOW Bills (≥ ₹10,000)</th><th>Qty</th><th>ABV</th><th>UPT</th><th>ASP</th><th>Hearty</th><th>Meowsi</th><th>NutriMeow</th><th>Sara's</th><th>NutriWag</th><th>Premium Food Contribution</th><th>Packages Sold (Qty)</th><th>Package Sales (₹)</th><th>Treat Bills</th><th>Treat Bill %</th></tr></thead>
           <tbody id="employeeProductBody"><tr><td colspan="17">Upload sales data to view productivity.</td></tr></tbody>
         </table>
       </div>
@@ -6193,10 +6523,10 @@ body.sidebar-open .huft-ultra-main {
 
     <div class="employee-charts-grid">
       <div class="employee-chart-card"><div class="employee-chart-title">Retail Sales vs Target</div><div class="employee-chart-sub">Achieved sales compared with each employee's target</div><canvas id="employeeRetailChart" height="270"></canvas></div>
-      <div class="employee-chart-card"><div class="employee-chart-title">HUFT Food Sold vs Target</div><div class="employee-chart-sub">House food brand sales compared with food targets</div><canvas id="employeeFoodChart" height="270"></canvas></div>
-      <div class="employee-chart-card employee-chart-wide"><div class="employee-chart-title">HUFT Food Brand Mix by Employee</div><div class="employee-chart-sub">Breakdown of Hearty, Meowsi, NutriMeow, Sara's and NutriWag sales</div><canvas id="employeeFoodMixChart" height="280"></canvas></div>
+      <div class="employee-chart-card"><div class="employee-chart-title">Food Sold vs Target</div><div class="employee-chart-sub">House food brand sales compared with food targets</div><canvas id="employeeFoodChart" height="270"></canvas></div>
+      <div class="employee-chart-card employee-chart-wide"><div class="employee-chart-title">Premium Food Brand Mix by Employee</div><div class="employee-chart-sub">Breakdown of Hearty, Meowsi, NutriMeow, Sara's and NutriWag sales</div><canvas id="employeeFoodMixChart" height="280"></canvas></div>
       <div class="employee-chart-card"><div class="employee-chart-title">Retail Sales Share by Employee</div><div class="employee-chart-sub">Each employee’s share of total retail sales, with percentage labels</div><canvas id="employeeRetailPieChart" height="300"></canvas></div>
-      <div class="employee-chart-card"><div class="employee-chart-title">HUFT Food Brand Share</div><div class="employee-chart-sub">Overall contribution of each food brand to HUFT food sales</div><canvas id="employeeFoodPieChart" height="300"></canvas></div>
+      <div class="employee-chart-card"><div class="employee-chart-title">Premium Food Brand Share</div><div class="employee-chart-sub">Overall contribution of each food brand to Premium Food sales</div><canvas id="employeeFoodPieChart" height="300"></canvas></div>
     </div>
     <div class="employee-kpi-status" id="employeeMonthlySalesSummary">Upload POS data to calculate employee performance.</div>
   </div>
@@ -6338,7 +6668,7 @@ body.sidebar-open .huft-ultra-main {
 </section>
 
 <section id="huft" class="page">
-    <div class="dashPanel foodComparePanel" style="margin:0 0 14px;min-height:auto"><div class="chartHead"><b>HUFT Food — Current vs Last Month</b><span id="foodCompareNote">Till-date comparison</span></div><div class="miniTableWrap" style="max-height:none;overflow-x:auto"><table class="miniTable" style="min-width:650px;width:100%"><thead><tr><th>Food Brand</th><th>Last Month Sale</th><th>Current Month Sale</th><th>Difference</th><th>Change %</th><th>Last Month Qty</th><th>Current Month Qty</th></tr></thead><tbody id="foodMonthCompareBody"><tr><td colspan="7">Upload sales data to view comparison.</td></tr></tbody></table></div></div>
+    <div class="dashPanel foodComparePanel" style="margin:0 0 14px;min-height:auto"><div class="chartHead"><b>Premium Food — Current vs Last Month</b><span id="foodCompareNote">Till-date comparison</span></div><div class="miniTableWrap" style="max-height:none;overflow-x:auto"><table class="miniTable" style="min-width:650px;width:100%"><thead><tr><th>Food Brand</th><th>Last Month Sale</th><th>Current Month Sale</th><th>Difference</th><th>Change %</th><th>Last Month Qty</th><th>Current Month Qty</th></tr></thead><tbody id="foodMonthCompareBody"><tr><td colspan="7">Upload sales data to view comparison.</td></tr></tbody></table></div></div>
 
     <div class="grid">
       <div class="card reportCard huftHourlyLauncherCard">
@@ -6351,7 +6681,7 @@ body.sidebar-open .huft-ultra-main {
         </button>
         <div class="messageBox" id="messageBox" hidden>
           <div class="messageText3D" id="messageText3D">
-            <span class="msgLine msgSectionHeading" id="reportTime">📅 HUFT Food Sale Update – 10 PM</span>
+            <span class="msgLine msgSectionHeading" id="reportTime">📅 Premium Food Sale Update – 10 PM</span>
             <span class="msgLine" id="reportDate">Date: —</span>
             <span class="msgLine" id="reportStore">Store: —</span>
             <br>
@@ -6361,14 +6691,14 @@ body.sidebar-open .huft-ultra-main {
             <span class="msgLine" id="reportPackages">• SPA Packages Redeemed: 0</span>
             <span class="msgLine" id="reportSalesTotal">• Total Sale: ₹0/-</span>
             <br>
-            <span class="msgLine msgSectionHeading"> HUFT Food Sales</span>
+            <span class="msgLine msgSectionHeading"> Premium Food Sales</span>
             <span class="msgLine" id="reportSara">• Sara's Wholesome: 0 Qty | ₹0/-</span>
             <span class="msgLine" id="reportSarasGravy">• Sara's Gravy: 0 Qty | ₹0/-</span>
             <span class="msgLine" id="reportHearty">• Hearty: 0 Qty | ₹0/-</span>
             <span class="msgLine" id="reportMeowsi">• Meowsi: 0 Qty | ₹0/-</span>
             <span class="msgLine" id="reportNutriMeow">• NutriMeow: 0 Qty | ₹0/-</span>
             <span class="msgLine" id="reportNutriWag">• NutriWag: 0 Qty | ₹0/-</span>
-            <span class="msgTotal" id="reportTotal">• Total HUFT Food Sale: ₹0/-</span>
+            <span class="msgTotal" id="reportTotal">• Total Premium Food Sale: ₹0/-</span>
           </div>
         </div>
       </div>
@@ -6958,7 +7288,7 @@ async function clearSavedSalesData(){
 }
 
 // Actual initial-load progress bridge. Reports completed initialization milestones, not timer-based guesses.
-window.__huftInitProgressState = window.__huftInitProgressState || {percent:0, status:"Initializing HUFT Sales Report…", error:""};
+window.__huftInitProgressState = window.__huftInitProgressState || {percent:0, status:"Initializing Sales Pulse Report…", error:""};
 window.huftReportInitProgress = function(percent, status, error){
   var state=window.__huftInitProgressState;
   if(!window.__huftBootStartedAt){window.__huftBootStartedAt=Date.now();window.__huftBootElapsedTimer=setInterval(function(){var el=document.getElementById("huftBootLoaderElapsed");if(!el)return;var sec=Math.floor((Date.now()-window.__huftBootStartedAt)/1000),mm=String(Math.floor(sec/60)).padStart(2,"0"),ss=String(sec%60).padStart(2,"0");el.textContent=mm+":"+ss;},250);}
@@ -7890,7 +8220,7 @@ function liveTitle(){
  const mins=n.getHours()*60+n.getMinutes();
  if(mins>=16*60 && mins<19*60) return "6 PM HUFT Sale Report";
  if(mins>=19*60 && mins<23*60) return "10 PM HUFT Sale Report";
- return "HUFT Food Sale Update";
+ return "Premium Food Sale Update";
 }
 
 function readHuftDailyTableReport(){
@@ -8634,7 +8964,7 @@ function updateFoodMonthComparison(){
  const prevTotal=values.reduce((a,x)=>a+x.prev.sale,0),curTotal=values.reduce((a,x)=>a+x.cur.sale,0);
  const prevQty=values.reduce((a,x)=>a+x.prev.qty,0),curQty=values.reduce((a,x)=>a+x.cur.qty,0);
  const diff=curTotal-prevTotal,cls=diff>0?'pos':diff<0?'neg':'';
- body.innerHTML=rowsHtml+'<tr style="font-weight:800;background:#f8fafc"><td>Total HUFT Food</td><td>'+fmt(prevTotal)+'</td><td>'+fmt(curTotal)+'</td><td class="'+cls+'">'+(diff>0?'+':'')+fmt(diff)+'</td><td class="'+cls+'">'+(diff>0&&prevTotal!==0?'+':'')+pct(curTotal,prevTotal)+'</td><td>'+Math.round(prevQty).toLocaleString('en-IN')+'</td><td>'+Math.round(curQty).toLocaleString('en-IN')+'</td></tr>';
+ body.innerHTML=rowsHtml+'<tr style="font-weight:800;background:#f8fafc"><td>Total Premium Food</td><td>'+fmt(prevTotal)+'</td><td>'+fmt(curTotal)+'</td><td class="'+cls+'">'+(diff>0?'+':'')+fmt(diff)+'</td><td class="'+cls+'">'+(diff>0&&prevTotal!==0?'+':'')+pct(curTotal,prevTotal)+'</td><td>'+Math.round(prevQty).toLocaleString('en-IN')+'</td><td>'+Math.round(curQty).toLocaleString('en-IN')+'</td></tr>';
  if(note)note.textContent=prevDate.toLocaleDateString('en-IN',{month:'short',year:'numeric'})+' (1–'+prevDays+') vs '+new Date(yy,mm-1,1).toLocaleDateString('en-IN',{month:'short',year:'numeric'})+' (1–'+dd+') • Till-date, same number of days • Data through '+new Date(yy,mm-1,dd).toLocaleDateString('en-IN',{day:'2-digit',month:'short'});
 }
 
@@ -8980,20 +9310,20 @@ function renderEmployeeMonthlySales(){
   const note=document.getElementById('employeeMonthlySalesSummary');
   if(note)note.textContent=entries.length+' employees • '+retailLineRows.toLocaleString('en-IN')+' retail line rows. Blank employee cells are filled down from the previous named employee; unassigned rows are not displayed.';
 
-  head.innerHTML='<tr><th>Employee</th><th>Retail Target (₹)</th><th>ACH (₹)</th><th>ACH %</th><th>Backlog (₹)</th><th>Req. RR / Day</th><th>ASPD</th><th>Expected Closing</th><th>Exp. ACH %</th><th>Sales Contri %</th><th>HUFT Food Sold</th><th>HUFT Food Target (₹)</th><th>Food ACH %</th><th>Cat Litter</th></tr>';
+  head.innerHTML='<tr><th>Employee</th><th>Retail Target (₹)</th><th>ACH (₹)</th><th>ACH %</th><th>Backlog (₹)</th><th>Req. RR / Day</th><th>ASPD</th><th>Expected Closing</th><th>Exp. ACH %</th><th>Sales Contri %</th><th>Food Sold</th><th>Food Target (₹)</th><th>Food ACH %</th><th>Cat Litter</th></tr>';
   if(!entries.length){
     body.innerHTML='<tr><td colspan="14">No retail sales found for the selected date range. Upload the POS Excel file, then refresh.</td></tr>';
   } else {
     body.innerHTML=entries.map(x=>{
       const targetInput='<input class="employee-target-input" type="number" min="0" step="1000" aria-label="Retail target for '+safe(x.name)+'" data-employee="'+safe(x.name).replace(/"/g,'&quot;')+'" data-target-type="retail" value="'+Math.round(x.retailTarget)+'" oninput="persistEmployeeKpiTarget(this)" onchange="saveEmployeeKpiTarget(this)">';
-      const foodInput='<input class="employee-target-input" type="number" min="0" step="1000" aria-label="HUFT food target for '+safe(x.name)+'" data-employee="'+safe(x.name).replace(/"/g,'&quot;')+'" data-target-type="food" value="'+Math.round(x.foodTarget)+'" oninput="persistEmployeeKpiTarget(this)" onchange="saveEmployeeKpiTarget(this)">';
+      const foodInput='<input class="employee-target-input" type="number" min="0" step="1000" aria-label="Food Target for '+safe(x.name)+'" data-employee="'+safe(x.name).replace(/"/g,'&quot;')+'" data-target-type="food" value="'+Math.round(x.foodTarget)+'" oninput="persistEmployeeKpiTarget(this)" onchange="saveEmployeeKpiTarget(this)">';
       return '<tr><td>'+safe(x.name)+'</td><td>'+targetInput+'</td><td>'+employeeMoney(x.sale)+'</td>'+employeePercentBar(x.retailTarget?x.achPct:NaN,x.retailTarget?employeePct(x.achPct):'—','blue')+'<td>'+employeeMoney(x.backlog)+'</td><td>'+employeeMoney(x.reqRR)+'</td><td>'+employeeMoney(x.aspd)+'</td><td>'+employeeMoney(x.expected)+'</td>'+employeePercentBar(x.retailTarget?x.expectedPct:NaN,x.retailTarget?employeePct(x.expectedPct):'—','green')+employeePercentBar(x.salesContri,employeePct(x.salesContri),'purple')+'<td>'+employeeMoney(x.food)+'</td><td>'+foodInput+'</td>'+employeePercentBar(x.foodTarget?x.foodPct:NaN,x.foodTarget?employeePct(x.foodPct):'—','orange')+'<td>'+employeeMoney(x.catLitter)+'</td></tr>';
     }).join('');
     const totalRow='<tr class="employee-total-row"><td>TOTAL</td><td>'+employeeMoney(retailTargetTotal)+'</td><td>'+employeeMoney(retailTotal)+'</td><td>'+(retailTargetTotal?employeePct(retailTotal/retailTargetTotal*100):'—')+'</td><td>'+employeeMoney(Math.max(0,retailTargetTotal-retailTotal))+'</td><td>'+employeeMoney(dates.daysLeft?Math.max(0,retailTargetTotal-retailTotal)/dates.daysLeft:0)+'</td><td>'+employeeMoney(retailTotal/Math.max(1,dates.daysOver))+'</td><td>'+employeeMoney(retailTotal/Math.max(1,dates.daysOver)*dates.daysInMonth)+'</td>'+'<td>'+(retailTargetTotal?employeePct((retailTotal/Math.max(1,dates.daysOver)*dates.daysInMonth)/retailTargetTotal*100):'—')+'</td><td>'+(retailTotal?employeePct(100):'—')+'</td><td>'+employeeMoney(foodTotal)+'</td><td>'+employeeMoney(foodTargetTotal)+'</td><td>'+(foodTargetTotal?employeePct(foodTotal/foodTargetTotal*100):'—')+'</td><td>'+employeeMoney(entries.reduce((a,x)=>a+x.catLitter,0))+'</td></tr>';
     body.innerHTML+=totalRow;
   }
 
-  pHead.innerHTML='<tr><th>Employee</th><th>Bills</th><th>WOW Bills (≥ ₹10,000)</th><th>Qty</th><th>ABV</th><th>UPT</th><th>ASP</th><th>Hearty</th><th>Meowsi</th><th>NutriMeow</th><th>Sara\'s</th><th>NutriWag</th><th>HUFT Food Contri %</th><th>Packages Sold (Qty)</th><th>Package Sales (₹)</th><th>Treat Bills</th><th>Treat Bill %</th></tr>';
+  pHead.innerHTML='<tr><th>Employee</th><th>Bills</th><th>WOW Bills (≥ ₹10,000)</th><th>Qty</th><th>ABV</th><th>UPT</th><th>ASP</th><th>Hearty</th><th>Meowsi</th><th>NutriMeow</th><th>Sara\'s</th><th>NutriWag</th><th>Premium Food Contri %</th><th>Packages Sold (Qty)</th><th>Package Sales (₹)</th><th>Treat Bills</th><th>Treat Bill %</th></tr>';
   if(!entries.length){pBody.innerHTML='<tr><td colspan="17">No productivity data found.</td></tr>';}
   else{
     pBody.innerHTML=entries.map(x=>'<tr><td>'+safe(x.name)+'</td><td>'+x.bills.toLocaleString('en-IN')+'</td><td>'+x.wowBills.size.toLocaleString('en-IN')+'</td><td>'+employeeNumber(x.qty)+'</td><td>'+employeeMoney(x.abv)+'</td><td>'+employeeNumber(x.upt,2)+'</td><td>'+employeeMoney(x.asp)+'</td><td>'+employeeMoney(x.brandSales.Hearty)+'</td><td>'+employeeMoney(x.brandSales.Meowsi)+'</td><td>'+employeeMoney(x.brandSales.NutriMeow)+'</td><td>'+employeeMoney(x.brandSales["Sara\'s"])+'</td><td>'+employeeMoney(x.brandSales.NutriWag)+'</td>'+employeePercentBar(x.foodContri,employeePct(x.foodContri),'teal')+'<td>'+employeeNumber(x.packageQty)+'</td><td>'+employeeMoney(x.packageAmount)+'</td><td>'+x.treatBills.size.toLocaleString('en-IN')+'</td>'+employeePercentBar(x.treatPct,employeePct(x.treatPct),'blue')+'</tr>').join('');
@@ -9051,12 +9381,12 @@ function renderEmployeeMonthlySales(){
     PackagesSold:x.packageQty, PackageSalesAmount:x.packageAmount, TreatBills:x.treatBills.size, TreatBillPercent:x.treatPct
   }));
   drawEmployeeGroupedChart('employeeRetailChart',entries,'sale','retailTarget','Retail Sales vs Target');
-  drawEmployeeGroupedChart('employeeFoodChart',entries,'food','foodTarget','HUFT Food Sold vs Target');
+  drawEmployeeGroupedChart('employeeFoodChart',entries,'food','foodTarget','Food Sold vs Target');
   drawEmployeeFoodMixChart('employeeFoodMixChart',entries);
   drawEmployeePieChart('employeeRetailPieChart',entries.map(x=>({label:x.name,value:x.sale,color:null})), 'Retail sales share');
   const brandColors={'Hearty':'#2563eb','Meowsi':'#14b8a6','NutriMeow':'#8b5cf6',"Sara's":'#f97316','NutriWag':'#84a83f'};
   const brandItems=Object.keys(brandColors).map(label=>({label,value:entries.reduce((sum,x)=>sum+(Number(x.brandSales[label])||0),0),color:brandColors[label]})).filter(x=>x.value>0);
-  drawEmployeePieChart('employeeFoodPieChart',brandItems,'HUFT food brand share');
+  drawEmployeePieChart('employeeFoodPieChart',brandItems,'Premium Food brand share');
 }
 function ensureEmployeeHoverTip(){
   let tip=document.getElementById('employeeSaleHoverTip');
@@ -9123,7 +9453,7 @@ function drawEmployeeFoodMixChart(id,entries){
   const rowH=Math.min(38,(h-padT-padB)/Math.max(1,items.length));const hits=[];
   items.forEach((it,i)=>{const y=padT+i*rowH;ctx.textAlign='right';ctx.fillStyle='#34465e';ctx.fillText(it.name.length>Math.max(18,Math.floor(padL/6.5))?it.name.slice(0,Math.max(17,Math.floor(padL/6.5)-1))+'…':it.name,padL-10,y+rowH*.62);let x=padL;brands.forEach(b=>{const value=Number(it.brandSales[b.key])||0,width=plotW*value/max;if(width>0){roundedEmployeeBar(ctx,x,y+rowH*.22,width,Math.max(8,rowH*.52),3,b.color);const brandPct=it.food>0?value/it.food*100:0;if(width>=48){ctx.save();ctx.font='bold 9px Nunito, Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#ffffff';ctx.fillText(Math.round(brandPct)+'%',x+width/2,y+rowH*.22+Math.max(8,rowH*.52)/2);ctx.restore();}hits.push({x,x2:x+width,y,y2:y+rowH,it,b,value,brands,brandPct});x+=width;}});});
   canvas.__employeeHits=hits;
-  canvas.onmousemove=function(e){const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const hit=hits.find(q=>x>=q.x&&x<=q.x2&&y>=q.y&&y<=q.y2);if(!hit){hideEmployeeHoverTip();return;}moveEmployeeHoverTip(e,'<div class="estip-title">'+safe(hit.it.name)+'</div><div class="estip-row"><i class="estip-dot" style="background:'+hit.b.color+'"></i>'+safe(hit.b.key)+' <b>'+employeeHoverMoney(hit.value)+'</b></div><div class="estip-row">Share of employee food sales <b>'+Math.round(hit.brandPct)+'%</b></div><div class="estip-foot">Total HUFT food sales: '+employeeHoverMoney(hit.it.food)+'</div>');};
+  canvas.onmousemove=function(e){const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const hit=hits.find(q=>x>=q.x&&x<=q.x2&&y>=q.y&&y<=q.y2);if(!hit){hideEmployeeHoverTip();return;}moveEmployeeHoverTip(e,'<div class="estip-title">'+safe(hit.it.name)+'</div><div class="estip-row"><i class="estip-dot" style="background:'+hit.b.color+'"></i>'+safe(hit.b.key)+' <b>'+employeeHoverMoney(hit.value)+'</b></div><div class="estip-row">Share of employee food sales <b>'+Math.round(hit.brandPct)+'%</b></div><div class="estip-foot">Total Premium Food sales: '+employeeHoverMoney(hit.it.food)+'</div>');};
   canvas.onmouseleave=hideEmployeeHoverTip;
 }
 function drawEmployeePieChart(id,rawItems,title){
@@ -10785,22 +11115,22 @@ window.__huftRestorePromise = restoreLocalRows();
   const money=n=>huftCompactINR(n,0);
   window.buildWhatsApp=function(){
     const body=document.getElementById('dailyBody');
-    if(!body)return 'HUFT Food Sale Update\nNo sales rows are currently available.';
+    if(!body)return 'Premium Food Sale Update\nNo sales rows are currently available.';
     const parse=t=>{const m=String(t||'').trim().match(/(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);return m?`${m[3]}-${String(m[2]).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`:null;};
     const rows=[...body.querySelectorAll('tr')].filter(tr=>!tr.classList.contains('totalRow')&&tr.cells.length>=16).map(tr=>({tr,key:parse(tr.cells[0].textContent)})).filter(x=>x.key).sort((a,b)=>b.key.localeCompare(a.key));
     const today=new Date(),todayKey=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
     const to=document.getElementById('to');const selected=to&&/^\d{4}-\d{2}-\d{2}$/.test(to.value)?to.value:null;
     const chosen=rows.find(x=>x.key===todayKey)||rows.find(x=>x.key===selected)||rows[0];
-    if(!chosen)return 'HUFT Food Sale Update\nNo dated sales rows are currently available.';
+    if(!chosen)return 'Premium Food Sale Update\nNo dated sales rows are currently available.';
     const cell=i=>Number(String(chosen.tr.cells[i]?.textContent||'0').replace(/[^0-9.-]/g,''))||0;
     const brands=[["Sara's Wholesome",3,4,"HUFT Sara's Wholesome"],['Hearty',5,6,'HUFT Hearty'],['Meowsi',7,8,'HUFT Meowsi'],['NutriMeow',9,10,'HUFT NutriMeow'],['NutriWag',11,12,'HUFT NutriWag']];
     const date=new Date(chosen.key+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
     const store=(document.getElementById('storeName')?.textContent||'All Stores').trim();
     const sampleQty=(needle)=>{try{return typeof sampleQtyForDay==='function'?sampleQtyForDay(chosen.key,needle):0;}catch(e){return 0;}};
-    return `HUFT Food Sale Update – ${new Date().getHours()>=20?'10 PM':'6 PM'}\nDate: ${date}\nStore: ${store}\n\nSales Summary\n• Retail Sale: ${money(cell(1))}/-\n• SPA Sale: ${money(cell(2))}/-\n• SPA Packages Redeemed: ${cell(14).toLocaleString('en-IN')}\n• Total Sale: ${money(cell(1)+cell(2))}/-\n\nHUFT Food Sales\n`+`• Sara's Wholesome: ${cell(3).toLocaleString('en-IN')} Qty${sampleQty("HUFT Sara's Wholesome")>0?` (Sample: ${sampleQty("HUFT Sara's Wholesome").toLocaleString('en-IN')} Qty)`:''} | ${money(cell(4))}/-\n`+
+    return `Premium Food Sale Update – ${new Date().getHours()>=20?'10 PM':'6 PM'}\nDate: ${date}\nStore: ${store}\n\nSales Summary\n• Retail Sale: ${money(cell(1))}/-\n• SPA Sale: ${money(cell(2))}/-\n• SPA Packages Redeemed: ${cell(14).toLocaleString('en-IN')}\n• Total Sale: ${money(cell(1)+cell(2))}/-\n\nPremium Food Sales\n`+`• Sara's Wholesome: ${cell(3).toLocaleString('en-IN')} Qty${sampleQty("HUFT Sara's Wholesome")>0?` (Sample: ${sampleQty("HUFT Sara's Wholesome").toLocaleString('en-IN')} Qty)`:''} | ${money(cell(4))}/-\n`+
     (function(){const sg=(typeof getSarasGravyMetrics==='function')?getSarasGravyMetrics(chosen.key):{qty:0,amount:0,sample:0};return `• Sara's Gravy: ${sg.qty.toLocaleString('en-IN')} Qty${sg.sample>0?` (Sample: ${sg.sample.toLocaleString('en-IN')} Qty)`:''} | ${money(sg.amount)}/-\n`;})()+
     brands.slice(1).map(([name,q,a,needle])=>{const samples=sampleQty(needle);return `• ${name}: ${cell(q).toLocaleString('en-IN')} Qty${samples>0?` (Sample: ${samples.toLocaleString('en-IN')} Qty)`:''} | ${money(cell(a))}/-`;}).join('\n')+
-    `\nTotal HUFT Food Sale: ${money(brands.reduce((sum,b)=>sum+cell(b[2]),0) + ((typeof getSarasGravyMetrics==='function')?getSarasGravyMetrics(chosen.key).amount:0))}/-`;
+    `\nTotal Premium Food Sale: ${money(brands.reduce((sum,b)=>sum+cell(b[2]),0) + ((typeof getSarasGravyMetrics==='function')?getSarasGravyMetrics(chosen.key).amount:0))}/-`;
   };
   window.copyWhatsApp=async function(){const text=window.buildWhatsApp();try{await navigator.clipboard.writeText(text);}catch(e){const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(_){}ta.remove();}};
 })();</script>
@@ -11546,7 +11876,7 @@ window.addEventListener('load',function(){
   z-index:20!important;
   background:#ffedd5!important;
 }
-/* Remove excessive gap between HUFT Food comparison and HUFT Daily Sale */
+/* Remove excessive gap between Premium Food comparison and HUFT Daily Sale */
 .foodComparePanel,
 .foodComparePanel + .huft-daily-sale-panel,
 .huft-daily-sale-panel{
@@ -11619,7 +11949,7 @@ section:has(.foodComparePanel){margin-bottom:0!important;padding-bottom:0!import
    return {diff,targetName,targetDate,key,seconds:diff*60-now.getSeconds()/60};
  };
  function showReminder(info){
-   message.textContent='The '+info.targetName+' HUFT sales report is due in '+(info.diff<1?'less than 1 minute':info.diff+' minutes')+'. Please prepare and confirm when ready.';
+   message.textContent='The '+info.targetName+' Sales Pulse Report is due in '+(info.diff<1?'less than 1 minute':info.diff+' minutes')+'. Please prepare and confirm when ready.';
    overlay.classList.add('show');
    lastReminderAt=Date.now();
    if('Notification' in window && Notification.permission==='granted'){
@@ -13365,7 +13695,7 @@ const cmp=(a,b)=>[...new Set([...a.keys(),...b.keys()])].map(n=>{const c=a.get(n
 const foc=(o,re)=>{let s=0;o.brand.forEach((v,k)=>{if(re.test(k))s+=v});return s};
 function pace(actual,target,daysOver,daysInMonth){const hasActual=actual!==null&&Number.isFinite(Number(actual)),hasTarget=target!==null&&Number.isFinite(Number(target))&&Number(target)>0,aspd=hasActual&&daysOver>0?Number(actual)/daysOver:null,expected=aspd!==null?aspd*daysInMonth:null;return{actual:hasActual?Number(actual):null,target:hasTarget?Number(target):null,ach:hasActual&&hasTarget?Number(actual)/Number(target)*100:null,backlog:hasActual&&hasTarget?Number(actual)-Number(target):null,aspd,expected,expectedAch:expected!==null&&hasTarget?expected/Number(target)*100:null,required:hasActual&&hasTarget&&daysInMonth>daysOver?(Number(target)-Number(actual))/(daysInMonth-daysOver):null}}
 function makeTargetPace(data,mtdData,daysOver,daysInMonth,mtd){const mtdByStore=new Map();mtdData.forEach(r=>{if(/wallet topup/i.test(F(r,['Order Type'])))return;const name=typeof storeLabelForRow==='function'?storeLabelForRow(r):F(r,['Point of Sale','Store','Store Name']);if(!name)return;const x=mtdByStore.get(name)||{retail:0,spa:0},a=Number(amount(r))||0;if(isSpaCategory(r)){x.spa+=a;if(isExcludedSpaRedemption(r))x.spa-=a}else x.retail+=a;mtdByStore.set(name,x)});const storeTargets=(()=>{try{return typeof storeTargetRead==='function'?storeTargetRead():{}}catch(e){return {}}})(),dashboardTargets=(()=>{const r=document.getElementById('aiRetailTarget'),sp=document.getElementById('aiSpaTarget');if(r&&sp)return {retail:Number(r.value)||0,spa:Number(sp.value)||0};try{return typeof readHuftGlobalTargets==='function'?readHuftGlobalTargets():null}catch(e){return null}})(),names=[...new Set(data.map(r=>typeof storeLabelForRow==='function'?storeLabelForRow(r):F(r,['Point of Sale','Store','Store Name'])).filter(Boolean))].sort((a,b)=>a.localeCompare(b)),configured=(name,type)=>{const v=Number(storeTargets[name]?.[type]);if(Number.isFinite(v)&&v>0)return v;if(names.length===1&&Number(dashboardTargets?.[type])>0)return Number(dashboardTargets[type]);return null};const storeRows=[];names.forEach(name=>{const sales=mtdByStore.get(name);['retail','spa'].forEach(type=>storeRows.push({scope:name,type:type==='retail'?'Retail':'SPA',...pace(sales?sales[type]:null,configured(name,type),daysOver,daysInMonth)}))});const allTarget=type=>{if(names.length&&names.every(n=>Number(storeTargets[n]?.[type])>0))return names.reduce((sum,n)=>sum+Number(storeTargets[n][type]),0);if(Number(dashboardTargets?.[type])>0)return Number(dashboardTargets[type]);return null};const totalRows=['retail','spa'].map(type=>({scope:'Selected stores',type:type==='retail'?'Retail':'SPA',...pace(mtdData.length?mtd[type]:null,allTarget(type),daysOver,daysInMonth)}));let employeeRows=[];try{const saved=typeof employeeTargetStore==='function'?employeeTargetStore():{};employeeRows=[...mtd.emp.entries()].map(([name,x])=>({scope:name,type:'Retail',...pace(x.sale,typeof employeeTargetFor==='function'?employeeTargetFor(name,'retail',saved):null,daysOver,daysInMonth)}))}catch(e){}const brandRows=[...mtd.brand.entries()].map(([name,actual])=>({scope:name,type:'Food / brand',...pace(actual,null,daysOver,daysInMonth)})).sort((a,b)=>(b.actual||0)-(a.actual||0));return{storeRows,totalRows,employeeRows,brandRows,daysOver,daysLeft:Math.max(0,daysInMonth-daysOver),daysInMonth}}
-function run(){const data=base();if(!data.length){R=null;charts.forEach(x=>x.destroy());charts=[];$('wrPanels').innerHTML='';$('wrTabs').innerHTML='';if($('wrExportPpt'))$('wrExportPpt').disabled=true;$('wrStatus').textContent='No loaded sales data. Upload data in the HUFT Sales Report first.';return}
+function run(){const data=base();if(!data.length){R=null;charts.forEach(x=>x.destroy());charts=[];$('wrPanels').innerHTML='';$('wrTabs').innerHTML='';if($('wrExportPpt'))$('wrExportPpt').disabled=true;$('wrStatus').textContent='No loaded sales data. Upload data in the Sales Pulse Report first.';return}
 if(!window.__wrT)$('wrEndDate').value=lastD(data);let end=$('wrEndDate').value||lastD(data),n=+$('wrWindow').value||7,st=addD(end,-(n-1)),pe=addD(st,-1),ps=addD(pe,-(n-1));
 if(window.__wrC){const a=$('wrFrom').value,b=$('wrTo').value,c1=$('wrCFrom').value,d1=$('wrCTo').value;if(a&&b&&c1&&d1&&a<=b&&c1<=d1){st=a;end=b;ps=c1;pe=d1;n=Math.min(62,Math.round((new Date(b)-new Date(a))/864e5)+1)}else{alert('Choose valid From/To dates for both ranges (From must not be after To).');window.__wrC=0}}
 $('wrFrom').value=st;$('wrTo').value=end;$('wrCFrom').value=ps;$('wrCTo').value=pe;
@@ -13397,7 +13727,7 @@ function points(){const{c,p,mo,pmo,ft,em,br,ca,nw,rep}=R,ok=(v)=>v>=0?'ok':'warn
 add('Sales achievement & MoM growth',`${sh(c.total)} (${g(c.total,p.total).toFixed(1)}% WoW) • MoM ${g(mo.total,pmo.total).toFixed(1)}%`,ok(g(c.total,p.total)),'Track target gap and WoW/MoM growth');
 add('Retail sales vs target',ft.retail.t?`${ft.retail.ach.toFixed(0)}% of ${sh(ft.retail.t)} • need ${sh(ft.retail.req)}/day`:`${sh(c.retail)} (target not set)`,ft.retail.t?(ft.retail.a>=ft.retail.pace?'ok':'warn'):'na','Set daily recovery target; review at closing');
 add('SPA sales & packages',`Net ${sh(c.spa)} • packages sold ${sh(c.pkg)} • used ${fmt(c.used)}`,ok(g(c.spa,p.spa)),'Separate redemptions from fresh revenue');
-add('HUFT food contribution',`${sh(c.food)} • ${c.total?(c.food/c.total*100).toFixed(1):0}% of sales`,ok(g(c.food,p.food)),'Review food run-rate daily');
+add('Premium Food contribution',`${sh(c.food)} • ${c.total?(c.food/c.total*100).toFixed(1):0}% of sales`,ok(g(c.food,p.food)),'Review food run-rate daily');
 add('Sara’s Wholesome',`${sh(R.sar[0])} (${g(R.sar[0],R.sar[1]).toFixed(1)}%)`,ok(g(R.sar[0],R.sar[1])),'Check stock, repeat gap, recommendation');
 add('Hearty',`${sh(R.hea[0])} (${g(R.hea[0],R.hea[1]).toFixed(1)}%)`,ok(g(R.hea[0],R.hea[1])),'Replicate winning SKUs');
 add('Meowsi & Nutrimeow',`${sh(R.mn[0])} (${g(R.mn[0],R.mn[1]).toFixed(1)}%)`,ok(g(R.mn[0],R.mn[1])),'Track brand sales & new customers');
@@ -13412,7 +13742,7 @@ add('Stock availability','Needs stock records','na','Record out-of-stock & reple
 add('Employee productivity',`${em.length} staff • ${wowStats(c).n} WOW bills (${sh(wowT)}+) = ${wowStats(c).pc.toFixed(1)}% of retail • ${em.filter(x=>x.chg<0).length} declining`,em.filter(x=>x.chg<0).length>em.length/2?'warn':'ok','Coach declining staff');
 add('ABV, UPT & ASP',`${money(c.abv)} • ${c.upt.toFixed(2)} • ${money(c.asp)}`,ok(g(c.abv,p.abv)),'Improve basket quality');
 add('Cross-sell & add-ons',`${c.multi.toFixed(0)}% multi-category baskets`,c.multi>=35?'ok':'warn','Practise relevant add-ons');
-add('HUFT food backlog','Food target not captured in dashboard','na','Target − achieved ÷ days left');
+add('Premium Food backlog','Food target not captured in dashboard','na','Target − achieved ÷ days left');
 add('Customer follow-up conversion','Needs call log','na','Attempted / reached / converted');
 add('Daily & weekly growth',`${R.days.filter(d=>d.c<d.p).length} of ${R.n} days below prior`,ok(g(c.total,p.total)),'Fix weakest days next day');
 add('Growing / declining brands & categories',`${br.filter(x=>x.chg>0).length}↑ / ${br.filter(x=>x.chg<0).length}↓ brands • ${ca.filter(x=>x.chg>0).length}↑ / ${ca.filter(x=>x.chg<0).length}↓ cats`,'ok','Assign stock & selling actions');
@@ -13808,7 +14138,7 @@ window.huftRunWeeklyReview=run;window.huftExportWeeklyReviewPpt=exp;init();
     '• Retail MTD: '+money(retailMtd)+(retailTarget>0?' ('+retailMtdPct+')':''),
     '• SPA MTD: '+money(spaMtd)+(spaTarget>0?' ('+spaMtdPct+')':''),
     '• Total MTD: '+money(totalMtd)+(totalTarget? ' ('+pct(totalMtd,totalTarget)+')':''),
-    '• Total HUFT Food Sale MTD: '+money(sum('foodTotal'))
+    '• Total Premium Food Sale MTD: '+money(sum('foodTotal'))
    ];
    box.value=lines.join('\n').replace(/\n{3,}/g,'\n\n').trim();
    if(typeof window.renderHuftWhatsAppPreview==='function')window.renderHuftWhatsAppPreview(box.value);
@@ -15443,7 +15773,7 @@ html body #huftEodTitle, html body #dailyTargetTitle, html body #huftInvoiceDril
     const dateText=date.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
     const set=(id,v)=>{const el=popup.querySelector('#'+id);if(el)el.textContent=v;};
     set('reportTitle','HUFT Hourly Sale Message');set('reportDate','Date: '+dateText);set('reportStore','Store: '+d.store);
-    set('reportTime','📅 HUFT Food Sale Update – '+(new Date().getHours()>=20?'10 PM':'6 PM'));
+    set('reportTime','📅 Premium Food Sale Update – '+(new Date().getHours()>=20?'10 PM':'6 PM'));
     set('reportRetail','• Retail Sale: '+money(d.retail)+'/-');set('reportSpa','• SPA Sale: '+money(d.spa)+'/-');set('reportPackages','• SPA Packages Redeemed: '+d.packages.toLocaleString('en-IN'));set('reportSalesTotal','• Total Sale: '+money(d.retail+d.spa)+'/-');
     const needles=["HUFT Sara's Wholesome",'HUFT Hearty','HUFT Meowsi','HUFT NutriMeow','HUFT NutriWag'];
     d.brands.forEach((b,i)=>{let samples=0;try{if(typeof sampleQtyForDay==='function')samples=sampleQtyForDay(d.todayKey,needles[i]);}catch(e){};set(['reportSara','reportHearty','reportMeowsi','reportNutriMeow','reportNutriWag'][i],'• '+b.name+': '+b.qty.toLocaleString('en-IN')+' Qty'+(samples>0?' (Sample: '+samples.toLocaleString('en-IN')+' Qty)':'')+' | '+money(b.sale)+'/-');});
@@ -15454,7 +15784,7 @@ html body #huftEodTitle, html body #dailyTargetTitle, html body #huftInvoiceDril
       set('reportSarasGravy','• Sara\'s Gravy: '+sgMetrics.qty.toLocaleString('en-IN')+' Qty'+(sgMetrics.sample>0?' (Sample: '+sgMetrics.sample.toLocaleString('en-IN')+' Qty)':'')+' | '+money(sgMetrics.amount)+'/-');
     }catch(e){}
     const totalFood=d.brands.reduce((sum,b)=>sum+b.sale,0)+(Number(sgMetrics.amount)||0);
-    set('reportTotal','• Total HUFT Food Sale: '+money(totalFood)+'/-');
+    set('reportTotal','• Total Premium Food Sale: '+money(totalFood)+'/-');
     const status=popup.querySelector('#huftPopupRefreshStatus');if(status){const label=d.chosen?'Current-day sales':'No current-day sales rows • showing ₹0';status.textContent=label+' • '+dateText+(d.chosen?' • refreshed just now':'');}
   }
   function place(){if(!open)return;const vw=document.documentElement.clientWidth||innerWidth,vh=document.documentElement.clientHeight||innerHeight,edge=10,gap=14,r=panel.getBoundingClientRect(),w=r.width||Math.min(370,vw-20),h=r.height||Math.min(360,vh-20);let left=x+gap,top=y+gap;if(left+w>vw-edge)left=x-w-gap;if(top+h>vh-edge)top=y-h-gap;left=Math.max(edge,Math.min(left,vw-w-edge));top=Math.max(edge,Math.min(top,vh-h-edge));panel.style.setProperty('left',Math.round(left)+'px','important');panel.style.setProperty('top',Math.round(top)+'px','important');}
@@ -17859,7 +18189,7 @@ body{padding-bottom:96px}
 @media(max-width:480px){.v26h-card b{font-size:18px}}
 </style>
 <script id="huft-v26-patch">
-/* HUFT Sales Report v26 — reliability + insight layer. Everything below is additive and wrapped in try/catch so a failure here
+/* Sales Pulse Report v26 — reliability + insight layer. Everything below is additive and wrapped in try/catch so a failure here
    can never break the original report. */
 (function(){
 'use strict';
@@ -18611,7 +18941,7 @@ canvas { pointer-events:auto !important; }
 
 <script id="huft-auth-ai-engine">
 /* ==============================================================================
-   HUFT SALES REPORT - AUTHENTICATION, CENTRAL ADMIN & AI ASSISTANT EXTENSION
+   Sales Pulse Report - AUTHENTICATION, CENTRAL ADMIN & AI ASSISTANT EXTENSION
    RULE: ONLY Hyderguda is Central Admin & default; all other stores are Store Managers.
    ============================================================================== */
 
@@ -20713,7 +21043,7 @@ async function callCloudflareWorker(workerUrl, activeStore, prompt, anonymizedDa
 async function callGeminiDirect(apiKey, activeStore, prompt, metrics) {
   const empsSummary = (metrics.employees || []).map(e => `${e.name}: ₹${e.achieved.toLocaleString('en-IN')} (${e.achPct})`).join(', ');
 
-  const systemInstruction = `You are the HUFT (Heads Up For Tails) Sales & Operations AI Assistant for store: ${activeStore}.
+  const systemInstruction = `You are the HUFT (Sales Pulse) Sales & Operations AI Assistant for store: ${activeStore}.
 You are an expert in pet care retail, pet nutrition, grooming salon management, and store operations.
 
 === CURRENT STORE ANALYTICS & CONTEXT ===
@@ -20830,8 +21160,8 @@ function simulateGeminiResponse(store, prompt, metrics) {
   // 3. FOOD BRANDS PACE & NUTRITION
   } else if (lower.includes("food") || lower.includes("brand") || lower.includes("sara") || lower.includes("wholesome") || lower.includes("hearty") || lower.includes("meowsi") || lower.includes("nutri") || lower.includes("kibble")) {
     const brandsList = (metrics.brand_totals || []).map(b => `• **${b.name}:** ₹${b.sale.toLocaleString('en-IN')} (${b.qty} units)`).join('\n');
-    answer = `### 🐕 HUFT Food Brands Velocity Analysis (${store})\n\n` +
-      `• **Total HUFT Food Sales:** ₹${metrics.food_sales.toLocaleString('en-IN')} (${((metrics.food_sales / (metrics.total_sales || 1)) * 100).toFixed(1)}% of total sales)\n\n` +
+    answer = `### 🐕 Premium Food Brands Velocity Analysis (${store})\n\n` +
+      `• **Total Premium Food Sales:** ₹${metrics.food_sales.toLocaleString('en-IN')} (${((metrics.food_sales / (metrics.total_sales || 1)) * 100).toFixed(1)}% of total sales)\n\n` +
       `**Brand Breakdown:**\n` +
       `${brandsList}\n\n` +
       `**Actionable Recommendations:**\n` +

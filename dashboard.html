@@ -5775,6 +5775,73 @@ button.primary:hover, .toolbar button:hover, .huft-water-upload:hover {
 }
 </style>
 
+
+<style id="huft-strict-single-profile-and-fit">
+/* STRICT SINGLE PROFILE AT BOTTOM LEFT - HIDE ALL HEADER PROFILE BADGES */
+#headerUserBadge,
+#headerAuthControls,
+.headerAuthControls,
+#headerStoreProfileBtn,
+#headerStoreBadge {
+  display: none !important;
+}
+
+/* DESKTOP FULL-WIDTH FIT - ELIMINATE HORIZONTAL SCROLL OR DESKTOP OVERFLOW */
+html, body {
+  width: 100% !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.huft-ultra-main {
+  width: calc(100vw - 64px) !important;
+  max-width: calc(100vw - 64px) !important;
+  margin-left: 64px !important;
+  box-sizing: border-box !important;
+  padding: 0 16px 40px 16px !important;
+}
+.container, .header {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* REMOVE DISTURBING LINE BEHIND TABS & SIDEBAR */
+.sidebar-nav.tabs,
+.tabs,
+.sidebar-header,
+aside.huft-ultra-sidebar,
+#huftSidebar {
+  border-right: none !important;
+  border-left: none !important;
+  background-image: none !important;
+}
+.sidebar-nav.tabs::before,
+.sidebar-nav.tabs::after,
+.tabs::before,
+.tabs::after,
+.sidebar-header::before,
+.sidebar-header::after,
+.tab::before {
+  display: none !important;
+  content: none !important;
+  border: none !important;
+  background: none !important;
+}
+
+/* INSTANT ZERO-LATENCY TAB SHIFTING */
+.page {
+  display: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+.page.active {
+  display: block !important;
+}
+</style>
+
 </head>
 <body class="huft-sidebar-collapsed">
 
@@ -10603,50 +10670,65 @@ function refreshComparison(){
 
 let __huftTabRefreshToken=0;
 function showTab(id,btn){
- if((id === 'storeComparison' || id === 'weeklyReview')){
-   const isAdmin = typeof isCurrentAdmin === "function" ? isCurrentAdmin() : !!(window.userProfile && window.userProfile.role === "admin");
-   if(!isAdmin){
-     alert("This section is restricted to Central Admin.");
-     return;
-   }
- }
- const target=document.getElementById(id);
- if(!target || !btn) return;
- const alreadyActive=target.classList.contains("active") && btn.classList.contains("active");
- if(alreadyActive && !(id==="dashboard" && dashboardDirty)) return;
- document.querySelectorAll(".page.active").forEach(x=>{if(x!==target)x.classList.remove("active");});
- target.classList.add("active");
- document.querySelectorAll(".tab.active").forEach(x=>{if(x!==btn)x.classList.remove("active");});
- btn.classList.add("active");
- // Let the browser paint the selected tab before expensive chart/table work starts.
- const token=++__huftTabRefreshToken;
- const work=()=>{
-   if(token!==__huftTabRefreshToken || !target.classList.contains('active')) return;
-   try {
-     if(id==="growth" && typeof refreshGrowth==="function") refreshGrowth();
-     if(id==="comparison" && typeof refreshComparison==="function") refreshComparison();
-     if(id==="storeComparison" && typeof refreshStoreComparison==="function") refreshStoreComparison();
-      if(id==="huft" && typeof updateFoodMonthComparison==="function") updateFoodMonthComparison();
-      if(id==="whatsapp" && typeof window.buildWhatsApp==="function") {
+  if((id === 'storeComparison' || id === 'weeklyReview')){
+    const isAdmin = typeof isCurrentAdmin === "function" ? isCurrentAdmin() : !!(window.userProfile && window.userProfile.role === "admin");
+    if(!isAdmin){
+      alert("This section is restricted to Central Admin.");
+      return;
+    }
+  }
+  const target = document.getElementById(id);
+  if(!target || !btn) return;
+
+  // Immediate instant UI switch (0 latency)
+  document.querySelectorAll(".page.active").forEach(x => { if(x !== target) x.classList.remove("active"); });
+  target.classList.add("active");
+  document.querySelectorAll(".tab.active").forEach(x => { if(x !== btn) x.classList.remove("active"); });
+  btn.classList.add("active");
+
+  // Cached lazy background work with zero UI blocking
+  const token = ++__huftTabRefreshToken;
+  window.__renderedTabsCache = window.__renderedTabsCache || {};
+  const dataVersion = window.__huftDataVersion || 1;
+
+  if (window.__renderedTabsCache[id] === dataVersion) {
+    return; // Already rendered for this dataset, instantly return without freezing!
+  }
+
+  const work = () => {
+    if(token !== __huftTabRefreshToken || !target.classList.contains('active')) return;
+    try {
+      window.__renderedTabsCache[id] = dataVersion;
+      if(id === "growth" && typeof refreshGrowth === "function") refreshGrowth();
+      if(id === "comparison" && typeof refreshComparison === "function") refreshComparison();
+      if(id === "storeComparison" && typeof refreshStoreComparison === "function") refreshStoreComparison();
+      if(id === "huft" && typeof updateFoodMonthComparison === "function") updateFoodMonthComparison();
+      if(id === "whatsapp" && typeof window.buildWhatsApp === "function") {
         try {
           const waText = window.buildWhatsApp();
-          if(typeof window.renderHuftWhatsAppPreview==="function") window.renderHuftWhatsAppPreview(waText);
+          if(typeof window.renderHuftWhatsAppPreview === "function") window.renderHuftWhatsAppPreview(waText);
         } catch(e){}
       }
-     const version=window.__huftDataVersion||0;
-     window.__huftTabRenderedVersion=window.__huftTabRenderedVersion||{};
-     if(id==="employeeSales" && window.__huftTabRenderedVersion.employeeSales!==version && typeof renderEmployeeMonthlySales==="function"){
-       window.__huftTabRenderedVersion.employeeSales=version; renderEmployeeMonthlySales();
-     }
-     // Weekly Review is expensive; rebuild once per uploaded dataset, not on every tab visit.
-     if(id==="weeklyReview" && window.__huftTabRenderedVersion.weeklyReview!==version && typeof window.huftRunWeeklyReview==="function"){
-       window.__huftTabRenderedVersion.weeklyReview=version; window.huftRunWeeklyReview();
-     }
-     if(id==="dashboard" && dashboardDirty && typeof refreshDashboard==="function"){ refreshDashboard(); dashboardDirty=false; }
-   } catch(err) { console.error("[HUFT] Tab refresh failed ("+id+"):",err); }
- };
- if(id==="weeklyReview" && 'requestIdleCallback' in window) requestIdleCallback(work,{timeout:1200});
- else requestAnimationFrame(()=>setTimeout(work,0));
+      if(id === "employeeSales" && typeof renderEmployeeMonthlySales === "function"){
+        renderEmployeeMonthlySales();
+      }
+      if(id === "weeklyReview" && typeof window.huftRunWeeklyReview === "function"){
+        window.huftRunWeeklyReview();
+      }
+      if(id === "dashboard" && dashboardDirty && typeof refreshDashboard === "function"){
+        refreshDashboard();
+        dashboardDirty = false;
+      }
+    } catch(err) {
+      console.warn("Tab lazy update non-blocking error (" + id + "):", err);
+    }
+  };
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(work, { timeout: 800 });
+  } else {
+    setTimeout(work, 60);
+  }
 }
 
 let huftUploadInProgress=false;
@@ -12906,7 +12988,7 @@ input,select,textarea,button{max-width:100%;}
   document.addEventListener('change',e=>{if(e.target && (e.target.id==='file'||e.target.matches('[type="file"]'))) setTimeout(applyVisibility,250);});
   document.addEventListener('click',e=>{if(e.target && e.target.closest('#uploadExcel,#refreshDashboard,#refreshHuftPopupReport')) setTimeout(applyVisibility,400);});
   const body=document.getElementById('dailyBody');
-  if(body && window.MutationObserver) new MutationObserver(()=>setTimeout(applyVisibility,80)).observe(body,{childList:true,subtree:true});
+  if(body && window.MutationObserver) /* observer removed for tab performance */;
   const root=document.documentElement;
   /* Safe: root observer removed */
   applyVisibility();

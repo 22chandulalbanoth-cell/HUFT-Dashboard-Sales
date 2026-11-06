@@ -1778,6 +1778,15 @@
         });
       }
 
+      // Wire explicit tab navigation on all nav-btn elements
+      document.querySelectorAll(".nav-btn").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          e.preventDefault();
+          const tabId = this.id.replace("nav-", "");
+          switchTab(tabId);
+        });
+      });
+
       checkAuthState();
       if (supabaseClient && supabaseClient.auth && (!currentAdminSession || currentAdminSession.role !== "CENTRAL_ADMIN")) {
         try {

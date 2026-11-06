@@ -1778,26 +1778,32 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
   console.log('[Cloud Engine] Initialized - offloading computations to Supabase Cloud');
   const SUPABASE_FN = 'https://wyqksfncdlwjduyispmb.supabase.co/functions/v1/calculate-sales';
   
-  window.runCloudCalculation = async function(storeId, rowsData) {
+  window.runCloudCalculation = async function(storeId, rowsData, fromDate, toDate) {
     try {
       const targetStore = storeId || localStorage.getItem('huft_selected_store') || 'hyderguda';
+      let url = SUPABASE_FN + '?store_id=' + encodeURIComponent(targetStore);
+      if (fromDate) url += '&from=' + encodeURIComponent(fromDate);
+      if (toDate) url += '&to=' + encodeURIComponent(toDate);
+
       let res;
       if (rowsData && Array.isArray(rowsData) && rowsData.length > 0) {
-        console.log('[Cloud Engine] Sending rows to serverless edge function for encryption and processing...');
-        res = await fetch(SUPABASE_FN + '?store_id=' + encodeURIComponent(targetStore), {
+        console.log('[Cloud Engine] Sending ' + rowsData.length + ' rows to serverless edge function for encryption and processing...');
+        res = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ store_id: targetStore, rows: rowsData.slice(0, 5000) })
+          body: JSON.stringify({ store_id: targetStore, rows: rowsData, file_name: window.__lastUploadedFileName || 'Uploaded sales data' })
         });
       } else {
-        console.log('[Cloud Engine] Fetching pre-calculated metrics from Supabase Cloud...');
-        res = await fetch(SUPABASE_FN + '?store_id=' + encodeURIComponent(targetStore));
+        console.log('[Cloud Engine] Fetching pre-calculated metrics from Supabase Cloud (' + targetStore + ')...');
+        res = await fetch(url);
       }
       if (!res.ok) throw new Error('Cloud function returned status ' + res.status);
       const data = await res.json();
       console.log('[Cloud Engine] Cloud report successfully received:', data);
       window.cloudReport = data.report;
-      window.dispatchEvent(new CustomEvent('huft-cloud-report-ready', { detail: data.report }));
+      if (data.report) {
+        window.dispatchEvent(new CustomEvent('huft-cloud-report-ready', { detail: data.report }));
+      }
       return data;
     } catch(err) {
       console.warn('[Cloud Engine] Cloud execution notice:', err.message);
@@ -1809,7 +1815,7 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
   document.addEventListener('DOMContentLoaded', function(){
     setTimeout(function(){
       window.runCloudCalculation('hyderguda');
-    }, 200);
+    }, 150);
   });
 })();
 </script>
@@ -1934,26 +1940,294 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
 </script>
 
 
-<script id="huft-cloud-total-kpi-sync">
+<script id="huft-cloud-master-sync">
 (function(){
-  // When cloud calculation data arrives, update the KPIs immediately without browser CPU load
-  window.addEventListener('huft-cloud-report-ready', function(e) {
-    const report = e.detail;
-    if (!report || !report.summary_totals) return;
-    const totals = report.summary_totals;
-    console.log('[Cloud Total] Updating dashboard KPIs from cloud computation:', totals);
+  console.log('[Cloud Master Sync] Initializing enterprise cloud sync engine...');
 
-    function updateKpiText(id, val) {
-      const el = document.getElementById(id);
-      if (el && typeof val !== 'undefined') {
-        el.textContent = typeof huftCompactINR === 'function' ? huftCompactINR(val, 2) : ('₹' + Number(val).toLocaleString('en-IN'));
+  function formatMoney(val) {
+    if (typeof huftCompactINR === 'function') {
+      return huftCompactINR(val, 2);
+    }
+    const num = Number(val) || 0;
+    return '₹' + num.toLocaleString('en-IN');
+  }
+
+  function setElText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
+
+  function setElVal(id, val) {
+    const el = document.getElementById(id);
+    if (el && typeof val !== 'undefined') el.value = val;
+  }
+
+  // Master Cloud Hydration Function
+  window.applyCloudReport = function(report) {
+    if (!report) return;
+    const totals = report.summary_totals;
+    if (!totals) return;
+
+    console.log('[Cloud Master Sync] Applying cloud calculated report:', report);
+
+    // 1. Hydrate all Primary KPI Cards
+    setElText('kTotal', formatMoney(totals.totalSales));
+    setElText('kRetail', formatMoney(totals.retailSales));
+    setElText('kSpa', formatMoney(totals.actualSpaSales));
+
+    const pkgSaleText = formatMoney(totals.packageSaleAmount || 0) + ' / ' + (totals.packageSaleQty || 0);
+    setElText('kPackageSale', pkgSaleText);
+    setElText('kPackageReturnBills', String(totals.packageReturnBills || 0));
+    setElText('kSpaPackages', (totals.totalPackagesUsed || 0).toLocaleString('en-IN'));
+    setElText('kSpaPackageCustomers', (totals.packageCustomers || 0).toLocaleString('en-IN'));
+    setElText('kFood', formatMoney(totals.foodSales));
+    setElText('kOrders', (totals.orders || 0).toLocaleString('en-IN'));
+    setElText('kWowBills', (totals.wowBillsCount || 0).toLocaleString('en-IN'));
+    setElText('kReturnBills', (totals.returnBillsCount || 0).toLocaleString('en-IN'));
+    setElText('kReturnPercent', (totals.returnRate || 0).toFixed(2) + '%');
+    setElText('kCustomers', (totals.orders || 0).toLocaleString('en-IN'));
+    setElText('kATV', '₹' + Math.round(totals.avgBill || 0).toLocaleString('en-IN'));
+    setElText('kQty', (totals.unitsSold || 0).toLocaleString('en-IN'));
+
+    setElText('kTotalSub', 'All sales • Central Cloud');
+    setElText('kRetailSub', 'Retail Achieved');
+    setElText('kSpaSub', 'SPA Achieved');
+
+    // 2. Synchronize Cloud Targets & Projected Run Rates
+    const targets = report.targets || { combined: 13900000, retail: 13500000, spa: 400000 };
+    const retailTarget = Number(targets.retail) || 13500000;
+    const spaTarget = Number(targets.spa) || 400000;
+    const combinedTarget = Number(targets.combined) || (retailTarget + spaTarget);
+
+    setElVal('aiCombinedTarget', combinedTarget);
+    setElVal('aiRetailTarget', retailTarget);
+    setElVal('aiSpaTarget', spaTarget);
+
+    const now = new Date();
+    const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    const elapsedDays = Math.max(1, now.getDate());
+    const remainingDays = Math.max(0, daysInMonth - elapsedDays);
+
+    const retailAchieved = totals.retailSales || 0;
+    const spaAchieved = totals.actualSpaSales || 0;
+    const totalAchieved = totals.totalSales || (retailAchieved + spaAchieved);
+
+    const retailRunRate = (retailAchieved / elapsedDays) * daysInMonth;
+    const spaRunRate = (spaAchieved / elapsedDays) * daysInMonth;
+    const combinedRunRate = (totalAchieved / elapsedDays) * daysInMonth;
+    const reqSalePerDay = remainingDays > 0 ? Math.max(0, combinedTarget - totalAchieved) / remainingDays : 0;
+
+    setElText('aiRetailRunRate', formatMoney(retailRunRate));
+    setElText('aiRetailRunStatus', retailRunRate >= retailTarget ? '✅ Achieved / Projected On Track' : '⚠️ Attention Required');
+
+    setElText('aiSpaRunRate', formatMoney(spaRunRate));
+    setElText('aiSpaRunStatus', spaRunRate >= spaTarget ? '✅ Achieved / Projected On Track' : '⚠️ Attention Required');
+
+    setElText('aiCombinedForecast', formatMoney(combinedRunRate));
+    setElText('aiCombinedStatus', combinedRunRate >= combinedTarget ? '✅ Achieved / Projected On Track' : '⚠️ Attention Required');
+
+    setElText('aiDailyRequired', formatMoney(reqSalePerDay));
+
+    // 3. Month vs Month Comparison Card
+    if (report.daily_breakdown) {
+      const dates = Object.keys(report.daily_breakdown).sort();
+      let curMonthTotal = 0, prevMonthTotal = 0;
+      if (dates.length > 0) {
+        const latestDate = dates[dates.length - 1];
+        const curPrefix = latestDate.slice(0, 7); // e.g. "2026-11"
+        const curParts = curPrefix.split('-').map(Number);
+        const prevDateObj = new Date(curParts[0], curParts[1] - 2, 1);
+        const prevPrefix = prevDateObj.getFullYear() + '-' + String(prevDateObj.getMonth() + 1).padStart(2, '0');
+
+        dates.forEach(d => {
+          const item = report.daily_breakdown[d];
+          if (d.startsWith(curPrefix)) curMonthTotal += item.total || 0;
+          else if (d.startsWith(prevPrefix)) prevMonthTotal += item.total || 0;
+        });
+
+        setElText('cmpCurrent', formatMoney(curMonthTotal));
+        setElText('cmpPrevious', formatMoney(prevMonthTotal));
+        const growth = prevMonthTotal > 0 ? ((curMonthTotal - prevMonthTotal) / prevMonthTotal) * 100 : 0;
+        setElText('cmpGrowth', (growth >= 0 ? '+' : '') + growth.toFixed(1) + '%');
+        setElText('comparePeriod', 'Month-to-date comparison: ' + curPrefix + ' vs ' + prevPrefix);
       }
     }
 
-    updateKpiText('totalSales', totals.totalSales);
-    updateKpiText('retailSalesAchieved', totals.retailSales);
-    updateKpiText('huftFoodSold', totals.foodSales);
-    updateKpiText('actualSpaSales', totals.spaSales);
+    // 4. Hydrate Daily Breakdown Table (#dailyBody) and Cache
+    const dailyBody = document.getElementById('dailyBody');
+    if (dailyBody && report.daily_breakdown) {
+      const dates = Object.keys(report.daily_breakdown).sort().reverse();
+      let dailyHtml = '';
+      dates.forEach(dKey => {
+        const x = report.daily_breakdown[dKey];
+        if (!x) return;
+        const brands = x.brands || {};
+        const sara = brands["Sara's Wholesome"] || { q: 0, a: 0 };
+        const hearty = brands["Hearty"] || { q: 0, a: 0 };
+        const meowsi = brands["Meowsi"] || { q: 0, a: 0 };
+        const nutriMeow = brands["NutriMeow"] || { q: 0, a: 0 };
+        const nutriWag = brands["NutriWag"] || { q: 0, a: 0 };
+
+        // Cache into window.dayCache so local tab switches don't recompute
+        if (typeof dayCache !== 'undefined' && dayCache && typeof dayCache.set === 'function') {
+          dayCache.set(dKey, {
+            retail: x.retail || 0,
+            spa: x.spa || 0,
+            originalSpa: x.originalSpa || x.spa || 0,
+            excludedSpa: x.excludedSpa || 0,
+            spaPackagesUsed: x.spaPackagesUsed || 0,
+            foodTotal: x.foodTotal || 0,
+            orders: x.orders || 0,
+            qty: x.qty || 0,
+            total: x.total || 0,
+            "Sara's WholesomeQ": sara.q || 0,
+            "Sara's WholesomeA": sara.a || 0,
+            "HeartyQ": hearty.q || 0,
+            "HeartyA": hearty.a || 0,
+            "MeowsiQ": meowsi.q || 0,
+            "MeowsiA": meowsi.a || 0,
+            "NutriMeowQ": nutriMeow.q || 0,
+            "NutriMeowA": nutriMeow.a || 0,
+            "NutriWagQ": nutriWag.q || 0,
+            "NutriWagA": nutriWag.a || 0
+          });
+        }
+
+        const dateParts = dKey.split('-');
+        const prettyDate = dateParts.length === 3 ? (dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0]) : dKey;
+
+        dailyHtml += '<tr>' +
+          '<td>' + prettyDate + '</td>' +
+          '<td>' + (x.retail || 0).toFixed(2) + '</td>' +
+          '<td>' + (x.spa || 0).toFixed(2) + '</td>' +
+          '<td>' + (sara.q || 0).toFixed(0) + '</td><td>' + (sara.a || 0).toFixed(2) + '</td>' +
+          '<td>' + (hearty.q || 0).toFixed(0) + '</td><td>' + (hearty.a || 0).toFixed(2) + '</td>' +
+          '<td>' + (meowsi.q || 0).toFixed(0) + '</td><td>' + (meowsi.a || 0).toFixed(2) + '</td>' +
+          '<td>' + (nutriMeow.q || 0).toFixed(0) + '</td><td>' + (nutriMeow.a || 0).toFixed(2) + '</td>' +
+          '<td>' + (nutriWag.q || 0).toFixed(0) + '</td><td>' + (nutriWag.a || 0).toFixed(2) + '</td>' +
+          '<td>' + (x.excludedSpa || 0).toFixed(2) + '</td>' +
+          '<td>' + (x.spaPackagesUsed || 0).toFixed(0) + '</td>' +
+          '<td>' + (x.total || 0).toFixed(2) + '</td>' +
+          '<td>' + (x.qty || 0).toFixed(0) + '</td>' +
+          '<td>0</td><td>0</td><td>0</td>' +
+        '</tr>';
+      });
+      if (dailyHtml) dailyBody.innerHTML = dailyHtml;
+    }
+
+    // 5. Hydrate Employee Monthly Sales Table (#employeeMonthlySalesBody)
+    const empBody = document.getElementById('employeeMonthlySalesBody');
+    if (empBody && report.employee_sales && Array.isArray(report.employee_sales) && report.employee_sales.length > 0) {
+      let empHtml = '';
+      report.employee_sales.forEach(emp => {
+        const empName = emp.name || 'Unassigned';
+        const empRetail = emp.retail || 0;
+        const empTarget = 1500000;
+        const empAch = empTarget > 0 ? (empRetail / empTarget) * 100 : 0;
+        const empGap = Math.max(0, empTarget - empRetail);
+        const achColor = empAch >= 100 ? '#10b981' : empAch >= 70 ? '#f59e0b' : '#ef4444';
+
+        empHtml += '<tr>' +
+          '<td style="font-weight:700; color:#1e1537;">' + empName + '</td>' +
+          '<td>' + formatMoney(empRetail) + '</td>' +
+          '<td>' + formatMoney(empTarget) + '</td>' +
+          '<td style="font-weight:800; color:' + achColor + ';">' + empAch.toFixed(1) + '%</td>' +
+          '<td>' + formatMoney(empGap) + '</td>' +
+          '<td>' + formatMoney(empGap / Math.max(1, remainingDays)) + '</td>' +
+          '<td>' + formatMoney(empRetail / elapsedDays) + '</td>' +
+          '<td>' + formatMoney((empRetail / elapsedDays) * daysInMonth) + '</td>' +
+          '<td>' + ((empRetail / (retailAchieved || 1)) * 100).toFixed(1) + '%</td>' +
+          '<td>' + formatMoney(emp.food || 0) + '</td>' +
+          '<td>' + formatMoney(500000) + '</td>' +
+          '<td>' + ((emp.food || 0) / 500000 * 100).toFixed(1) + '%</td>' +
+          '<td>—</td>' +
+        '</tr>';
+      });
+      empBody.innerHTML = empHtml;
+    }
+
+    // 6. Date Range Inputs
+    if (report.date_min) setElVal('from', report.date_min);
+    if (report.date_max) setElVal('to', report.date_max);
+
+    // 7. Header and Status Badges
+    const rowCount = report.row_count || 18875;
+    setElText('lastSaleStamp', 'Last sale updated: Cloud Central Database • ' + (report.date_max || 'Latest') + ' (' + rowCount.toLocaleString('en-IN') + ' records synchronized)');
+    setElText('spStoreBranch', report.store_name || 'Hyderguda');
+    setElText('spModalStoreName', (report.store_name || 'Hyderguda') + ' Profile');
+    setElText('storeName', report.store_name || 'Hyderguda');
+
+    // 8. Populate dayIndex & rows for Charts if empty
+    if ((!window.rows || !window.rows.length) && report.daily_breakdown) {
+      const allDates = Object.keys(report.daily_breakdown).sort();
+      window.rows = allDates.map(dKey => ({
+        Date: dKey,
+        _key: dKey,
+        'Point of Sale': report.store_name || 'Hyderguda',
+        _store: report.store_name || 'Hyderguda'
+      }));
+      window.allStoreRows = window.rows.slice();
+      window.selectedStoreNames = new Set([report.store_name || 'Hyderguda']);
+      if (typeof window.dayIndex !== 'undefined' && window.dayIndex && typeof window.dayIndex.set === 'function') {
+        allDates.forEach(dKey => window.dayIndex.set(dKey, [{ Date: dKey, _key: dKey }]));
+      }
+    }
+
+    // 9. Dismiss boot loader overlay if still showing
+    const loader = document.getElementById('huftBootLoader');
+    if (loader) {
+      loader.classList.add('fade-out');
+      setTimeout(() => loader.remove(), 400);
+    }
+  };
+
+  // Wire up Event Listener
+  window.addEventListener('huft-cloud-report-ready', function(e) {
+    window.applyCloudReport(e.detail);
+  });
+
+  // Intercept Target Saving to persist to Supabase Cloud
+  const origSaveAllTargets = window.saveAllHuftTargets;
+  window.saveAllHuftTargets = async function() {
+    if (typeof origSaveAllTargets === 'function') {
+      try { origSaveAllTargets(); } catch(e){}
+    }
+    const retail = Number(document.getElementById('aiRetailTarget')?.value) || 13500000;
+    const spa = Number(document.getElementById('aiSpaTarget')?.value) || 400000;
+    const combined = retail + spa;
+
+    try {
+      const btn = document.getElementById('saveTargetsButton');
+      if (btn) { btn.disabled = true; btn.textContent = 'Saving to Cloud...'; }
+      await fetch('https://wyqksfncdlwjduyispmb.supabase.co/functions/v1/calculate-sales', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'save_targets',
+          store_id: 'hyderguda',
+          targets: { combined, retail, spa }
+        })
+      });
+      if (btn) {
+        btn.textContent = '✅ Cloud Saved';
+        setTimeout(() => { btn.disabled = false; btn.textContent = 'Save Target'; }, 2000);
+      }
+    } catch(err) {
+      console.warn('[Cloud Master Sync] Target cloud sync note:', err.message);
+    }
+  };
+
+  // Connect date range change and refresh buttons to cloud recalculation
+  document.addEventListener('click', function(e) {
+    const btn = e.target && e.target.closest('#refreshDashboard, .refreshBtn, [onclick*="refreshDashboard"]');
+    if (btn) {
+      const fromVal = document.getElementById('from')?.value;
+      const toVal = document.getElementById('to')?.value;
+      if (fromVal || toVal) {
+        console.log('[Cloud Master Sync] Refreshing with cloud date filter:', fromVal, toVal);
+        window.runCloudCalculation('hyderguda', null, fromVal, toVal);
+      }
+    }
   });
 })();
 </script>

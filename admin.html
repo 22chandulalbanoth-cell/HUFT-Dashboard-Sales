@@ -2997,10 +2997,35 @@
       }
     }
 
-    function approveRegistration(approvalId) {
+    async function approveRegistration(approvalId) {
       const req = approvals.find(a => a.id === approvalId);
       if (!req) return;
 
+      showToast("Processing approval in cloud database...", "info");
+
+      // 1. Update Cloud Database
+      if (supabaseClient) {
+        try {
+          const { data, error } = await supabaseClient.rpc("approve_store_registration", {
+            p_request_id: approvalId
+          });
+          if (error) {
+            console.warn("RPC approve_store_registration error, falling back to direct table update:", error);
+            await supabaseClient.from("registration_requests")
+              .update({ status: "APPROVED", approved_at: new Date().toISOString() })
+              .eq("id", approvalId);
+            await supabaseClient.from("stores")
+              .upsert({ id: req.store || req.name, store_name: req.store || req.name, active: true, is_active: true, email: req.email });
+            await supabaseClient.from("profiles")
+              .update({ active: true, role: req.role || "STORE_MANAGER" })
+              .eq("email", req.email);
+          }
+        } catch (e) {
+          console.warn("Cloud approval call exception:", e);
+        }
+      }
+
+      // 2. Local State Sync
       const newUser = {
         id: "usr-" + String(users.length + 1).padStart(2, "0"),
         name: req.name,
@@ -3027,20 +3052,38 @@
       } catch (e) {}
 
       recordAuditEvent("USER_APPROVED", req.email, "SUCCESS", { role: req.role, store: req.store });
-      showToast("Approved registration for " + req.name + ". Account is active immediately.", "success");
+      showToast("Approved registration for " + req.name + ". Account is active immediately in cloud.", "success");
       renderAllSections();
+      try { syncDataFromSupabase(); } catch(e){}
     }
 
-    function rejectRegistration(approvalId) {
+    async function rejectRegistration(approvalId) {
       const req = approvals.find(a => a.id === approvalId);
       if (!req) return;
 
       if (confirm("Reject registration request for " + req.name + "?")) {
+        showToast("Recording rejection in cloud database...", "info");
+        if (supabaseClient) {
+          try {
+            const { data, error } = await supabaseClient.rpc("reject_store_registration", {
+              p_request_id: approvalId
+            });
+            if (error) {
+              await supabaseClient.from("registration_requests")
+                .update({ status: "REJECTED" })
+                .eq("id", approvalId);
+            }
+          } catch(e) {
+            console.warn("Cloud reject call exception:", e);
+          }
+        }
+
         approvals = approvals.filter(a => a.id !== approvalId);
         saveState("approvals", approvals);
         recordAuditEvent("REGISTRATION_REJECTED", req.email, "WARN", { reason: "Administrator Discretion" });
         showToast("Registration rejected.", "info");
         renderAllSections();
+        try { syncDataFromSupabase(); } catch(e){}
       }
     }
 

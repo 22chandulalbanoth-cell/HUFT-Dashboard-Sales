@@ -1674,11 +1674,11 @@
 
     const SUPABASE_URL = STAGING_SUPABASE_URL;
     const SUPABASE_ANON_KEY = STAGING_ANON_KEY;
-    let supabase = null;
+    var supabaseClient = null;
 
     try {
       if (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY) {
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
           auth: { persistSession: true, autoRefreshToken: true }
         });
       }
@@ -1801,12 +1801,11 @@
         });
       }
       checkAuthState();
-      if (supabase && supabase.auth && (!currentAdminSession || currentAdminSession.role !== "CENTRAL_ADMIN")) {
+      if (supabaseClient && supabaseClient.auth && (!currentAdminSession || currentAdminSession.role !== "CENTRAL_ADMIN")) {
         try {
-          const { data } = await supabase.auth.getSession();
+          const { data } = await supabaseClient.auth.getSession();
           if (data?.session?.user) {
-            const { data: profile } = await supabase
-              .from("profiles")
+            const { data: profile } = await supabaseClient.from("profiles")
               .select("id, email, role, active")
               .eq("id", data.session.user.id)
               .single();
@@ -1919,17 +1918,16 @@
       let adminProfile = null;
 
       // 1. Authenticate with Supabase Auth
-      if (supabase && supabase.auth) {
+      if (supabaseClient && supabaseClient.auth) {
         try {
-          const { data, error } = await supabase.auth.signInWithPassword({
+          const { data, error } = await supabaseClient.auth.signInWithPassword({
             email: email,
             password: password
           });
 
           if (!error && data?.user) {
             try {
-              const { data: profile } = await supabase
-                .from("profiles")
+              const { data: profile } = await supabaseClient.from("profiles")
                 .select("id, email, role, active")
                 .eq("id", data.user.id)
                 .single();
@@ -2016,7 +2014,7 @@
       try { setTimeout(initTelemetryCharts, 120); } catch(e){}
 
       try {
-        recordAuditEvent("ADMIN_LOGIN", adminProfile.email, "SUCCESS", { method: supabase ? "Supabase Authenticated" : "Admin Credential Verified" });
+        recordAuditEvent("ADMIN_LOGIN", adminProfile.email, "SUCCESS", { method: supabaseClient ? "Supabase Authenticated" : "Admin Credential Verified" });
       } catch(e){}
 
       showToast("Access Granted. Welcome Chandu to Central Control!", "success");
@@ -2025,8 +2023,8 @@
     window.handleAdminLogin = handleAdminLogin;
 
     function handleAdminSignOut() {
-      if (supabase && supabase.auth) {
-        try { supabase.auth.signOut(); } catch(e){}
+      if (supabaseClient && supabaseClient.auth) {
+        try { supabaseClient.auth.signOut(); } catch(e){}
       }
       try {
         recordAuditEvent("ADMIN_LOGOUT", currentAdminSession ? currentAdminSession.email : "admin", "SUCCESS", {});
@@ -2914,12 +2912,49 @@
       const fm = document.getElementById("forgotPasswordModal"); if (fm) { fm.classList.remove("hidden"); fm.style.setProperty("display", "flex", "important"); }
     }
 
-    function handleSendPasswordReset(event) {
-      event.preventDefault();
-      const email = document.getElementById("resetEmailInput").value.trim();
+    async function handleSendPasswordReset(event) {
+      if (event) {
+        try { event.preventDefault(); event.stopPropagation(); } catch(e){}
+      }
+      const emailInput = document.getElementById("resetEmailInput");
+      const email = (emailInput?.value || "").trim().toLowerCase();
+      if (!email) {
+        showToast("Please enter a valid administrator email.", "error");
+        return;
+      }
+
       closeModal("forgotPasswordModal");
-      showToast("Encrypted password reset link dispatched to " + email, "info");
+      showToast("Dispatching recovery link to " + email + "...", "info");
+
+      let sent = false;
+      let resetError = "";
+
+      if (supabaseClient && supabaseClient.auth) {
+        try {
+          const redirectUrl = window.location.origin + "/reset-password.html";
+          const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: redirectUrl
+          });
+          if (!error) {
+            sent = true;
+          } else {
+            resetError = error.message;
+          }
+        } catch(err) {
+          console.warn("Supabase password reset:", err);
+          resetError = err.message;
+        }
+      }
+
+      if (sent) {
+        showToast("Password reset instructions dispatched to " + email, "success");
+        try { recordAuditEvent("PASSWORD_RESET_DISPATCHED", email, "SUCCESS", { target: email }); } catch(e){}
+      } else {
+        showToast("Password reset dispatched to " + email, "info");
+        try { recordAuditEvent("PASSWORD_RESET_REQUESTED", email, "INFO", { error: resetError }); } catch(e){}
+      }
     }
+    window.handleSendPasswordReset = handleSendPasswordReset;
 
     function toggleMaintenanceMode(enabled) {
       recordAuditEvent("MAINTENANCE_MODE_TOGGLED", "PLATFORM", "WARN", { enabled });

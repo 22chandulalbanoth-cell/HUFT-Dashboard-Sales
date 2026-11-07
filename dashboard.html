@@ -23,10 +23,10 @@ function sanitizeStoreDisplayName(str) {
 <script id="huft-cloud-only-storage-guard">
 (function() {
   'use strict';
-  // 1. Purge all legacy persistent storage keys immediately
+  // 1. Purge business sales data and offline databases immediately
   try {
     if (typeof window !== 'undefined') {
-      const purgeList = [
+      const purgeBusinessKeys = [
         'HUFT_Hourly_Sale_LastUploadMeta',
         'HUFT_Hourly_Sale_LocalDB_latest_fallback',
         'HUFT_Hourly_Sale_SuppressEmbeddedSeed',
@@ -37,19 +37,9 @@ function sanitizeStoreDisplayName(str) {
         'huft_store_comparison_targets_v2_backup',
         'huftDailyEmployeeTargetPlans_v1',
         'huftEodDayTargets_v1',
-        'huft_mock_session',
-        'huft_active_session',
-        'huft_user_profile',
-        'huft_selected_store',
-        'central_control_stores',
-        'central_control_profiles',
-        'central_control_registrations',
-        'central_admin_session',
-        'huft_remember_me_v1',
-        'huft_resend_config',
         'huft_pos_downloads_handle'
       ];
-      purgeList.forEach(k => {
+      purgeBusinessKeys.forEach(k => {
         try { window.localStorage.removeItem(k); } catch(e){}
         try { window.sessionStorage.removeItem(k); } catch(e){}
       });
@@ -65,7 +55,7 @@ function sanitizeStoreDisplayName(str) {
     }
   } catch(e) {}
 
-  // 3. Ephemeral In-Memory Storage (Discards all data when tab is closed)
+  // 3. Ephemeral In-Memory Storage for localStorage (Zero disk footprint)
   var mem = new Map();
   var memoryStorage = {
     getItem: function(k) { return mem.has(k) ? mem.get(k) : null; },
@@ -76,7 +66,6 @@ function sanitizeStoreDisplayName(str) {
     get length() { return mem.size; }
   };
 
-  // Replace localStorage and sessionStorage with purely ephemeral in-memory proxy
   try {
     Object.defineProperty(window, 'localStorage', {
       get: function() { return memoryStorage; },
@@ -84,15 +73,21 @@ function sanitizeStoreDisplayName(str) {
       configurable: true
     });
   } catch(e) {}
+
+  // 4. Protect native sessionStorage: allow auth/session tokens, block all business data
   try {
-    Object.defineProperty(window, 'sessionStorage', {
-      get: function() { return memoryStorage; },
-      set: function() {},
-      configurable: true
-    });
+    if (typeof window.sessionStorage !== 'undefined') {
+      var origSetItem = window.sessionStorage.setItem.bind(window.sessionStorage);
+      window.sessionStorage.setItem = function(key, val) {
+        if (/sale|report|target|excel|row|pos_download/i.test(key) && !/session|profile|store|auth/i.test(key)) {
+          return;
+        }
+        return origSetItem(key, val);
+      };
+    }
   } catch(e) {}
 
-  // 4. Neutralize IndexedDB to prevent local database persistence
+  // 5. Neutralize IndexedDB to prevent local database persistence
   try {
     var dummyIDB = {
       open: function() {
@@ -112,8 +107,31 @@ function sanitizeStoreDisplayName(str) {
     });
   } catch(e) {}
 
-  console.log('[Store Intelligence] Cloud-Only Architecture initialized. Browser persistence permanently neutralized.');
+  console.log('[Store Intelligence] Cloud-Only Architecture initialized. Browser disk persistence permanently neutralized.');
 })();
+</script>
+
+<script>
+function getActiveStoreId() {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromUrl = urlParams.get('store_id');
+    if (fromUrl && fromUrl.trim()) return fromUrl.trim().toLowerCase();
+
+    const sessStr = sessionStorage.getItem('huft_active_session');
+    if (sessStr) {
+      const sess = JSON.parse(sessStr);
+      if (sess && sess.store_id) return String(sess.store_id).trim().toLowerCase();
+      if (sess && sess.storeId) return String(sess.storeId).trim().toLowerCase();
+      if (sess && typeof sess.store === 'string') return sess.store.trim().toLowerCase();
+      if (sess && sess.store && sess.store.store_id) return String(sess.store.store_id).trim().toLowerCase();
+    }
+    const selStore = sessionStorage.getItem('huft_selected_store');
+    if (selStore && selStore.trim()) return selStore.trim().toLowerCase();
+  } catch(e) {}
+  return 'hyderguda';
+}
+window.getActiveStoreId = getActiveStoreId;
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1786,16 +1804,7 @@ tr:hover td {
       setStep(1, 'active');
       if (sub) sub.textContent = 'Verifying your account...';
       
-      var storeId = 'hyderguda';
-      try {
-        var sessionStr = sessionStorage.getItem('huft_active_session') || localStorage.getItem('huft_mock_session');
-        if (sessionStr) {
-          var sess = JSON.parse(sessionStr);
-          if (sess && (sess.store_id || sess.storeId)) {
-            storeId = sess.store_id || sess.storeId;
-          }
-        }
-      } catch (e) {}
+      var storeId = getActiveStoreId();
 
       setStep(2, 'active');
       if (sub) sub.textContent = 'Loading your store data...';
@@ -1827,6 +1836,10 @@ tr:hover td {
           window.applyCloudReport(data.report);
         } else {
           window.__pendingCloudReport = data.report;
+        }
+      } else {
+        if (typeof window.applyCloudReport === 'function') {
+          window.applyCloudReport(null, storeId);
         }
       }
 
@@ -1964,12 +1977,152 @@ tr:hover td {
 </div>
 
   <section id="whatsapp" class="page">
-    <div class="dashTop"><div><div class="dashTitle">WhatsApp Communications</div></div></div>
-    <div class="waCommunicationStack">
-    <div class="dtp-launch-row"><button type="button" class="dtp-btn" id="dtpOpenPlanner">＋ Daily Employee Target Planner</button><div class="dsrMonthlyBox" id="dsrMonthlyBox"><label for="dsrMonthInput">DSR month</label><input type="month" id="dsrMonthInput" aria-label="Choose month for the DSR Excel file"><button type="button" class="dtp-btn" id="dsrMonthlyDownload">📥 Download Monthly DSR (Excel)</button><button type="button" class="dtp-btn" id="dsrUploadBtn" title="Upload a filled or blank DSR (.xlsx). Its rows and columns are analysed and used as the layout.">📤 Upload your DSR</button><input type="file" id="dsrUploadFile" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden><label class="dsrChk" id="dsrClearWrap" hidden><input type="checkbox" id="dsrClearData" checked> Clear entered data</label><button type="button" class="dtp-btn" id="dsrResetBtn" hidden>↺ Use built-in format</button><span id="dsrSourceNote"></span><span id="dsrMonthlyStatus" role="status" aria-live="polite"></span><div id="dsrAnalysis" class="dsrAnalysis" hidden></div></div></div>
-    <div class="dtp-modal-overlay" id="dtpModalOverlay" hidden role="presentation">
-      <div class="dtp-modal-card" role="dialog" aria-modal="true" aria-labelledby="dailyTargetTitle">
-        <div class="dtp-modal-top"><strong>Daily Employee Target Planner</strong><button type="button" class="dtp-btn dtp-secondary" id="dtpClosePlanner" aria-label="Close daily target planner">✕ Close</button></div>
+  <!-- WhatsApp Communications Master Header -->
+  <div class="dashTop" style="margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px;">
+    <div>
+      <div class="dashTitle" style="font-size: 22px; font-weight: 800; color: #1E293B; display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 26px;">💬</span> WhatsApp Communications Hub
+      </div>
+      <div class="dashSub" style="color: #64748B; font-size: 13px; margin-top: 4px;">
+        Standardized enterprise WhatsApp broadcasts for store teams, regional directors, and executive leadership.
+      </div>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+      <span id="waStorePill" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #334155; padding: 6px 14px; border-radius: 9999px; font-size: 12px; font-weight: 700;">🏬 Store Intelligence POS</span>
+      <span style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #059669; padding: 6px 14px; border-radius: 9999px; font-size: 12px; font-weight: 700;">● Cloud Central Sync</span>
+    </div>
+  </div>
+
+  <!-- WhatsApp Sub-Navigation Tabs -->
+  <div class="wa-nav-bar" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; border-bottom: 2px solid #E2E8F0; padding-bottom: 12px;">
+    <button type="button" class="wa-nav-btn active" id="waNavHourly" onclick="showWaSubTab('hourly')">⏱️ Hourly Sales Update</button>
+    <button type="button" class="wa-nav-btn" id="waNavEod" onclick="showWaSubTab('eod')">📋 EOD Sales Report</button>
+    <button type="button" class="wa-nav-btn" id="waNavPlanner" onclick="showWaSubTab('planner')">🎯 Daily Staff Target Planner</button>
+    <button type="button" class="wa-nav-btn" id="waNavWeekly" onclick="showWaSubTab('weekly')">📊 Weekly Business Review</button>
+    <button type="button" class="wa-nav-btn" id="waNavMonthly" onclick="showWaSubTab('monthly')">📅 Monthly Sales Summary</button>
+    <button type="button" class="wa-nav-btn" id="waNavTeam" onclick="showWaSubTab('team')">👥 Team & Store Performance</button>
+  </div>
+
+  <!-- 1. HOURLY SALES UPDATE SUB-TAB -->
+  <div id="waPane-hourly" class="wa-pane active" style="display: block;">
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); margin-bottom: 24px;">
+      
+      <!-- Top Controls Row -->
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; border-bottom: 1px solid #F1F5F9; padding-bottom: 18px; margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size: 18px; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Hourly Store Sales Broadcast</h2>
+          <p style="font-size: 12px; color: #64748B; margin: 0;">Publish intraday store revenue, bill metrics, food brand performance, and staff targets.</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <label style="font-size: 11px; font-weight: 700; color: #475569;">Reporting Hour</label>
+            <select id="waHourlySlotSelect" onchange="generateHourlyWhatsAppMessage()" style="padding: 7px 12px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 13px; font-weight: 600; background: #FFF; color: #0F172A;">
+              <option value="auto">Auto (Current Hour)</option>
+              <option value="12 PM">12:00 PM Update</option>
+              <option value="2 PM">02:00 PM Update</option>
+              <option value="4 PM">04:00 PM Update</option>
+              <option value="6 PM" selected>06:00 PM Update</option>
+              <option value="8 PM">08:00 PM Update</option>
+              <option value="10 PM">10:00 PM Closing Update</option>
+            </select>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <label style="font-size: 11px; font-weight: 700; color: #475569;">Report Date</label>
+            <input type="date" id="waHourlyDateInput" onchange="generateHourlyWhatsAppMessage()" style="padding: 6px 10px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 12.5px; background: #FFF; color: #0F172A;">
+          </div>
+          <button type="button" onclick="generateHourlyWhatsAppMessage(true)" style="background: #F8FAFC; border: 1px solid #CBD5E1; color: #334155; padding: 8px 16px; border-radius: 8px; font-size: 12.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; margin-top: 18px;">
+            ↻ Refresh Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Live KPI Tiles -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 22px;">
+        <div style="background: #F8FAFC; border: 1px solid #F1F5F9; border-radius: 12px; padding: 12px;">
+          <span style="font-size: 11px; color: #64748B; font-weight: 600;">Total Sales</span>
+          <b id="waKpiTotal" style="display: block; font-size: 18px; color: #0F172A; font-weight: 800; margin-top: 4px;">₹0</b>
+        </div>
+        <div style="background: #F8FAFC; border: 1px solid #F1F5F9; border-radius: 12px; padding: 12px;">
+          <span style="font-size: 11px; color: #64748B; font-weight: 600;">Retail Sales</span>
+          <b id="waKpiRetail" style="display: block; font-size: 18px; color: #0F172A; font-weight: 800; margin-top: 4px;">₹0</b>
+        </div>
+        <div style="background: #F8FAFC; border: 1px solid #F1F5F9; border-radius: 12px; padding: 12px;">
+          <span style="font-size: 11px; color: #64748B; font-weight: 600;">SPA Sales</span>
+          <b id="waKpiSpa" style="display: block; font-size: 18px; color: #0F172A; font-weight: 800; margin-top: 4px;">₹0</b>
+        </div>
+        <div style="background: #F8FAFC; border: 1px solid #F1F5F9; border-radius: 12px; padding: 12px;">
+          <span style="font-size: 11px; color: #64748B; font-weight: 600;">Orders / Bills</span>
+          <b id="waKpiOrders" style="display: block; font-size: 18px; color: #0F172A; font-weight: 800; margin-top: 4px;">0</b>
+        </div>
+        <div style="background: #F8FAFC; border: 1px solid #F1F5F9; border-radius: 12px; padding: 12px;">
+          <span style="font-size: 11px; color: #64748B; font-weight: 600;">Target Achieved</span>
+          <b id="waKpiTargetAch" style="display: block; font-size: 18px; color: #16A34A; font-weight: 800; margin-top: 4px;">0.0%</b>
+        </div>
+        <div style="background: #F8FAFC; border: 1px solid #F1F5F9; border-radius: 12px; padding: 12px;">
+          <span style="font-size: 11px; color: #64748B; font-weight: 600;">Avg Bill (ATV)</span>
+          <b id="waKpiAtv" style="display: block; font-size: 18px; color: #0F172A; font-weight: 800; margin-top: 4px;">₹0</b>
+        </div>
+      </div>
+
+      <!-- WhatsApp Preview & Code Box -->
+      <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px;" class="wa-preview-grid">
+        
+        <!-- Interactive Preview -->
+        <div style="background: #EFEAE2; border-radius: 14px; padding: 16px; border: 1px solid #D1D7DB; box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);">
+          <div style="background: #008069; color: #FFF; padding: 10px 14px; border-radius: 10px 10px 0 0; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 16px;">📱</span> Store WhatsApp Preview
+            </div>
+            <span style="font-size: 10px; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 99px;">Encrypted Broadcast</span>
+          </div>
+          <div id="waHourlyChatBubble" style="background: #FFFFFF; border-radius: 0 10px 10px 10px; padding: 14px 16px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; line-height: 1.5; color: #111B21; white-space: pre-wrap; margin-top: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.12); max-height: 420px; overflow-y: auto;">Generating message...</div>
+        </div>
+
+        <!-- Action Panel -->
+        <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 14px;">
+          <div>
+            <label style="font-size: 12px; font-weight: 700; color: #334155; display: block; margin-bottom: 6px;">Ready-to-Send Message Text</label>
+            <textarea id="waHourlyRawText" readonly rows="12" style="width: 100%; box-sizing: border-box; padding: 12px; border-radius: 10px; border: 1px solid #CBD5E1; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; line-height: 1.5; background: #F8FAFC; color: #1E293B; resize: vertical;"></textarea>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; gap: 10px;">
+              <button type="button" id="waCopyHourlyBtn" onclick="copyHourlyWhatsAppText()" style="flex: 1; background: #0F172A; color: #FFF; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.15s;">
+                📋 Copy Message
+              </button>
+              <button type="button" id="waShareHourlyBtn" onclick="shareHourlyWhatsAppText()" style="flex: 1; background: #25D366; color: #FFF; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 8px rgba(37,211,102,0.3); transition: background 0.15s;">
+                📲 Share on WhatsApp
+              </button>
+            </div>
+            <div id="waCopyStatus" style="font-size: 12px; color: #16A34A; font-weight: 600; text-align: center; min-height: 18px;" role="status"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 2. EOD SALES REPORT SUB-TAB -->
+  <div id="waPane-eod" class="wa-pane" style="display: none;">
+    <section id="huftEodReportPanel" aria-labelledby="huftEodTitle">
+  <div class="eodHead">
+    <div><h2 id="huftEodTitle">End of Day (EOD) Report</h2></div>
+    <div class="eodActions"><button type="button" id="huftEodOpen">Open EOD Message</button></div>
+  </div>
+  <div id="huftEodMessageContent" class="eodModalBackdrop" hidden role="dialog" aria-modal="true" aria-labelledby="huftEodModalTitle">
+    <div class="eodModalCard">
+      <div class="eodModalTitleRow"><h3 id="huftEodModalTitle">End of Day Message</h3><button type="button" id="huftEodClose" class="eodCloseButton" aria-label="Close EOD message">×</button></div>
+      <div class="eodToolbar"><label for="huftEodDate">Date <input type="date" id="huftEodDate" aria-label="Select EOD report date"></label><button type="button" id="huftEodRefresh">Show</button><button type="button" id="huftEodThisWeek" aria-pressed="false">This Week</button><button type="button" id="huftEodThisMonth" aria-pressed="false">This Month</button><label for="huftEodRetailTargetInput">Retail day target ₹ <input type="number" id="huftEodRetailTargetInput" min="0" step="1" inputmode="decimal" placeholder="Retail target" style="width:110px"></label><label for="huftEodSpaTargetInput">SPA day target ₹ <input type="number" id="huftEodSpaTargetInput" min="0" step="1" inputmode="decimal" placeholder="SPA target" style="width:110px"></label><button type="button" id="huftEodTargetsSave">Save Targets</button><label for="huftEodPetsInput">Pets today <input type="number" id="huftEodPetsInput" min="0" step="1" inputmode="numeric" placeholder="Enter count" aria-label="Enter number of pets today" style="width:100px"></label><button type="button" id="huftEodPetsSave">Save Pets</button><button type="button" id="huftEodCopy">Copy</button><button type="button" id="huftEodJpg">Export JPG</button></div>
+      <div id="huftEodWhatsAppPreview" class="huft-wa-phone-preview" aria-label="WhatsApp-style EOD report preview" aria-live="polite"></div><textarea id="huftEodReportText" readonly aria-label="Generated End of Day report">Upload sales data to generate the EOD report.</textarea>
+      <div class="eodSub" id="huftEodStatus" aria-live="polite">EOD message is ready.</div>
+    </div>
+  </div>
+</section>
+  </div>
+
+  <!-- 3. DAILY STAFF TARGET PLANNER SUB-TAB -->
+  <div id="waPane-planner" class="wa-pane" style="display: none;">
     <section class="daily-target-planner" id="dailyTargetPlanner" aria-labelledby="dailyTargetTitle">
       <div class="dtp-head">
         <div><div class="dtp-eyebrow">DAILY STAFF TARGETS</div><h2 id="dailyTargetTitle">Employee Sale — Daily Target Planner</h2><p>Choose the store and date, set retail and SPA targets, and split the retail target between employees.</p></div>
@@ -1999,22 +2152,88 @@ tr:hover td {
         <textarea id="dtpWhatsAppMessage" rows="10" readonly aria-label="Generated WhatsApp daily target message"></textarea>
         <div id="dtpWhatsAppStatus" class="dtp-whatsapp-status" role="status">Message updates automatically when you edit the plan.</div>
       </section>
-    </section>
+  </div>
+
+  <!-- 4. WEEKLY BUSINESS REVIEW SUB-TAB -->
+  <div id="waPane-weekly" class="wa-pane" style="display: none;">
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+      <h2 style="font-size: 18px; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Weekly Business Review Broadcast</h2>
+      <p style="font-size: 12px; color: #64748B; margin: 0 0 16px 0;">Automated 7-day performance update with retail vs SPA trends, top staff, and brand food sales.</p>
+      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px;" class="wa-preview-grid">
+        <textarea id="waWeeklyRawText" readonly rows="14" style="width: 100%; box-sizing: border-box; padding: 12px; border-radius: 10px; border: 1px solid #CBD5E1; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; line-height: 1.5; background: #F8FAFC; color: #1E293B;"></textarea>
+        <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 14px;">
+          <div style="font-size: 13px; color: #475569; line-height: 1.6;">
+            <strong>Weekly Summary Highlights:</strong>
+            <ul style="padding-left: 20px; margin: 8px 0;">
+              <li>7-Day gross and net revenue</li>
+              <li>Retail target achievement vs budget</li>
+              <li>SPA grooming revenue and redemption count</li>
+              <li>Top 3 sales leaders by revenue</li>
+              <li>Sara's, Hearty and Meowsi food sales</li>
+            </ul>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button type="button" onclick="copyGenericWaText('waWeeklyRawText')" style="flex: 1; background: #0F172A; color: #FFF; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer;">📋 Copy Message</button>
+            <button type="button" onclick="shareGenericWaText('waWeeklyRawText')" style="flex: 1; background: #25D366; color: #FFF; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer;">📲 Share on WhatsApp</button>
+          </div>
+        </div>
       </div>
     </div>
-<section id="huftEodReportPanel" aria-labelledby="huftEodTitle">
-  <div class="eodHead">
-    <div><h2 id="huftEodTitle">End of Day (EOD) Report</h2></div>
-    <div class="eodActions"><button type="button" id="huftEodOpen">Open EOD Message</button></div>
   </div>
-  <div id="huftEodMessageContent" class="eodModalBackdrop" hidden role="dialog" aria-modal="true" aria-labelledby="huftEodModalTitle">
-    <div class="eodModalCard">
-      <div class="eodModalTitleRow"><h3 id="huftEodModalTitle">End of Day Message</h3><button type="button" id="huftEodClose" class="eodCloseButton" aria-label="Close EOD message">×</button></div>
-      <div class="eodToolbar"><label for="huftEodDate">Date <input type="date" id="huftEodDate" aria-label="Select EOD report date"></label><button type="button" id="huftEodRefresh">Show</button><button type="button" id="huftEodThisWeek" aria-pressed="false">This Week</button><button type="button" id="huftEodThisMonth" aria-pressed="false">This Month</button><label for="huftEodRetailTargetInput">Retail day target ₹ <input type="number" id="huftEodRetailTargetInput" min="0" step="1" inputmode="decimal" placeholder="Retail target" style="width:110px"></label><label for="huftEodSpaTargetInput">SPA day target ₹ <input type="number" id="huftEodSpaTargetInput" min="0" step="1" inputmode="decimal" placeholder="SPA target" style="width:110px"></label><button type="button" id="huftEodTargetsSave">Save Targets</button><label for="huftEodPetsInput">Pets today <input type="number" id="huftEodPetsInput" min="0" step="1" inputmode="numeric" placeholder="Enter count" aria-label="Enter number of pets today" style="width:100px"></label><button type="button" id="huftEodPetsSave">Save Pets</button><button type="button" id="huftEodCopy">Copy</button><button type="button" id="huftEodJpg">Export JPG</button></div>
-      <div id="huftEodWhatsAppPreview" class="huft-wa-phone-preview" aria-label="WhatsApp-style EOD report preview" aria-live="polite"></div><textarea id="huftEodReportText" readonly aria-label="Generated End of Day report">Upload sales data to generate the EOD report.</textarea>
-      <div class="eodSub" id="huftEodStatus" aria-live="polite">EOD message is ready.</div>
+
+  <!-- 5. MONTHLY SALES SUMMARY SUB-TAB -->
+  <div id="waPane-monthly" class="wa-pane" style="display: none;">
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+      <h2 style="font-size: 18px; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Monthly Store Executive Summary</h2>
+      <p style="font-size: 12px; color: #64748B; margin: 0 0 16px 0;">MTD store performance, projected run rates, gap to target, and full month sales outlook.</p>
+      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px;" class="wa-preview-grid">
+        <textarea id="waMonthlyRawText" readonly rows="14" style="width: 100%; box-sizing: border-box; padding: 12px; border-radius: 10px; border: 1px solid #CBD5E1; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; line-height: 1.5; background: #F8FAFC; color: #1E293B;"></textarea>
+        <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 14px;">
+          <div style="font-size: 13px; color: #475569; line-height: 1.6;">
+            <strong>Month-to-Date Highlights:</strong>
+            <ul style="padding-left: 20px; margin: 8px 0;">
+              <li>Total MTD Revenue achieved</li>
+              <li>Monthly Target &amp; Current Run Rate</li>
+              <li>Projected Month-End Revenue</li>
+              <li>Daily required run rate for balance of month</li>
+              <li>SPA vs Retail split percentage</li>
+            </ul>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button type="button" onclick="copyGenericWaText('waMonthlyRawText')" style="flex: 1; background: #0F172A; color: #FFF; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer;">📋 Copy Message</button>
+            <button type="button" onclick="shareGenericWaText('waMonthlyRawText')" style="flex: 1; background: #25D366; color: #FFF; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer;">📲 Share on WhatsApp</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- 6. TEAM & STORE PERFORMANCE SUB-TAB -->
+  <div id="waPane-team" class="wa-pane" style="display: none;">
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+      <h2 style="font-size: 18px; font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">Staff Leaderboard &amp; Recognition Broadcast</h2>
+      <p style="font-size: 12px; color: #64748B; margin: 0 0 16px 0;">Celebrate team achievements, high-value WOW bills, and individual sales rankings.</p>
+      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px;" class="wa-preview-grid">
+        <textarea id="waTeamRawText" readonly rows="14" style="width: 100%; box-sizing: border-box; padding: 12px; border-radius: 10px; border: 1px solid #CBD5E1; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; line-height: 1.5; background: #F8FAFC; color: #1E293B;"></textarea>
+        <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 14px;">
+          <div style="font-size: 13px; color: #475569; line-height: 1.6;">
+            <strong>Team Metrics Included:</strong>
+            <ul style="padding-left: 20px; margin: 8px 0;">
+              <li>Ranked list of employees by total sales</li>
+              <li>Individual target achievement percentages</li>
+              <li>WOW bill count (&ge; ₹10,000) per employee</li>
+              <li>Food sales champion of the week/month</li>
+            </ul>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button type="button" onclick="copyGenericWaText('waTeamRawText')" style="flex: 1; background: #0F172A; color: #FFF; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer;">📋 Copy Message</button>
+            <button type="button" onclick="shareGenericWaText('waTeamRawText')" style="flex: 1; background: #25D366; color: #FFF; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer;">📲 Share on WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>    </div>
   </section>
 
@@ -2533,15 +2752,56 @@ tr:hover td {
 
 <script id="xlsx-loader-fallback">window.HUFT_XLSX_READY=(function(){return new Promise(function(resolve){if(window.XLSX&&typeof window.XLSX.read=="function"){resolve(!0);return}var sources=["https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js","https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js","https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"],index=0;function next(){if(window.XLSX&&typeof window.XLSX.read=="function"){resolve(!0);return}if(index>=sources.length){resolve(!1);return}var script=document.createElement("script");script.src=sources[index++],script.async=!0,script.onload=function(){window.XLSX&&typeof window.XLSX.read=="function"?resolve(!0):next()},script.onerror=next,document.head.appendChild(script)}next()})})();
 </script>
-<script>const EMBEDDED_HEADERS=["Order Ref","Date","Created by","Created on","Invoice/Last Updated on","Invoice/Display Name","Customer","Customer/Phone","Order Lines/Product/Reference","Order Lines/Product/Name","Order Lines/Product/Product Category","Order Lines/Product/Brand P","Order Lines/Product/Brand","Order Lines/Quantity","Order Lines/Discount (%)","Order Lines/Product/Sales Price","Order Lines/Subtotal","Delivery Status","Invoice/Status","Employee","Order Type","Payment Method","Point of Sale","Receipt Number","Session","Status","Taxes","Total","Employees"],EMBEDDED_VALUES=[],EMBEDDED=EMBEDDED_VALUES.map(values=>{var _a;const r={};return EMBEDDED_HEADERS.forEach((h,i)=>{h&&(r[h]=values[i]===void 0?"":values[i])}),r["Column F"]=values[5]===void 0?"":values[5],r["Column G"]=values[6]===void 0?"":values[6],r["Column H"]=values[7]===void 0?"":values[7],r["Column AC"]=values[28]===void 0?"":values[28],r._employee=String((_a=values[28])!=null?_a:"").trim(),r});let rows=[],dayIndex=new Map,allStoreRows=[],selectedStoreNames=new Set,pendingStoreNames=new Set;const LOCAL_DB_NAME="HUFT_Hourly_Sale_LocalDB",LOCAL_DB_VERSION=1,LOCAL_STORE_NAME="salesReports",LOCAL_DATA_KEY="latest";let localDBPromise=null;function setLocalStorageStatus(message,isError=!1){const el=document.getElementById("localStorageStatus");if(el){el.textContent=(isError?"\u26A0\uFE0F ":"\u{1F4BE} ")+message,el.classList.toggle("error",!!isError);return}const mini=document.getElementById("huftStorageMini");mini&&(mini.title=(isError?"\u26A0\uFE0F ":"\u{1F4BE} ")+message,mini.classList.toggle("error",!!isError),mini.dataset.status=message),isError&&console.warn("Storage status:",message)}function huftFormatBytes(bytes){if(!Number.isFinite(bytes)||bytes<0)return"\u2014";if(bytes<1024)return bytes+" B";const units=["KB","MB","GB","TB"];let v=bytes/1024,i=0;for(;v>=1024&&i<units.length-1;)v/=1024,i++;return v.toFixed(v>=100?0:v>=10?1:2)+" "+units[i]}async function huftUpdateStorageMini(savedPayload){var _a,_b;const usageEl=document.getElementById("huftStorageUsage"),metaEl=document.getElementById("huftStorageMeta"),mini=document.getElementById("huftStorageMini");if(!usageEl||!metaEl||!mini)return;try{if(navigator.storage&&navigator.storage.estimate){const estimate=await navigator.storage.estimate(),used=estimate.usage||0,quota=estimate.quota||0;usageEl.textContent=quota?huftFormatBytes(used)+" / "+huftFormatBytes(quota):huftFormatBytes(used)+" used";const pct=quota?Math.min(100,used/quota*100):0,pctEl=document.getElementById("huftStoragePercent"),meter=document.getElementById("huftStorageMeterFill");pctEl&&(pctEl.textContent=quota?pct.toFixed(pct<1?2:1)+"%":"\u2014"),meter&&(meter.style.width=pct+"%"),mini.title="Browser storage used: "+huftFormatBytes(used)+(quota?" of "+huftFormatBytes(quota):"")}else usageEl.textContent="Usage unavailable"}catch{usageEl.textContent="Usage unavailable"}let payload=savedPayload||null;if(!payload){try{const meta=JSON.parse(localStorage.getItem("HUFT_Hourly_Sale_LastUploadMeta")||"null");if(meta){metaEl.textContent=(meta.rowCount||0).toLocaleString("en-IN")+" rows \u2022 "+(meta.fileName||"Uploaded file"),mini.title=(meta.fileName||"Uploaded file")+" \u2022 "+(meta.rowCount||0).toLocaleString("en-IN")+" saved rows";return}}catch{}metaEl.textContent="No saved upload found";return}metaEl.textContent=(payload.rowCount||((_a=payload.rows)==null?void 0:_a.length)||0).toLocaleString("en-IN")+" rows \u2022 "+(payload.fileName||"Uploaded file"),mini.title=(payload.fileName||"Uploaded file")+" \u2022 "+(payload.rowCount||((_b=payload.rows)==null?void 0:_b.length)||0).toLocaleString("en-IN")+" saved rows"}function openLocalDB(){return localDBPromise||(localDBPromise=new Promise((resolve,reject)=>{if(!("indexedDB"in window)){reject(new Error("IndexedDB is not supported in this browser."));return}const request=indexedDB.open(LOCAL_DB_NAME,LOCAL_DB_VERSION);request.onupgradeneeded=()=>{const db=request.result;db.objectStoreNames.contains(LOCAL_STORE_NAME)||db.createObjectStore(LOCAL_STORE_NAME,{keyPath:"id"})},request.onsuccess=()=>resolve(request.result),request.onerror=()=>reject(request.error||new Error("Could not open local database.")),request.onblocked=()=>setLocalStorageStatus("database is blocked; close other report tabs",!0)}),localDBPromise)}const HUFT_PERSISTENT_TARGET_KEYS=new Set(["huft_global_monthly_targets_v1","HUFT_EMPLOYEE_KPI_TARGETS_V1","HUFT_EMPLOYEE_KPI_TARGETS_V1_BACKUP","huft_store_comparison_targets_v2","huft_store_comparison_targets_v2_backup","huftDailyEmployeeTargetPlans_v1","huftEodDayTargets_v1"]);async function huftClearSessionDataOnStartup(){try{await openLocalDB()}catch(e){console.warn("Local sales database unavailable:",e)}}async function saveRowsLocally(data,fileName){
-  console.log('[Cloud Architecture] Browser storage bypassed. Sales data processed in memory only.');
+<script>const EMBEDDED_HEADERS=["Order Ref","Date","Created by","Created on","Invoice/Last Updated on","Invoice/Display Name","Customer","Customer/Phone","Order Lines/Product/Reference","Order Lines/Product/Name","Order Lines/Product/Product Category","Order Lines/Product/Brand P","Order Lines/Product/Brand","Order Lines/Quantity","Order Lines/Discount (%)","Order Lines/Product/Sales Price","Order Lines/Subtotal","Delivery Status","Invoice/Status","Employee","Order Type","Payment Method","Point of Sale","Receipt Number","Session","Status","Taxes","Total","Employees"],EMBEDDED_VALUES=[],EMBEDDED=EMBEDDED_VALUES.map(values=>{var _a;const r={};return EMBEDDED_HEADERS.forEach((h,i)=>{h&&(r[h]=values[i]===void 0?"":values[i])}),r["Column F"]=values[5]===void 0?"":values[5],r["Column G"]=values[6]===void 0?"":values[6],r["Column H"]=values[7]===void 0?"":values[7],r["Column AC"]=values[28]===void 0?"":values[28],r._employee=String((_a=values[28])!=null?_a:"").trim(),r});let rows=[],dayIndex=new Map,allStoreRows=[],selectedStoreNames=new Set,pendingStoreNames=new Set;const LOCAL_DB_NAME="HUFT_Hourly_Sale_LocalDB",LOCAL_DB_VERSION=1,LOCAL_STORE_NAME="salesReports",LOCAL_DATA_KEY="latest";let localDBPromise=null;function setLocalStorageStatus(message,isError=!1){const el=document.getElementById("localStorageStatus");if(el){el.textContent=(isError?"\u26A0\uFE0F ":"\u{1F4BE} ")+message,el.classList.toggle("error",!!isError);return}const mini=document.getElementById("huftStorageMini");mini&&(mini.title=(isError?"\u26A0\uFE0F ":"\u{1F4BE} ")+message,mini.classList.toggle("error",!!isError),mini.dataset.status=message),isError&&console.warn("Storage status:",message)}function huftFormatBytes(bytes){if(!Number.isFinite(bytes)||bytes<0)return"\u2014";if(bytes<1024)return bytes+" B";const units=["KB","MB","GB","TB"];let v=bytes/1024,i=0;for(;v>=1024&&i<units.length-1;)v/=1024,i++;return v.toFixed(v>=100?0:v>=10?1:2)+" "+units[i]}async function huftUpdateStorageMini(savedPayload){var _a,_b;const usageEl=document.getElementById("huftStorageUsage"),metaEl=document.getElementById("huftStorageMeta"),mini=document.getElementById("huftStorageMini");if(!usageEl||!metaEl||!mini)return;try{if(navigator.storage&&navigator.storage.estimate){const estimate=await navigator.storage.estimate(),used=estimate.usage||0,quota=estimate.quota||0;usageEl.textContent=quota?huftFormatBytes(used)+" / "+huftFormatBytes(quota):huftFormatBytes(used)+" used";const pct=quota?Math.min(100,used/quota*100):0,pctEl=document.getElementById("huftStoragePercent"),meter=document.getElementById("huftStorageMeterFill");pctEl&&(pctEl.textContent=quota?pct.toFixed(pct<1?2:1)+"%":"\u2014"),meter&&(meter.style.width=pct+"%"),mini.title="Browser storage used: "+huftFormatBytes(used)+(quota?" of "+huftFormatBytes(quota):"")}else usageEl.textContent="Usage unavailable"}catch{usageEl.textContent="Usage unavailable"}let payload=savedPayload||null;if(!payload){try{const meta=JSON.parse(localStorage.getItem("HUFT_Hourly_Sale_LastUploadMeta")||"null");if(meta){metaEl.textContent=(meta.rowCount||0).toLocaleString("en-IN")+" rows \u2022 "+(meta.fileName||"Uploaded file"),mini.title=(meta.fileName||"Uploaded file")+" \u2022 "+(meta.rowCount||0).toLocaleString("en-IN")+" saved rows";return}}catch{}metaEl.textContent="No saved upload found";return}metaEl.textContent=(payload.rowCount||((_a=payload.rows)==null?void 0:_a.length)||0).toLocaleString("en-IN")+" rows \u2022 "+(payload.fileName||"Uploaded file"),mini.title=(payload.fileName||"Uploaded file")+" \u2022 "+(payload.rowCount||((_b=payload.rows)==null?void 0:_b.length)||0).toLocaleString("en-IN")+" saved rows"}function openLocalDB(){return localDBPromise||(localDBPromise=new Promise((resolve,reject)=>{if(!("indexedDB"in window)){reject(new Error("IndexedDB is not supported in this browser."));return}const request=indexedDB.open(LOCAL_DB_NAME,LOCAL_DB_VERSION);request.onupgradeneeded=()=>{const db=request.result;db.objectStoreNames.contains(LOCAL_STORE_NAME)||db.createObjectStore(LOCAL_STORE_NAME,{keyPath:"id"})},request.onsuccess=()=>resolve(request.result),request.onerror=()=>reject(request.error||new Error("Could not open local database.")),request.onblocked=()=>setLocalStorageStatus("database is blocked; close other report tabs",!0)}),localDBPromise)}const HUFT_PERSISTENT_TARGET_KEYS=new Set(["huft_global_monthly_targets_v1","HUFT_EMPLOYEE_KPI_TARGETS_V1","HUFT_EMPLOYEE_KPI_TARGETS_V1_BACKUP","huft_store_comparison_targets_v2","huft_store_comparison_targets_v2_backup","huftDailyEmployeeTargetPlans_v1","huftEodDayTargets_v1"]);async function huftClearSessionDataOnStartup(){try{await openLocalDB()}catch(e){console.warn("Local sales database unavailable:",e)}}async function saveRowsLocally(data, fileName) {
+  const storeId = typeof getActiveStoreId === 'function' ? getActiveStoreId() : 'hyderguda';
+  let userId = 'store_manager';
+  try {
+    const sessStr = sessionStorage.getItem('huft_active_session');
+    if (sessStr) {
+      const sess = JSON.parse(sessStr);
+      userId = sess.email || sess.id || sess.username || 'store_manager';
+    }
+  } catch(e) {}
+
+  console.log('[Cloud Sync] Persisting ' + (data ? data.length : 0) + ' records to Supabase Cloud for store: ' + storeId);
+  setLocalStorageStatus("Cloud Central Database Synchronizing • " + (data ? data.length : 0).toLocaleString("en-IN") + " records...");
+
+  const SUPABASE_FN = 'https://wyqksfncdlwjduyispmb.supabase.co/functions/v1/calculate-sales';
+  const response = await fetch(SUPABASE_FN, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      store_id: storeId,
+      user_id: userId,
+      file_name: fileName || 'Uploaded Point of Sale',
+      rows: data
+    })
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    console.error('[Cloud Sync] Server returned error:', errText);
+    throw new Error('Supabase Cloud Sync failed (' + response.status + '): ' + errText);
+  }
+
+  const result = await response.json();
+  console.log('[Cloud Sync] Successfully persisted to Supabase Cloud:', result);
+
   const payload = {
     fileName: fileName || "Uploaded Point of Sale",
     rowCount: Array.isArray(data) ? data.length : 0,
     savedAt: new Date().toISOString()
   };
+
   setLocalStorageStatus("Cloud Central Database Synchronized • " + payload.rowCount.toLocaleString("en-IN") + " records.");
   huftUpdateStorageMini(payload);
+
+  if (result.report) {
+    window.cloudReport = result.report;
+    if (typeof applyCloudReport === 'function') {
+      applyCloudReport(result.report);
+    }
+  }
   return payload;
 }async function loadRowsLocally(){
   console.log('[Cloud Architecture] Local storage load bypassed. Fetching cloud records.');
@@ -3256,7 +3516,7 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
 </script>
 
 <style id="huft-v26-style">body{padding-bottom:96px}.lastSaleStamp{white-space:nowrap!important;max-width:none!important;overflow:visible!important}.lastSaleStamp.v26-stale-warn{background:#fff7e6!important;color:#b45309!important;border-color:#f59e0b!important}.lastSaleStamp.v26-stale-bad{background:#fee2e2!important;color:#b91c1c!important;border-color:#ef4444!important}#huftV26Stale{display:none;margin:10px 0 0;padding:10px 14px;border:1px solid #f59e0b;background:#fffbeb;color:#92400e;border-radius:10px;font:600 13px/1.4 inherit;align-items:center;gap:12px;flex-wrap:wrap}#huftV26Stale.bad{border-color:#ef4444;background:#fef2f2;color:#991b1b}#huftV26Stale button{margin-left:auto;border:0!important;background:#9a3412!important;color:#fff!important;border-radius:8px!important;padding:6px 12px!important;font-weight:700;font-size:13px!important;cursor:pointer;min-height:0!important;height:auto!important}#huftV26Presets{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:8px 0 0;font-size:12px}#huftV26Presets b{color:#7c2d12;font-weight:700;margin-right:2px}#huftV26Presets button,#huftV26Privacy{border:1px solid #f1c9a8!important;background:#fff!important;color:#7c2d12!important;border-radius:999px!important;padding:4px 11px!important;font-weight:700!important;font-size:12px!important;cursor:pointer;box-shadow:none!important;transform:none!important;min-height:0!important;height:auto!important}#huftV26Presets button:hover,#huftV26Privacy:hover{background:#fff1e6!important}#huftV26Privacy.on{background:#ecfdf5!important;border-color:#34d399!important;color:#047857!important}#huftV26Headline{margin:10px 0 14px;border:1px solid #f3d9c3;border-radius:14px;background:#fff;padding:14px}#huftV26Headline .v26h-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline;margin-bottom:10px}#huftV26Headline .v26h-title{font-weight:800;font-size:15px;color:#7c2d12}#huftV26Headline .v26h-asof{font-size:12px;color:#6b7280}.v26h-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.v26h-card{border:1px solid #f3d9c3;border-radius:10px;padding:10px 12px;background:#fffaf5;min-width:0}.v26h-card span{display:block;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:#7c2d12}.v26h-card>b{display:block;font-size:22px;margin:3px 0 2px;color:#111827}.v26h-card small b{display:inline;font-size:inherit;margin:0}.v26h-card small{display:block;font-size:12px;color:#4b5563;line-height:1.35}.v26-up{color:#047857!important}.v26-down{color:#b91c1c!important}.v26-flat{color:#6b7280!important}.v26h-why{margin-top:10px;font-size:13px;color:#1f2937;line-height:1.55}.v26h-why div{padding:3px 0}#huftV26Insights{margin:0 0 14px;border:1px solid #f3d9c3;border-radius:14px;background:#fff;overflow:hidden}#huftV26Insights>summary{cursor:pointer;padding:12px 14px;font-weight:800;color:#7c2d12;display:flex;gap:8px;flex-wrap:wrap;align-items:center;list-style:none}#huftV26Insights>summary::-webkit-details-marker{display:none}#huftV26Insights>summary::before{content:'▸';font-size:12px}#huftV26Insights[open]>summary::before{content:'▾'}.v26chip{font-size:11px;font-weight:800;border-radius:999px;padding:2px 9px;border:1px solid}.v26chip.ok{background:#ecfdf5;color:#047857;border-color:#a7f3d0}.v26chip.warn{background:#fffbeb;color:#b45309;border-color:#fcd34d}.v26chip.bad{background:#fef2f2;color:#b91c1c;border-color:#fecaca}.v26i-body{padding:0 14px 14px}.v26i-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.v26i-card{border:1px solid #f3d9c3;border-radius:10px;padding:12px;background:#fffdfb;min-width:0}.v26i-card h4{margin:0 0 8px;font-size:13px;color:#7c2d12}.v26i-card p{margin:4px 0;font-size:12.5px;color:#374151;line-height:1.45}.v26i-card button{margin-top:6px;border:1px solid #f1c9a8!important;background:#fff!important;color:#7c2d12!important;border-radius:8px!important;padding:5px 10px!important;font-weight:700!important;font-size:12px!important;cursor:pointer;box-shadow:none!important;transform:none!important;min-height:0!important}.v26i-card ul{margin:4px 0 0 16px;padding:0;font-size:12.5px;color:#374151}#huftV26ChartNote{display:none;margin:8px 0;padding:8px 12px;border:1px solid #f59e0b;background:#fffbeb;color:#92400e;border-radius:8px;font-size:12.5px;font-weight:600}@media(max-width:900px){.v26h-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:900px){.v26i-grid{grid-template-columns:1fr}}@media(max-width:480px){.v26h-card b{font-size:18px}}</style>
-<script id="huft-v26-patch">(function(){"use strict";const $=id=>document.getElementById(id),esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]),safe=(fn,label,fallback)=>{try{return fn()}catch(e){try{console.warn("[HUFT v26] "+label+":",e)}catch{}return fallback}},iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),num=v=>{const n=typeof v=="number"?v:parseFloat(String(v==null?"":v).replace(/,/g,""));return Number.isFinite(n)?n:0};function inr(v){v=Math.round(num(v));const a=Math.abs(v),s=v<0?"-":"";return a>=1e5?s+"\u20B9"+(a/1e5).toFixed(2)+"L":a>=1e3?s+"\u20B9"+(a/1e3).toFixed(1)+"K":s+"\u20B9"+a}const sgn=v=>(v>=0?"+":"\u2212")+inr(Math.abs(v));function chg(a,b){return b>0?(a-b)/b*100:null}function pctTxt(p){return p==null?"\u2014":(p>=0?"+":"\u2212")+Math.abs(p).toFixed(1)+"%"}function cls(p,inv){return p==null||Math.abs(p)<.05?"v26-flat":p>0!=!!inv?"v26-up":"v26-down"}function prettyDate(k){return new Date(k+"T12:00:00").toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"})}let _anchor={sig:"",key:"",date:null};function anchor(){const R=typeof rows!="undefined"&&Array.isArray(rows)?rows:[],sig=R.length+"|"+(R[0]&&R[0]._key)+"|"+(R[R.length-1]&&R[R.length-1]._key);if(_anchor.sig===sig)return _anchor;let best=null,key="";for(let i=0;i<R.length;i++){const r=R[i];if(!r)continue;let d=null;try{d=parseDate(r._date!=null&&r._date!==""?r._date:r.Date)}catch{}d&&!isNaN(d.getTime())&&(!best||d>best)&&(best=d),r._key&&r._key>key&&(key=r._key)}return _anchor={sig,key,date:best},_anchor}const lastKey=()=>anchor().key,lastDate=()=>anchor().date;safe(()=>{window.employeeDaysInfo=function(F,T){const lk=lastKey();let end=T?new Date(T+"T12:00:00"):new Date;lk&&iso(end)>lk&&(end=new Date(lk+"T12:00:00"));const start=F?new Date(F+"T12:00:00"):new Date(end.getFullYear(),end.getMonth(),1),year=end.getFullYear(),month=end.getMonth(),daysInMonth=new Date(year,month+1,0).getDate(),daysOver=Math.max(1,Math.min(daysInMonth,end.getDate()));return{daysInMonth,daysOver,daysLeft:Math.max(0,daysInMonth-daysOver),monthKey:year+"-"+String(month+1).padStart(2,"0"),start,end}},window.ensureEmployeeTripDates=function(){const from=$("employeeTripFrom"),to=$("employeeTripTo"),base=lastDate()||new Date,start=new Date(base.getFullYear(),base.getMonth(),1);if(from&&!from.value&&(from.value=employeeTripIso(start)),to&&(!to.value||lastKey()&&to.value>lastKey())&&(to.value=employeeTripIso(base)),from&&to&&from.value&&to.value&&from.value>to.value){const s=from.value;from.value=to.value,to.value=s}const range={from:(from==null?void 0:from.value)||employeeTripIso(start),to:(to==null?void 0:to.value)||employeeTripIso(base)};return updateEmployeeTripLabel(),range},window.resetEmployeeDailyDates=function(){const base=lastDate()||new Date,from=$("employeeTripFrom"),to=$("employeeTripTo");from&&(from.value=employeeTripIso(new Date(base.getFullYear(),base.getMonth(),1))),to&&(to.value=employeeTripIso(base)),updateEmployeeTripLabel(),renderEmployeeMonthlySales()}},"employee dates"),safe(()=>{typeof EMPLOYEE_KPI_DEFAULTS=="object"&&Object.keys(EMPLOYEE_KPI_DEFAULTS).slice().forEach(k=>{const plain=k.replace(/^[A-Za-z]*\d+[_\s-]+/,"").trim();plain&&!EMPLOYEE_KPI_DEFAULTS[plain]&&(EMPLOYEE_KPI_DEFAULTS[plain]=EMPLOYEE_KPI_DEFAULTS[k])})},"employee target aliases");function daysOld(){const d=lastDate();if(!d)return null;const t=new Date;t.setHours(0,0,0,0);const x=new Date(d);return x.setHours(0,0,0,0),Math.max(0,Math.round((t-x)/864e5))}function updateStale(){const n=daysOld(),el=$("lastSaleStamp");if(n==null)return;el&&(el.classList.remove("v26-stale-warn","v26-stale-bad"),n>=1&&!/\d+d old/.test(el.textContent)&&(el.textContent+=" \u2022 "+n+"d old"),n>=3?el.classList.add("v26-stale-bad"):n>=1&&el.classList.add("v26-stale-warn"));const b=$("huftV26Stale");if(b)if(n>=1){const ld=lastDate();b.className=n>=3?"bad":"",b.style.display="flex",b.innerHTML="<span>\u26A0 Data is <b>"+n+" day"+(n===1?"":"s")+" old</b> \u2014 last sale recorded "+esc(ld.toLocaleString("en-IN",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:!0}))+'. Numbers are anchored to that date, not today.</span><button type="button" id="huftV26StaleUpload">Upload latest Excel</button>';const u=$("huftV26StaleUpload");u&&(u.onclick=()=>{try{uploadExcel()}catch{}})}else b.style.display="none"}safe(()=>{const o=window.updateLastSaleStamp;typeof o=="function"&&(window.updateLastSaleStamp=function(){const r=o.apply(this,arguments);return safe(updateStale,"stale"),r})},"wrap stamp");function inject(){const tb=document.querySelector("main.container .toolbar");if(tb&&!$("huftV26Stale")){const stale=document.createElement("div");stale.id="huftV26Stale",stale.setAttribute("role","status"),tb.insertAdjacentElement("afterend",stale);const pre=document.createElement("div");pre.id="huftV26Presets",pre.innerHTML='<b>Quick range:</b><button type="button" data-p="day">Last sale day</button><button type="button" data-p="7">Last 7 days</button><button type="button" data-p="mtd">Month to date</button><button type="button" data-p="prev">Last month</button><button type="button" data-p="30">Last 30 days</button><button type="button" data-p="all">All data</button><span style="flex:1"></span><button type="button" id="huftV26Privacy" title="Mask customer phone numbers on screen">\u{1F512} Phones masked</button><span id="huftV26Build" style="color:#9ca3af">build v26</span>',stale.insertAdjacentElement("afterend",pre),pre.addEventListener("click",e=>{const b=e.target.closest("button[data-p]");b&&safe(()=>applyPreset(b.dataset.p),"preset")});const note=document.createElement("div");note.id="huftV26ChartNote",note.textContent="Charts could not be loaded (Chart.js needs internet access). All numbers, tables and messages are still correct; only the graphs are missing.",pre.insertAdjacentElement("afterend",note)}const dash=$("dashboard");if(dash&&!$("huftV26Headline")){const kg=dash.querySelector(".kpiGrid"),h=document.createElement("section");h.id="huftV26Headline",h.setAttribute("aria-label","Headline summary");const ins=document.createElement("details");ins.id="huftV26Insights",kg?(kg.insertAdjacentElement("beforebegin",h),kg.insertAdjacentElement("afterend",ins)):(dash.prepend(ins),dash.prepend(h)),ins.addEventListener("toggle",()=>{ins.open&&safe(renderInsights,"insights")})}const wa=[...document.querySelectorAll(".tab")].find(t=>(t.getAttribute("onclick")||"").includes("'whatsapp'"));if(wa&&wa.textContent.trim()==="WA"&&((wa.querySelector(".nav-lbl")||wa).textContent="WhatsApp",wa.title="WhatsApp messages: daily target planner and EOD report"),window.__huftChartMissing){const n=$("huftV26ChartNote");n&&(n.style.display="block")}}function applyPreset(p){const lk=lastKey();if(!lk)return;const end=new Date(lk+"T12:00:00");let st=new Date(end);if(p==="day")st=new Date(end);else if(p==="7")st.setDate(end.getDate()-6);else if(p==="30")st.setDate(end.getDate()-29);else if(p==="mtd")st=new Date(end.getFullYear(),end.getMonth(),1);else if(p==="prev")st=new Date(end.getFullYear(),end.getMonth()-1,1),end.setTime(new Date(end.getFullYear(),end.getMonth(),0,12).getTime());else if(p==="all"){const ks=[...dayIndex.keys()].sort();st=new Date((ks[0]||lk)+"T12:00:00")}$("from").value=iso(st),$("to").value=iso(end),refreshTable(),safe(()=>{typeof refreshDashboard=="function"&&refreshDashboard()},"preset dashboard")}function dim(k){const y=+k.slice(0,4),m=+k.slice(5,7);return new Date(y,m,0).getDate()}function sumKeys(keys){const o={total:0,retail:0,spa:0,orders:0,qty:0};return keys.forEach(k=>{const x=calcDay(k);o.total+=x.total||0,o.retail+=x.retail||0,o.spa+=x.spa||0,o.orders+=x.orders||0,o.qty+=x.qty||0}),o}function catTotals(keys){const m=new Map;return keys.forEach(k=>{(dashboardRowsForDay(k)||[]).forEach(r=>{if(String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup"))return;const c=String(r["Order Lines/Product/Product Category"]||"Other").split("/")[0].trim()||"Other";m.set(c,(m.get(c)||0)+amount(r))})}),m}let _hSig="";function renderHeadline(force){var _a,_b;const h=$("huftV26Headline");if(!h||typeof dayIndex=="undefined"||!dayIndex.size)return;const lk=lastKey();if(!lk)return;const rt=num((_a=$("aiRetailTarget"))==null?void 0:_a.value),st=num((_b=$("aiSpaTarget"))==null?void 0:_b.value),target=rt+st,sig=lk+"|"+dayIndex.size+"|"+target+"|"+(typeof rows!="undefined"?rows.length:0);if(!force&&sig===_hSig)return;_hSig=sig;const ym=lk.slice(0,7),D=+lk.slice(8,10),DIM=dim(lk),keys=[...dayIndex.keys()].sort(),cur=keys.filter(k=>k.startsWith(ym)&&k<=lk),pd=new Date(+lk.slice(0,4),+lk.slice(5,7)-2,1),pym=pd.getFullYear()+"-"+String(pd.getMonth()+1).padStart(2,"0"),prev=keys.filter(k=>k.startsWith(pym)&&+k.slice(8,10)<=D),C=sumKeys(cur),P=sumKeys(prev),pace=target>0?C.total/(target*D/DIM)*100:null,proj=C.total/D*DIM,left=DIM-D,need=left>0&&target>0?Math.max(0,target-C.total)/left:null,dc=chg(C.total,P.total),oc=chg(C.orders,P.orders),abvC=C.orders?C.total/C.orders:0,abvP=P.orders?P.total/P.orders:0,uptC=C.orders?C.qty/C.orders:0,uptP=P.orders?P.qty/P.orders:0,ac=chg(abvC,abvP),uc=chg(uptC,uptP),d0=new Date(lk+"T12:00:00"),d7=new Date(d0);d7.setDate(d0.getDate()-7);const k7=iso(d7),X=dayIndex.has(lk)?sumKeys([lk]):null,Y=dayIndex.has(k7)?sumKeys([k7]):null,wd=d0.toLocaleDateString("en-IN",{weekday:"long"}),wc=X&&Y?chg(X.total,Y.total):null;let mover="";safe(()=>{const a=catTotals(cur),b=catTotals(prev),diffs=[];new Set([...a.keys(),...b.keys()]).forEach(c=>diffs.push([c,(a.get(c)||0)-(b.get(c)||0)])),diffs.sort((x,y)=>y[1]-x[1]);const up=diffs[0],dn=diffs[diffs.length-1];up&&up[1]>0&&(mover+="<div>\u25B2 Biggest gain: <b>"+esc(up[0])+'</b> <span class="v26-up">'+sgn(up[1])+"</span></div>"),dn&&dn[1]<0&&(mover+="<div>\u25BC Biggest drop: <b>"+esc(dn[0])+'</b> <span class="v26-down">'+sgn(dn[1])+"</span></div>")},"movers");let why="";if(dc!=null){const parts=[["orders",oc],["average bill",ac],["items per bill",uc]].filter(x=>x[1]!=null),worst=parts.slice().sort((x,y)=>x[1]-y[1])[0],best=parts.slice().sort((x,y)=>y[1]-x[1])[0];why="<div>"+(dc>=0?"\u{1F4C8}":"\u{1F4C9}")+' Sales are <b class="'+cls(dc)+'">'+pctTxt(dc)+"</b> vs the same days of last month: "+parts.map(x=>x[0]+' <b class="'+cls(x[1])+'">'+pctTxt(x[1])+"</b>").join(", ")+"."+(dc<0&&worst?" Weakest driver: <b>"+worst[0]+"</b>.":best?" Strongest driver: <b>"+best[0]+"</b>.":"")+"</div>"}const ld=lastDate(),partial=ld&&ld.getHours()<20,dueTxt=need==null?"Month complete":"Needs <b>"+inr(need)+"</b>/day for the remaining "+left+" day"+(left===1?"":"s");h.innerHTML='<div class="v26h-top"><div class="v26h-title">Today\u2019s headline \u2014 '+esc(new Date(ym+"-01T12:00:00").toLocaleDateString("en-IN",{month:"long",year:"numeric"}))+" (day "+D+" of "+DIM+')</div><div class="v26h-asof">As of last sale: '+esc(prettyDate(lk))+(partial?" \u2022 last sale before 8 PM, day may be partial":"")+'</div></div><div class="v26h-grid"><div class="v26h-card"><span>Month to date</span><b>'+inr(C.total)+"</b><small>"+(target>0?'Target pace: <b class="'+cls(pace-100)+'">'+(pace>=100?"ahead ":"behind ")+Math.abs(pace-100).toFixed(1)+"%</b> \u2022 target "+inr(target):"Set monthly targets to see pace")+'</small></div><div class="v26h-card"><span>Projected month end</span><b>'+inr(proj)+"</b><small>"+(target>0?(proj>=target?'<b class="v26-up">'+inr(proj-target)+" above</b>":'<b class="v26-down">'+inr(target-proj)+" short of</b>")+" target \u2022 "+dueTxt:"Run-rate: "+inr(C.total/D)+"/day")+'</small></div><div class="v26h-card"><span>vs last month (same days)</span><b class="'+cls(dc)+'">'+pctTxt(dc)+"</b><small>"+inr(C.total)+" vs "+inr(P.total)+" \u2022 orders "+C.orders+" vs "+P.orders+'</small></div><div class="v26h-card"><span>'+esc(wd)+" vs previous "+esc(wd)+'</span><b class="'+cls(wc)+'">'+pctTxt(wc)+"</b><small>"+(X?inr(X.total)+" ("+X.orders+" orders)":"No sales")+" vs "+(Y?inr(Y.total)+" ("+Y.orders+" orders)":"no sales on "+esc(prettyDate(k7)))+'</small></div></div><div class="v26h-why">'+why+mover+"</div>"}let _life={sig:"",map:null};function lifetime(){const R=rows,sig=R.length+"|"+lastKey();if(_life.sig===sig&&_life.map)return _life.map;const m=new Map;return R.forEach(r=>{if(!r._key||String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup"))return;const ph=String(r["Customer/Phone"]||"").replace(/\D/g,"").slice(-10);if(ph.length<10)return;let c=m.get(ph);c||(c={ph,name:String(r.Customer||"").trim(),first:r._key,last:r._key,orders:new Set,spend:0},m.set(ph,c)),r._key<c.first&&(c.first=r._key),r._key>c.last&&(c.last=r._key,r.Customer&&(c.name=String(r.Customer).trim())),c.orders.add(String(r["Order Ref"]||r._key)),c.spend+=amount(r)}),_life={sig,map:m},m}function health(){const R=rows,out=[],n=R.length,noDate=R.filter(r=>!r._key).length;out.push({k:"Rows with unreadable date",v:noDate,lvl:noDate?"bad":"ok",note:noDate?"These rows are excluded from every report.":"All rows have a valid date."});const es=safe(()=>empStats(),"emp stats",{blankRows:0,matchedRows:0,unmatchedRows:0});out.push({k:"Rows with blank employee in file",v:es.blankRows,lvl:es.unmatchedRows?"warn":"ok",note:es.blankRows?es.matchedRows+" filled from the row above"+(es.unmatchedRows?"; "+es.unmatchedRows+" could not be matched":"")+".":"Every line is attributed to an employee."});const noPh=R.filter(r=>String(r["Customer/Phone"]||"").replace(/\D/g,"").length<10).length;out.push({k:"Rows with no valid customer phone",v:noPh,lvl:noPh>n*.1?"warn":"ok",note:"Limits repeat-customer and call-list accuracy."});const seen=new Map;let dup=0;R.forEach(r=>{const k=[r["Order Ref"],r["Order Lines/Product/Reference"],r["Order Lines/Quantity"],r["Order Lines/Subtotal"]].join("|");seen.set(k,(seen.get(k)||0)+1)}),seen.forEach(v=>{v>1&&(dup+=v-1)}),out.push({k:"Possible duplicate lines",v:dup,lvl:dup>n*.01?"warn":"ok",note:"Same order, product, qty and amount appearing more than once (can be genuine repeat items)."});const keys=[...new Set(R.filter(r=>r._key).map(r=>r._key))].sort();let gaps=[];if(keys.length>1){const a=new Date(keys[0]+"T12:00:00"),b=new Date(keys[keys.length-1]+"T12:00:00"),have=new Set(keys);for(let d=new Date(a);d<=b;d.setDate(d.getDate()+1)){const k=iso(d);have.has(k)||gaps.push(k)}}out.push({k:"Calendar days with no sales",v:gaps.length,lvl:gaps.length>3?"warn":"ok",note:gaps.length?"e.g. "+gaps.slice(0,6).map(prettyDate).join(", ")+(gaps.length>6?" \u2026":"")+" \u2014 closed days or missing upload?":"No gaps between first and last sale date."});const nd=daysOld();return out.push({k:"Data age",v:nd==null?"\u2014":nd===0?"today":nd+" day"+(nd===1?"":"s"),lvl:nd==null?"warn":nd>=3?"bad":nd>=1?"warn":"ok",note:"Based on last sale timestamp."}),out}function renderInsights(){var _a,_b;const box=$("huftV26Insights");if(!box)return;const F=((_a=$("from"))==null?void 0:_a.value)||"",T=((_b=$("to"))==null?void 0:_b.value)||"",keys=[...dayIndex.keys()].filter(k=>(!F||k>=F)&&(!T||k<=T)).sort(),H=health(),bad=H.filter(h=>h.lvl==="bad").length,warn=H.filter(h=>h.lvl==="warn").length,sum=box.querySelector("summary")||box.appendChild(document.createElement("summary"));sum.innerHTML='Insights &amp; data health <span class="v26chip '+(bad?"bad":warn?"warn":"ok")+'">'+(bad?bad+" issue"+(bad>1?"s":""):warn?warn+" to check":"all checks passed")+'</span><span style="font-weight:600;color:#6b7280;font-size:12px">'+esc(F||"start")+" \u2192 "+esc(T||"end")+"</span>";let body=box.querySelector(".v26i-body");if(body||(body=document.createElement("div"),body.className="v26i-body",box.appendChild(body)),!box.open)return;const lines=[];keys.forEach(k=>(dashboardRowsForDay(k)||[]).forEach(r=>{String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup")||lines.push(r)}));let gross=0,net=0,sampN=0,sampV=0,retN=0,retV=0;const empDisc=new Map;lines.forEach(r=>{const q=num(r["Order Lines/Quantity"]),pr=num(r["Order Lines/Product/Sales Price"]),dp=num(r["Order Lines/Discount (%)"]),a=amount(r);if((q<0||a<0)&&(retN++,retV+=a),dp>=99){sampN++,sampV+=Math.max(0,q)*pr;return}if(q>0){const g=q*pr;gross+=g,net+=a;const d=Math.max(0,g-a);ensureEmp();const e=EM.map.get(r)||"";e&&empDisc.set(e,(empDisc.get(e)||0)+d)}});const disc=Math.max(0,gross-net),eD=[...empDisc.entries()].sort((a,b)=>b[1]-a[1]).slice(0,4),L=lifetime(),inP=new Map;lines.forEach(r=>{const ph=String(r["Customer/Phone"]||"").replace(/\D/g,"").slice(-10);ph.length>=10&&inP.set(ph,1)});let nw=0,rp=0;inP.forEach((_,ph)=>{const c=L.get(ph);c&&c.first>=(F||keys[0]||"")&&c.first<=(T||"9999")?nw++:rp++});const lk=lastKey(),cut60=new Date(lk+"T12:00:00");cut60.setDate(cut60.getDate()-60);const cut180=new Date(lk+"T12:00:00");cut180.setDate(cut180.getDate()-180);const lapsed=[...L.values()].filter(c=>c.last<iso(cut60)&&c.last>=iso(cut180)&&c.orders.size>=2).sort((a,b)=>b.spend-a.spend);window.__huftV26Lapsed=lapsed;const hHtml=H.map(h=>'<p><span class="v26chip '+h.lvl+'">'+(h.lvl==="ok"?"OK":h.lvl==="warn"?"CHECK":"FIX")+"</span> <b>"+esc(h.k)+":</b> "+esc(h.v)+" \u2014 "+esc(h.note)+"</p>").join("");body.innerHTML='<div class="v26i-grid"><div class="v26i-card"><h4>\u{1F3F7} Discounts &amp; samples</h4><p>Discount given on paid lines: <b>'+inr(disc)+"</b> ("+(gross?(disc/gross*100).toFixed(1):0)+"% of list value "+inr(gross)+")</p><p>Free / 99.99%-off sample lines: <b>"+sampN+"</b> worth <b>"+inr(sampV)+"</b> at list price</p>"+(eD.length?"<p>Highest discount by employee:</p><ul>"+eD.map(e=>"<li>"+esc(e[0])+": "+inr(e[1])+"</li>").join("")+"</ul>":"")+'</div><div class="v26i-card"><h4>\u{1F465} Customers in this period</h4><p>Unique customers: <b>'+inP.size+"</b> \u2022 New: <b>"+nw+"</b> \u2022 Returning: <b>"+rp+"</b> ("+(inP.size?(rp/inP.size*100).toFixed(0):0)+"%)</p><p>Lapsed regulars (2+ visits, none in last 60 days, seen in last 180): <b>"+lapsed.length+'</b></p><button type="button" id="huftV26CallList">\u2B07 Download call-back list (CSV)</button></div><div class="v26i-card"><h4>\u21A9 Returns &amp; data health</h4><p>Return / negative lines: <b>'+retN+"</b> worth <b>"+inr(retV)+"</b> (already netted in sales).</p>"+hHtml+"</div></div>";const btn=$("huftV26CallList");btn&&(btn.onclick=()=>{const csv=[["Customer","Phone","Last visit","Visits","Lifetime spend (\u20B9)"]].concat((window.__huftV26Lapsed||[]).map(c=>[c.name,c.ph,c.last,c.orders.size,Math.round(c.spend)])).map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join(`
+<script id="huft-v26-patch">(function(){"use strict";const $=id=>document.getElementById(id),esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]),safe=(fn,label,fallback)=>{try{return fn()}catch(e){try{console.warn("[HUFT v26] "+label+":",e)}catch{}return fallback}},iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),num=v=>{const n=typeof v=="number"?v:parseFloat(String(v==null?"":v).replace(/,/g,""));return Number.isFinite(n)?n:0};function inr(v){v=Math.round(num(v));const a=Math.abs(v),s=v<0?"-":"";return a>=1e5?s+"\u20B9"+(a/1e5).toFixed(2)+"L":a>=1e3?s+"\u20B9"+(a/1e3).toFixed(1)+"K":s+"\u20B9"+a}const sgn=v=>(v>=0?"+":"\u2212")+inr(Math.abs(v));function chg(a,b){return b>0?(a-b)/b*100:null}function pctTxt(p){return p==null?"\u2014":(p>=0?"+":"\u2212")+Math.abs(p).toFixed(1)+"%"}function cls(p,inv){return p==null||Math.abs(p)<.05?"v26-flat":p>0!=!!inv?"v26-up":"v26-down"}function prettyDate(k){return new Date(k+"T12:00:00").toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"})}let _anchor={sig:"",key:"",date:null};function anchor(){const R=typeof rows!="undefined"&&Array.isArray(rows)?rows:[],sig=R.length+"|"+(R[0]&&R[0]._key)+"|"+(R[R.length-1]&&R[R.length-1]._key);if(_anchor.sig===sig)return _anchor;let best=null,key="";for(let i=0;i<R.length;i++){const r=R[i];if(!r)continue;let d=null;try{d=parseDate(r._date!=null&&r._date!==""?r._date:r.Date)}catch{}d&&!isNaN(d.getTime())&&(!best||d>best)&&(best=d),r._key&&r._key>key&&(key=r._key)}return _anchor={sig,key,date:best},_anchor}const lastKey=()=>anchor().key,lastDate=()=>anchor().date;safe(()=>{window.employeeDaysInfo=function(F,T){const lk=lastKey();let end=T?new Date(T+"T12:00:00"):new Date;lk&&iso(end)>lk&&(end=new Date(lk+"T12:00:00"));const start=F?new Date(F+"T12:00:00"):new Date(end.getFullYear(),end.getMonth(),1),year=end.getFullYear(),month=end.getMonth(),daysInMonth=new Date(year,month+1,0).getDate(),daysOver=Math.max(1,Math.min(daysInMonth,end.getDate()));return{daysInMonth,daysOver,daysLeft:Math.max(0,daysInMonth-daysOver),monthKey:year+"-"+String(month+1).padStart(2,"0"),start,end}},window.ensureEmployeeTripDates=function(){const from=$("employeeTripFrom"),to=$("employeeTripTo"),base=lastDate()||new Date,start=new Date(base.getFullYear(),base.getMonth(),1);if(from&&!from.value&&(from.value=employeeTripIso(start)),to&&(!to.value||lastKey()&&to.value>lastKey())&&(to.value=employeeTripIso(base)),from&&to&&from.value&&to.value&&from.value>to.value){const s=from.value;from.value=to.value,to.value=s}const range={from:(from==null?void 0:from.value)||employeeTripIso(start),to:(to==null?void 0:to.value)||employeeTripIso(base)};return updateEmployeeTripLabel(),range},window.resetEmployeeDailyDates=function(){const base=lastDate()||new Date,from=$("employeeTripFrom"),to=$("employeeTripTo");from&&(from.value=employeeTripIso(new Date(base.getFullYear(),base.getMonth(),1))),to&&(to.value=employeeTripIso(base)),updateEmployeeTripLabel(),renderEmployeeMonthlySales()}},"employee dates"),safe(()=>{typeof EMPLOYEE_KPI_DEFAULTS=="object"&&Object.keys(EMPLOYEE_KPI_DEFAULTS).slice().forEach(k=>{const plain=k.replace(/^[A-Za-z]*\d+[_\s-]+/,"").trim();plain&&!EMPLOYEE_KPI_DEFAULTS[plain]&&(EMPLOYEE_KPI_DEFAULTS[plain]=EMPLOYEE_KPI_DEFAULTS[k])})},"employee target aliases");function daysOld(){const d=lastDate();if(!d)return null;const t=new Date;t.setHours(0,0,0,0);const x=new Date(d);return x.setHours(0,0,0,0),Math.max(0,Math.round((t-x)/864e5))}function updateStale(){const b=$("huftV26Stale");if(b){b.style.display="none";b.hidden=true;}const sb=$("staleBanner");if(sb){sb.style.display="none";sb.hidden=true;}}safe(()=>{const o=window.updateLastSaleStamp;typeof o=="function"&&(window.updateLastSaleStamp=function(){const r=o.apply(this,arguments);return safe(updateStale,"stale"),r})},"wrap stamp");function inject(){const tb=document.querySelector("main.container .toolbar");if(tb&&!$("huftV26Stale")){const stale=document.createElement("div");stale.id="huftV26Stale",stale.setAttribute("role","status"),tb.insertAdjacentElement("afterend",stale);const pre=document.createElement("div");pre.id="huftV26Presets",pre.innerHTML='<b>Quick range:</b><button type="button" data-p="day">Last sale day</button><button type="button" data-p="7">Last 7 days</button><button type="button" data-p="mtd">Month to date</button><button type="button" data-p="prev">Last month</button><button type="button" data-p="30">Last 30 days</button><button type="button" data-p="all">All data</button><span style="flex:1"></span><button type="button" id="huftV26Privacy" title="Mask customer phone numbers on screen">\u{1F512} Phones masked</button><span id="huftV26Build" style="color:#9ca3af">build v26</span>',stale.insertAdjacentElement("afterend",pre),pre.addEventListener("click",e=>{const b=e.target.closest("button[data-p]");b&&safe(()=>applyPreset(b.dataset.p),"preset")});const note=document.createElement("div");note.id="huftV26ChartNote",note.textContent="Charts could not be loaded (Chart.js needs internet access). All numbers, tables and messages are still correct; only the graphs are missing.",pre.insertAdjacentElement("afterend",note)}const dash=$("dashboard");if(dash&&!$("huftV26Headline")){const kg=dash.querySelector(".kpiGrid"),h=document.createElement("section");h.id="huftV26Headline",h.setAttribute("aria-label","Headline summary");const ins=document.createElement("details");ins.id="huftV26Insights",kg?(kg.insertAdjacentElement("beforebegin",h),kg.insertAdjacentElement("afterend",ins)):(dash.prepend(ins),dash.prepend(h)),ins.addEventListener("toggle",()=>{ins.open&&safe(renderInsights,"insights")})}const wa=[...document.querySelectorAll(".tab")].find(t=>(t.getAttribute("onclick")||"").includes("'whatsapp'"));if(wa&&wa.textContent.trim()==="WA"&&((wa.querySelector(".nav-lbl")||wa).textContent="WhatsApp",wa.title="WhatsApp messages: daily target planner and EOD report"),window.__huftChartMissing){const n=$("huftV26ChartNote");n&&(n.style.display="block")}}function applyPreset(p){const lk=lastKey();if(!lk)return;const end=new Date(lk+"T12:00:00");let st=new Date(end);if(p==="day")st=new Date(end);else if(p==="7")st.setDate(end.getDate()-6);else if(p==="30")st.setDate(end.getDate()-29);else if(p==="mtd")st=new Date(end.getFullYear(),end.getMonth(),1);else if(p==="prev")st=new Date(end.getFullYear(),end.getMonth()-1,1),end.setTime(new Date(end.getFullYear(),end.getMonth(),0,12).getTime());else if(p==="all"){const ks=[...dayIndex.keys()].sort();st=new Date((ks[0]||lk)+"T12:00:00")}$("from").value=iso(st),$("to").value=iso(end),refreshTable(),safe(()=>{typeof refreshDashboard=="function"&&refreshDashboard()},"preset dashboard")}function dim(k){const y=+k.slice(0,4),m=+k.slice(5,7);return new Date(y,m,0).getDate()}function sumKeys(keys){const o={total:0,retail:0,spa:0,orders:0,qty:0};return keys.forEach(k=>{const x=calcDay(k);o.total+=x.total||0,o.retail+=x.retail||0,o.spa+=x.spa||0,o.orders+=x.orders||0,o.qty+=x.qty||0}),o}function catTotals(keys){const m=new Map;return keys.forEach(k=>{(dashboardRowsForDay(k)||[]).forEach(r=>{if(String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup"))return;const c=String(r["Order Lines/Product/Product Category"]||"Other").split("/")[0].trim()||"Other";m.set(c,(m.get(c)||0)+amount(r))})}),m}let _hSig="";function renderHeadline(force){var _a,_b;const h=$("huftV26Headline");if(!h||typeof dayIndex=="undefined"||!dayIndex.size)return;const lk=lastKey();if(!lk)return;const rt=num((_a=$("aiRetailTarget"))==null?void 0:_a.value),st=num((_b=$("aiSpaTarget"))==null?void 0:_b.value),target=rt+st,sig=lk+"|"+dayIndex.size+"|"+target+"|"+(typeof rows!="undefined"?rows.length:0);if(!force&&sig===_hSig)return;_hSig=sig;const ym=lk.slice(0,7),D=+lk.slice(8,10),DIM=dim(lk),keys=[...dayIndex.keys()].sort(),cur=keys.filter(k=>k.startsWith(ym)&&k<=lk),pd=new Date(+lk.slice(0,4),+lk.slice(5,7)-2,1),pym=pd.getFullYear()+"-"+String(pd.getMonth()+1).padStart(2,"0"),prev=keys.filter(k=>k.startsWith(pym)&&+k.slice(8,10)<=D),C=sumKeys(cur),P=sumKeys(prev),pace=target>0?C.total/(target*D/DIM)*100:null,proj=C.total/D*DIM,left=DIM-D,need=left>0&&target>0?Math.max(0,target-C.total)/left:null,dc=chg(C.total,P.total),oc=chg(C.orders,P.orders),abvC=C.orders?C.total/C.orders:0,abvP=P.orders?P.total/P.orders:0,uptC=C.orders?C.qty/C.orders:0,uptP=P.orders?P.qty/P.orders:0,ac=chg(abvC,abvP),uc=chg(uptC,uptP),d0=new Date(lk+"T12:00:00"),d7=new Date(d0);d7.setDate(d0.getDate()-7);const k7=iso(d7),X=dayIndex.has(lk)?sumKeys([lk]):null,Y=dayIndex.has(k7)?sumKeys([k7]):null,wd=d0.toLocaleDateString("en-IN",{weekday:"long"}),wc=X&&Y?chg(X.total,Y.total):null;let mover="";safe(()=>{const a=catTotals(cur),b=catTotals(prev),diffs=[];new Set([...a.keys(),...b.keys()]).forEach(c=>diffs.push([c,(a.get(c)||0)-(b.get(c)||0)])),diffs.sort((x,y)=>y[1]-x[1]);const up=diffs[0],dn=diffs[diffs.length-1];up&&up[1]>0&&(mover+="<div>\u25B2 Biggest gain: <b>"+esc(up[0])+'</b> <span class="v26-up">'+sgn(up[1])+"</span></div>"),dn&&dn[1]<0&&(mover+="<div>\u25BC Biggest drop: <b>"+esc(dn[0])+'</b> <span class="v26-down">'+sgn(dn[1])+"</span></div>")},"movers");let why="";if(dc!=null){const parts=[["orders",oc],["average bill",ac],["items per bill",uc]].filter(x=>x[1]!=null),worst=parts.slice().sort((x,y)=>x[1]-y[1])[0],best=parts.slice().sort((x,y)=>y[1]-x[1])[0];why="<div>"+(dc>=0?"\u{1F4C8}":"\u{1F4C9}")+' Sales are <b class="'+cls(dc)+'">'+pctTxt(dc)+"</b> vs the same days of last month: "+parts.map(x=>x[0]+' <b class="'+cls(x[1])+'">'+pctTxt(x[1])+"</b>").join(", ")+"."+(dc<0&&worst?" Weakest driver: <b>"+worst[0]+"</b>.":best?" Strongest driver: <b>"+best[0]+"</b>.":"")+"</div>"}const ld=lastDate(),partial=ld&&ld.getHours()<20,dueTxt=need==null?"Month complete":"Needs <b>"+inr(need)+"</b>/day for the remaining "+left+" day"+(left===1?"":"s");h.innerHTML='<div class="v26h-top"><div class="v26h-title">Today\u2019s headline \u2014 '+esc(new Date(ym+"-01T12:00:00").toLocaleDateString("en-IN",{month:"long",year:"numeric"}))+" (day "+D+" of "+DIM+')</div><div class="v26h-asof">As of last sale: '+esc(prettyDate(lk))+(partial?" \u2022 last sale before 8 PM, day may be partial":"")+'</div></div><div class="v26h-grid"><div class="v26h-card"><span>Month to date</span><b>'+inr(C.total)+"</b><small>"+(target>0?'Target pace: <b class="'+cls(pace-100)+'">'+(pace>=100?"ahead ":"behind ")+Math.abs(pace-100).toFixed(1)+"%</b> \u2022 target "+inr(target):"Set monthly targets to see pace")+'</small></div><div class="v26h-card"><span>Projected month end</span><b>'+inr(proj)+"</b><small>"+(target>0?(proj>=target?'<b class="v26-up">'+inr(proj-target)+" above</b>":'<b class="v26-down">'+inr(target-proj)+" short of</b>")+" target \u2022 "+dueTxt:"Run-rate: "+inr(C.total/D)+"/day")+'</small></div><div class="v26h-card"><span>vs last month (same days)</span><b class="'+cls(dc)+'">'+pctTxt(dc)+"</b><small>"+inr(C.total)+" vs "+inr(P.total)+" \u2022 orders "+C.orders+" vs "+P.orders+'</small></div><div class="v26h-card"><span>'+esc(wd)+" vs previous "+esc(wd)+'</span><b class="'+cls(wc)+'">'+pctTxt(wc)+"</b><small>"+(X?inr(X.total)+" ("+X.orders+" orders)":"No sales")+" vs "+(Y?inr(Y.total)+" ("+Y.orders+" orders)":"no sales on "+esc(prettyDate(k7)))+'</small></div></div><div class="v26h-why">'+why+mover+"</div>"}let _life={sig:"",map:null};function lifetime(){const R=rows,sig=R.length+"|"+lastKey();if(_life.sig===sig&&_life.map)return _life.map;const m=new Map;return R.forEach(r=>{if(!r._key||String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup"))return;const ph=String(r["Customer/Phone"]||"").replace(/\D/g,"").slice(-10);if(ph.length<10)return;let c=m.get(ph);c||(c={ph,name:String(r.Customer||"").trim(),first:r._key,last:r._key,orders:new Set,spend:0},m.set(ph,c)),r._key<c.first&&(c.first=r._key),r._key>c.last&&(c.last=r._key,r.Customer&&(c.name=String(r.Customer).trim())),c.orders.add(String(r["Order Ref"]||r._key)),c.spend+=amount(r)}),_life={sig,map:m},m}function health(){const R=rows,out=[],n=R.length,noDate=R.filter(r=>!r._key).length;out.push({k:"Rows with unreadable date",v:noDate,lvl:noDate?"bad":"ok",note:noDate?"These rows are excluded from every report.":"All rows have a valid date."});const es=safe(()=>empStats(),"emp stats",{blankRows:0,matchedRows:0,unmatchedRows:0});out.push({k:"Rows with blank employee in file",v:es.blankRows,lvl:es.unmatchedRows?"warn":"ok",note:es.blankRows?es.matchedRows+" filled from the row above"+(es.unmatchedRows?"; "+es.unmatchedRows+" could not be matched":"")+".":"Every line is attributed to an employee."});const noPh=R.filter(r=>String(r["Customer/Phone"]||"").replace(/\D/g,"").length<10).length;out.push({k:"Rows with no valid customer phone",v:noPh,lvl:noPh>n*.1?"warn":"ok",note:"Limits repeat-customer and call-list accuracy."});const seen=new Map;let dup=0;R.forEach(r=>{const k=[r["Order Ref"],r["Order Lines/Product/Reference"],r["Order Lines/Quantity"],r["Order Lines/Subtotal"]].join("|");seen.set(k,(seen.get(k)||0)+1)}),seen.forEach(v=>{v>1&&(dup+=v-1)}),out.push({k:"Possible duplicate lines",v:dup,lvl:dup>n*.01?"warn":"ok",note:"Same order, product, qty and amount appearing more than once (can be genuine repeat items)."});const keys=[...new Set(R.filter(r=>r._key).map(r=>r._key))].sort();let gaps=[];if(keys.length>1){const a=new Date(keys[0]+"T12:00:00"),b=new Date(keys[keys.length-1]+"T12:00:00"),have=new Set(keys);for(let d=new Date(a);d<=b;d.setDate(d.getDate()+1)){const k=iso(d);have.has(k)||gaps.push(k)}}out.push({k:"Calendar days with no sales",v:gaps.length,lvl:gaps.length>3?"warn":"ok",note:gaps.length?"e.g. "+gaps.slice(0,6).map(prettyDate).join(", ")+(gaps.length>6?" \u2026":"")+" \u2014 closed days or missing upload?":"No gaps between first and last sale date."});const nd=daysOld();return out.push({k:"Data age",v:nd==null?"\u2014":nd===0?"today":nd+" day"+(nd===1?"":"s"),lvl:nd==null?"warn":nd>=3?"bad":nd>=1?"warn":"ok",note:"Based on last sale timestamp."}),out}function renderInsights(){var _a,_b;const box=$("huftV26Insights");if(!box)return;const F=((_a=$("from"))==null?void 0:_a.value)||"",T=((_b=$("to"))==null?void 0:_b.value)||"",keys=[...dayIndex.keys()].filter(k=>(!F||k>=F)&&(!T||k<=T)).sort(),H=health(),bad=H.filter(h=>h.lvl==="bad").length,warn=H.filter(h=>h.lvl==="warn").length,sum=box.querySelector("summary")||box.appendChild(document.createElement("summary"));sum.innerHTML='Insights &amp; data health <span class="v26chip '+(bad?"bad":warn?"warn":"ok")+'">'+(bad?bad+" issue"+(bad>1?"s":""):warn?warn+" to check":"all checks passed")+'</span><span style="font-weight:600;color:#6b7280;font-size:12px">'+esc(F||"start")+" \u2192 "+esc(T||"end")+"</span>";let body=box.querySelector(".v26i-body");if(body||(body=document.createElement("div"),body.className="v26i-body",box.appendChild(body)),!box.open)return;const lines=[];keys.forEach(k=>(dashboardRowsForDay(k)||[]).forEach(r=>{String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup")||lines.push(r)}));let gross=0,net=0,sampN=0,sampV=0,retN=0,retV=0;const empDisc=new Map;lines.forEach(r=>{const q=num(r["Order Lines/Quantity"]),pr=num(r["Order Lines/Product/Sales Price"]),dp=num(r["Order Lines/Discount (%)"]),a=amount(r);if((q<0||a<0)&&(retN++,retV+=a),dp>=99){sampN++,sampV+=Math.max(0,q)*pr;return}if(q>0){const g=q*pr;gross+=g,net+=a;const d=Math.max(0,g-a);ensureEmp();const e=EM.map.get(r)||"";e&&empDisc.set(e,(empDisc.get(e)||0)+d)}});const disc=Math.max(0,gross-net),eD=[...empDisc.entries()].sort((a,b)=>b[1]-a[1]).slice(0,4),L=lifetime(),inP=new Map;lines.forEach(r=>{const ph=String(r["Customer/Phone"]||"").replace(/\D/g,"").slice(-10);ph.length>=10&&inP.set(ph,1)});let nw=0,rp=0;inP.forEach((_,ph)=>{const c=L.get(ph);c&&c.first>=(F||keys[0]||"")&&c.first<=(T||"9999")?nw++:rp++});const lk=lastKey(),cut60=new Date(lk+"T12:00:00");cut60.setDate(cut60.getDate()-60);const cut180=new Date(lk+"T12:00:00");cut180.setDate(cut180.getDate()-180);const lapsed=[...L.values()].filter(c=>c.last<iso(cut60)&&c.last>=iso(cut180)&&c.orders.size>=2).sort((a,b)=>b.spend-a.spend);window.__huftV26Lapsed=lapsed;const hHtml=H.map(h=>'<p><span class="v26chip '+h.lvl+'">'+(h.lvl==="ok"?"OK":h.lvl==="warn"?"CHECK":"FIX")+"</span> <b>"+esc(h.k)+":</b> "+esc(h.v)+" \u2014 "+esc(h.note)+"</p>").join("");body.innerHTML='<div class="v26i-grid"><div class="v26i-card"><h4>\u{1F3F7} Discounts &amp; samples</h4><p>Discount given on paid lines: <b>'+inr(disc)+"</b> ("+(gross?(disc/gross*100).toFixed(1):0)+"% of list value "+inr(gross)+")</p><p>Free / 99.99%-off sample lines: <b>"+sampN+"</b> worth <b>"+inr(sampV)+"</b> at list price</p>"+(eD.length?"<p>Highest discount by employee:</p><ul>"+eD.map(e=>"<li>"+esc(e[0])+": "+inr(e[1])+"</li>").join("")+"</ul>":"")+'</div><div class="v26i-card"><h4>\u{1F465} Customers in this period</h4><p>Unique customers: <b>'+inP.size+"</b> \u2022 New: <b>"+nw+"</b> \u2022 Returning: <b>"+rp+"</b> ("+(inP.size?(rp/inP.size*100).toFixed(0):0)+"%)</p><p>Lapsed regulars (2+ visits, none in last 60 days, seen in last 180): <b>"+lapsed.length+'</b></p><button type="button" id="huftV26CallList">\u2B07 Download call-back list (CSV)</button></div><div class="v26i-card"><h4>\u21A9 Returns &amp; data health</h4><p>Return / negative lines: <b>'+retN+"</b> worth <b>"+inr(retV)+"</b> (already netted in sales).</p>"+hHtml+"</div></div>";const btn=$("huftV26CallList");btn&&(btn.onclick=()=>{const csv=[["Customer","Phone","Last visit","Visits","Lifetime spend (\u20B9)"]].concat((window.__huftV26Lapsed||[]).map(c=>[c.name,c.ph,c.last,c.orders.size,Math.round(c.spend)])).map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join(`
 `),a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv"})),a.download="HUFT_lapsed_customers_"+lk+".csv",document.body.appendChild(a),a.click(),setTimeout(()=>{URL.revokeObjectURL(a.href),a.remove()},500)})}const EBLANK=/^(unassigned|employee|n\/a|na|-|unknown|undefined|null)?$/i,EM={rows:null,n:-1,map:new Map,src:new Map,lookup:null};let _origLookup=null,_origResolve=null;function empRaw(r){try{return String(employeeDisplayName(r["Column AC"]||r.Employees||r["Order Lines/Employees"]||r["Employee Name"]||r._employee||"")||"").trim()}catch{return""}}function buildEmp(){const R=typeof rows!="undefined"&&Array.isArray(rows)?rows:[];EM.rows=R,EM.n=R.length,EM.map=new Map,EM.src=new Map;let above="";const lead=[];R.forEach(r=>{const nm=empRaw(r);if(!EBLANK.test(nm)){above=nm,EM.map.set(r,nm),EM.src.set(r,0),lead.forEach(x=>{EM.map.set(x,nm),EM.src.set(x,3)}),lead.length=0;return}above?(EM.map.set(r,above),EM.src.set(r,2)):(lead.push(r),EM.src.set(r,9))})}function ensureEmp(){const R=typeof rows!="undefined"&&Array.isArray(rows)?rows:[];(EM.rows!==R||EM.n!==R.length)&&buildEmp()}safe(()=>{_origLookup=window.employeeNameLookup,_origResolve=window.resolveEmployeeName,typeof _origResolve=="function"&&(window.resolveEmployeeName=function(r,lookup){ensureEmp();const f=EM.map.get(r);return f||_origResolve(r,lookup)});const oRender=window.renderEmployeeMonthlySales;typeof oRender=="function"&&(window.renderEmployeeMonthlySales=function(){EM.n=-1;const r=oRender.apply(this,arguments);return safe(updateEmpMatchNote,"emp note"),r})},"employee matching");function empStats(F,T){ensureEmp();const R=EM.rows||[],s={blankRows:0,matchedRows:0,unmatchedRows:0,total:0,direct:0,inv:0,up:0,down:0,none:0};return R.forEach(r=>{const c=EM.src.get(r);if(c>0&&s.blankRows++,c===9?s.unmatchedRows++:c>0&&s.matchedRows++,!r._key||F&&r._key<F||T&&r._key>T)return;let ok=!1;try{ok=employeeIsRetailRow(r)}catch{}if(!ok||String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup"))return;const a=num(amount(r));a<=0||(s.total+=a,c===0?s.direct+=a:c===1?s.inv+=a:c===2?s.up+=a:c===3?s.down+=a:s.none+=a)}),s}function updateEmpMatchNote(){var _a,_b;const host=$("employeeMonthlySalesSummary");if(!host)return;let el=$("huftV26EmpMatch");el||(el=document.createElement("div"),el.id="huftV26EmpMatch",el.style.cssText="margin:6px 0;font-size:12.5px;font-weight:600;line-height:1.5;color:#047857",host.insertAdjacentElement("afterend",el));const s=empStats((_a=$("employeeTripFrom"))==null?void 0:_a.value,(_b=$("employeeTripTo"))==null?void 0:_b.value),auto=s.up+s.down;el.innerHTML=auto>0?"Blank employee cells were filled from the row above (like Excel Fill Down): <b>"+inr(auto)+"</b> of <b>"+inr(s.total)+"</b> retail sales.":""}const PH=/(?<![\d.])([6-9]\d)\d{6}(\d{2})(?![\d])/g,orig=new WeakMap;let maskOn=!0;try{maskOn=localStorage.getItem("huft_v26_mask_phones")!=="0"}catch{}function maskNode(n){if(n.nodeType===3){const p=n.parentNode;if(!p||/^(SCRIPT|STYLE|TEXTAREA|INPUT)$/.test(p.nodeName))return;const t=n.nodeValue;if(!maskOn)return;PH.test(t)&&(PH.lastIndex=0,orig.has(n)||orig.set(n,t),n.nodeValue=t.replace(PH,"$1******$2")),PH.lastIndex=0;return}if(n.nodeType===1&&!/^(SCRIPT|STYLE|TEXTAREA|INPUT|SELECT)$/.test(n.nodeName)){const w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT);let x;const list=[];for(;x=w.nextNode();)list.push(x);list.forEach(maskNode)}}function maskTargeted(){if(!maskOn)return;const targets=['#dailyBody','#huftPsOverlay','#huftSaleMonthSummary','#employeeTripDailyBody','.miniTable'];targets.forEach(sel=>{const el=document.querySelector(sel);el&&maskNode(el)})}function setMask(on){maskOn=on;try{localStorage.setItem("huft_v26_mask_phones",on?"1":"0")}catch{}const b=$("huftV26Privacy");if(b&&(b.classList.toggle("on",on),b.textContent=on?"\u{1F512} Phones masked":"\u{1F513} Phones visible"),on)maskTargeted();else{const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let x;for(;x=w.nextNode();)orig.has(x)&&(x.nodeValue=orig.get(x),orig.delete(x))}}let mo=null,mTimer=0;function startMask(){if(mo)return;const target=document.getElementById("dailyBody");if(!target)return;mo=new MutationObserver(ms=>{if(!maskOn)return;clearTimeout(mTimer);mTimer=setTimeout(()=>{mo&&mo.disconnect();try{maskTargeted()}finally{const el=document.getElementById("dailyBody");el&&mo&&mo.observe(el,{childList:!0,subtree:!0})}},300)});mo.observe(target,{childList:!0,subtree:!0})}function rewrapRefresh(){const o=window.refreshDashboard;if(typeof o=="function"&&!o.__v26){const w=function(){try{return o.apply(this,arguments)}finally{safe(()=>{var _a;renderHeadline(!0),(_a=$("huftV26Insights"))!=null&&_a.open&&renderInsights(),updateStale()},"after refresh")}};w.__v26=!0,window.refreshDashboard=w}}function fixEmployeeDates(){const to=$("employeeTripTo"),lk=lastKey();to&&lk&&to.value>lk&&(to.value=lk,safe(()=>{updateEmployeeTripLabel(),renderEmployeeMonthlySales()},"employee re-render"))}function boot(){safe(inject,"inject"),safe(rewrapRefresh,"wrap");const p=$("huftV26Privacy");p&&!p.__w&&(p.__w=1,p.onclick=()=>setMask(!maskOn),p.classList.toggle("on",maskOn),p.textContent=maskOn?"\u{1F512} Phones masked":"\u{1F513} Phones visible"),safe(startMask,"mask start"),maskOn&&safe(maskTargeted,"mask")}let _lastSig="",ticks=0;function tick(){var _a,_b,_c;if(ticks++,!(typeof rows!="undefined"&&Array.isArray(rows)&&rows.length&&typeof dayIndex!="undefined"&&dayIndex.size))return;const sig=rows.length+"|"+lastKey()+"|"+(((_a=$("aiRetailTarget"))==null?void 0:_a.value)||"")+"|"+(((_b=$("aiSpaTarget"))==null?void 0:_b.value)||"");if(sig!==_lastSig){const first=!_lastSig;_lastSig=sig,safe(updateStale,"stale"),safe(()=>renderHeadline(!0),"headline"),first&&safe(fixEmployeeDates,"emp dates"),(_c=$("huftV26Insights"))!=null&&_c.open?safe(renderInsights,"insights"):safe(()=>{$("huftV26Insights")&&renderInsights()},"insights summary")}}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",()=>{boot()}):boot(),setInterval(tick,3e3),window.addEventListener("load",()=>setTimeout(tick,300)),window.HUFT_V26={renderHeadline,renderInsights,applyPreset,health,setMask}})();
 </script>
 
@@ -3457,7 +3717,7 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
   
   window.runCloudCalculation = async function(storeId, rowsData, fromDate, toDate) {
     try {
-      const targetStore = storeId || localStorage.getItem('huft_selected_store') || 'hyderguda';
+      const targetStore = storeId || (typeof getActiveStoreId === 'function' ? getActiveStoreId() : 'hyderguda');
       let url = SUPABASE_FN + '?store_id=' + encodeURIComponent(targetStore);
       if (fromDate) url += '&from=' + encodeURIComponent(fromDate);
       if (toDate) url += '&to=' + encodeURIComponent(toDate);
@@ -3491,7 +3751,7 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
   // Immediate non-blocking pre-fetch on load
   document.addEventListener('DOMContentLoaded', function(){
     setTimeout(function(){
-      window.runCloudCalculation('hyderguda');
+      window.runCloudCalculation(typeof getActiveStoreId === 'function' ? getActiveStoreId() : 'hyderguda');
     }, 150);
   });
 })();
@@ -3641,13 +3901,64 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
   }
 
   // Master Cloud Hydration Function
-  window.applyCloudReport = function(report) {
-    if (!report) return;
+  window.applyCloudReport = function(report, emptyStoreId) {
+    if (!report) {
+      const activeStore = emptyStoreId || (typeof getActiveStoreId === 'function' ? getActiveStoreId() : 'hyderguda');
+      const cleanStore = typeof sanitizeStoreDisplayName === 'function' ? sanitizeStoreDisplayName(activeStore) : ('Store Intelligence POS — ' + activeStore);
+      
+      console.log('[Cloud Master Sync] Empty state for store:', activeStore);
+      setElText('storeName', cleanStore);
+      setElText('spStoreBranch', cleanStore);
+      setElText('spModalStoreName', cleanStore + ' Profile');
+      
+      const waPill = document.getElementById('waStorePill');
+      if (waPill) waPill.textContent = '🏬 ' + cleanStore;
+      const mobStore = document.getElementById('mobStoreSub');
+      if (mobStore) mobStore.textContent = cleanStore;
+
+      // Reset KPIs to ₹0
+      ['kTotal', 'kRetail', 'kSpa', 'kFood', 'kPackageSale', 'cmpCurrent', 'cmpPrevious', 'aiCombinedForecast', 'aiRetailRunRate', 'aiSpaRunRate', 'aiDailyRequired'].forEach(id => setElText(id, '₹0'));
+      ['kOrders', 'kWowBills', 'kReturnBills', 'kSpaPackages', 'kSpaPackageCustomers', 'kCustomers', 'kQty'].forEach(id => setElText(id, '0'));
+      setElText('kReturnPercent', '0.0%');
+      setElText('kATV', '₹0');
+      setElText('cmpGrowth', '0.0%');
+      setElText('lastSaleStamp', 'Last sale updated: Cloud Central Database • No sales data uploaded yet');
+
+      // Mobile Overview Reset
+      setElText('mobTotalSales', '₹0');
+      setElText('mobRetailSales', '₹0');
+      setElText('mobSpaSales', '₹0');
+      setElText('mobOrders', '0');
+      setElText('mobTargetPercent', '0.0%');
+      const pBar = document.getElementById('mobTargetProgressBar');
+      if (pBar) pBar.style.width = '0%';
+      setElText('mobFoodSales', '₹0');
+      setElText('mobAtv', '₹0');
+      setElText('mobQty', '0');
+
+      // Clear tables
+      const dailyBody = document.getElementById('dailyBody');
+      if (dailyBody) dailyBody.innerHTML = '<tr><td colspan="17" style="text-align:center; padding:20px; color:#64748B;">No sales records found for ' + cleanStore + '. Please upload your Point of Sale Excel file.</td></tr>';
+      
+      const empBody = document.getElementById('employeeMonthlySalesBody');
+      if (empBody) empBody.innerHTML = '<tr><td colspan="14" style="text-align:center; padding:20px; color:#64748B;">No employee sales records available for ' + cleanStore + '.</td></tr>';
+
+      window.rows = [];
+      window.allStoreRows = [];
+      if (typeof dayCache !== 'undefined' && dayCache && typeof dayCache.clear === 'function') dayCache.clear();
+      if (typeof dayIndex !== 'undefined' && dayIndex && typeof dayIndex.clear === 'function') dayIndex.clear();
+      
+      const statusEl = document.getElementById('status');
+      if (statusEl) statusEl.textContent = 'No sales data uploaded yet for ' + cleanStore + '. Upload POS Excel to begin.';
+
+      try { if (typeof generateHourlyWhatsAppMessage === 'function') generateHourlyWhatsAppMessage(); } catch(e){}
+      return;
+    }
+
     const totals = report.summary_totals;
     if (!totals) return;
 
     console.log('[Cloud Master Sync] Applying cloud calculated report:', report);
-
 
     // 1. Hydrate all Primary KPI Cards
     setElText('kTotal', formatMoney(totals.totalSales));
@@ -3717,11 +4028,9 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
       if (mobSpa) mobSpa.textContent = formatMoney(totals.actualSpaSales || 0);
       if (mobOrders) mobOrders.textContent = (totals.orders || 0).toLocaleString('en-IN');
 
-      const now = new Date();
       const monthName = now.toLocaleString('en-IN', { month: 'long', year: 'numeric' });
       if (mobPeriod) mobPeriod.textContent = monthName;
 
-      const totalAchieved = totals.totalSales || ((totals.retailSales || 0) + (totals.actualSpaSales || 0));
       const targetVal = (targets && targets.combined) ? Number(targets.combined) : 13900000;
       const pct = targetVal > 0 ? Math.min(100, Math.max(0, (totalAchieved / targetVal) * 100)) : 87.6;
       
@@ -3739,10 +4048,8 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
       console.warn('Mobile hero hydration error:', e);
     }
 
-
     setElText('aiCombinedForecast', formatMoney(combinedRunRate));
     setElText('aiCombinedStatus', combinedRunRate >= combinedTarget ? '✅ Achieved / Projected On Track' : '⚠️ Attention Required');
-
     setElText('aiDailyRequired', formatMoney(reqSalePerDay));
 
     // 3. Month vs Month Comparison Card
@@ -3751,7 +4058,7 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
       let curMonthTotal = 0, prevMonthTotal = 0;
       if (dates.length > 0) {
         const latestDate = dates[dates.length - 1];
-        const curPrefix = latestDate.slice(0, 7); // e.g. "2026-11"
+        const curPrefix = latestDate.slice(0, 7);
         const curParts = curPrefix.split('-').map(Number);
         const prevDateObj = new Date(curParts[0], curParts[1] - 2, 1);
         const prevPrefix = prevDateObj.getFullYear() + '-' + String(prevDateObj.getMonth() + 1).padStart(2, '0');
@@ -3770,7 +4077,7 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
       }
     }
 
-    // 4. Hydrate Daily Breakdown Table (#dailyBody) and Cache
+    // 4. Hydrate Daily Breakdown Table (#dailyBody) and dayCache
     const dailyBody = document.getElementById('dailyBody');
     if (dailyBody && report.daily_breakdown) {
       const dates = Object.keys(report.daily_breakdown).sort().reverse();
@@ -3785,7 +4092,6 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
         const nutriMeow = brands["NutriMeow"] || { q: 0, a: 0 };
         const nutriWag = brands["NutriWag"] || { q: 0, a: 0 };
 
-        // Cache into window.dayCache so local tab switches don't recompute
         if (typeof dayCache !== 'undefined' && dayCache && typeof dayCache.set === 'function') {
           dayCache.set(dKey, {
             retail: x.retail || 0,
@@ -3832,7 +4138,7 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
       if (dailyHtml) dailyBody.innerHTML = dailyHtml;
     }
 
-    // 5. Hydrate Employee Monthly Sales Table (#employeeMonthlySalesBody)
+    // 5. Hydrate Employee Monthly Sales Table
     const empBody = document.getElementById('employeeMonthlySalesBody');
     if (empBody && report.employee_sales && Array.isArray(report.employee_sales) && report.employee_sales.length > 0) {
       let empHtml = '';
@@ -3874,32 +4180,88 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
     setElText('spStoreBranch', cleanStore);
     setElText('spModalStoreName', cleanStore + ' Profile');
     setElText('storeName', cleanStore);
+    const waPill = document.getElementById('waStorePill');
+    if (waPill) waPill.textContent = '🏬 ' + cleanStore;
+    const mobStore = document.getElementById('mobStoreSub');
+    if (mobStore) mobStore.textContent = cleanStore;
 
-    // 8. Populate dayIndex & rows for Charts if empty
-    if ((!window.rows || !window.rows.length) && report.daily_breakdown) {
+    // 8. Populate Valid Structured Rows & dayIndex for Charts and Filters
+    if (report.daily_breakdown) {
       const allDates = Object.keys(report.daily_breakdown).sort();
-      window.rows = allDates.map(dKey => ({
-        Date: dKey,
-        _key: dKey,
-        'Point of Sale': report.store_name || 'Hyderguda',
-        _store: report.store_name || 'Hyderguda'
-      }));
-      window.allStoreRows = window.rows.slice();
+      const syntheticRows = [];
+      allDates.forEach(dKey => {
+        const x = report.daily_breakdown[dKey];
+        if (!x) return;
+        const retRow = {
+          Date: dKey,
+          _date: new Date(dKey + 'T12:00:00'),
+          _key: dKey,
+          _orderRef: 'ORD-' + dKey + '-001',
+          'Order Ref': 'ORD-' + dKey + '-001',
+          'Point of Sale': report.store_name || 'Hyderguda',
+          _store: report.store_name || 'Hyderguda',
+          'Order Lines/Product/Name': 'Retail Products',
+          'Order Lines/Product/Product Category': 'Pet Accessories',
+          'Order Lines/Quantity': x.qty || 1,
+          'Order Lines/Subtotal': x.retail || x.total || 1,
+          'Employee': 'Store Staff'
+        };
+        syntheticRows.push(retRow);
+
+        if (x.spa && x.spa > 0) {
+          const spaRow = {
+            Date: dKey,
+            _date: new Date(dKey + 'T12:00:00'),
+            _key: dKey,
+            _orderRef: 'ORD-' + dKey + '-SPA',
+            'Order Ref': 'ORD-' + dKey + '-SPA',
+            'Point of Sale': report.store_name || 'Hyderguda',
+            _store: report.store_name || 'Hyderguda',
+            'Order Lines/Product/Name': 'Spa Grooming',
+            'Order Lines/Product/Product Category': 'Spa Services',
+            'Order Lines/Quantity': 1,
+            'Order Lines/Subtotal': x.spa,
+            'Employee': 'Spa Groomer'
+          };
+          syntheticRows.push(spaRow);
+        }
+      });
+
+      if (!window.rows || window.rows.length === 0) {
+        window.rows = syntheticRows;
+        window.allStoreRows = syntheticRows.slice();
+      }
       window.selectedStoreNames = new Set([report.store_name || 'Hyderguda']);
-      if (typeof window.dayIndex !== 'undefined' && window.dayIndex && typeof window.dayIndex.set === 'function') {
-        allDates.forEach(dKey => window.dayIndex.set(dKey, [{ Date: dKey, _key: dKey }]));
+
+      if (typeof window.dayIndex !== 'undefined' && window.dayIndex) {
+        window.dayIndex.clear();
+        allDates.forEach(dKey => {
+          const dayItems = window.rows.filter(r => r._key === dKey);
+          window.dayIndex.set(dKey, dayItems.length ? dayItems : [syntheticRows.find(r => r._key === dKey) || { Date: dKey, _key: dKey, 'Order Lines/Quantity': 1, 'Order Lines/Subtotal': 1 }]);
+        });
       }
     }
 
-    // 9. Dismiss boot loader overlay if still showing
+    // 9. Re-run dashboard computations to populate all charts & sparklines
+    try {
+      if (typeof prepare === 'function') prepare(false);
+      if (typeof refreshDashboard === 'function') refreshDashboard();
+      if (typeof refreshTable === 'function') refreshTable();
+      if (typeof updateLiveReport === 'function') updateLiveReport();
+      if (typeof refreshStoreComparison === 'function') refreshStoreComparison();
+      if (typeof generateHourlyWhatsAppMessage === 'function') generateHourlyWhatsAppMessage();
+    } catch (e) {
+      console.warn('Dashboard charts refresh note:', e);
+    }
+
+    // 10. Dismiss boot loader overlay
     const loader = document.getElementById('huftBootLoader');
     if (loader) {
       loader.classList.add('fade-out');
       setTimeout(() => loader.remove(), 400);
     }
   };
-
-  // Wire up Event Listener
+// Wire up Event Listener
   window.addEventListener('huft-cloud-report-ready', function(e) {
     window.applyCloudReport(e.detail);
   });
@@ -4081,6 +4443,299 @@ function openDrawerModule(tabName) {
 
 
 
+
+<style id="wa-hub-styles">
+.wa-nav-btn {
+  background: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  color: #475569;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.wa-nav-btn:hover {
+  background: #EDF2F7;
+  color: #0F172A;
+}
+.wa-nav-btn.active {
+  background: #0F172A !important;
+  color: #FFFFFF !important;
+  border-color: #0F172A !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
+}
+@media (max-width: 768px) {
+  .wa-preview-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+</style>
+
+<script id="wa-hub-controller">
+function showWaSubTab(tabId) {
+  const tabs = ['hourly', 'eod', 'planner', 'weekly', 'monthly', 'team'];
+  tabs.forEach(t => {
+    const btn = document.getElementById('waNav' + t.charAt(0).toUpperCase() + t.slice(1));
+    const pane = document.getElementById('waPane-' + t);
+    if (btn) btn.classList.toggle('active', t === tabId);
+    if (pane) pane.style.display = (t === tabId ? 'block' : 'none');
+  });
+  if (tabId === 'hourly') generateHourlyWhatsAppMessage();
+  if (tabId === 'weekly') generateWeeklyWhatsAppMessage();
+  if (tabId === 'monthly') generateMonthlyWhatsAppMessage();
+  if (tabId === 'team') generateTeamWhatsAppMessage();
+}
+
+function generateHourlyWhatsAppMessage(forceRefresh) {
+  const storeId = typeof getActiveStoreId === 'function' ? getActiveStoreId() : 'hyderguda';
+  const cleanStore = typeof sanitizeStoreDisplayName === 'function' ? sanitizeStoreDisplayName(storeId) : 'Store Intelligence POS';
+  
+  const slotSelect = document.getElementById('waHourlySlotSelect');
+  let slot = slotSelect ? slotSelect.value : '6 PM';
+  if (slot === 'auto') {
+    const curHour = new Date().getHours();
+    slot = curHour < 14 ? '12 PM' : curHour < 16 ? '2 PM' : curHour < 18 ? '4 PM' : curHour < 20 ? '6 PM' : curHour < 22 ? '8 PM' : '10 PM';
+  }
+
+  const dateInput = document.getElementById('waHourlyDateInput');
+  const now = new Date();
+  if (dateInput && !dateInput.value) {
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    dateInput.value = `${y}-${m}-${d}`;
+  }
+  const dateVal = dateInput && dateInput.value ? dateInput.value : now.toISOString().slice(0, 10);
+  const prettyDate = new Date(dateVal + 'T12:00:00').toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+  // Gather live metrics
+  let totalSales = 0, retailSales = 0, spaSales = 0, orders = 0, targetAch = 0, atv = 0;
+  let foodSales = 0, packagesRedeemed = 0;
+  
+  const rep = window.cloudReport;
+  if (rep && rep.summary_totals) {
+    const t = rep.summary_totals;
+    totalSales = t.totalSales || 0;
+    retailSales = t.retailSales || 0;
+    spaSales = t.actualSpaSales || 0;
+    orders = t.orders || 0;
+    foodSales = t.foodSales || 0;
+    packagesRedeemed = t.totalPackagesUsed || 0;
+    atv = orders > 0 ? Math.round(totalSales / orders) : 0;
+    const tgt = (rep.targets && rep.targets.combined) ? Number(rep.targets.combined) : 13900000;
+    targetAch = tgt > 0 ? ((totalSales / tgt) * 100) : 0;
+  }
+
+  // Update UI KPI Tiles
+  const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setTxt('waKpiTotal', '₹' + Math.round(totalSales).toLocaleString('en-IN'));
+  setTxt('waKpiRetail', '₹' + Math.round(retailSales).toLocaleString('en-IN'));
+  setTxt('waKpiSpa', '₹' + Math.round(spaSales).toLocaleString('en-IN'));
+  setTxt('waKpiOrders', orders.toLocaleString('en-IN'));
+  setTxt('waKpiTargetAch', targetAch.toFixed(1) + '%');
+  setTxt('waKpiAtv', '₹' + atv.toLocaleString('en-IN'));
+
+  // Compose WhatsApp message text
+  let msg = `🐾 *STORE INTELLIGENCE — HOURLY SALES UPDATE*
+🏬 *Store:* ${cleanStore}
+📅 *Date:* ${prettyDate} | *Update Slot:* ${slot}
+
+📊 *INTRA-DAY SALES PERFORMANCE:*
+• *Retail Sales:* ₹${Math.round(retailSales).toLocaleString('en-IN')}/-
+• *SPA Sales:* ₹${Math.round(spaSales).toLocaleString('en-IN')}/-
+• *Total Sales:* ₹${Math.round(totalSales).toLocaleString('en-IN')}/-
+• *Target Achieved:* ${targetAch.toFixed(1)}%
+
+🛒 *STORE EFFICIENCY & METRICS:*
+• *Bills / Transactions:* ${orders.toLocaleString('en-IN')}
+• *Average Transaction Value (ATV):* ₹${atv.toLocaleString('en-IN')}
+• *Brand Food Revenue:* ₹${Math.round(foodSales).toLocaleString('en-IN')}/-
+• *SPA Packages Redeemed:* ${packagesRedeemed.toLocaleString('en-IN')}
+
+👥 *STAFF PERFORMANCE HIGHLIGHTS:*`;
+
+  if (rep && Array.isArray(rep.employee_sales) && rep.employee_sales.length > 0) {
+    rep.employee_sales.slice(0, 5).forEach((e, idx) => {
+      msg += `\n${idx + 1}. *${e.name}:* ₹${Math.round(e.retail || e.total || 0).toLocaleString('en-IN')} (${e.orders || 0} bills)`;
+    });
+  } else {
+    msg += `\n• Staff performance synchronized with central cloud.`;
+  }
+
+  msg += `\n\n✨ _Generated via Store Intelligence Cloud Enterprise Platform_`;
+
+  const chatBubble = document.getElementById('waHourlyChatBubble');
+  const rawText = document.getElementById('waHourlyRawText');
+  if (chatBubble) chatBubble.textContent = msg;
+  if (rawText) rawText.value = msg;
+}
+
+function copyHourlyWhatsAppText() {
+  const rawText = document.getElementById('waHourlyRawText');
+  if (!rawText) return;
+  copyTextToClipboard(rawText.value, 'waCopyStatus', '✓ Hourly WhatsApp Message copied to clipboard!');
+}
+
+function shareHourlyWhatsAppText() {
+  const rawText = document.getElementById('waHourlyRawText');
+  if (!rawText || !rawText.value) return;
+  window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(rawText.value), '_blank');
+}
+
+function generateWeeklyWhatsAppMessage() {
+  const storeId = typeof getActiveStoreId === 'function' ? getActiveStoreId() : 'hyderguda';
+  const cleanStore = typeof sanitizeStoreDisplayName === 'function' ? sanitizeStoreDisplayName(storeId) : 'Store Intelligence POS';
+  const rep = window.cloudReport;
+  const t = rep && rep.summary_totals ? rep.summary_totals : {};
+  const total = Math.round(t.totalSales || 0).toLocaleString('en-IN');
+  const retail = Math.round(t.retailSales || 0).toLocaleString('en-IN');
+  const spa = Math.round(t.actualSpaSales || 0).toLocaleString('en-IN');
+  const food = Math.round(t.foodSales || 0).toLocaleString('en-IN');
+  const orders = (t.orders || 0).toLocaleString('en-IN');
+
+  const msg = `📊 *STORE INTELLIGENCE — WEEKLY BUSINESS REVIEW*
+🏬 *Store:* ${cleanStore}
+🗓️ *Review Period:* Last 7 Days
+
+💰 *REVENUE BREAKDOWN:*
+• *Total Store Sales:* ₹${total}/-
+• *Retail Performance:* ₹${retail}/-
+• *SPA Grooming Performance:* ₹${spa}/-
+• *Brand Food Sales:* ₹${food}/-
+
+📈 *KEY PERFORMANCE METRICS:*
+• *Total Customer Invoices:* ${orders}
+• *Average Bill Value (ATV):* ₹${Math.round(t.avgBill || 0).toLocaleString('en-IN')}
+• *Units Sold:* ${(t.unitsSold || 0).toLocaleString('en-IN')}
+• *Return Rate:* ${(t.returnRate || 0).toFixed(2)}%
+
+🎯 *NEXT WEEK PRIORITIES:*
+• Focus on Sara's Wholesome & Hearty nutrition upsells.
+• Drive repeat grooming appointments for weekend bookings.
+
+✨ _Store Intelligence Enterprise Analytics_`;
+
+  const el = document.getElementById('waWeeklyRawText');
+  if (el) el.value = msg;
+}
+
+function generateMonthlyWhatsAppMessage() {
+  const storeId = typeof getActiveStoreId === 'function' ? getActiveStoreId() : 'hyderguda';
+  const cleanStore = typeof sanitizeStoreDisplayName === 'function' ? sanitizeStoreDisplayName(storeId) : 'Store Intelligence POS';
+  const rep = window.cloudReport;
+  const t = rep && rep.summary_totals ? rep.summary_totals : {};
+  const total = Math.round(t.totalSales || 0).toLocaleString('en-IN');
+  const retail = Math.round(t.retailSales || 0).toLocaleString('en-IN');
+  const spa = Math.round(t.actualSpaSales || 0).toLocaleString('en-IN');
+
+  const msg = `📅 *STORE INTELLIGENCE — MONTHLY EXECUTIVE UPDATE*
+🏬 *Store:* ${cleanStore}
+📌 *Status:* Month-to-Date (MTD) Progress
+
+🎯 *TARGET VS ACHIEVEMENT:*
+• *Total MTD Sales:* ₹${total}/-
+• *Retail Achieved:* ₹${retail}/-
+• *SPA Achieved:* ₹${spa}/-
+
+🚀 *OPERATIONAL HEALTH:*
+• Active Customer Orders: ${(t.orders || 0).toLocaleString('en-IN')}
+• High-Value WOW Bills (≥ ₹10K): ${(t.wowBillsCount || 0).toLocaleString('en-IN')}
+• Data synchronized with Supabase Central Cloud
+
+✨ _Generated via Store Intelligence_`;
+
+  const el = document.getElementById('waMonthlyRawText');
+  if (el) el.value = msg;
+}
+
+function generateTeamWhatsAppMessage() {
+  const storeId = typeof getActiveStoreId === 'function' ? getActiveStoreId() : 'hyderguda';
+  const cleanStore = typeof sanitizeStoreDisplayName === 'function' ? sanitizeStoreDisplayName(storeId) : 'Store Intelligence POS';
+  const rep = window.cloudReport;
+  
+  let msg = `👥 *STORE INTELLIGENCE — TEAM LEADERBOARD*
+🏬 *Store:* ${cleanStore}
+🏆 *Staff Sales Recognition Update*
+
+🌟 *TOP PERFORMERS:*`;
+
+  if (rep && Array.isArray(rep.employee_sales) && rep.employee_sales.length > 0) {
+    rep.employee_sales.forEach((e, i) => {
+      msg += `\n${i + 1}. *${e.name}:* ₹${Math.round(e.retail || e.total || 0).toLocaleString('en-IN')} (${e.orders || 0} bills | SPA: ₹${Math.round(e.spa || 0).toLocaleString('en-IN')})`;
+    });
+  } else {
+    msg += `\n• Team sales metrics live on Cloud Database.`;
+  }
+
+  msg += `\n\n👏 *Great effort team! Keep driving customer delight and store excellence!*
+✨ _Store Intelligence Enterprise_`;
+
+  const el = document.getElementById('waTeamRawText');
+  if (el) el.value = msg;
+}
+
+function copyGenericWaText(elemId) {
+  const el = document.getElementById(elemId);
+  if (!el || !el.value) return;
+  copyTextToClipboard(el.value, null, '✓ Message copied to clipboard!');
+}
+
+function shareGenericWaText(elemId) {
+  const el = document.getElementById(elemId);
+  if (!el || !el.value) return;
+  window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(el.value), '_blank');
+}
+
+function copyTextToClipboard(text, statusElemId, feedback) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showCopyToast(statusElemId, feedback);
+    }).catch(() => fallbackCopy(text, statusElemId, feedback));
+  } else {
+    fallbackCopy(text, statusElemId, feedback);
+  }
+}
+
+function fallbackCopy(text, statusElemId, feedback) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    showCopyToast(statusElemId, feedback);
+  } catch(e) {
+    alert('Copy failed. Please manually select and copy text.');
+  }
+  ta.remove();
+}
+
+function showCopyToast(statusElemId, feedback) {
+  if (statusElemId) {
+    const el = document.getElementById(statusElemId);
+    if (el) {
+      el.textContent = feedback;
+      setTimeout(() => { if (el) el.textContent = ''; }, 3000);
+    }
+  }
+  const toast = document.createElement('div');
+  toast.textContent = feedback;
+  toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#10B981;color:#FFF;padding:10px 20px;border-radius:99px;font-size:13px;font-weight:700;z-index:999999;box-shadow:0 4px 14px rgba(16,185,129,0.4);animation:fadeIn .2s ease;';
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2500);
+}
+
+// Auto-trigger hourly message generation when cloud report lands
+window.addEventListener('huft-cloud-report-ready', function() {
+  setTimeout(() => {
+    try { generateHourlyWhatsAppMessage(); } catch(e){}
+  }, 200);
+});
+</script>
 <style id="si-final-mobile-authority">
 @media (max-width: 900px) {
   html, body, html body {

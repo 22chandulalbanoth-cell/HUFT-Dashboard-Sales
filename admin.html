@@ -1,6 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script id="huft-cloud-only-storage-guard">
+(function() {
+  'use strict';
+  // 1. Purge all legacy persistent storage keys immediately
+  try {
+    if (typeof window !== 'undefined') {
+      const purgeList = [
+        'HUFT_Hourly_Sale_LastUploadMeta',
+        'HUFT_Hourly_Sale_LocalDB_latest_fallback',
+        'HUFT_Hourly_Sale_SuppressEmbeddedSeed',
+        'huft_global_monthly_targets_v1',
+        'HUFT_EMPLOYEE_KPI_TARGETS_V1',
+        'HUFT_EMPLOYEE_KPI_TARGETS_V1_BACKUP',
+        'huft_store_comparison_targets_v2',
+        'huft_store_comparison_targets_v2_backup',
+        'huftDailyEmployeeTargetPlans_v1',
+        'huftEodDayTargets_v1',
+        'huft_mock_session',
+        'huft_active_session',
+        'huft_user_profile',
+        'huft_selected_store',
+        'central_control_stores',
+        'central_control_profiles',
+        'central_control_registrations',
+        'central_admin_session',
+        'huft_remember_me_v1',
+        'huft_resend_config',
+        'huft_pos_downloads_handle'
+      ];
+      purgeList.forEach(k => {
+        try { window.localStorage.removeItem(k); } catch(e){}
+        try { window.sessionStorage.removeItem(k); } catch(e){}
+      });
+    }
+  } catch(e) {}
+
+  // 2. Delete legacy IndexedDB databases so no stale sales data remains on user devices
+  try {
+    if ('indexedDB' in window && typeof indexedDB.deleteDatabase === 'function') {
+      indexedDB.deleteDatabase('HUFT_Hourly_Sale_LocalDB');
+      indexedDB.deleteDatabase('huft_sales_db');
+      indexedDB.deleteDatabase('salesReports');
+    }
+  } catch(e) {}
+
+  // 3. Ephemeral In-Memory Storage (Discards all data when tab is closed)
+  var mem = new Map();
+  var memoryStorage = {
+    getItem: function(k) { return mem.has(k) ? mem.get(k) : null; },
+    setItem: function(k, v) { mem.set(k, String(v)); },
+    removeItem: function(k) { mem.delete(k); },
+    clear: function() { mem.clear(); },
+    key: function(i) { return Array.from(mem.keys())[i] || null; },
+    get length() { return mem.size; }
+  };
+
+  // Replace localStorage and sessionStorage with purely ephemeral in-memory proxy
+  try {
+    Object.defineProperty(window, 'localStorage', {
+      get: function() { return memoryStorage; },
+      set: function() {},
+      configurable: true
+    });
+  } catch(e) {}
+  try {
+    Object.defineProperty(window, 'sessionStorage', {
+      get: function() { return memoryStorage; },
+      set: function() {},
+      configurable: true
+    });
+  } catch(e) {}
+
+  // 4. Neutralize IndexedDB to prevent local database persistence
+  try {
+    var dummyIDB = {
+      open: function() {
+        var r = { onsuccess: null, onerror: null, result: null };
+        setTimeout(function() {
+          if (r.onerror) r.onerror(new Error('IndexedDB disabled: Cloud-Only Storage policy enforced.'));
+        }, 0);
+        return r;
+      },
+      deleteDatabase: function() { return { onsuccess: null, onerror: null }; },
+      cmp: function() { return 0; }
+    };
+    Object.defineProperty(window, 'indexedDB', {
+      get: function() { return dummyIDB; },
+      set: function() {},
+      configurable: true
+    });
+  } catch(e) {}
+
+  console.log('[Store Intelligence] Cloud-Only Architecture initialized. Browser persistence permanently neutralized.');
+})();
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />

@@ -2,6 +2,173 @@
 <html lang="en">
 <head>
 
+<script id="huft-early-cloud-hydrator">
+(function() {
+  'use strict';
+
+  function formatMoney(n) {
+    const v = Math.round(Number(n) || 0);
+    return '₹' + v.toLocaleString('en-IN');
+  }
+
+  function formatCompactINR(value) {
+    const n = Number(value) || 0;
+    const a = Math.abs(n);
+    const sign = n < 0 ? '-' : '';
+    if (a >= 1e7) return sign + '₹' + (a / 1e7).toFixed(2) + 'Cr';
+    if (a >= 1e5) return sign + '₹' + (a / 1e5).toFixed(2) + 'L';
+    return sign + '₹' + Math.round(a).toLocaleString('en-IN');
+  }
+
+  function setElText(id, txt) {
+    const el = document.getElementById(id);
+    if (el && typeof txt !== 'undefined' && txt !== null) el.textContent = String(txt);
+  }
+
+  function setElVal(id, val) {
+    const el = document.getElementById(id);
+    if (el && typeof val !== 'undefined') el.value = val;
+  }
+
+  // Master Cloud Hydration Function
+  window.applyCloudReport = function(report, emptyStoreId) {
+    if (report) {
+      window.cloudReport = report;
+      window.__pendingCloudReport = report;
+    }
+    
+    const activeStore = (report && report.store_id) || emptyStoreId || (typeof getActiveStoreId === 'function' ? getActiveStoreId() : 'hyderguda');
+    const rawStoreName = (report && report.store_name) || activeStore;
+    const cleanStore = typeof sanitizeStoreDisplayName === 'function' ? sanitizeStoreDisplayName(rawStoreName) : ('Store Intelligence POS — ' + activeStore);
+
+    setElText('storeName', cleanStore);
+    setElText('spStoreBranch', cleanStore);
+    setElText('spModalStoreName', cleanStore + ' Profile');
+    setElText('mobStoreName', cleanStore);
+
+    if (!report || !report.summary_totals) {
+      console.log('[Cloud Master Sync] Empty state for store:', activeStore);
+      ['kTotal', 'kRetail', 'kSpa', 'kFood', 'kPackageSale'].forEach(id => setElText(id, '₹0'));
+      ['kOrders', 'kWowBills', 'kReturnBills', 'kSpaPackages', 'kSpaPackageCustomers', 'kCustomers', 'kQty'].forEach(id => setElText(id, '0'));
+      setElText('kReturnPercent', '0.00%');
+      setElText('kATV', '₹0');
+      setElText('lastSaleStamp', 'Last sale updated: Cloud Central Database • No records yet');
+
+      setElText('mobTotalSales', '₹0');
+      setElText('mobRetailSales', '₹0');
+      setElText('mobSpaSales', '₹0');
+      setElText('mobOrders', '0');
+      setElText('mobFoodSales', '₹0');
+      setElText('mobAtv', '₹0');
+      setElText('mobQty', '0');
+      return;
+    }
+
+    const totals = report.summary_totals;
+    console.log('[Cloud Master Sync] Hydrating 15 Primary KPI Cards with cloud data:', totals);
+
+    // 1. Hydrate all 15 Primary Desktop KPI Cards
+    setElText('kTotal', formatMoney(totals.totalSales));
+    setElText('kRetail', formatMoney(totals.retailSales));
+    setElText('kSpa', formatMoney(totals.actualSpaSales));
+
+    const pkgSaleText = formatMoney(totals.packageSaleAmount || 0) + ' / ' + (totals.packageSaleQty || 0);
+    setElText('kPackageSale', pkgSaleText);
+    setElText('kPackageReturnBills', String(totals.packageReturnBills || 0));
+    setElText('kSpaPackages', (totals.totalPackagesUsed || 0).toLocaleString('en-IN'));
+    setElText('kSpaPackageCustomers', (totals.packageCustomers || 0).toLocaleString('en-IN'));
+    setElText('kFood', formatMoney(totals.foodSales));
+    setElText('kOrders', (totals.orders || 0).toLocaleString('en-IN'));
+    setElText('kWowBills', (totals.wowBillsCount || 0).toLocaleString('en-IN'));
+    setElText('kReturnBills', (totals.returnBillsCount || 0).toLocaleString('en-IN'));
+    setElText('kReturnPercent', (totals.returnRate || 0).toFixed(2) + '%');
+    setElText('kCustomers', (totals.orders || 0).toLocaleString('en-IN'));
+    setElText('kATV', '₹' + Math.round(totals.avgBill || 0).toLocaleString('en-IN'));
+    setElText('kQty', (totals.unitsSold || 0).toLocaleString('en-IN'));
+
+    setElText('kTotalSub', 'All sales • Central Cloud');
+    setElText('kRetailSub', 'Retail Achieved');
+    setElText('kSpaSub', 'SPA Achieved');
+
+    // 2. Hydrate Mobile Overview Cards
+    setElText('mobTotalSales', formatCompactINR(totals.totalSales));
+    setElText('mobRetailSales', formatCompactINR(totals.retailSales));
+    setElText('mobSpaSales', formatCompactINR(totals.actualSpaSales));
+    setElText('mobOrders', (totals.orders || 0).toLocaleString('en-IN'));
+    setElText('mobFoodSales', formatCompactINR(totals.foodSales));
+    setElText('mobAtv', '₹' + Math.round(totals.avgBill || 0).toLocaleString('en-IN'));
+    setElText('mobQty', (totals.unitsSold || 0).toLocaleString('en-IN'));
+
+    // 3. Hydrate Dates & Ranges
+    if (report.date_min) setElVal('from', report.date_min);
+    if (report.date_max) setElVal('to', report.date_max);
+
+    const rangeStr = (report.date_min || '2026-01-01') + ' to ' + (report.date_max || '2026-10-27');
+    setElText('rangeText', rangeStr);
+    setElText('dashRange', 'Reporting Period: ' + rangeStr);
+
+    // 4. Hydrate Header Status Stamp
+    const stampText = 'Last sale updated: Cloud Central Database • ' + (report.date_max || '') + ' (' + (report.row_count || 0).toLocaleString('en-IN') + ' records synchronized)';
+    setElText('lastSaleStamp', stampText);
+
+    // 5. Dismiss Boot Loader
+    const loader = document.getElementById('huftBootLoader');
+    if (loader) {
+      loader.classList.add('fade-out');
+      setTimeout(function() { if (loader.parentNode) loader.remove(); }, 300);
+    }
+  };
+
+  // Intercept updateLastSaleStamp so it never says "no timestamp available" when cloud data exists
+  function protectStamp() {
+    const orig = window.updateLastSaleStamp;
+    window.updateLastSaleStamp = function() {
+      if (window.cloudReport && window.cloudReport.date_max) {
+        setElText('lastSaleStamp', 'Last sale updated: Cloud Central Database • ' + window.cloudReport.date_max + ' (' + (window.cloudReport.row_count || 0).toLocaleString('en-IN') + ' records synchronized)');
+        return;
+      }
+      if (typeof orig === 'function') orig.apply(this, arguments);
+    };
+  }
+
+  // Intercept refreshDashboard so local calculation doesn't overwrite cloud figures
+  function protectRefreshDashboard() {
+    const orig = window.refreshDashboard;
+    if (typeof orig === 'function' && !orig.__cloudProtected) {
+      window.refreshDashboard = function() {
+        const res = orig.apply(this, arguments);
+        if (window.cloudReport && window.cloudReport.summary_totals) {
+          window.applyCloudReport(window.cloudReport);
+        }
+        return res;
+      };
+      window.refreshDashboard.__cloudProtected = true;
+    }
+  }
+
+  protectStamp();
+  setInterval(protectStamp, 500);
+  setInterval(protectRefreshDashboard, 500);
+
+  // Check if __pendingCloudReport exists and hydrate immediately
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.__pendingCloudReport) {
+      window.applyCloudReport(window.__pendingCloudReport);
+    }
+  });
+
+  window.addEventListener('load', function() {
+    if (window.__pendingCloudReport) {
+      window.applyCloudReport(window.__pendingCloudReport);
+    }
+  });
+})();
+</script>
+
+
+
+
+
 <script id="huft-manual-excel-upload-bridge">
 (function() {
   'use strict';
@@ -4841,7 +5008,7 @@ html body #huftInvoiceDrillModal .huft-history-loading span {
 <style id="huft-final-kpi-uniform-grid-fix">#dashboard>.kpiGrid{max-width:100%!important}#dashboard>.kpiGrid>.kpi,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi{text-align:left!important;font:inherit!important}#dashboard>.kpiGrid>.kpi>span,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi>span{font-size:10px!important;font-weight:700!important;line-height:1.2!important}#dashboard>.kpiGrid>.kpi>b,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi>b{font-size:clamp(13px,1.05vw,18px)!important;font-weight:800!important;line-height:1.2!important}#dashboard>.kpiGrid>.kpi>small,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi>small{font-size:9px!important;font-weight:400!important;line-height:1.2!important}#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi:focus-visible{outline:2px solid #94a3b8!important;outline-offset:2px!important}@media(max-width:1450px){#dashboard>.kpiGrid{grid-template-columns:repeat(5,minmax(0,1fr))!important}}@media(max-width:1000px){#dashboard>.kpiGrid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}@media(max-width:600px){#dashboard>.kpiGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}}@media(max-width:600px){#dashboard>.kpiGrid>.kpi,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi{height:84px!important;min-height:84px!important;padding:9px!important}}@media(max-width:600px){#dashboard>.kpiGrid>.kpi>b,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi>b{font-size:14px!important}}</style>
 
 
-<style id="huft-glass-uniform-kpi-final">#dashboard>.kpiGrid{display:grid!important;grid-template-columns:repeat(11,minmax(0,1fr))!important;gap:8px!important;align-items:stretch!important;width:100%!important;min-width:0!important;box-sizing:border-box!important}#dashboard>.kpiGrid>.kpi,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi{box-sizing:border-box!important;width:auto!important;min-width:0!important;max-width:100%!important;height:82px!important;min-height:82px!important;max-height:82px!important;margin:0!important;padding:10px 10px 9px!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;border:1px solid rgba(249,168,105,.58)!important;border-radius:9px!important;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(255,250,243,.58))!important;box-shadow:0 5px 18px rgba(107,73,42,.055),inset 0 1px 0 rgba(255,255,255,.92)!important;backdrop-filter:blur(12px) saturate(125%)!important;-webkit-backdrop-filter:blur(12px) saturate(125%)!important;color:#344054!important;transform:none!important;overflow:hidden!important}#dashboard>.kpiGrid>.kpi>span,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi>span{display:block!important;flex:0 0 auto!important;min-width:0!important;width:100%!important;margin:0!important;padding:0!important;color:#7b879b!important;font:700 9px/1.25 Inter,Arial,sans-serif!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}#dashboard>.kpiGrid>.kpi>b,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi>b{display:block!important;flex:0 0 auto!important;min-width:0!important;width:100%!important;margin:5px 0 2px!important;padding:0!important;color:#344054!important;font:800 clamp(12px,.9vw,17px)/1.15 Inter,Arial,sans-serif!important;letter-spacing:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}#dashboard>.kpiGrid>.kpi>small,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi>small{display:block!important;flex:0 1 auto!important;min-width:0!important;width:100%!important;margin:0!important;padding:0!important;color:#7b879b!important;font:400 8px/1.25 Inter,Arial,sans-serif!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}#dashboard>.kpiGrid>.kpi:hover,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi:hover{border-color:rgba(249,168,105,.75)!important;background:linear-gradient(135deg,rgba(255,255,255,.86),rgba(255,248,238,.68))!important;box-shadow:0 7px 22px rgba(107,73,42,.09),inset 0 1px 0 rgba(255,255,255,.96)!important;transform:none!important}#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi{cursor:pointer!important}#dashboard>.kpiGrid>.kpi:focus-visible{outline:2px solid rgba(148,163,184,.8)!important;outline-offset:2px!important}@media(max-width:1650px){#dashboard>.kpiGrid{grid-template-columns:repeat(5,minmax(0,1fr))!important}}@media(max-width:1050px){#dashboard>.kpiGrid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}@media(max-width:620px){#dashboard>.kpiGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}}@media(max-width:620px){#dashboard>.kpiGrid>.kpi,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi{height:80px!important;min-height:80px!important;max-height:80px!important;padding:9px!important}}@media(max-width:620px){#dashboard>.kpiGrid>.kpi>b,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi>b{font-size:14px!important}}@media(prefers-reduced-transparency:reduce){#dashboard>.kpiGrid>.kpi,#dashboard>.kpiGrid>.kpi.package-sale-drill-kpi{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(255,255,255,.92)!important}}@media(min-width:761px){#dashboard>.kpiGrid:not(#comparison .kpiGrid){display:grid!important;grid-template-columns:repeat(11,minmax(0,1fr))!important;gap:7px!important;width:100%!important;max-width:100%!important;align-items:stretch!important}}@media(max-width:760px){#dashboard>.kpiGrid:not(#comparison .kpiGrid){grid-template-columns:repeat(2,minmax(0,1fr))!important}}</style>
+<!-- huft-glass-uniform-kpi-final neutralized -->
 
 
 
@@ -7426,6 +7593,471 @@ window.addEventListener('huft-cloud-report-ready', function() {
     padding-bottom: env(safe-area-inset-bottom, 0px) !important;
     box-sizing: border-box !important;
   }
+}
+</style>
+
+
+
+
+
+<style id="si-enterprise-responsive-layout">
+/* =========================================================================
+   STORE INTELLIGENCE - ENTERPRISE RESPONSIVE DESIGN SYSTEM
+   Professional layout, 5-column balanced KPI grid, strict navigation separation
+   ========================================================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box !important;
+}
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  background: #F8FAFC !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  color: #0F172A !important;
+}
+
+/* -------------------------------------------------------------------------
+   DESKTOP VIEWPORTS (>= 1200px)
+   ------------------------------------------------------------------------- */
+@media (min-width: 1200px) {
+  /* Show only left sidebar rail */
+  #navRailTabs, .tabs {
+    display: flex !important;
+    visibility: visible !important;
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 80px !important;
+    z-index: 9900 !important;
+    background: #FFFFFF !important;
+    border-right: 1px solid #E2E8F0 !important;
+    box-shadow: 1px 0 3px rgba(15, 23, 42, 0.04) !important;
+  }
+
+  /* Completely hide mobile bottom navigation & mobile hero cards on desktop */
+  #mobileBottomNav, 
+  #mobileMoreDrawer, 
+  #mobileHeroSalesOverview, 
+  #mobileSecondaryCard {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Aligned Header beside 80px sidebar - NO horizontal overflow! */
+  html body .header {
+    margin: 0 0 0 80px !important;
+    width: calc(100% - 80px) !important;
+    max-width: calc(100% - 80px) !important;
+    box-sizing: border-box !important;
+    padding: 12px 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    background: #FFFFFF !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+  }
+
+  /* Main Container exactly beside 80px sidebar */
+  html body .container,
+  html body body > .page,
+  html body #dashboard.page {
+    margin: 0 0 0 80px !important;
+    width: calc(100% - 80px) !important;
+    max-width: calc(100% - 80px) !important;
+    box-sizing: border-box !important;
+    padding: 20px 28px 60px 28px !important;
+    background: #F8FAFC !important;
+    overflow-x: hidden !important;
+    display: block !important;
+  }
+
+  /* 5-Column Balanced KPI Grid for 15 Metrics on Desktop (3 rows of 5) */
+  html body #dashboard > .kpiGrid:not(#comparison .kpiGrid),
+  html body #dashboard > .kpiGrid,
+  html body .kpiGrid:not(#comparison .kpiGrid) {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 24px !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   TABLET & MEDIUM VIEWPORTS (769px to 1199px)
+   ------------------------------------------------------------------------- */
+@media (min-width: 769px) and (max-width: 1199px) {
+  #navRailTabs, .tabs {
+    display: flex !important;
+    visibility: visible !important;
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 80px !important;
+    z-index: 9900 !important;
+    background: #FFFFFF !important;
+    border-right: 1px solid #E2E8F0 !important;
+  }
+
+  #mobileBottomNav, 
+  #mobileMoreDrawer, 
+  #mobileHeroSalesOverview, 
+  #mobileSecondaryCard {
+    display: none !important;
+  }
+
+  html body .header {
+    margin: 0 0 0 80px !important;
+    width: calc(100% - 80px) !important;
+    max-width: calc(100% - 80px) !important;
+    padding: 12px 20px !important;
+  }
+
+  html body .container,
+  html body body > .page,
+  html body #dashboard.page {
+    margin: 0 0 0 80px !important;
+    width: calc(100% - 80px) !important;
+    max-width: calc(100% - 80px) !important;
+    padding: 18px 20px 60px 20px !important;
+  }
+
+  /* 3-Column Grid on Tablet */
+  html body #dashboard > .kpiGrid:not(#comparison .kpiGrid),
+  html body #dashboard > .kpiGrid,
+  html body .kpiGrid:not(#comparison .kpiGrid) {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 20px !important;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   MOBILE VIEWPORTS (<= 768px)
+   ------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  /* Completely hide desktop sidebar */
+  #navRailTabs, .tabs {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* Display pinned bottom navigation */
+  #mobileBottomNav {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    visibility: visible !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    height: 64px !important;
+    background: #FFFFFF !important;
+    border-top: 1px solid #E2E8F0 !important;
+    z-index: 999999 !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12) !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+  }
+
+  /* Show mobile hero & companion cards */
+  #mobileHeroSalesOverview, #mobileSecondaryCard {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  html body .header {
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 12px 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  html body .container,
+  html body #dashboard.page {
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 12px 14px 85px 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 2-Column KPI Grid on Mobile */
+  html body #dashboard > .kpiGrid:not(#comparison .kpiGrid),
+  html body #dashboard > .kpiGrid,
+  html body .kpiGrid:not(#comparison .kpiGrid) {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (max-width: 359px) {
+  html body #dashboard > .kpiGrid:not(#comparison .kpiGrid),
+  html body #dashboard > .kpiGrid,
+  html body .kpiGrid:not(#comparison .kpiGrid) {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   PROFESSIONAL KPI CARD INTERIOR STYLING (NO TEXT TRUNCATION)
+   ------------------------------------------------------------------------- */
+html body .kpiGrid .kpi,
+html body #dashboard > .kpiGrid > .kpi {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 12px !important;
+  padding: 14px 16px !important;
+  height: auto !important;
+  min-height: 104px !important;
+  max-height: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease !important;
+  box-sizing: border-box !important;
+  transform: none !important;
+}
+
+html body .kpiGrid .kpi:hover {
+  border-color: #CBD5E1 !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* FULL METRIC NAME - READABLE, NO ELLIPSIS */
+html body .kpiGrid .kpi span,
+html body #dashboard > .kpiGrid > .kpi > span {
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  color: #64748B !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.35px !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  line-height: 1.35 !important;
+  display: block !important;
+}
+
+/* METRIC VALUE - LARGE, BOLD, TABULAR */
+html body .kpiGrid .kpi b,
+html body #dashboard > .kpiGrid > .kpi > b {
+  font-size: 21px !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  margin: 6px 0 4px 0 !important;
+  letter-spacing: -0.3px !important;
+  line-height: 1.2 !important;
+  display: block !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* SUPPORTING DESCRIPTION */
+html body .kpiGrid .kpi small,
+html body #dashboard > .kpiGrid > .kpi > small {
+  font-size: 11px !important;
+  color: #94A3B8 !important;
+  line-height: 1.35 !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  display: block !important;
+  margin-top: auto !important;
+}
+
+/* -------------------------------------------------------------------------
+   TOOLBAR & QUICK DATE FILTERS
+   ------------------------------------------------------------------------- */
+html body .toolbar {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 12px !important;
+  padding: 14px 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  margin-bottom: 12px !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+  box-sizing: border-box !important;
+}
+
+html body .toolbar .field {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+}
+
+html body .toolbar input[type="date"] {
+  height: 38px !important;
+  padding: 6px 12px !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  color: #0F172A !important;
+  background: #FFFFFF !important;
+}
+
+html body .toolbar button.primary,
+html body #huftRefreshLatestPOS {
+  height: 38px !important;
+  padding: 0 18px !important;
+  background: #EA580C !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 1px 2px rgba(234, 88, 12, 0.2) !important;
+}
+
+html body #huftWaterUploadButton {
+  height: 38px !important;
+  padding: 0 18px !important;
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+html body .quickDates,
+html body .quick-range-container {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin-bottom: 20px !important;
+}
+
+html body .quickDates button,
+html body .quick-range-container button {
+  height: 32px !important;
+  padding: 0 14px !important;
+  background: #FFFFFF !important;
+  color: #475569 !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 99px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+html body .quickDates button:hover,
+html body .quick-range-container button:hover {
+  background: #F1F5F9 !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+/* -------------------------------------------------------------------------
+   DASHBOARD HEADING & ACTION ALIGNMENT
+   ------------------------------------------------------------------------- */
+html body .dashTop {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 16px !important;
+  gap: 12px !important;
+}
+
+html body .dashTitle {
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  letter-spacing: -0.3px !important;
+  margin: 0 !important;
+}
+
+html body .dashSub {
+  font-size: 12px !important;
+  color: #64748B !important;
+  margin-top: 2px !important;
+}
+
+html body .dashActions button {
+  height: 36px !important;
+  padding: 0 16px !important;
+  background: #EA580C !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  box-shadow: 0 1px 2px rgba(234, 88, 12, 0.2) !important;
+}
+
+/* -------------------------------------------------------------------------
+   ALL DETAIL & ANALYTICS PANELS (UNIFIED CONTAINER & ALIGNMENT)
+   ------------------------------------------------------------------------- */
+html body .dashPanel,
+html body .panel,
+html body .chart-card {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 14px !important;
+  padding: 18px 20px !important;
+  margin-bottom: 20px !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+html body .tableWrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 8px !important;
 }
 </style>
 

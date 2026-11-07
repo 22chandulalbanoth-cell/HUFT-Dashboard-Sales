@@ -1,6 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<script id="huft-manual-excel-upload-bridge">
+(function() {
+  'use strict';
+
+  // 1. Deliberately expose chooseManualExcel on window and global scope
+  window.chooseManualExcel = function() {
+    try {
+      const fileInput = document.getElementById('file');
+      if (!fileInput) {
+        console.error('[Excel Upload] Target file input #file not found in document.');
+        alert('File upload input is not available. Please refresh the page.');
+        return;
+      }
+      fileInput.value = ''; // Reset to allow re-uploading the same file
+      fileInput.click();
+    } catch (err) {
+      console.error('[Excel Upload] Error opening file dialog:', err);
+    }
+  };
+
+  // 2. Deliberately expose refreshSalesDashboard on window
+  window.refreshSalesDashboard = function() {
+    console.log('[Dashboard] Refreshing dashboard from Cloud Central Database...');
+    try {
+      if (typeof refreshDashboard === 'function') {
+        refreshDashboard();
+      }
+      if (typeof refreshStoreComparison === 'function') {
+        refreshStoreComparison();
+      }
+      if (typeof updateLiveReport === 'function') {
+        updateLiveReport();
+      }
+    } catch (err) {
+      console.warn('[Dashboard] Refresh warning:', err);
+    }
+  };
+
+  // 3. Attach file input change listener for manual uploads
+  function bindFileInput() {
+    const fileInput = document.getElementById('file');
+    if (!fileInput) return;
+    if (fileInput.__huftUploadBridgeBound) return;
+    fileInput.__huftUploadBridgeBound = true;
+
+    fileInput.addEventListener('change', function(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) {
+        console.log('[Excel Upload] File selection cancelled or empty.');
+        return;
+      }
+
+      const fileName = file.name || '';
+      const ext = fileName.split('.').pop().toLowerCase();
+      const validExtensions = ['xlsx', 'xls', 'csv'];
+
+      if (!validExtensions.includes(ext)) {
+        alert('Unsupported file format: "' + fileName + '"\nPlease select a valid Excel Workbook (.xlsx, .xls) or CSV file (.csv).');
+        fileInput.value = '';
+        return;
+      }
+
+      console.log('[Excel Upload] Processing manual file selection:', fileName, '(' + (file.size / 1024).toFixed(1) + ' KB)');
+
+      // Hand off file to the core uploadExcel engine
+      if (typeof window.uploadExcel === 'function') {
+        window.uploadExcel(file);
+      } else if (typeof uploadExcel === 'function') {
+        uploadExcel(file);
+      } else {
+        console.warn('[Excel Upload] uploadExcel not ready yet, retrying in 300ms...');
+        setTimeout(function() {
+          if (typeof window.uploadExcel === 'function') {
+            window.uploadExcel(file);
+          } else {
+            console.error('[Excel Upload] uploadExcel processor unavailable.');
+            alert('Upload engine is still initializing. Please try again.');
+          }
+        }, 300);
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindFileInput);
+  } else {
+    bindFileInput();
+  }
+})();
+</script>
+
 <script>
 function sanitizeStoreDisplayName(str) {
   if (!str) return 'Store Intelligence POS — Hyderabad (Hyderguda)';

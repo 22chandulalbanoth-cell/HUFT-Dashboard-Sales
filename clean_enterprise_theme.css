@@ -1,0 +1,745 @@
+
+/* =========================================================================
+   CLEAN MODERN ENTERPRISE DESIGN SYSTEM
+   Palette: Cool Slate Navy (#0F172A, #1E293B), Crisp Minimalist White (#FFFFFF),
+   Cool Slate Canvas (#F8FAFC, #F1F5F9), Modern Indigo (#4F46E5) & Cobalt (#2563EB)
+   ========================================================================= */
+
+:root {
+  --si-bg: #F8FAFC;
+  --si-surface: #FFFFFF;
+  --si-surface-subtle: #F1F5F9;
+  --si-border: #E2E8F0;
+  --si-border-strong: #CBD5E1;
+  --si-text-main: #0F172A;
+  --si-text-muted: #64748B;
+  --si-text-subtle: #94A3B8;
+  --si-primary: #4F46E5;
+  --si-primary-hover: #4338CA;
+  --si-primary-gradient: linear-gradient(135deg, #4F46E5 0%, #2563EB 100%);
+  --si-navy-gradient: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  --si-accent-cobalt: #2563EB;
+  --si-success: #10B981;
+  --si-warning: #F59E0B;
+  --si-danger: #EF4444;
+}
+
+/* 1. Global Page Canvas & Typography */
+html, body, html body, .page, #dashboard, #huft, #comparison, #employeeSales, #whatsapp, #weeklyReview {
+  background: #F8FAFC !important;
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+/* 2. Top Header & Global Bar */
+html body .topbar,
+html body .header,
+html body header,
+html body .dashTopBar,
+html body #topHeader,
+html body .dashTop {
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* All headings, titles and panel titles (replacing all #8a3600, #9a3412, #7c2d12) */
+html body .store-title,
+html body .brand-title,
+html body .dashTitle,
+html body h1,
+html body h2,
+html body h3,
+html body h4,
+html body .panelTitle,
+html body .wr-title,
+html body .card h2,
+html body .chartHead,
+html body .chartHead b,
+html body .comparisonPiePanel .chartHead b,
+html body #comparison .comparisonPiePanel .chartHead b,
+html body #huftV26Headline .v26h-title,
+html body #huftV26Insights>summary,
+html body .v26i-card h4,
+html body .v26h-card span,
+html body #huftReleaseNotesModal .hrn-release h3,
+html body .storeTargetCard h4,
+html body .monthKpiCompare h3,
+html body .monthKpiToggleText strong,
+html body #monthKpiCompareToggle .monthKpiToggleText strong {
+  color: #0F172A !important;
+  letter-spacing: -0.02em !important;
+}
+
+html body .sub,
+html body .dashSub,
+html body .hint,
+html body small,
+html body .wr-sub {
+  color: #64748B !important;
+}
+
+/* 3. Global Badges & Header Controls */
+html body .pill,
+html body .badge,
+html body .store-badge,
+html body #spStoreBranch,
+html body #waStorePill,
+html body #mobStoreSub {
+  background: #EEF2FF !important;
+  color: #4F46E5 !important;
+  border: 1px solid #C7D2FE !important;
+  border-radius: 9999px !important;
+  font-weight: 600 !important;
+}
+
+html body #spModalAvatar,
+html body #railAvatarInitial {
+  background: linear-gradient(135deg, #4F46E5, #2563EB) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+/* Central Administrator Pill */
+html body #headerStorePill,
+html body button[onclick*="openStoreProfileModal"],
+html body .admin-badge {
+  background: linear-gradient(135deg, #0F172A, #1E293B) !important;
+  color: #FFFFFF !important;
+  border: 1px solid #334155 !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12) !important;
+}
+
+html body #headerStorePill:hover,
+html body button[onclick*="openStoreProfileModal"]:hover {
+  background: #1E293B !important;
+  border-color: #475569 !important;
+}
+
+/* 4. Inputs, Search & Date Controls */
+html body input[type="date"],
+html body input[type="text"],
+html body input[type="search"],
+html body input[type="tel"],
+html body input[type="password"],
+html body select,
+html body .date3d,
+html body #from,
+html body #to,
+html body .employee-target-input,
+html body .cmSearch,
+html body .huftForecastViewControl select,
+html body .huftForecastActions select {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 8px !important;
+  color: #0F172A !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+  transition: border-color 0.15s, box-shadow 0.15s !important;
+}
+
+html body input:focus,
+html body select:focus,
+html body input[type="date"]:focus,
+html body .employee-name-filter select:focus,
+html body .employee-multi-trigger:focus,
+html body .cmSearch:focus {
+  border-color: #4F46E5 !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
+  outline: none !important;
+}
+
+/* Search Containers */
+html body .huft-ps-box,
+html body .hid-search-box,
+html body .globalStoreSearchWrap {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+}
+
+html body .huft-ps-box:focus-within,
+html body .hid-search-box:focus-within,
+html body .globalStoreSearchWrap:focus-within {
+  border-color: #4F46E5 !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
+}
+
+/* 5. Primary Buttons & CTAs (Replaces ALL Orange #EA580C / Rust #8A3600 / Brown #9A3412 Buttons) */
+html body button.primary,
+html body .btn-primary,
+html body .sp-btn-primary,
+html body #customerPhoneSearchBtn,
+html body .hid-search-btn,
+html body .huft-ps-btn,
+html body .cmDone,
+html body #refreshComparisonBtn,
+html body .dashActions button,
+html body .dashActions button:not(.secondary),
+html body #huftRefreshLatestPOS,
+html body .toolbar3d:not(.fileChoose3D),
+html body button.primary.toolbar3d,
+html body .toolbar button.primary,
+html body #huftPhoneSearchGo,
+html body #huftInvoiceDrillModal .hid-search-btn,
+html body #huftInvoiceDrillSearchSubmit,
+html body .globalStoreFilterFoot button,
+html body button[onclick*="refreshDashboard"],
+html body button[onclick*="refreshComparison"],
+html body button[onclick*="refreshSalesDashboard"],
+html body button[onclick*="refreshHuft"],
+html body button.apply {
+  background: linear-gradient(135deg, #4F46E5 0%, #2563EB 100%) !important;
+  background-color: #4F46E5 !important;
+  background-image: linear-gradient(135deg, #4F46E5 0%, #2563EB 100%) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25) !important;
+  transition: all 0.15s ease !important;
+}
+
+html body button.primary:hover,
+html body .btn-primary:hover,
+html body .sp-btn-primary:hover,
+html body #customerPhoneSearchBtn:hover,
+html body .hid-search-btn:hover,
+html body .huft-ps-btn:hover,
+html body #refreshComparisonBtn:hover,
+html body .dashActions button:hover,
+html body #huftRefreshLatestPOS:hover,
+html body .toolbar3d:not(.fileChoose3D):hover,
+html body #huftInvoiceDrillModal .hid-search-btn:hover,
+html body #huftInvoiceDrillSearchSubmit:hover,
+html body button[onclick*="refreshDashboard"]:hover,
+html body button[onclick*="refreshComparison"]:hover,
+html body button[onclick*="refreshSalesDashboard"]:hover {
+  background: linear-gradient(135deg, #4338CA 0%, #1D4ED8 100%) !important;
+  background-color: #4338CA !important;
+  background-image: linear-gradient(135deg, #4338CA 0%, #1D4ED8 100%) !important;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.35) !important;
+}
+
+/* Upload Excel Button */
+html body button[onclick*="uploadExcel"],
+html body .upload-btn,
+html body #huftWaterUploadButton {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%) !important;
+  background-color: #0F172A !important;
+  background-image: linear-gradient(135deg, #0F172A 0%, #1E293B 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid #334155 !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.2) !important;
+}
+
+html body button[onclick*="uploadExcel"]:hover,
+html body .upload-btn:hover,
+html body #huftWaterUploadButton:hover {
+  background: #1E293B !important;
+  border-color: #475569 !important;
+}
+
+/* Secondary & Standard Buttons */
+html body button:not(.primary):not(.sp-btn-primary):not(#customerPhoneSearchBtn):not(.hid-search-btn):not(.huft-ps-btn):not(.cmDone):not(#refreshComparisonBtn):not([onclick*="uploadExcel"]):not(.timingDayFilterBtn):not(.peakFilterBtn):not(.huftCompareViewBtn):not(#huftV26Presets button):not(.tab):not(.wa-nav-btn):not(#huftRefreshLatestPOS):not(.toolbar3d):not(.dashActions button):not(#huftPhoneSearchGo):not(#huftInvoiceDrillSearchSubmit):not(button[onclick*="refresh"]):not(button[onclick*="Refresh"]) {
+  background: #FFFFFF !important;
+  color: #334155 !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+  transition: all 0.15s ease !important;
+}
+
+html body button:not(.primary):not(.sp-btn-primary):not(#customerPhoneSearchBtn):not(.hid-search-btn):not(.huft-ps-btn):not(.cmDone):not(#refreshComparisonBtn):not([onclick*="uploadExcel"]):not(.timingDayFilterBtn):not(.peakFilterBtn):not(.huftCompareViewBtn):not(#huftV26Presets button):not(.tab):not(.wa-nav-btn):not(#huftRefreshLatestPOS):not(.toolbar3d):not(.dashActions button):not(#huftPhoneSearchGo):not(#huftInvoiceDrillSearchSubmit):not(button[onclick*="refresh"]):not(button[onclick*="Refresh"]):hover {
+  background: #F8FAFC !important;
+  color: #0F172A !important;
+  border-color: #94A3B8 !important;
+}
+
+/* 6. Quick Range Pills (#huftV26Presets) */
+html body #huftV26Presets {
+  margin: 12px 0 6px 0 !important;
+  gap: 8px !important;
+}
+
+html body #huftV26Presets b {
+  color: #475569 !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+}
+
+html body #huftV26Presets button {
+  background: #FFFFFF !important;
+  color: #334155 !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 9999px !important;
+  padding: 5px 13px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+  transition: all 0.15s ease !important;
+}
+
+html body #huftV26Presets button:hover {
+  background: #F1F5F9 !important;
+  color: #0F172A !important;
+  border-color: #94A3B8 !important;
+}
+
+html body #huftV26Presets button.active,
+html body #huftV26Presets button[aria-pressed="true"] {
+  background: #4F46E5 !important;
+  color: #FFFFFF !important;
+  border-color: #4F46E5 !important;
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25) !important;
+}
+
+/* 7. Navigation Tabs */
+html body .tabs,
+html body #navRailTabs,
+html body .tab-bar {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 10px !important;
+  padding: 4px !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+}
+
+html body .tab {
+  background: transparent !important;
+  color: #64748B !important;
+  border: none !important;
+  border-radius: 7px !important;
+  padding: 8px 16px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  transition: all 0.15s ease !important;
+}
+
+html body .tab:hover {
+  background: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+html body .tab.active,
+html body .tab[aria-selected="true"] {
+  background: #EEF2FF !important;
+  color: #4F46E5 !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 0 0 1px #C7D2FE !important;
+}
+
+/* 8. KPI Cards & Metric Tiles */
+html body .kpi,
+html body .kpi-card,
+html body .metric-card,
+html body .huft-kpi-card,
+html body .dashCard,
+html body .huftKpiBox,
+html body #totalSalesKpiCard,
+html body .compareSummaryBox,
+html body .v26h-card,
+html body #huftV26Headline,
+html body #huftV26Insights,
+html body .v26i-card,
+html body .package-sale-drill-kpi,
+html body .storeTargetCard,
+html body .huftForecastKpis article {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+html body .kpi:hover,
+html body .kpi-card:hover,
+html body .huft-kpi-card:hover {
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+  border-color: #CBD5E1 !important;
+}
+
+html body .kpi-title,
+html body .kpi-label,
+html body .cardTitle,
+html body .kpiHead,
+html body .compareSummaryBox .csbLabel {
+  color: #64748B !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+html body .kpi-value,
+html body .metric-value,
+html body .kpiVal,
+html body .compareSummaryBox .csbVal,
+html body .v26h-card>b,
+html body .package-sale-drill-kpi b {
+  color: #0F172A !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+}
+
+html body .kpi-sub,
+html body .subtext,
+html body .kpiSub,
+html body .compareSummaryBox .csbSub {
+  color: #94A3B8 !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+
+/* 9. Panels, Charts & Containers */
+html body .panel,
+html body .dashPanel,
+html body .chartPanel,
+html body .storeChartPanel,
+html body .chartCard,
+html body .grid-chart-box,
+html body .aiMessageCard,
+html body .wr-panel,
+html body .insights-accordion,
+html body .monthlyTrendInsight,
+html body .comparisonPiePanel,
+html body #comparison .comparisonPiePanel {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
+}
+
+/* Chart filter pills */
+html body .timingDayFilterBtn,
+html body .peakFilterBtn,
+html body .chartFilterBtn {
+  background: #F8FAFC !important;
+  color: #475569 !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 9999px !important;
+  padding: 4px 12px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+html body .timingDayFilterBtn:hover,
+html body .peakFilterBtn:hover,
+html body .chartFilterBtn:hover {
+  background: #F1F5F9 !important;
+  color: #0F172A !important;
+  border-color: #94A3B8 !important;
+}
+
+html body .timingDayFilterBtn.active,
+html body .peakFilterBtn.active,
+html body .chartFilterBtn.active,
+html body .timingDayFilterBtn[aria-pressed="true"],
+html body .peakFilterBtn[aria-pressed="true"] {
+  background: #4F46E5 !important;
+  color: #FFFFFF !important;
+  border-color: #4F46E5 !important;
+  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.3) !important;
+}
+
+/* Month Comparison View Toggle Buttons */
+html body .huftCompareViewBtn {
+  background: #FFFFFF !important;
+  color: #334155 !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 8px !important;
+  padding: 6px 14px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+html body .huftCompareViewBtn:hover {
+  background: #F8FAFC !important;
+  color: #0F172A !important;
+  border-color: #94A3B8 !important;
+}
+
+html body .huftCompareViewBtn.active,
+html body .huftCompareViewBtn[aria-pressed="true"] {
+  background: #4F46E5 !important;
+  color: #FFFFFF !important;
+  border-color: #4F46E5 !important;
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25) !important;
+}
+
+/* 10. Tables & Grids */
+html body .tableWrap,
+html body .miniTableWrap,
+html body .dtp-table-wrap,
+html body .package-drill-table-wrap,
+html body .cmpo-table {
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 8px !important;
+  background: #FFFFFF !important;
+  overflow: hidden !important;
+}
+
+html body table {
+  background: #FFFFFF !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  width: 100% !important;
+}
+
+html body th,
+html body table thead th,
+html body .package-drill-table th,
+html body .dayTrendPanel .dtrTableWrap th,
+html body .huft-month-summary th,
+html body .cmpo-table th,
+html body #huftCmpOptPanel .cmpo-table th {
+  background: #F8FAFC !important;
+  color: #1E293B !important;
+  border-color: #E2E8F0 !important;
+  border-bottom: 2px solid #CBD5E1 !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  padding: 10px 12px !important;
+}
+
+html body td {
+  background: #FFFFFF !important;
+  color: #334155 !important;
+  border-color: #F1F5F9 !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  font-size: 12px !important;
+  padding: 10px 12px !important;
+}
+
+html body tr:hover td {
+  background: #F8FAFC !important;
+}
+
+html body tr.totalRow td,
+html body tr.employee-total-row td,
+html body .cmpo-table tr.cmpo-total td,
+html body #huftCmpOptPanel .cmpo-table tr.cmpo-total td {
+  background: #F1F5F9 !important;
+  color: #0F172A !important;
+  font-weight: 800 !important;
+  border-top: 2px solid #CBD5E1 !important;
+}
+
+/* 11. Modals & Overlays */
+html body #huftInvoiceDrillModal,
+html body #storeProfileModal,
+html body .huftPopupOverlay,
+html body .chartModal,
+html body #huftReleaseNotesModal {
+  background: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+}
+
+html body .hid-panel,
+html body .sp-dialog,
+html body .huftPopupPanel,
+html body .chartModalBox,
+html body .dtp-modal-card,
+html body #huftReleaseNotesModal .hrn-card {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 14px !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25) !important;
+}
+
+html body .hid-head,
+html body .sp-head,
+html body .huftPopupHead,
+html body .chartModalTop,
+html body #huftReleaseNotesModal .hrn-head {
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+
+html body .hid-metric {
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 8px !important;
+}
+
+html body .hid-metric span {
+  color: #64748B !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+}
+
+html body .hid-metric b {
+  color: #0F172A !important;
+}
+
+/* Modal Close & Back Buttons */
+html body .hid-close,
+html body .hid-back,
+html body .sp-btn-close,
+html body .sp-btn-secondary,
+html body .chartModalClose,
+html body #huftReleaseNotesModal .hrn-close,
+html body .package-drill-back,
+html body #compareFilterReset {
+  background: #F8FAFC !important;
+  color: #334155 !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+}
+
+html body .hid-close:hover,
+html body .hid-back:hover,
+html body .sp-btn-close:hover,
+html body .sp-btn-secondary:hover,
+html body .chartModalClose:hover,
+html body #huftReleaseNotesModal .hrn-close:hover,
+html body .package-drill-back:hover,
+html body #compareFilterReset:hover {
+  background: #F1F5F9 !important;
+  color: #0F172A !important;
+  border-color: #94A3B8 !important;
+}
+
+/* 12. WhatsApp Tab Sub-navigation Buttons (.wa-nav-btn) */
+html body .wa-nav-btn {
+  background: #FFFFFF !important;
+  color: #334155 !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 9999px !important;
+  padding: 8px 16px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+}
+
+html body .wa-nav-btn:hover {
+  background: #F1F5F9 !important;
+  color: #0F172A !important;
+  border-color: #94A3B8 !important;
+}
+
+html body .wa-nav-btn.active,
+html body .wa-nav-btn[aria-pressed="true"] {
+  background: #4F46E5 !important;
+  color: #FFFFFF !important;
+  border-color: #4F46E5 !important;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3) !important;
+}
+
+/* 13. Floating WhatsApp Reminder Widget */
+html body .huft-report-time-pill,
+html body [class*="huft-report-time"] {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15) !important;
+}
+
+/* 14. Tooltips */
+html body #huftKpiHoverPopup,
+html body #huftAdditionalKpiMousePopup,
+html body #huftMonthKpiHoverTip,
+html body #chartPointPopup,
+html body .chartPointPopup,
+html body #dtrTip,
+html body .employee-percent-tooltip,
+html body .employee-sale-hover-tip {
+  background: #0F172A !important;
+  color: #F8FAFC !important;
+  border: 1px solid #334155 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.4) !important;
+}
+
+html body #huftKpiHoverPopup strong,
+html body #huftAdditionalKpiMousePopup strong,
+html body .huft-tip-title,
+html body .ptTitle,
+html body .estip-title {
+  color: #FFFFFF !important;
+}
+
+html body #huftKpiHoverPopup span,
+html body #huftAdditionalKpiMousePopup span,
+html body .huft-tip-row,
+html body .ptRow,
+html body .estip-row {
+  color: #94A3B8 !important;
+}
+
+/* 15. Badges, Chips & Release Badge */
+html body #huftReleaseBadge {
+  background: #EEF2FF !important;
+  color: #4F46E5 !important;
+  border: 1px solid #C7D2FE !important;
+  border-radius: 9999px !important;
+}
+
+html body .v26chip,
+html body .v26chip.ok {
+  background: #ECFDF5 !important;
+  color: #047857 !important;
+  border-color: #A7F3D0 !important;
+}
+
+html body .v26chip.warn {
+  background: #FFFBEB !important;
+  color: #B45309 !important;
+  border-color: #FCD34D !important;
+}
+
+html body .v26chip.bad {
+  background: #FEF2F2 !important;
+  color: #B91C1C !important;
+  border-color: #FECACA !important;
+}
+
+/* 16. Month Comparison Legend & Track Progress */
+html body .monthCompareLegend .curDot {
+  background: #4F46E5 !important;
+}
+
+html body .monthCompareLegend .prevDot {
+  background: #94A3B8 !important;
+}
+
+html body .curTrack {
+  height: 100% !important;
+  background: linear-gradient(90deg, #818CF8, #4F46E5) !important;
+}
+
+/* 17. Error & Notice Banners */
+html body #huftRuntimeError {
+  background: #EFF6FF !important;
+  border: 1px solid #BFDBFE !important;
+  color: #1E3A8A !important;
+  border-radius: 8px !important;
+}
+
+html body #huftRuntimeError button {
+  background: #3B82F6 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 6px !important;
+}

@@ -249,300 +249,6 @@
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
-/* ========================================================
-   STORE & STAFF PROFILE MODAL STYLES (WARM GLASS THEME)
-   ======================================================== */
-#huftStoreProfileModal {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.bi-profile-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.4);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.bi-profile-card {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 680px;
-  max-height: 88vh;
-  overflow-y: auto;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 24px;
-  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
-  padding: 26px 28px;
-  box-sizing: border-box;
-  animation: huftProfilePop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes huftProfilePop {
-  0% { opacity: 0; transform: scale(0.96) translateY(12px); }
-  100% { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.bi-profile-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 18px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #f1f5f9;
-}
-
-.bi-profile-header-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.bi-profile-avatar-large {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #ffedd5 0%, #fdba74 100%);
-  color: #ea580c;
-  font-size: 22px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 16px -4px rgba(234, 88, 12, 0.25);
-}
-
-.bi-profile-badge-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.bi-profile-name {
-  font-size: 18px;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0;
-}
-
-.bi-profile-active-tag {
-  font-size: 11px;
-  font-weight: 700;
-  background: #dcfce7;
-  color: #15803d;
-  padding: 3px 8px;
-  border-radius: 12px;
-  border: 1px solid #bbf7d0;
-}
-
-.bi-profile-sub {
-  font-size: 12px;
-  color: #64748b;
-  margin-top: 3px;
-  font-weight: 500;
-}
-
-.bi-modal-close-btn {
-  background: #f1f5f9;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #475569;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.bi-modal-close-btn:hover { background: #e2e8f0; color: #0f172a; }
-
-.bi-profile-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #f1f5f9;
-  padding-bottom: 12px;
-}
-
-.bi-p-tab {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #64748b;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.bi-p-tab.active {
-  background: #fff7ed;
-  border-color: #fdba74;
-  color: #ea580c;
-  font-weight: 700;
-}
-
-.bi-profile-pane {
-  display: none;
-  animation: huftProfilePop 0.2s ease-out;
-}
-.bi-profile-pane.active {
-  display: block;
-}
-
-.bi-info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.bi-info-item {
-  background: #f8fafc;
-  border: 1px solid #f1f5f9;
-  border-radius: 12px;
-  padding: 12px 14px;
-}
-
-.bi-info-label {
-  display: block;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #64748b;
-  letter-spacing: 0.05em;
-  margin-bottom: 4px;
-}
-
-.bi-info-val {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.bi-profile-staff-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.bi-staff-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 14px;
-  background: #f8fafc;
-  border: 1px solid #f1f5f9;
-  border-radius: 12px;
-}
-
-.bi-staff-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.bi-staff-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: #fed7aa;
-  color: #c2410c;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 14px;
-}
-
-.bi-staff-name {
-  font-size: 13px;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.bi-staff-role {
-  font-size: 11px;
-  color: #64748b;
-}
-
-.bi-staff-badge {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 10px;
-  background: #e0f2fe;
-  color: #0369a1;
-}
-
-.bi-target-input-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-.bi-target-input-group label {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  color: #475569;
-  margin-bottom: 4px;
-}
-.bi-target-input-group input {
-  width: 100%;
-  padding: 10px 12px;
-  background: #ffffff;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  box-sizing: border-box;
-}
-
-.bi-profile-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 24px;
-  padding-top: 18px;
-  border-top: 1px solid #f1f5f9;
-}
-
-
-/* Navigation Rail Clear Device Data Button */
-.huft-rail-clear-btn {
-  margin-top: auto !important;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  padding: 8px 4px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  border-radius: 12px;
-  transition: all 0.2s ease;
-}
-.huft-rail-clear-btn:hover {
-  background: rgba(254, 226, 226, 0.6) !important;
-  transform: translateY(-1px);
-}
-.huft-rail-clear-btn:active {
-  transform: translateY(0);
-}
 .huft-device-protect-toast {
   position: fixed;
   bottom: 24px;
@@ -567,6 +273,23 @@
 }
 
 </style>
+
+
+// PROACTIVE ZERO BROWSER STORAGE INITIALIZER
+(function purgeBrowserStorageOnBoot() {
+  try {
+    if (window.indexedDB) {
+      window.indexedDB.deleteDatabase('HUFT_Hourly_Sale_LocalDB');
+    }
+  } catch(e) {}
+  try {
+    ['HUFT_Hourly_Sale_LocalDB_latest_fallback', 'HUFT_Hourly_Sale_LastUploadMeta', 'HUFT_POS_ROWS', 'HUFT_SESSION_CACHE'].forEach(k => {
+      localStorage.removeItem(k);
+      sessionStorage.removeItem(k);
+    });
+  } catch(e) {}
+  console.log('[Privacy Engine] Zero browser storage initialized: IndexedDB and sales storage purged.');
+})();
 
 </head>
 <body>
@@ -1191,7 +914,25 @@
 
 <script id="xlsx-loader-fallback">window.HUFT_XLSX_READY=(function(){return new Promise(function(resolve){if(window.XLSX&&typeof window.XLSX.read=="function"){resolve(!0);return}var sources=["https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js","https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js","https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"],index=0;function next(){if(window.XLSX&&typeof window.XLSX.read=="function"){resolve(!0);return}if(index>=sources.length){resolve(!1);return}var script=document.createElement("script");script.src=sources[index++],script.async=!0,script.onload=function(){window.XLSX&&typeof window.XLSX.read=="function"?resolve(!0):next()},script.onerror=next,document.head.appendChild(script)}next()})})();
 </script>
-<script>const EMBEDDED_HEADERS=["Order Ref","Date","Created by","Created on","Invoice/Last Updated on","Invoice/Display Name","Customer","Customer/Phone","Order Lines/Product/Reference","Order Lines/Product/Name","Order Lines/Product/Product Category","Order Lines/Product/Brand P","Order Lines/Product/Brand","Order Lines/Quantity","Order Lines/Discount (%)","Order Lines/Product/Sales Price","Order Lines/Subtotal","Delivery Status","Invoice/Status","Employee","Order Type","Payment Method","Point of Sale","Receipt Number","Session","Status","Taxes","Total","Employees"],EMBEDDED_VALUES=[],EMBEDDED=EMBEDDED_VALUES.map(values=>{var _a;const r={};return EMBEDDED_HEADERS.forEach((h,i)=>{h&&(r[h]=values[i]===void 0?"":values[i])}),r["Column F"]=values[5]===void 0?"":values[5],r["Column G"]=values[6]===void 0?"":values[6],r["Column H"]=values[7]===void 0?"":values[7],r["Column AC"]=values[28]===void 0?"":values[28],r._employee=String((_a=values[28])!=null?_a:"").trim(),r});let rows=[],dayIndex=new Map,allStoreRows=[],selectedStoreNames=new Set,pendingStoreNames=new Set;const LOCAL_DB_NAME="HUFT_Hourly_Sale_LocalDB",LOCAL_DB_VERSION=1,LOCAL_STORE_NAME="salesReports",LOCAL_DATA_KEY="latest";let localDBPromise=null;function setLocalStorageStatus(message,isError=!1){const el=document.getElementById("localStorageStatus");if(el){el.textContent=(isError?"\u26A0\uFE0F ":"\u{1F4BE} ")+message,el.classList.toggle("error",!!isError);return}const mini=document.getElementById("huftStorageMini");mini&&(mini.title=(isError?"\u26A0\uFE0F ":"\u{1F4BE} ")+message,mini.classList.toggle("error",!!isError),mini.dataset.status=message),isError&&console.warn("Storage status:",message)}function huftFormatBytes(bytes){if(!Number.isFinite(bytes)||bytes<0)return"\u2014";if(bytes<1024)return bytes+" B";const units=["KB","MB","GB","TB"];let v=bytes/1024,i=0;for(;v>=1024&&i<units.length-1;)v/=1024,i++;return v.toFixed(v>=100?0:v>=10?1:2)+" "+units[i]}async function huftUpdateStorageMini(savedPayload){var _a,_b;const usageEl=document.getElementById("huftStorageUsage"),metaEl=document.getElementById("huftStorageMeta"),mini=document.getElementById("huftStorageMini");if(!usageEl||!metaEl||!mini)return;try{if(navigator.storage&&navigator.storage.estimate){const estimate=await navigator.storage.estimate(),used=estimate.usage||0,quota=estimate.quota||0;usageEl.textContent=quota?huftFormatBytes(used)+" / "+huftFormatBytes(quota):huftFormatBytes(used)+" used";const pct=quota?Math.min(100,used/quota*100):0,pctEl=document.getElementById("huftStoragePercent"),meter=document.getElementById("huftStorageMeterFill");pctEl&&(pctEl.textContent=quota?pct.toFixed(pct<1?2:1)+"%":"\u2014"),meter&&(meter.style.width=pct+"%"),mini.title="Browser storage used: "+huftFormatBytes(used)+(quota?" of "+huftFormatBytes(quota):"")}else usageEl.textContent="Usage unavailable"}catch{usageEl.textContent="Usage unavailable"}let payload=savedPayload||null;if(!payload){try{const meta=JSON.parse(localStorage.getItem("HUFT_Hourly_Sale_LastUploadMeta")||"null");if(meta){metaEl.textContent=(meta.rowCount||0).toLocaleString("en-IN")+" rows \u2022 "+(meta.fileName||"Uploaded file"),mini.title=(meta.fileName||"Uploaded file")+" \u2022 "+(meta.rowCount||0).toLocaleString("en-IN")+" saved rows";return}}catch{}metaEl.textContent="No saved upload found";return}metaEl.textContent=(payload.rowCount||((_a=payload.rows)==null?void 0:_a.length)||0).toLocaleString("en-IN")+" rows \u2022 "+(payload.fileName||"Uploaded file"),mini.title=(payload.fileName||"Uploaded file")+" \u2022 "+(payload.rowCount||((_b=payload.rows)==null?void 0:_b.length)||0).toLocaleString("en-IN")+" saved rows"}function openLocalDB(){if(localDBPromise)return localDBPromise;localDBPromise=new Promise((resolve,reject)=>{if(!("indexedDB"in window)){localDBPromise=null;reject(new Error("IndexedDB is not supported in this browser."));return}let settled=false,request=null;const fail=err=>{if(settled)return;settled=true;clearTimeout(timer);localDBPromise=null;reject(err)};const timer=setTimeout(()=>fail(new Error("Local database did not open in time.")),4000);try{request=indexedDB.open(LOCAL_DB_NAME,LOCAL_DB_VERSION)}catch(err){fail(err);return}request.onupgradeneeded=()=>{const db=request.result;db.objectStoreNames.contains(LOCAL_STORE_NAME)||db.createObjectStore(LOCAL_STORE_NAME,{keyPath:"id"})};request.onsuccess=()=>{const db=request.result;db.onversionchange=()=>{try{db.close()}catch(_){}localDBPromise=null};if(settled){try{db.close()}catch(_){}return}settled=true;clearTimeout(timer);resolve(db)};request.onerror=()=>fail(request.error||new Error("Could not open local database."));request.onblocked=()=>{try{setLocalStorageStatus("database is blocked; close other report tabs",!0)}catch(_){}}});return localDBPromise}const HUFT_PERSISTENT_TARGET_KEYS=new Set(["huft_global_monthly_targets_v1","HUFT_EMPLOYEE_KPI_TARGETS_V1","HUFT_EMPLOYEE_KPI_TARGETS_V1_BACKUP","huft_store_comparison_targets_v2","huft_store_comparison_targets_v2_backup","huftDailyEmployeeTargetPlans_v1","huftEodDayTargets_v1"]);async function huftClearSessionDataOnStartup(){try{await openLocalDB()}catch(e){console.warn("Local sales database unavailable:",e)}}async function saveRowsLocally(data,fileName){if(!Array.isArray(data))throw new Error("Sales rows are not valid.");const payload={id:LOCAL_DATA_KEY,rows:data,fileName:fileName||"Uploaded sales data",savedAt:new Date().toISOString(),rowCount:data.length},db=await openLocalDB();await new Promise((resolve,reject)=>{let tx;try{tx=db.transaction(LOCAL_STORE_NAME,"readwrite"),tx.objectStore(LOCAL_STORE_NAME).put(payload),tx.oncomplete=resolve,tx.onerror=()=>reject(tx.error||new Error("Could not save sales data in this browser.")),tx.onabort=()=>reject(tx.error||new Error("Sales data save was cancelled."))}catch(err){reject(err)}});try{localStorage.setItem("HUFT_Hourly_Sale_LastUploadMeta",JSON.stringify({fileName:payload.fileName,rowCount:payload.rowCount,savedAt:payload.savedAt}))}catch{}setLocalStorageStatus("Saved locally in this browser \u2022 "+payload.rowCount.toLocaleString("en-IN")+" rows. Data will return after refresh on this same browser/device."),huftUpdateStorageMini(payload);try{db.close()}catch{}return payload}function withTimeout(promise,ms,fallback){return new Promise(resolve=>{const t=setTimeout(()=>resolve(fallback),ms);Promise.resolve(promise).then(v=>{clearTimeout(t);resolve(v)},()=>{clearTimeout(t);resolve(fallback)})})}async function loadRowsLocally(){return withTimeout(loadRowsLocallyInner(),6000,null)}async function loadRowsLocallyInner(){try{const db=await openLocalDB(),saved=await new Promise((resolve,reject)=>{const req=db.transaction(LOCAL_STORE_NAME,"readonly").objectStore(LOCAL_STORE_NAME).get(LOCAL_DATA_KEY);req.onsuccess=()=>resolve(req.result||null),req.onerror=()=>reject(req.error||new Error("Could not read saved data."))});if(saved&&Array.isArray(saved.rows)&&saved.rows.length)return saved}catch(err){console.warn("IndexedDB read failed; checking fallback storage:",err)}try{const raw=localStorage.getItem("HUFT_Hourly_Sale_LocalDB_latest_fallback");if(raw){const saved=JSON.parse(raw);if(saved&&Array.isArray(saved.rows)&&saved.rows.length)return saved}}catch(err){console.warn("Fallback storage read failed:",err)}return null}async function clearSavedSalesData(){const btn=document.getElementById("huftClearSavedData");if(confirm("Clear all uploaded Excel sales data from this browser? The report will be emptied, but saved sales targets and target plans will be kept.")){btn&&(btn.disabled=!0,btn.textContent="Clearing\u2026");try{try{const db=await openLocalDB();await new Promise((resolve,reject)=>{const tx=db.transaction(LOCAL_STORE_NAME,"readwrite");tx.objectStore(LOCAL_STORE_NAME).delete(LOCAL_DATA_KEY),tx.oncomplete=resolve,tx.onerror=()=>reject(tx.error||new Error("Could not clear saved database record.")),tx.onabort=()=>reject(tx.error||new Error("Clear operation was cancelled."))})}catch(dbErr){console.warn("IndexedDB clear skipped:",dbErr)}try{localStorage.removeItem("HUFT_Hourly_Sale_LocalDB_latest_fallback")}catch{}try{localStorage.removeItem("HUFT_Hourly_Sale_LastUploadMeta")}catch{}try{localStorage.removeItem("HUFT_POS_DOWNLOAD_LAST_FILE")}catch{}window.__huftAutoPOSHoldUntilReload=!0;try{localStorage.setItem("HUFT_Hourly_Sale_SuppressEmbeddedSeed","1")}catch{}rows=[],allStoreRows=[],clearDayCache();const fileInput=document.getElementById("file");fileInput&&(fileInput.value="",fileInput.disabled=!1);const fileName=document.getElementById("fileNamePlain");fileName&&(fileName.textContent="No file chosen");const body=document.getElementById("dailyBody");body&&(body.innerHTML="");const localStatus=document.getElementById("localStorageStatus");localStatus&&(localStatus.textContent="Excel sales data cleared. Saved targets and target plans were kept.",localStatus.classList.remove("error")),[prepare,updateLiveReport,refreshTable,refreshDashboard,()=>{typeof refreshStoreComparison=="function"&&refreshStoreComparison()},()=>{typeof updateStoreComparisonTabVisibility=="function"&&updateStoreComparisonTabVisibility()}].forEach(fn=>{try{fn()}catch(renderErr){console.warn("Refresh after clear:",renderErr)}});const stamp=document.getElementById("lastSaleStamp");stamp&&(stamp.textContent="Last sale updated: no saved data"),await huftUpdateStorageMini(null);const meta=document.getElementById("huftStorageMeta");meta&&(meta.textContent="No saved upload"),typeof setUploadState=="function"&&setUploadState("Saved data cleared",0),alert("Uploaded Excel sales data has been cleared. Saved targets and target plans were kept.")}catch(err){console.error("Could not clear saved HUFT data:",err),alert("Could not completely clear saved data. Please close other report tabs and try again.")}finally{btn&&(btn.disabled=!1,btn.textContent="Clear Saved Data")}}}window.__huftInitProgressState=window.__huftInitProgressState||{percent:0,status:"Initializing HUFT Sales Report\u2026",error:""},window.huftReportInitProgress=function(percent,status,error){var state=window.__huftInitProgressState;window.__huftBootStartedAt||(window.__huftBootStartedAt=Date.now(),window.__huftBootElapsedTimer=setInterval(function(){var el=document.getElementById("huftBootLoaderElapsed");if(el){var sec=Math.floor((Date.now()-window.__huftBootStartedAt)/1e3),mm=String(Math.floor(sec/60)).padStart(2,"0"),ss=String(sec%60).padStart(2,"0");el.textContent=mm+":"+ss}},250)),state.percent=Math.max(state.percent||0,Math.min(99,Math.max(0,Number(percent)||0))),status&&(state.status=String(status)),error&&(state.error=String(error));var shown=Math.round(state.percent),label=document.getElementById("huftBootLoaderText"),pct=document.getElementById("huftBootLoaderPercent"),fill=document.getElementById("huftBootLoaderFill"),bar=document.getElementById("huftBootLoaderProgress");label&&(label.textContent=state.status||"Preparing dashboard\u2026"),pct&&(pct.textContent=shown+"%"),fill&&(fill.style.width=shown+"%"),bar&&bar.setAttribute("aria-valuenow",String(shown)),typeof window.__huftRenderInitProgress=="function"&&window.__huftRenderInitProgress(state)};async function restoreLocalRows(){window.__huftSessionCleanupDone||(window.__huftSessionCleanupDone=!0,huftClearSessionDataOnStartup()),window.huftReportInitProgress(8,"Loading saved sales data\u2026");try{let saved=await loadRowsLocally();if(window.huftReportInitProgress(32,saved&&Array.isArray(saved.rows)&&saved.rows.length?"Saved sales data found\u2026":"No saved upload found; preparing the empty dashboard\u2026"),(!saved||!Array.isArray(saved.rows)||!saved.rows.length)&&!localStorage.getItem("HUFT_Hourly_Sale_SuppressEmbeddedSeed")&&Array.isArray(EMBEDDED)&&EMBEDDED.length&&(saved={rows:EMBEDDED,fileName:"Embedded POS data",rowCount:EMBEDDED.length,savedAt:null},saveRowsLocally(EMBEDDED,"Embedded POS data").catch(err=>console.warn("Could not seed embedded data:",err))),saved&&Array.isArray(saved.rows)&&saved.rows.length){rows=saved.rows,window.huftReportInitProgress(42,"Processing saved sales records\u2026"),clearDayCache(),window.huftReportInitProgress(55,"Calculating retail, SPA, and food sales\u2026"),prepare(!1),window.huftReportInitProgress(70,"Preparing store and date information\u2026"),allStoreRows=rows.slice(),initializeStoreFilter(!0),clearDayCache(),updateLiveReport(),refreshTable(),dashboardDirty=!0,window.huftReportInitProgress(82,"Updating dashboard cards and charts\u2026");try{refreshDashboard(),dashboardDirty=!1}catch(dashErr){console.warn("Dashboard refresh after restore failed:",dashErr)}window.huftReportInitProgress(91,"Preparing monthly and employee reports\u2026");try{typeof refreshStoreComparison=="function"?(refreshStoreComparison(),updateStoreComparisonTabVisibility()):window.addEventListener("load",function(){try{refreshStoreComparison(),updateStoreComparisonTabVisibility()}catch(compareErr){console.warn("Store comparison refresh after restore failed:",compareErr)}},{once:!0})}catch(compareErr){console.warn("Store comparison refresh after restore failed:",compareErr)}const when=saved.savedAt?new Date(saved.savedAt).toLocaleString():"previously";setLocalStorageStatus("Restored "+saved.rowCount.toLocaleString("en-IN")+" rows \u2022 saved "+when),setUploadState("Restored saved local data",100);const fileName=document.getElementById("fileNamePlain");fileName&&(fileName.textContent=saved.fileName||"Saved local data")}else setLocalStorageStatus("Ready \u2022 upload Excel and it auto-saves"),window.huftReportInitProgress(58,"Preparing dashboard components\u2026"),prepare(),window.huftReportInitProgress(86,"Dashboard ready; waiting for sales data\u2026");window.huftReportInitProgress(97,"Finalizing dashboard\u2026")}catch(err){console.warn("Local storage restore failed:",err),setLocalStorageStatus("Unavailable: "+(err.message||"browser storage error"),!0),window.huftReportInitProgress(75,"Preparing dashboard without saved data\u2026",err.message||"Saved data could not be restored."),prepare(),window.huftReportInitProgress(97,"Dashboard ready; waiting for sales data\u2026")}}const BRANDS=[["Sara's Wholesome","HUFT Sara's Wholesome"],["Hearty","HUFT Hearty"],["Meowsi","HUFT Meowsi"],["NutriMeow","NutriMeow"],["NutriWag","NutriWag"]];function num(v){if(v==null||String(v).trim()==="")return 0;const n=Number(String(v).replace(/,/g,"").replace(/[₹$]/g,"").trim());return Number.isFinite(n)?n:0}function hasNumericValue(v){return v==null||String(v).trim()===""?!1:Number.isFinite(Number(String(v).replace(/,/g,"").replace(/[₹$]/g,"").trim()))}function parseDate(v){if(v==null||v==="")return null;if(v instanceof Date)return Number.isNaN(v.getTime())?null:new Date(v.getTime());if(typeof v=="number"){if(!Number.isFinite(v))return null;const whole=Math.floor(v),fraction=v-whole,d2=new Date(1899,11,30+whole);return d2.setHours(0,0,0,0),d2.setTime(d2.getTime()+Math.round(fraction*864e5)),Number.isNaN(d2.getTime())?null:d2}const s=String(v).trim(),m=s.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})(?:[ T]+(\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?\s*(AM|PM)?)?$/i);if(m){let hh=Number(m[4]||0),mm=Number(m[5]||0),ss=Number(m[6]||0),ms=Number(String(m[7]||"0").padEnd(3,"0"));const ap=(m[8]||"").toUpperCase();if(ap){if(hh<1||hh>12)return null;hh=hh%12+(ap==="PM"?12:0)}if(hh>23||mm>59||ss>59)return null;const d2=new Date(Number(m[3]),Number(m[2])-1,Number(m[1]),hh,mm,ss,ms);return d2.getFullYear()===Number(m[3])&&d2.getMonth()===Number(m[2])-1&&d2.getDate()===Number(m[1])?d2:null}const iso=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T]+(\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?\s*(AM|PM)?)?$/i);if(iso){let hh=Number(iso[4]||0),mm=Number(iso[5]||0),ss=Number(iso[6]||0),ms=Number(String(iso[7]||"0").padEnd(3,"0"));const ap=(iso[8]||"").toUpperCase();if(ap){if(hh<1||hh>12)return null;hh=hh%12+(ap==="PM"?12:0)}if(hh>23||mm>59||ss>59)return null;const d2=new Date(Number(iso[1]),Number(iso[2])-1,Number(iso[3]),hh,mm,ss,ms);return d2.getFullYear()===Number(iso[1])&&d2.getMonth()===Number(iso[2])-1&&d2.getDate()===Number(iso[3])?d2:null}const d=new Date(s);return Number.isNaN(d.getTime())?null:d}function normalizeWorkbookRows(matrix){if(!Array.isArray(matrix)||!matrix.length)return[];const norm=v=>String(v!=null?v:"").trim().toLowerCase().replace(/[^a-z0-9]+/g," "),headerTokens=["date","date time","order date","point of sale","store","store name","product","product name","category","product category","brand","quantity","qty","subtotal","sale value","sales value","customer","customer name","customer id","customer phone","customer/phone","partner","partner name","client","client name","contact","contact name","phone","mobile","order ref","order reference","order id","receipt number","ticket number"];let headerIndex=-1;for(let ri=0;ri<Math.min(matrix.length,10);ri++)if((matrix[ri]||[]).map(norm).filter(v=>headerTokens.includes(v)||headerTokens.some(t=>v===t+" name")).length>=3){headerIndex=ri;break}const hasHeaders=headerIndex>=0,headers=hasHeaders?(matrix[headerIndex]||[]).map(v=>String(v!=null?v:"").trim()):[],excelCol=i=>{let n=i+1,out="";for(;n;){const rem=(n-1)%26;out=String.fromCharCode(65+rem)+out,n=Math.floor((n-1)/26)}return out},dataStart=hasHeaders?headerIndex+1:0,nonEmpty=matrix.slice(dataStart).filter(a=>Array.isArray(a)&&a.some(v=>String(v!=null?v:"").trim()!==""));hasHeaders&&nonEmpty.length&&nonEmpty[0]===matrix[headerIndex]&&nonEmpty.shift();let lastDate="",lastStore="";const normalized=nonEmpty.map(values=>{var _a,_b,_c;const r={};headers.length&&headers.forEach((h,i)=>{h&&(r[h]=values[i]===void 0?"":values[i])}),values.forEach((v,i)=>{r["Column "+excelCol(i)]=v===void 0?"":v});const pick=(pos,keys)=>{var _a2;if(hasHeaders){for(const k of keys)if(r[k]!==void 0&&String(r[k]).trim()!=="")return r[k]}if(String((_a2=values[pos])!=null?_a2:"").trim()!=="")return values[pos];for(const k of keys)if(r[k]!==void 0&&String(r[k]).trim()!=="")return r[k];return""},headerToken=k=>String(k||"").toLowerCase().replace(/[^a-z0-9]/g,""),firstMatching=patterns=>{var _a2;for(const k of Object.keys(r)){const token=headerToken(k);if(patterns.some(p=>p.test(token))&&String((_a2=r[k])!=null?_a2:"").trim()!=="")return r[k]}return""},firstNonBlank=keys=>{for(const k of keys)if(r[k]!==void 0&&String(r[k]).trim()!=="")return r[k];return""};r["Order Ref"]||(r["Order Ref"]=firstNonBlank(["Order Reference","Order ID","Order Number","Receipt Number","Ticket Number","POS Order Reference","Sales Order","Sales Order Reference","Order Ref"])||firstMatching([/^order(id|number|ref|reference)$/,/^receipt(number|no|id)$/,/^ticket(number|no|id)$/])),r.Customer||(r.Customer=firstNonBlank(["Customer Name","Client","Client Name","Partner","Partner Name","Customer/Phone","Customer Phone","Phone","Mobile","Mobile Number","Phone Number","Contact","Contact Name","Customer ID","Partner ID"])||firstMatching([/^customer(name|id|code|phone|mobile|ref|reference)?$/,/^client(name|id|phone)?$/,/^partner(name|id|phone)?$/,/^contact(name|id|phone)?$/,/^(customer|client|partner|contact)(phone|mobile)$/,/^(phone|mobile)(number|no)?$/])),r["Customer/Phone"]||(r["Customer/Phone"]=firstNonBlank(["Customer/Phone","Customer Phone","Phone","Mobile","Mobile Number","Phone Number","Partner/Phone","Contact Phone"])||firstMatching([/^(customer|partner|client)(phone|mobile)$/,/^(phone|mobile)(number|no)?$/])||r["Column H"]||"");const dateValue=firstNonBlank(["Date","Date/Time","Order Date","Order date"])||pick(1,["Date","Date/Time","Order Date","Order date"]),storeValue=firstMatching([/^(?:pointofsale|store|storename|pos|posname)$/,/^channel(?:\d+)?$/])||pick(2,["Point of Sale","Store","Store Name","POS","Channel"]);String(dateValue).trim()!==""&&(lastDate=dateValue),String(storeValue).trim()!==""&&(lastStore=storeValue),r.Date=dateValue!==""?dateValue:lastDate,r["Point of Sale"]=storeValue!==""?storeValue:lastStore,r["Order Lines/Product/Name"]=pick(9,["Order Lines/Product/Name","Product","Product Name","Product/Name"]),r.Customer=firstNonBlank(["Customer","Customer Name","Client","Client Name","Partner","Partner Name","Contact Name"])||pick(6,["Customer","Customer Name","Client","Client Name","Partner","Partner Name","Contact Name"])||r.Customer||r["Column G"]||"",r["Customer/Phone"]=r["Customer/Phone"]||pick(7,["Customer/Phone","Customer Phone","Phone","Mobile","Mobile Number","Phone Number","Partner/Phone","Contact Phone"])||r["Column H"]||"",r._customer=String(r.Customer||"").trim(),r["Order Lines/Product/Product Category"]=pick(10,["Order Lines/Product/Product Category","Category","Product Category"]),r["Order Lines/Product/Brand"]=pick(12,["Order Lines/Product/Brand","Brand","Product Brand"]),r["Order Lines/Quantity"]=pick(13,["Order Lines/Quantity","Quantity","Qty","Total Qty.","Total Qty","Total Quantity"]),r["Order Lines/Subtotal"]=pick(16,["Order Lines/Subtotal","Subtotal","Sale Value","Sales Value","Total"]),r["Order Lines/Discount (%)"]=pick(14,["Order Lines/Discount (%)","Discount (%)","Discount Percent","Discount"]),r["Payment Method"]=pick(21,["Payment Method","Payment Mode","Payment Method Name","Payment"]);const employeeFromAC=hasHeaders?"":String((_b=(_a=values[28])!=null?_a:r["Column AC"])!=null?_b:"").trim(),employeeFromNamedHeader=Object.keys(r).filter(k=>{var _a2;const t=headerToken(k);return(t==="employees"||t.endsWith("employees")||t==="employee"||t==="employeename"||t==="salesperson"||t==="salespersonname"||t==="salespersonid"||t==="salesemployee"||t==="salesrep"||t==="salesrepresentative"||t==="salesagent"||t==="cashier"||t==="cashiername")&&String((_a2=r[k])!=null?_a2:"").trim()!==""}).map(k=>r[k]).find(v=>String(v!=null?v:"").trim()!=="");r.Employees=String(employeeFromNamedHeader!=null?employeeFromNamedHeader:"").trim()||employeeFromAC||String((_c=r.Employees)!=null?_c:"").trim(),r._employee=String(r.Employees||employeeFromAC||employeeFromNamedHeader||"").trim();const namedInvoice=firstNonBlank(["Invoice/Display Name","Invoice Display Name","Invoice Number","Invoice/Number","Bill Number","Invoice Name"]);r["Invoice/Display Name"]=namedInvoice||pick(5,["Invoice/Display Name","Invoice Display Name","Invoice Number","Invoice/Number","Bill Number","Invoice Name"])||r["Column F"]||"",namedInvoice&&(r["Invoice Name"]=namedInvoice);const invoiceStatus=firstMatching([/^invoicestatus$/,/^status$/]);return invoiceStatus!==""&&r["Invoice Status"]===void 0&&(r["Invoice Status"]=invoiceStatus),r._invoiceDisplayName=String(namedInvoice||r["Column F"]||r["Invoice/Display Name"]||"").trim(),r["Order Lines/Product/Sales Price"]===void 0&&(r["Order Lines/Product/Sales Price"]=pick(15,["Order Lines/Product/Sales Price","Sales Price","Unit Price","Price"])),r}),lastInvoiceByOrder=new Map;let lastInvoice="",lastDateKey="",lastCustomerKey="";for(const r of normalized){const orderRef=String(r["Column A"]||r["Order Ref"]||"").trim(),dateKey=String(r._key||r.Date||"").slice(0,10),customerKey2=String(r._customer||r.Customer||"").trim().toLowerCase();let inv=String(r["Column F"]||r._invoiceDisplayName||r["Invoice/Display Name"]||"").trim();if(inv){orderRef&&lastInvoiceByOrder.set(orderRef,inv),lastInvoice=inv,lastDateKey=dateKey,lastCustomerKey=customerKey2;continue}let inherited=orderRef?lastInvoiceByOrder.get(orderRef):"";!inherited&&lastInvoice&&dateKey===lastDateKey&&customerKey2===lastCustomerKey&&(inherited=lastInvoice),inherited&&(r["Column F"]=inherited,r["Invoice/Display Name"]=inherited,r._invoiceDisplayName=inherited,orderRef&&lastInvoiceByOrder.set(orderRef,inherited))}return normalized}function parseCSVText(text){const out=[];let row=[],field="",quoted=!1;for(let i=0;i<text.length;i++){const c=text[i];quoted?c==='"'&&text[i+1]==='"'?(field+='"',i++):c==='"'?quoted=!1:field+=c:c==='"'?quoted=!0:c===","?(row.push(field),field=""):c===`
+<script>const EMBEDDED_HEADERS=["Order Ref","Date","Created by","Created on","Invoice/Last Updated on","Invoice/Display Name","Customer","Customer/Phone","Order Lines/Product/Reference","Order Lines/Product/Name","Order Lines/Product/Product Category","Order Lines/Product/Brand P","Order Lines/Product/Brand","Order Lines/Quantity","Order Lines/Discount (%)","Order Lines/Product/Sales Price","Order Lines/Subtotal","Delivery Status","Invoice/Status","Employee","Order Type","Payment Method","Point of Sale","Receipt Number","Session","Status","Taxes","Total","Employees"],EMBEDDED_VALUES=[],EMBEDDED=EMBEDDED_VALUES.map(values=>{var _a;const r={};return EMBEDDED_HEADERS.forEach((h,i)=>{h&&(r[h]=values[i]===void 0?"":values[i])}),r["Column F"]=values[5]===void 0?"":values[5],r["Column G"]=values[6]===void 0?"":values[6],r["Column H"]=values[7]===void 0?"":values[7],r["Column AC"]=values[28]===void 0?"":values[28],r._employee=String((_a=values[28])!=null?_a:"").trim(),r});let rows=[],dayIndex=new Map,allStoreRows=[],selectedStoreNames=new Set,pendingStoreNames=new Set;const LOCAL_DB_NAME="HUFT_Hourly_Sale_LocalDB",LOCAL_DB_VERSION=1,LOCAL_STORE_NAME="salesReports",LOCAL_DATA_KEY="latest";let localDBPromise=null;function setLocalStorageStatus(message,isError=!1){const el=document.getElementById("localStorageStatus");if(el){el.textContent=(isError?"\u26A0\uFE0F ":"\u{1F4BE} ")+message,el.classList.toggle("error",!!isError);return}const mini=document.getElementById("huftStorageMini");mini&&(mini.title=(isError?"\u26A0\uFE0F ":"\u{1F4BE} ")+message,mini.classList.toggle("error",!!isError),mini.dataset.status=message),isError&&console.warn("Storage status:",message)}function huftFormatBytes(bytes){if(!Number.isFinite(bytes)||bytes<0)return"\u2014";if(bytes<1024)return bytes+" B";const units=["KB","MB","GB","TB"];let v=bytes/1024,i=0;for(;v>=1024&&i<units.length-1;)v/=1024,i++;return v.toFixed(v>=100?0:v>=10?1:2)+" "+units[i]}async function huftUpdateStorageMini(savedPayload){var _a,_b;const usageEl=document.getElementById("huftStorageUsage"),metaEl=document.getElementById("huftStorageMeta"),mini=document.getElementById("huftStorageMini");if(!usageEl||!metaEl||!mini)return;try{if(navigator.storage&&navigator.storage.estimate){const estimate=await navigator.storage.estimate(),used=estimate.usage||0,quota=estimate.quota||0;usageEl.textContent=quota?huftFormatBytes(used)+" / "+huftFormatBytes(quota):huftFormatBytes(used)+" used";const pct=quota?Math.min(100,used/quota*100):0,pctEl=document.getElementById("huftStoragePercent"),meter=document.getElementById("huftStorageMeterFill");pctEl&&(pctEl.textContent=quota?pct.toFixed(pct<1?2:1)+"%":"\u2014"),meter&&(meter.style.width=pct+"%"),mini.title="Browser storage used: "+huftFormatBytes(used)+(quota?" of "+huftFormatBytes(quota):"")}else usageEl.textContent="Usage unavailable"}catch{usageEl.textContent="Usage unavailable"}let payload=savedPayload||null;if(!payload){try{const meta=JSON.parse(localStorage.getItem("HUFT_Hourly_Sale_LastUploadMeta")||"null");if(meta){metaEl.textContent=(meta.rowCount||0).toLocaleString("en-IN")+" rows \u2022 "+(meta.fileName||"Uploaded file"),mini.title=(meta.fileName||"Uploaded file")+" \u2022 "+(meta.rowCount||0).toLocaleString("en-IN")+" saved rows";return}}catch{}metaEl.textContent="No saved upload found";return}metaEl.textContent=(payload.rowCount||((_a=payload.rows)==null?void 0:_a.length)||0).toLocaleString("en-IN")+" rows \u2022 "+(payload.fileName||"Uploaded file"),mini.title=(payload.fileName||"Uploaded file")+" \u2022 "+(payload.rowCount||((_b=payload.rows)==null?void 0:_b.length)||0).toLocaleString("en-IN")+" saved rows"}function openLocalDB(){
+  // Disabled permanently under Zero Browser Storage policy
+  try { indexedDB.deleteDatabase('HUFT_Hourly_Sale_LocalDB'); } catch(_) {}
+  return Promise.resolve(null);
+}
+const HUFT_PERSISTENT_TARGET_KEYS=new Set(["huft_global_monthly_targets_v1","HUFT_EMPLOYEE_KPI_TARGETS_V1","HUFT_EMPLOYEE_KPI_TARGETS_V1_BACKUP","huft_store_comparison_targets_v2","huft_store_comparison_targets_v2_backup","huftDailyEmployeeTargetPlans_v1","huftEodDayTargets_v1"]);async function huftClearSessionDataOnStartup(){try{await openLocalDB()}catch(e){console.warn("Local sales database unavailable:",e)}}async function saveRowsLocally(data,fileName){
+  // STRICT ZERO BROWSER STORAGE ENFORCEMENT
+  // Zero data is stored in IndexedDB or localStorage
+  console.log('[Zero-Storage Engine] Processing ephemeral session rows:', data ? data.length : 0);
+  try { indexedDB.deleteDatabase('HUFT_Hourly_Sale_LocalDB'); } catch(_) {}
+  try {
+    localStorage.removeItem('HUFT_Hourly_Sale_LocalDB_latest_fallback');
+    localStorage.removeItem('HUFT_Hourly_Sale_LastUploadMeta');
+    localStorage.removeItem('HUFT_POS_ROWS');
+  } catch(_) {}
+  setLocalStorageStatus("Cloud-native session active • Zero browser storage retained.", false);
+  return { id: 'cloud_session', rows: data, fileName: fileName || 'Uploaded sales data', rowCount: (data && data.length) || 0, savedAt: new Date().toISOString() };
+}
+function withTimeout(promise,ms,fallback){return new Promise(resolve=>{const t=setTimeout(()=>resolve(fallback),ms);Promise.resolve(promise).then(v=>{clearTimeout(t);resolve(v)},()=>{clearTimeout(t);resolve(fallback)})})}async function loadRowsLocally(){return withTimeout(loadRowsLocallyInner(),6000,null)}async function loadRowsLocallyInner(){try{const db=await openLocalDB(),saved=await new Promise((resolve,reject)=>{const req=db.transaction(LOCAL_STORE_NAME,"readonly").objectStore(LOCAL_STORE_NAME).get(LOCAL_DATA_KEY);req.onsuccess=()=>resolve(req.result||null),req.onerror=()=>reject(req.error||new Error("Could not read saved data."))});if(saved&&Array.isArray(saved.rows)&&saved.rows.length)return saved}catch(err){console.warn("IndexedDB read failed; checking fallback storage:",err)}try{const raw=localStorage.getItem("HUFT_Hourly_Sale_LocalDB_latest_fallback");if(raw){const saved=JSON.parse(raw);if(saved&&Array.isArray(saved.rows)&&saved.rows.length)return saved}}catch(err){console.warn("Fallback storage read failed:",err)}return null}async function clearSavedSalesData(){const btn=document.getElementById("huftClearSavedData");if(confirm("Clear all uploaded Excel sales data from this browser? The report will be emptied, but saved sales targets and target plans will be kept.")){btn&&(btn.disabled=!0,btn.textContent="Clearing\u2026");try{try{const db=await openLocalDB();await new Promise((resolve,reject)=>{const tx=db.transaction(LOCAL_STORE_NAME,"readwrite");tx.objectStore(LOCAL_STORE_NAME).delete(LOCAL_DATA_KEY),tx.oncomplete=resolve,tx.onerror=()=>reject(tx.error||new Error("Could not clear saved database record.")),tx.onabort=()=>reject(tx.error||new Error("Clear operation was cancelled."))})}catch(dbErr){console.warn("IndexedDB clear skipped:",dbErr)}try{localStorage.removeItem("HUFT_Hourly_Sale_LocalDB_latest_fallback")}catch{}try{localStorage.removeItem("HUFT_Hourly_Sale_LastUploadMeta")}catch{}try{localStorage.removeItem("HUFT_POS_DOWNLOAD_LAST_FILE")}catch{}window.__huftAutoPOSHoldUntilReload=!0;try{localStorage.setItem("HUFT_Hourly_Sale_SuppressEmbeddedSeed","1")}catch{}rows=[],allStoreRows=[],clearDayCache();const fileInput=document.getElementById("file");fileInput&&(fileInput.value="",fileInput.disabled=!1);const fileName=document.getElementById("fileNamePlain");fileName&&(fileName.textContent="No file chosen");const body=document.getElementById("dailyBody");body&&(body.innerHTML="");const localStatus=document.getElementById("localStorageStatus");localStatus&&(localStatus.textContent="Excel sales data cleared. Saved targets and target plans were kept.",localStatus.classList.remove("error")),[prepare,updateLiveReport,refreshTable,refreshDashboard,()=>{typeof refreshStoreComparison=="function"&&refreshStoreComparison()},()=>{typeof updateStoreComparisonTabVisibility=="function"&&updateStoreComparisonTabVisibility()}].forEach(fn=>{try{fn()}catch(renderErr){console.warn("Refresh after clear:",renderErr)}});const stamp=document.getElementById("lastSaleStamp");stamp&&(stamp.textContent="Last sale updated: no saved data"),await huftUpdateStorageMini(null);const meta=document.getElementById("huftStorageMeta");meta&&(meta.textContent="No saved upload"),typeof setUploadState=="function"&&setUploadState("Saved data cleared",0),alert("Uploaded Excel sales data has been cleared. Saved targets and target plans were kept.")}catch(err){console.error("Could not clear saved HUFT data:",err),alert("Could not completely clear saved data. Please close other report tabs and try again.")}finally{btn&&(btn.disabled=!1,btn.textContent="Clear Saved Data")}}}window.__huftInitProgressState=window.__huftInitProgressState||{percent:0,status:"Initializing HUFT Sales Report\u2026",error:""},window.huftReportInitProgress=function(percent,status,error){var state=window.__huftInitProgressState;window.__huftBootStartedAt||(window.__huftBootStartedAt=Date.now(),window.__huftBootElapsedTimer=setInterval(function(){var el=document.getElementById("huftBootLoaderElapsed");if(el){var sec=Math.floor((Date.now()-window.__huftBootStartedAt)/1e3),mm=String(Math.floor(sec/60)).padStart(2,"0"),ss=String(sec%60).padStart(2,"0");el.textContent=mm+":"+ss}},250)),state.percent=Math.max(state.percent||0,Math.min(99,Math.max(0,Number(percent)||0))),status&&(state.status=String(status)),error&&(state.error=String(error));var shown=Math.round(state.percent),label=document.getElementById("huftBootLoaderText"),pct=document.getElementById("huftBootLoaderPercent"),fill=document.getElementById("huftBootLoaderFill"),bar=document.getElementById("huftBootLoaderProgress");label&&(label.textContent=state.status||"Preparing dashboard\u2026"),pct&&(pct.textContent=shown+"%"),fill&&(fill.style.width=shown+"%"),bar&&bar.setAttribute("aria-valuenow",String(shown)),typeof window.__huftRenderInitProgress=="function"&&window.__huftRenderInitProgress(state)};async function restoreLocalRows(){window.__huftSessionCleanupDone||(window.__huftSessionCleanupDone=!0,huftClearSessionDataOnStartup()),window.huftReportInitProgress(8,"Loading saved sales data\u2026");try{let saved=await loadRowsLocally();if(window.huftReportInitProgress(32,saved&&Array.isArray(saved.rows)&&saved.rows.length?"Saved sales data found\u2026":"No saved upload found; preparing the empty dashboard\u2026"),(!saved||!Array.isArray(saved.rows)||!saved.rows.length)&&!localStorage.getItem("HUFT_Hourly_Sale_SuppressEmbeddedSeed")&&Array.isArray(EMBEDDED)&&EMBEDDED.length&&(saved={rows:EMBEDDED,fileName:"Embedded POS data",rowCount:EMBEDDED.length,savedAt:null},saveRowsLocally(EMBEDDED,"Embedded POS data").catch(err=>console.warn("Could not seed embedded data:",err))),saved&&Array.isArray(saved.rows)&&saved.rows.length){rows=saved.rows,window.huftReportInitProgress(42,"Processing saved sales records\u2026"),clearDayCache(),window.huftReportInitProgress(55,"Calculating retail, SPA, and food sales\u2026"),prepare(!1),window.huftReportInitProgress(70,"Preparing store and date information\u2026"),allStoreRows=rows.slice(),initializeStoreFilter(!0),clearDayCache(),updateLiveReport(),refreshTable(),dashboardDirty=!0,window.huftReportInitProgress(82,"Updating dashboard cards and charts\u2026");try{refreshDashboard(),dashboardDirty=!1}catch(dashErr){console.warn("Dashboard refresh after restore failed:",dashErr)}window.huftReportInitProgress(91,"Preparing monthly and employee reports\u2026");try{typeof refreshStoreComparison=="function"?(refreshStoreComparison(),updateStoreComparisonTabVisibility()):window.addEventListener("load",function(){try{refreshStoreComparison(),updateStoreComparisonTabVisibility()}catch(compareErr){console.warn("Store comparison refresh after restore failed:",compareErr)}},{once:!0})}catch(compareErr){console.warn("Store comparison refresh after restore failed:",compareErr)}const when=saved.savedAt?new Date(saved.savedAt).toLocaleString():"previously";setLocalStorageStatus("Restored "+saved.rowCount.toLocaleString("en-IN")+" rows \u2022 saved "+when),setUploadState("Restored saved local data",100);const fileName=document.getElementById("fileNamePlain");fileName&&(fileName.textContent=saved.fileName||"Saved local data")}else setLocalStorageStatus("Ready \u2022 upload Excel and it auto-saves"),window.huftReportInitProgress(58,"Preparing dashboard components\u2026"),prepare(),window.huftReportInitProgress(86,"Dashboard ready; waiting for sales data\u2026");window.huftReportInitProgress(97,"Finalizing dashboard\u2026")}catch(err){console.warn("Local storage restore failed:",err),setLocalStorageStatus("Unavailable: "+(err.message||"browser storage error"),!0),window.huftReportInitProgress(75,"Preparing dashboard without saved data\u2026",err.message||"Saved data could not be restored."),prepare(),window.huftReportInitProgress(97,"Dashboard ready; waiting for sales data\u2026")}}const BRANDS=[["Sara's Wholesome","HUFT Sara's Wholesome"],["Hearty","HUFT Hearty"],["Meowsi","HUFT Meowsi"],["NutriMeow","NutriMeow"],["NutriWag","NutriWag"]];function num(v){if(v==null||String(v).trim()==="")return 0;const n=Number(String(v).replace(/,/g,"").replace(/[₹$]/g,"").trim());return Number.isFinite(n)?n:0}function hasNumericValue(v){return v==null||String(v).trim()===""?!1:Number.isFinite(Number(String(v).replace(/,/g,"").replace(/[₹$]/g,"").trim()))}function parseDate(v){if(v==null||v==="")return null;if(v instanceof Date)return Number.isNaN(v.getTime())?null:new Date(v.getTime());if(typeof v=="number"){if(!Number.isFinite(v))return null;const whole=Math.floor(v),fraction=v-whole,d2=new Date(1899,11,30+whole);return d2.setHours(0,0,0,0),d2.setTime(d2.getTime()+Math.round(fraction*864e5)),Number.isNaN(d2.getTime())?null:d2}const s=String(v).trim(),m=s.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})(?:[ T]+(\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?\s*(AM|PM)?)?$/i);if(m){let hh=Number(m[4]||0),mm=Number(m[5]||0),ss=Number(m[6]||0),ms=Number(String(m[7]||"0").padEnd(3,"0"));const ap=(m[8]||"").toUpperCase();if(ap){if(hh<1||hh>12)return null;hh=hh%12+(ap==="PM"?12:0)}if(hh>23||mm>59||ss>59)return null;const d2=new Date(Number(m[3]),Number(m[2])-1,Number(m[1]),hh,mm,ss,ms);return d2.getFullYear()===Number(m[3])&&d2.getMonth()===Number(m[2])-1&&d2.getDate()===Number(m[1])?d2:null}const iso=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T]+(\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?\s*(AM|PM)?)?$/i);if(iso){let hh=Number(iso[4]||0),mm=Number(iso[5]||0),ss=Number(iso[6]||0),ms=Number(String(iso[7]||"0").padEnd(3,"0"));const ap=(iso[8]||"").toUpperCase();if(ap){if(hh<1||hh>12)return null;hh=hh%12+(ap==="PM"?12:0)}if(hh>23||mm>59||ss>59)return null;const d2=new Date(Number(iso[1]),Number(iso[2])-1,Number(iso[3]),hh,mm,ss,ms);return d2.getFullYear()===Number(iso[1])&&d2.getMonth()===Number(iso[2])-1&&d2.getDate()===Number(iso[3])?d2:null}const d=new Date(s);return Number.isNaN(d.getTime())?null:d}function normalizeWorkbookRows(matrix){if(!Array.isArray(matrix)||!matrix.length)return[];const norm=v=>String(v!=null?v:"").trim().toLowerCase().replace(/[^a-z0-9]+/g," "),headerTokens=["date","date time","order date","point of sale","store","store name","product","product name","category","product category","brand","quantity","qty","subtotal","sale value","sales value","customer","customer name","customer id","customer phone","customer/phone","partner","partner name","client","client name","contact","contact name","phone","mobile","order ref","order reference","order id","receipt number","ticket number"];let headerIndex=-1;for(let ri=0;ri<Math.min(matrix.length,10);ri++)if((matrix[ri]||[]).map(norm).filter(v=>headerTokens.includes(v)||headerTokens.some(t=>v===t+" name")).length>=3){headerIndex=ri;break}const hasHeaders=headerIndex>=0,headers=hasHeaders?(matrix[headerIndex]||[]).map(v=>String(v!=null?v:"").trim()):[],excelCol=i=>{let n=i+1,out="";for(;n;){const rem=(n-1)%26;out=String.fromCharCode(65+rem)+out,n=Math.floor((n-1)/26)}return out},dataStart=hasHeaders?headerIndex+1:0,nonEmpty=matrix.slice(dataStart).filter(a=>Array.isArray(a)&&a.some(v=>String(v!=null?v:"").trim()!==""));hasHeaders&&nonEmpty.length&&nonEmpty[0]===matrix[headerIndex]&&nonEmpty.shift();let lastDate="",lastStore="";const normalized=nonEmpty.map(values=>{var _a,_b,_c;const r={};headers.length&&headers.forEach((h,i)=>{h&&(r[h]=values[i]===void 0?"":values[i])}),values.forEach((v,i)=>{r["Column "+excelCol(i)]=v===void 0?"":v});const pick=(pos,keys)=>{var _a2;if(hasHeaders){for(const k of keys)if(r[k]!==void 0&&String(r[k]).trim()!=="")return r[k]}if(String((_a2=values[pos])!=null?_a2:"").trim()!=="")return values[pos];for(const k of keys)if(r[k]!==void 0&&String(r[k]).trim()!=="")return r[k];return""},headerToken=k=>String(k||"").toLowerCase().replace(/[^a-z0-9]/g,""),firstMatching=patterns=>{var _a2;for(const k of Object.keys(r)){const token=headerToken(k);if(patterns.some(p=>p.test(token))&&String((_a2=r[k])!=null?_a2:"").trim()!=="")return r[k]}return""},firstNonBlank=keys=>{for(const k of keys)if(r[k]!==void 0&&String(r[k]).trim()!=="")return r[k];return""};r["Order Ref"]||(r["Order Ref"]=firstNonBlank(["Order Reference","Order ID","Order Number","Receipt Number","Ticket Number","POS Order Reference","Sales Order","Sales Order Reference","Order Ref"])||firstMatching([/^order(id|number|ref|reference)$/,/^receipt(number|no|id)$/,/^ticket(number|no|id)$/])),r.Customer||(r.Customer=firstNonBlank(["Customer Name","Client","Client Name","Partner","Partner Name","Customer/Phone","Customer Phone","Phone","Mobile","Mobile Number","Phone Number","Contact","Contact Name","Customer ID","Partner ID"])||firstMatching([/^customer(name|id|code|phone|mobile|ref|reference)?$/,/^client(name|id|phone)?$/,/^partner(name|id|phone)?$/,/^contact(name|id|phone)?$/,/^(customer|client|partner|contact)(phone|mobile)$/,/^(phone|mobile)(number|no)?$/])),r["Customer/Phone"]||(r["Customer/Phone"]=firstNonBlank(["Customer/Phone","Customer Phone","Phone","Mobile","Mobile Number","Phone Number","Partner/Phone","Contact Phone"])||firstMatching([/^(customer|partner|client)(phone|mobile)$/,/^(phone|mobile)(number|no)?$/])||r["Column H"]||"");const dateValue=firstNonBlank(["Date","Date/Time","Order Date","Order date"])||pick(1,["Date","Date/Time","Order Date","Order date"]),storeValue=firstMatching([/^(?:pointofsale|store|storename|pos|posname)$/,/^channel(?:\d+)?$/])||pick(2,["Point of Sale","Store","Store Name","POS","Channel"]);String(dateValue).trim()!==""&&(lastDate=dateValue),String(storeValue).trim()!==""&&(lastStore=storeValue),r.Date=dateValue!==""?dateValue:lastDate,r["Point of Sale"]=storeValue!==""?storeValue:lastStore,r["Order Lines/Product/Name"]=pick(9,["Order Lines/Product/Name","Product","Product Name","Product/Name"]),r.Customer=firstNonBlank(["Customer","Customer Name","Client","Client Name","Partner","Partner Name","Contact Name"])||pick(6,["Customer","Customer Name","Client","Client Name","Partner","Partner Name","Contact Name"])||r.Customer||r["Column G"]||"",r["Customer/Phone"]=r["Customer/Phone"]||pick(7,["Customer/Phone","Customer Phone","Phone","Mobile","Mobile Number","Phone Number","Partner/Phone","Contact Phone"])||r["Column H"]||"",r._customer=String(r.Customer||"").trim(),r["Order Lines/Product/Product Category"]=pick(10,["Order Lines/Product/Product Category","Category","Product Category"]),r["Order Lines/Product/Brand"]=pick(12,["Order Lines/Product/Brand","Brand","Product Brand"]),r["Order Lines/Quantity"]=pick(13,["Order Lines/Quantity","Quantity","Qty","Total Qty.","Total Qty","Total Quantity"]),r["Order Lines/Subtotal"]=pick(16,["Order Lines/Subtotal","Subtotal","Sale Value","Sales Value","Total"]),r["Order Lines/Discount (%)"]=pick(14,["Order Lines/Discount (%)","Discount (%)","Discount Percent","Discount"]),r["Payment Method"]=pick(21,["Payment Method","Payment Mode","Payment Method Name","Payment"]);const employeeFromAC=hasHeaders?"":String((_b=(_a=values[28])!=null?_a:r["Column AC"])!=null?_b:"").trim(),employeeFromNamedHeader=Object.keys(r).filter(k=>{var _a2;const t=headerToken(k);return(t==="employees"||t.endsWith("employees")||t==="employee"||t==="employeename"||t==="salesperson"||t==="salespersonname"||t==="salespersonid"||t==="salesemployee"||t==="salesrep"||t==="salesrepresentative"||t==="salesagent"||t==="cashier"||t==="cashiername")&&String((_a2=r[k])!=null?_a2:"").trim()!==""}).map(k=>r[k]).find(v=>String(v!=null?v:"").trim()!=="");r.Employees=String(employeeFromNamedHeader!=null?employeeFromNamedHeader:"").trim()||employeeFromAC||String((_c=r.Employees)!=null?_c:"").trim(),r._employee=String(r.Employees||employeeFromAC||employeeFromNamedHeader||"").trim();const namedInvoice=firstNonBlank(["Invoice/Display Name","Invoice Display Name","Invoice Number","Invoice/Number","Bill Number","Invoice Name"]);r["Invoice/Display Name"]=namedInvoice||pick(5,["Invoice/Display Name","Invoice Display Name","Invoice Number","Invoice/Number","Bill Number","Invoice Name"])||r["Column F"]||"",namedInvoice&&(r["Invoice Name"]=namedInvoice);const invoiceStatus=firstMatching([/^invoicestatus$/,/^status$/]);return invoiceStatus!==""&&r["Invoice Status"]===void 0&&(r["Invoice Status"]=invoiceStatus),r._invoiceDisplayName=String(namedInvoice||r["Column F"]||r["Invoice/Display Name"]||"").trim(),r["Order Lines/Product/Sales Price"]===void 0&&(r["Order Lines/Product/Sales Price"]=pick(15,["Order Lines/Product/Sales Price","Sales Price","Unit Price","Price"])),r}),lastInvoiceByOrder=new Map;let lastInvoice="",lastDateKey="",lastCustomerKey="";for(const r of normalized){const orderRef=String(r["Column A"]||r["Order Ref"]||"").trim(),dateKey=String(r._key||r.Date||"").slice(0,10),customerKey2=String(r._customer||r.Customer||"").trim().toLowerCase();let inv=String(r["Column F"]||r._invoiceDisplayName||r["Invoice/Display Name"]||"").trim();if(inv){orderRef&&lastInvoiceByOrder.set(orderRef,inv),lastInvoice=inv,lastDateKey=dateKey,lastCustomerKey=customerKey2;continue}let inherited=orderRef?lastInvoiceByOrder.get(orderRef):"";!inherited&&lastInvoice&&dateKey===lastDateKey&&customerKey2===lastCustomerKey&&(inherited=lastInvoice),inherited&&(r["Column F"]=inherited,r["Invoice/Display Name"]=inherited,r._invoiceDisplayName=inherited,orderRef&&lastInvoiceByOrder.set(orderRef,inherited))}return normalized}function parseCSVText(text){const out=[];let row=[],field="",quoted=!1;for(let i=0;i<text.length;i++){const c=text[i];quoted?c==='"'&&text[i+1]==='"'?(field+='"',i++):c==='"'?quoted=!1:field+=c:c==='"'?quoted=!0:c===","?(row.push(field),field=""):c===`
 `||c==="\r"?(c==="\r"&&text[i+1]===`
 `&&i++,row.push(field),row.some(v=>String(v).trim()!=="")&&out.push(row),row=[],field=""):field+=c}return(field!==""||row.length)&&(row.push(field),row.some(v=>String(v).trim()!=="")&&out.push(row)),out}function pretty(k){const p=k.split("-").map(Number);return String(p[2]).padStart(2,"0")+"-"+String(p[1]).padStart(2,"0")+"-"+p[0]}function huftCompactINR(value,fractionDigits=0){const n=Number(value)||0,a=Math.abs(n),sign=n<0?"-":"";return a>=1e7?sign+"\u20B9"+(a/1e7).toFixed(2)+"Cr":a>=1e5?sign+"\u20B9"+(a/1e5).toFixed(2)+"L":sign+"\u20B9"+Math.round(a).toLocaleString("en-IN",{maximumFractionDigits:0})}function money(v){return huftCompactINR(v,0)}function safe(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c])}function key(value){if(value==null||value==="")return"";const d=value instanceof Date?value:parseDate(value);return!(d instanceof Date)||Number.isNaN(d.getTime())?"":String(d.getFullYear())+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}function updateLastSaleStamp(){const el=document.getElementById("lastSaleStamp");if(!el)return;const latest=typeof getLatestUploadedSaleDateTime=="function"?getLatestUploadedSaleDateTime():"";el.textContent=latest?"Last sale updated: "+latest:"Last sale updated: no timestamp available"}function normalizeStoreLabel(raw){let store=String(raw||"").trim();if(!store)return"";const posMatch=store.match(/\(HUFT\s+[^()]*\(([^()]*)\)\s*[-–]\s*POS\)/i);if(posMatch)store=posMatch[1].trim();else{const usable=[...store.matchAll(/\(([^()]*)\)/g)].map(m=>m[1].trim()).filter(Boolean).filter(g=>!/^not used$/i.test(g)&&!/\bPOS\b/i.test(g)&&!/^HUFT\b/i.test(g));store=usable.length?usable[usable.length-1]:store}return store.replace(/^HUFT\s+/i,"").replace(/\s*[-–]\s*POS\s*$/i,"").trim()}function storeLabelForRow(r){const posRaw=String((r==null?void 0:r["Point of Sale"])||(r==null?void 0:r.Store)||(r==null?void 0:r["Store Name"])||(r==null?void 0:r.POS)||(r==null?void 0:r["Column C"])||"").trim(),pos=normalizeStoreLabel(posRaw);if(/^public user$/i.test(posRaw)&&isAdhygPackageSale(r)){const invoice=String((r==null?void 0:r["Invoice/Display Name"])||(r==null?void 0:r["Column F"])||(r==null?void 0:r._invoiceDisplayName)||""),inferred=[...new Set((allStoreRows.length?allStoreRows:rows).map(x=>String((x==null?void 0:x["Point of Sale"])||(x==null?void 0:x.Store)||(x==null?void 0:x["Store Name"])||(x==null?void 0:x["Column C"])||"").trim()).filter(n=>n&&!/^(?:public user|OdooBot)$/i.test(n)))].find(n=>n&&invoice.toLowerCase().includes(n.toLowerCase()));if(inferred)return normalizeStoreLabel(inferred)}return pos}function availableStoreNames(){return[...new Set((allStoreRows.length?allStoreRows:rows).map(storeLabelForRow).filter(Boolean).filter(n=>!/^(?:OdooBot|Public user)$/i.test(String(n).trim())))].sort((a,b)=>a.localeCompare(b))}function updateStoreFilterLabel(){const label=document.getElementById("globalStoreFilterLabel"),count=document.getElementById("globalStoreSelectedCount"),names=availableStoreNames(),chosen=names.filter(n=>selectedStoreNames.has(n));label&&(label.textContent=chosen.length===names.length?"All Stores":chosen.length===1?chosen[0]:chosen.length?chosen.length+" Stores Selected":"No Stores"),count&&(count.textContent=chosen.length===names.length?"All stores selected":chosen.length+" of "+names.length+" stores selected");const all=document.getElementById("globalStoreAll");all&&(all.checked=chosen.length===names.length,all.indeterminate=chosen.length>0&&chosen.length<names.length)}function filterGlobalStoreOptions(){const input=document.getElementById("globalStoreSearch"),clear=document.getElementById("globalStoreSearchClear"),options=document.getElementById("globalStoreOptions"),empty=document.getElementById("globalStoreNoResults");if(!input||!options)return;const query=input.value.trim().toLocaleLowerCase();clear&&(clear.hidden=!query);let visible=0;options.querySelectorAll(".globalStoreChoice").forEach(box=>{const label=box.closest(".globalStoreOption"),name=(box.value||(label==null?void 0:label.textContent)||"").trim().toLocaleLowerCase(),match=!query||name.includes(query);label&&(label.hidden=!match,match?label.style.removeProperty("display"):label.style.setProperty("display","none","important")),match&&visible++}),empty&&(empty.hidden=visible!==0)}function initializeStoreFilter(resetSelection=!0){const wrap=document.getElementById("globalStoreFilter"),opts=document.getElementById("globalStoreOptions");if(!wrap||!opts)return;const names=availableStoreNames();if(names.length<=1){wrap.hidden=!0;const panel=document.getElementById("globalStoreFilterPanel"),button=document.getElementById("globalStoreFilterButton");panel&&(panel.hidden=!0),button&&button.setAttribute("aria-expanded","false"),opts.innerHTML="",selectedStoreNames=new Set(names),pendingStoreNames=new Set(names),updateStoreNameForSelection(names),typeof updateStoreComparisonTabVisibility=="function"&&updateStoreComparisonTabVisibility();return}wrap.hidden=!1,(resetSelection||!selectedStoreNames.size)&&(selectedStoreNames=new Set(names)),pendingStoreNames=new Set(selectedStoreNames),opts.innerHTML=names.map((n,i)=>'<label class="globalStoreOption"><input type="checkbox" class="globalStoreChoice" value="'+safe(n)+'" '+(pendingStoreNames.has(n)?"checked":"")+"> <span>"+safe(n)+"</span></label>").join(""),opts.querySelectorAll(".globalStoreChoice").forEach(el=>el.addEventListener("change",()=>{const n=el.value;el.checked?pendingStoreNames.add(n):pendingStoreNames.delete(n),updatePendingStoreControls(names)}));const all=document.getElementById("globalStoreAll");all&&(all.onchange=()=>{pendingStoreNames=all.checked?new Set(names):new Set,opts.querySelectorAll(".globalStoreChoice").forEach(el=>el.checked=all.checked),updatePendingStoreControls(names)}),updatePendingStoreControls(names),filterGlobalStoreOptions(),updateStoreFilterLabel(),updateStoreNameForSelection(names),typeof updateStoreComparisonTabVisibility=="function"&&updateStoreComparisonTabVisibility()}let storeApplyTimer=null;function showStoreRefreshStatus(show){let el=document.getElementById("storeLiveRefreshStatus");show?(el||(el=document.createElement("div"),el.id="storeLiveRefreshStatus",el.setAttribute("role","status"),el.textContent="Updating dashboard\u2026",el.style.cssText="position:fixed;top:10px;right:14px;z-index:2147483647;padding:8px 12px;border-radius:999px;background:#172554;color:#fff;font:600 12px Nunito,Arial,sans-serif;box-shadow:0 4px 14px rgba(15,23,42,.22);pointer-events:none;",document.body.appendChild(el)),el.hidden=!1):el&&(el.hidden=!0)}function updatePendingStoreControls(names){const all=document.getElementById("globalStoreAll");all&&(all.checked=pendingStoreNames.size===names.length,all.indeterminate=pendingStoreNames.size>0&&pendingStoreNames.size<names.length);const count=document.getElementById("globalStoreSelectedCount");count&&(count.textContent=pendingStoreNames.size===names.length?"All stores selected":pendingStoreNames.size+" of "+names.length+" stores selected")}function updateStoreNameForSelection(names){const el=document.getElementById("storeName");if(!el)return;const chosen=names.filter(n=>selectedStoreNames.has(n));el.textContent=chosen.length===1?chosen[0]:chosen.length===names.length?names.length>1?"All Stores":names[0]||"Store":chosen.length?"Multiple Stores":"No Store Selected",el.dataset.selectedStores=JSON.stringify(chosen);const filterLabel=document.getElementById("globalStoreFilterLabel");filterLabel&&(filterLabel.textContent=chosen.length===1?chosen[0]:chosen.length===names.length?"All Stores":chosen.length?chosen.length+" Stores Selected":"No Stores")}function applyGlobalStoreSelection(keepOpen=!1){const names=availableStoreNames();if(!names.length)return;if(!pendingStoreNames.size){showStoreRefreshStatus(!1),keepOpen||alert("Select at least one store.");return}if(selectedStoreNames=new Set([...pendingStoreNames].filter(n=>names.includes(n))),!selectedStoreNames.size){alert("Select at least one valid store.");return}const statusEl=document.getElementById("status"),loadingStoreLabel=selectedStoreNames.size===1?[...selectedStoreNames][0]:selectedStoreNames.size===names.length?"All Stores":selectedStoreNames.size+" Stores";statusEl&&(statusEl.innerHTML='<span class="store-load-spinner" aria-hidden="true"></span>Loading '+safe(loadingStoreLabel)+"\u2026");const fromEl=document.getElementById("from"),toEl=document.getElementById("to"),from=(fromEl==null?void 0:fromEl.value)||"",to=(toEl==null?void 0:toEl.value)||"",source=(allStoreRows.length?allStoreRows:rows).slice();allStoreRows.length||(allStoreRows=source.slice()),rows=source.filter(r=>{const n=storeLabelForRow(r);return n!==""&&selectedStoreNames.has(n)}),rows.length||(rows=source.slice(),selectedStoreNames=new Set(names),pendingStoreNames=new Set(names),alert("No POS rows matched that store selection. The report has been restored to All Stores. Please check the Store / Point of Sale column in the uploaded file.")),clearDayCache(),prepare(!1),fromEl&&from&&(fromEl.value=from),toEl&&to&&(toEl.value=to),clearDayCache(),updateStoreNameForSelection(names),updateStoreFilterLabel(),typeof syncDashboardTargetTotals=="function"&&syncDashboardTargetTotals(0,0);const panel=document.getElementById("globalStoreFilterPanel"),button=document.getElementById("globalStoreFilterButton");keepOpen||(panel&&(panel.hidden=!0),button&&button.setAttribute("aria-expanded","false"));const applyBtn=document.getElementById("globalStoreApply");applyBtn&&(applyBtn.disabled=!0,applyBtn.textContent="Updating\u2026");const refreshJobs=[()=>refreshTable(),()=>refreshDashboard(),()=>refreshGrowth(),()=>refreshComparison(),()=>{typeof refreshStoreComparison=="function"&&refreshStoreComparison()},()=>renderEmployeeMonthlySales(),()=>updateLiveReport()];let jobIndex=0;function runNextRefreshJob(){if(jobIndex>=refreshJobs.length){dashboardDirty=!1,applyBtn&&(applyBtn.disabled=!1,applyBtn.textContent="Apply"),showStoreRefreshStatus(!1),updateStoreFilterLabel();const statusEl2=document.getElementById("status"),doneNames=names.filter(n=>selectedStoreNames.has(n)),doneLabel=doneNames.length===1?doneNames[0]:doneNames.length===names.length?"All Stores":doneNames.length+" Stores";statusEl2&&(statusEl2.innerHTML='<span class="store-load-done">\u2713 '+safe(doneLabel)+" loaded</span>");return}const job=refreshJobs[jobIndex++];try{job()}catch(err){console.error("HUFT store refresh task failed:",err)}setTimeout(runNextRefreshJob,0)}setTimeout(runNextRefreshJob,0)}(function(){document.addEventListener("DOMContentLoaded",()=>{const wrap=document.getElementById("globalStoreFilter"),button=document.getElementById("globalStoreFilterButton"),panel=document.getElementById("globalStoreFilterPanel"),apply=document.getElementById("globalStoreApply"),search=document.getElementById("globalStoreSearch"),clearSearch=document.getElementById("globalStoreSearchClear");if(!wrap||!button||!panel)return;search&&!search.dataset.storeSearchBound&&(search.dataset.storeSearchBound="1",search.addEventListener("input",filterGlobalStoreOptions),search.addEventListener("keydown",event=>{event.key==="Escape"&&(search.value="",filterGlobalStoreOptions(),search.blur())})),clearSearch&&!clearSearch.dataset.storeSearchBound&&(clearSearch.dataset.storeSearchBound="1",clearSearch.addEventListener("click",()=>{search&&(search.value="",filterGlobalStoreOptions(),search.focus())})),panel.parentElement!==document.body&&document.body.appendChild(panel);let closeTimer=null;const closeDelay=190;function placePanel(){const r=button.getBoundingClientRect(),width=Math.min(280,Math.max(240,window.innerWidth-24));panel.style.position="fixed",panel.style.width=width+"px",panel.style.maxWidth="calc(100vw - 24px)",panel.style.left=Math.max(12,Math.min(r.left,window.innerWidth-width-12))+"px",panel.style.top=Math.min(window.innerHeight-20,r.bottom+7)+"px",panel.style.zIndex="2147483647",panel.style.transform="none"}function openPanel(){wrap.hidden||(closeTimer&&(clearTimeout(closeTimer),closeTimer=null),placePanel(),panel.hidden=!1,button.setAttribute("aria-expanded","true"))}function scheduleClose(){closeTimer&&clearTimeout(closeTimer),closeTimer=setTimeout(()=>{const active=document.activeElement;button.matches(":hover")||panel.matches(":hover")||panel.contains(active)||button.contains(active)||(panel.hidden=!0,button.setAttribute("aria-expanded","false"),closeTimer=null)},closeDelay)}button.addEventListener("pointerenter",openPanel),button.addEventListener("pointerleave",scheduleClose),panel.addEventListener("pointerenter",()=>{closeTimer&&(clearTimeout(closeTimer),closeTimer=null)}),panel.addEventListener("pointerleave",scheduleClose),button.addEventListener("focus",openPanel),button.addEventListener("click",e=>{e.preventDefault(),e.stopPropagation(),panel.hidden?openPanel():scheduleClose()}),panel.addEventListener("click",e=>e.stopPropagation()),document.addEventListener("pointerdown",e=>{!button.contains(e.target)&&!panel.contains(e.target)&&(closeTimer&&(clearTimeout(closeTimer),closeTimer=null),panel.hidden=!0,button.setAttribute("aria-expanded","false"))}),window.addEventListener("resize",()=>{panel.hidden||placePanel()}),window.addEventListener("scroll",()=>{panel.hidden||placePanel()},!0),apply&&apply.addEventListener("click",()=>{closeTimer&&(clearTimeout(closeTimer),closeTimer=null),applyGlobalStoreSelection(!1),setTimeout(()=>{panel.hidden=!0,button.setAttribute("aria-expanded","false")},0)})})})();function prepare(render=!0){var _a;let lastDate=null,lastOrder="",lastCustomer="",lastPhone="",lastOrderType="",lastPaymentMethod="";rows.forEach(r=>{var _a2;const d=parseDate(r.Date);d&&!isNaN(d.getTime())&&(lastDate=d);const rawOrder=String((_a2=r["Order Ref"])!=null?_a2:"").trim();rawOrder&&rawOrder!==lastOrder&&(lastCustomer="",lastPhone="",lastOrderType="",lastPaymentMethod="",lastOrder=rawOrder),r.Customer!==void 0&&r.Customer!==null&&String(r.Customer).trim()!==""&&(lastCustomer=String(r.Customer)),r["Customer/Phone"]!==void 0&&r["Customer/Phone"]!==null&&String(r["Customer/Phone"]).trim()!==""&&(lastPhone=String(r["Customer/Phone"])),r["Order Type"]!==void 0&&r["Order Type"]!==null&&String(r["Order Type"]).trim()!==""&&(lastOrderType=String(r["Order Type"])),r["Payment Method"]!==void 0&&r["Payment Method"]!==null&&String(r["Payment Method"]).trim()!==""&&(lastPaymentMethod=String(r["Payment Method"])),r._date=lastDate,r._key=key(lastDate),r._orderRef=lastOrder,r._customer=lastCustomer,r._phone=lastPhone,r._orderType=lastOrderType,r._paymentMethod=lastPaymentMethod});const valid=rows.filter(r=>r._key);if(dayIndex=new Map,valid.forEach(r=>{let a=dayIndex.get(r._key);a||(a=[],dayIndex.set(r._key,a)),a.push(r)}),!valid.length){const statusEl2=document.getElementById("status");statusEl2&&(statusEl2.textContent="No valid dates found.");return}const dates=[...new Set(valid.map(r=>r._key))].sort(),min=dates[0],max=dates[dates.length-1],today=key(new Date),currentMonthStart=today.slice(0,8)+"01";document.getElementById("from").value=dates.includes(currentMonthStart)?currentMonthStart:min,document.getElementById("to").value=dates.includes(today)?today:max;const storeRow=valid.find(r=>r["Point of Sale"]),store=storeRow?normalizeStoreLabel(storeRow["Point of Sale"]||storeRow.Store||"Store"):"Store",storeNameEl=document.getElementById("storeName");storeNameEl&&(storeNameEl.textContent=store);const rangeTextEl=document.getElementById("rangeText");rangeTextEl&&(rangeTextEl.textContent=pretty(min)+" to "+pretty(max)),updateLastSaleStamp();const statusEl=document.getElementById("status");statusEl&&!statusEl.querySelector(".store-load-spinner")&&(statusEl.textContent=""),render&&refreshTable(),updateLiveReport(),(_a=document.getElementById("comparison"))!=null&&_a.classList.contains("active")&&refreshComparison()}function qty(r){const possibleKeys=["Order Lines/Quantity","Quantity","Qty","Total Qty.","Total Qty","Total Quantity","Column H","Units","Package Quantity","Sessions"];let qtyValue=null;for(const key2 of possibleKeys)if(r[key2]!==void 0&&r[key2]!==null&&String(r[key2]).trim()!==""){qtyValue=r[key2];break}if(qtyValue===null)return 0;const cleaned=String(qtyValue).trim().replace(/,/g,"").replace(/[^0-9.\-]/g,""),parsed=parseFloat(cleaned);return isNaN(parsed)?0:isReturnBill(r)?-Math.abs(parsed):Math.abs(parsed)}function wowBillValue(r){for(const key2 of["Total Amount","Invoice Amount","Amount","Total"])if(hasNumericValue(r==null?void 0:r[key2]))return Math.abs(num(r[key2]));return null}function wowBillGroups(sourceRows){const groups=new Map;return(Array.isArray(sourceRows)?sourceRows:[]).forEach(r=>{var _a;if(!validLineRow(r)||isReturnBill(r))return;const invoice=employeeInvoiceKey(r)||billKey(r);if(!invoice)return;groups.has(invoice)||groups.set(invoice,{invoice,total:null,lineTotal:0,hasRetail:!1,hasSpa:!1,rows:[]});const group=groups.get(invoice);group.rows.push(r),isSpaCategory(r)?group.hasSpa=!0:group.hasRetail=!0;const explicit=wowBillValue(r);explicit!==null?group.total=Math.max((_a=group.total)!=null?_a:0,explicit):isSpaCategory(r)||(group.lineTotal+=Number(amount(r))||0)}),[...groups.values()].filter(x=>x.hasRetail&&!x.hasSpa).map(x=>({...x,total:x.total===null?x.lineTotal:x.total}))}function isReturnBill(r){var _a,_b;const ref=String((r==null?void 0:r["Invoice/Display Name"])||(r==null?void 0:r["Invoice Number"])||(r==null?void 0:r["Column F"])||(r==null?void 0:r._invoiceDisplayName)||(r==null?void 0:r["Order Ref"])||(r==null?void 0:r._orderRef)||"").trim(),type=String((r==null?void 0:r._orderType)||(r==null?void 0:r["Order Type"])||(r==null?void 0:r["Document Type"])||(r==null?void 0:r["Move Type"])||(r==null?void 0:r["Invoice Status"])||"").trim();if(typeof isReversedPackageBill=="function"&&isReversedPackageBill(r)||/^(?:RET(?:URN)?(?:[-/\s]|$)|CN(?:[-/\s]|$)|CREDIT[\s_-]*NOTE(?:[-/\s]|$))/i.test(ref)||/\b(?:return|refund|credit note)\b/i.test(type))return!0;const rawAmount=r==null?void 0:r["Order Lines/Subtotal"];if(hasNumericValue(rawAmount)&&num(rawAmount)<0)return!0;const rawQty=(_b=(_a=r==null?void 0:r["Order Lines/Quantity"])!=null?_a:r==null?void 0:r.Quantity)!=null?_b:r==null?void 0:r.Qty;return!!(hasNumericValue(rawQty)&&num(rawQty)<0)}function amount(r){const rawSubtotal=r["Order Lines/Subtotal"];if(hasNumericValue(rawSubtotal)){const value=num(rawSubtotal);return isReturnBill(r)?-Math.abs(value):value}const priceRaw=r["Order Lines/Product/Sales Price"],qtyRaw=r["Order Lines/Quantity"];if(hasNumericValue(priceRaw)&&hasNumericValue(qtyRaw)){const raw=r["Order Lines/Discount (%)"],disc=hasNumericValue(raw)?Math.max(0,Math.min(100,num(raw))):0,value=num(priceRaw)*Math.abs(num(qtyRaw))*(1-disc/100);return isReturnBill(r)?-Math.abs(value):value}const invoiceTotalKeys=["Total Amount","Invoice Amount","Amount","Total"];for(const key2 of invoiceTotalKeys)if(hasNumericValue(r[key2])){const value=num(r[key2]);return isReturnBill(r)?-Math.abs(value):value}return 0}function spaField(r,keys,columnLetter){const candidates=[...keys,"Column "+columnLetter];for(const k of candidates)if(r[k]!==void 0&&String(r[k]).trim()!=="")return String(r[k]).trim();return""}function isAdhygPackageSale(r){const invoice=String(r["Invoice/Display Name"]||r["Column F"]||r._invoiceDisplayName||"").trim(),packagePattern=/^(?:RET-)?AD[A-Z0-9_-]*(?:\/|\b)|\bReversal\s+of:\s*AD[A-Z0-9_-]*/i,spaSubscription=typeof isSpaSubscriptionPackage=="function"?isSpaSubscriptionPackage(r):/\bSPA\s+SUBSCRIPTION\b/i.test(String((r==null?void 0:r["Column U"])||(r==null?void 0:r["SPA Subscription"])||(r==null?void 0:r["Order Type"])||(r==null?void 0:r._orderType)||""));if(!packagePattern.test(invoice)&&!spaSubscription)return!1;const qtyVal=qty(r),amtVal=amount(r),hasQty=Math.abs(qtyVal)>0,hasAmount=!isNaN(parseFloat(String(amtVal||0).replace(/[^0-9.-]/g,"")));return hasQty&&hasAmount}function getPackageSaleStore(r){const posStore=String(r["Point of Sale"]||r.Store||r["Store Name"]||r["Column C"]||"").trim();if(posStore&&posStore.toLowerCase()!=="public user")return posStore;const invoice=String(r["Invoice/Display Name"]||r["Column F"]||r._invoiceDisplayName||"").trim();if(/^ADHYG/i.test(invoice)){const match2=invoice.match(/\(([^)]+)\)/);return match2?match2[1].trim():"Online / Public User"}const match=invoice.match(/\(([^)]+)\)/);return match?match[1].trim():"Unknown Store"}function isSpaCategory(r){if(isAdhygPackageSale(r))return!0;const primary=spaField(r,["Order Lines/Product/Product Category","Category","Product Category"],"K").split("/")[0].trim().toLowerCase();return/^spa\s+services?$/.test(primary)}function spaPaymentMode(r){return String(r._paymentMethod||spaField(r,["Payment Method","Payment Mode","Payment Method Name","Payment"],"V")).toLowerCase().replace(/\s+/g," ").trim()}function spaDiscount(r){return spaField(r,["Order Lines/Discount (%)","Discount (%)","Discount Percent","Discount"],"O")}function normalizedSpaDiscount(r){const raw=spaDiscount(r),match=String(raw).replace(/,/g,"").match(/-?\d+(?:\.\d+)?/);return match?Number(match[0]):NaN}function spaCustomer(r){return String(r.Customer||r["Customer Name"]||r._customer||r["Column G"]||"").trim().toLowerCase()}const HUFT_PACKAGE_DISCOUNTS=[10,15,20,30];function isExcludedSpaRedemption(r){return!isSpaCategory(r)||!/\bspa\s+wallet\b/i.test(spaPaymentMode(r))?!1:HUFT_PACKAGE_DISCOUNTS.includes(normalizedSpaDiscount(r))}function packageCustomerKey(r){const phone=String(r._phone||r["Customer/Phone"]||r["Customer Phone"]||r.Phone||r.Mobile||"").replace(/\D/g,"");if(phone.length>=8)return"phone:"+phone;const name=spaCustomer(r);return name?"name:"+name:""}function packageRedemptionRowsForDay(day){return(dayIndex.get(day)||[]).filter(r=>r._key===day&&isExcludedSpaRedemption(r))}function packageCustomerCountForDay(day){return new Set(packageRedemptionRowsForDay(day).map(packageCustomerKey).filter(Boolean)).size}function spaSale(r){const a=amount(r),q=qty(r);return!Number.isFinite(a)||!Number.isFinite(q)||q===0||a===0||!isSpaCategory(r)||String(r["Order Type"]||r._orderType||"").toLowerCase().includes("wallet topup")||isExcludedSpaRedemption(r)?0:a}function excludedSpaAmount(r){return isExcludedSpaRedemption(r)?amount(r):0}function spaPackagesUsed(r){if(!isSpaCategory(r)||!isExcludedSpaRedemption(r))return 0;const q=Number(qty(r));return Number.isFinite(q)&&q!==0?q:0}function hasProduct(r,needle){const product=String(r["Order Lines/Product/Name"]||"").toLowerCase(),brand=String(needle||"").replace(/^HUFT\s+/i,"").toLowerCase();return!!brand&&product.includes(brand)}function validLineRow(r){const q=Number(qty(r)),a=Number(amount(r));return String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup")?!1:Number.isFinite(q)&&Number.isFinite(a)&&(isReturnBill(r)?Math.abs(q)>0&&Math.abs(a)>0:q>0&&a>0)}function dashboardRowsForDay(day){const available=typeof availableStoreNames=="function"?availableStoreNames():[],chosen=available.filter(n=>selectedStoreNames instanceof Set?selectedStoreNames.has(n):!0),selectedSet=new Set(chosen.length?chosen:available);return(dayIndex.get(day)||[]).filter(r=>r._key===day&&selectedSet.has(storeLabelForRow(r)))}function orderBreakdownForDay(day){const source=dashboardRowsForDay(day);let retail=0,grossSpa=0,excluded=0,orders=0;const orderRefs=new Set;source.forEach((r,i)=>{if(String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup"))return;if(!isReturnBill(r)&&validLineRow(r)){const ref=salesOrderKey(r,i)||salesOrderFallbackKey(r,!1);ref&&orderRefs.add(ref)}const a=amount(r);Number.isFinite(a)&&(isSpaCategory(r)?(grossSpa+=a,isExcludedSpaRedemption(r)&&(excluded+=a)):retail+=a)});const spa=grossSpa-excluded,total=retail+spa;return orders=orderRefs.size||null,{total,retail,spa,excludedSpa:excluded,orders,map:new Map,orderIdsAvailable:orderRefs.size>0,grossSpa}}function calcDay(day){if(dayCache.has(day))return dayCache.get(day);const x={retail:0,total:0,spa:0,originalSpa:0,excludedSpa:0,spaPackagesUsed:0,foodTotal:0,orders:0,qty:0};BRANDS.forEach(b=>{x[b[0]+"Q"]=0,x[b[0]+"A"]=0});const ob=orderBreakdownForDay(day);return x.total=ob.total,x.retail=ob.retail,x.spa=ob.spa,x.excludedSpa=0,x.orders=ob.orders,dashboardRowsForDay(day).forEach(r=>{if(String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup"))return;const q=qty(r),a=amount(r);isSpaCategory(r)&&(x.originalSpa+=a,x.excludedSpa+=excludedSpaAmount(r),x.spaPackagesUsed+=spaPackagesUsed(r)),Number.isFinite(q)&&(x.qty+=q),isFoodSaleRow(r)&&Number.isFinite(a)&&(x.foodTotal+=a),BRANDS.forEach(b=>{hasProduct(r,b[1])&&Number.isFinite(q)&&Number.isFinite(a)&&(x[b[0]+"Q"]+=q,x[b[0]+"A"]+=a)})}),dayCache.set(day,x),x}function dailyReturnMetrics(day){const bills=new Map;return dashboardRowsForDay(day).forEach((r,i)=>{if(!isReturnBill(r))return;const ref=billKey(r)||orderKey(r,i),key2=ref&&!/^ROW-\d+$/.test(ref)?ref:String(r._key||day)+"|"+String(storeLabelForRow(r)||"")+"|RETURN|"+i,item=bills.get(key2)||{qty:0};item.qty+=Math.abs(Number(qty(r))||0),bills.set(key2,item)}),{bills:bills.size,qty:[...bills.values()].reduce((a,b)=>a+b.qty,0)}}function openDailyReturnHistory(day){const grouped=new Map,employeeLookup=employeeNameLookup();dashboardRowsForDay(day).forEach((r,i)=>{if(!isReturnBill(r))return;const ref=billKey(r)||orderKey(r,i),key2=ref&&!/^ROW-\d+$/.test(ref)?ref:String(r._key||day)+"|"+String(storeLabelForRow(r)||"")+"|RETURN|"+i,item=grouped.get(key2)||{invoice:ref,customer:packageSaleField(r,["Customer","Customer Name","Partner Name","Client Name","Column G"]),product:packageSaleField(r,["Order Lines/Product","Product","Product Name","Column J"]),employee:employeeHistoryName(r,employeeLookup),qty:0,amount:0};item.employee==="Unassigned"&&(item.employee=employeeHistoryName(r,employeeLookup)),item.qty+=Math.abs(Number(qty(r))||0),item.amount+=Number(amount(r))||0,grouped.set(key2,item)});let modal=document.getElementById("dailyReturnHistoryModal");modal||(modal=document.createElement("div"),modal.id="dailyReturnHistoryModal",modal.style.cssText="position:fixed;inset:0;z-index:2147483647;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;padding:18px;",document.body.appendChild(modal),modal.addEventListener("click",e=>{(e.target===modal||e.target.closest("[data-close-return-history]"))&&modal.remove()}));const rows2=[...grouped.values()];modal.innerHTML='<section style="background:#fff;border-radius:12px;width:min(900px,96vw);max-height:85vh;overflow:auto;padding:18px"><header style="display:flex;justify-content:space-between;align-items:center"><h3>Reversed Bill History \u2022 '+packageSaleEsc(pretty(day))+'</h3><button type="button" data-close-return-history>\xD7</button></header><p>'+rows2.length+" reversed bills \u2022 "+rows2.reduce((a,r)=>a+r.qty,0).toLocaleString("en-IN",{maximumFractionDigits:2})+' units</p><table style="border-collapse:collapse;width:100%"><thead><tr>'+["Invoice","Customer","Employee","Product","Qty","Sale","Status"].map(x=>'<th style="text-align:left;padding:8px;border-bottom:1px solid #ddd">'+x+"</th>").join("")+"</tr></thead><tbody>"+rows2.map(r=>"<tr>"+[r.invoice,r.customer,employeeNameBadge(r.employee),r.product,r.qty.toLocaleString("en-IN",{maximumFractionDigits:2}),money(r.amount),"Reversed"].map((x,i)=>'<td style="padding:8px;border-bottom:1px solid #eee">'+(i===2?x:packageSaleEsc(x))+"</td>").join("")+"</tr>").join("")+"</tbody></table>"+(rows2.length?"":"<p>No reversed bills for this date.</p>")+"</section>"}function refreshTable(){updateLastSaleStamp();const F=document.getElementById("from").value,T=document.getElementById("to").value;if(!F||!T)return;const start=new Date(F+"T00:00:00"),end=new Date(T+"T00:00:00"),totals={retail:0,spa:0,total:0,qty:0,packageSaleUsed:0,packagesUsed:0,returnBills:0,returnQty:0};BRANDS.forEach(b=>{totals[b[0]+"Q"]=0,totals[b[0]+"A"]=0});let html="";for(let d=new Date(start);d<=end;d.setDate(d.getDate()+1)){const day=key(d),x=calcDay(day);html+="<tr><td>"+pretty(day)+"</td><td>"+x.retail.toFixed(2)+"</td><td>"+x.spa.toFixed(2)+"</td>",BRANDS.forEach(b=>{html+="<td>"+x[b[0]+"Q"].toFixed(0)+"</td><td>"+x[b[0]+"A"].toFixed(2)+"</td>",totals[b[0]+"Q"]+=x[b[0]+"Q"],totals[b[0]+"A"]+=x[b[0]+"A"]}),totals.retail+=x.retail,totals.spa+=x.spa,totals.total+=x.total,totals.qty+=x.qty||0,totals.packageSaleUsed+=x.excludedSpa||0,totals.packagesUsed+=x.spaPackagesUsed||0;const ret=dailyReturnMetrics(day);totals.returnBills+=ret.bills,totals.returnQty+=ret.qty,html+="<td>"+(x.excludedSpa||0).toFixed(2)+"</td><td>"+(x.spaPackagesUsed||0).toFixed(0)+"</td><td>"+x.total.toFixed(2)+"</td><td>"+(x.qty||0).toLocaleString("en-IN",{maximumFractionDigits:2})+`</td><td><button type="button" class="daily-return-history-link" onclick="openDailyReturnHistory('`+day+`')" title="Open reversed invoice history">`+ret.bills+"</button></td><td>"+ret.qty.toLocaleString("en-IN",{maximumFractionDigits:2})+"</td><td>"+packageCustomerCountForDay(day)+"</td></tr>"}html+='<tr class="totalRow"><td>TOTAL</td><td>'+totals.retail.toFixed(2)+"</td><td>"+totals.spa.toFixed(2)+"</td>",BRANDS.forEach(b=>html+="<td>"+totals[b[0]+"Q"].toFixed(0)+"</td><td>"+totals[b[0]+"A"].toFixed(2)+"</td>");const rangePackageCustomers=new Set;for(let d=new Date(start);d<=end;d.setDate(d.getDate()+1))packageRedemptionRowsForDay(key(d)).forEach(r=>{const k=packageCustomerKey(r);k&&rangePackageCustomers.add(k)});html+="<td>"+totals.packageSaleUsed.toFixed(2)+"</td><td>"+totals.packagesUsed.toFixed(0)+"</td><td>"+totals.total.toFixed(2)+"</td><td>"+totals.qty.toLocaleString("en-IN",{maximumFractionDigits:2})+"</td><td>"+totals.returnBills.toLocaleString("en-IN")+"</td><td>"+totals.returnQty.toLocaleString("en-IN",{maximumFractionDigits:2})+"</td><td>"+rangePackageCustomers.size+"</td></tr>",document.getElementById("dailyBody").innerHTML=html;const monthSummary=document.getElementById("huftSaleMonthSummary");if(monthSummary){let originalSpa=0,excludedSpa=0,packagesUsed=0;for(let d=new Date(start);d<=end;d.setDate(d.getDate()+1)){const x=calcDay(key(d));originalSpa+=x.originalSpa||0,excludedSpa+=x.excludedSpa||0,packagesUsed+=x.spaPackagesUsed||0}monthSummary.innerHTML='<div style="display:flex;gap:10px;flex-wrap:wrap;font-size:12px;padding:8px 0;color:#344054"><span><b>Total Sales:</b> '+money(totals.total)+"</span><span><b>Retail Sales:</b> "+money(totals.retail)+"</span><span><b>Gross SPA service amount:</b> "+money(originalSpa)+"</span><span><b>Excluded package redemptions:</b> "+money(excludedSpa)+"</span><span><b>SPA sales after excluding package usage:</b> "+money(totals.spa)+"</span><span><b>Package/service units used:</b> "+packagesUsed.toLocaleString("en-IN")+"</span></div>"}dashboardDirty=!0,renderEmployeeMonthlySales()}function liveTitle(){const n=new Date,mins=n.getHours()*60+n.getMinutes();return mins>=960&&mins<1140?"6 PM HUFT Sale Report":mins>=1140&&mins<1380?"10 PM HUFT Sale Report":"HUFT Food Sale Update"}function readHuftDailyTableReport(){const body=document.getElementById("dailyBody");if(!body)return null;const parseTableDate=text=>{const m=String(text||"").trim().match(/(\d{1,2})[-\/]([0-9]{1,2})[-\/](\d{4})/);return m?`${m[3]}-${String(m[2]).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`:null},trs=[...body.querySelectorAll("tr")].filter(tr=>!tr.classList.contains("totalRow")&&tr.cells.length>=16);if(!trs.length)return null;const today=key(new Date),eligible=trs.map(tr=>({tr,day:parseTableDate(tr.cells[0].textContent)})).filter(o=>o.day&&o.day<=today).sort((a,b)=>a.day.localeCompare(b.day));if(!eligible.length)return null;const chosen=eligible.find(o=>o.day===today)||eligible[eligible.length-1],row=chosen.tr,readCell=i=>{var _a;return num(((_a=row.cells[i])==null?void 0:_a.textContent)||0)},x={retail:readCell(1),spa:readCell(2),total:0,foodTotal:0,orders:0,qty:0};return BRANDS.forEach((b,i)=>{x[b[0]+"Q"]=readCell(3+i*2),x[b[0]+"A"]=readCell(4+i*2)}),x.foodTotal=BRANDS.reduce((sum,b)=>sum+x[b[0]+"A"],0),x.packageSaleUsed=readCell(13),x.packagesUsed=readCell(14),x.total=readCell(15),{day:chosen.day,x}}function isSarasGravyRow(r){const p=String(r["Order Lines/Product/Name"]||r["Order Lines/Product"]||r.Product||r["Product Name"]||r["Column J"]||r._productName||"");return/Nourishing\s+Gravy/i.test(p)}function getSarasGravyMetrics(dayKey){let paidQty=0,paidAmount=0,sampleQty=0;return typeof dashboardRowsForDay!="function"||!dayKey?{qty:0,amount:0,sample:0}:(dashboardRowsForDay(dayKey).forEach(r=>{var _a,_b,_c;if(String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup")||!isSarasGravyRow(r))return;const q=Number(typeof qty=="function"?qty(r):r["Order Lines/Quantity"]||0),a=Number(typeof amount=="function"?amount(r):r["Order Lines/Subtotal"]||0),discountRaw=(_c=(_b=(_a=r["Order Lines/Discount (%)"])!=null?_a:r["Discount (%)"])!=null?_b:r["Discount Percentage"])!=null?_c:r["Column O"],discount=Number(String(discountRaw!=null?discountRaw:"").replace(/%/g,"").replace(/,/g,".").trim());Number.isFinite(discount)&&Math.abs(discount-99.99)<.05||Number.isFinite(discount)&&discount>=99.9?Number.isFinite(q)&&q>0&&(sampleQty+=q):(Number.isFinite(q)&&(paidQty+=q),Number.isFinite(a)&&(paidAmount+=a))}),{qty:paidQty,amount:paidAmount,sample:sampleQty})}function sarasGravyQtyWithSamples(dayKey){const sg=getSarasGravyMetrics(dayKey),qtyText=Number(sg.qty||0).toFixed(0)+" Qty";return sg.sample>0?qtyText+" (Sample: "+Number(sg.sample||0).toFixed(0)+" Qty)":qtyText}function sampleQtyForDay(day,brandNeedle){let total=0;return dashboardRowsForDay(day).forEach(r=>{var _a,_b,_c;if(String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup"))return;const discountRaw=(_c=(_b=(_a=r["Order Lines/Discount (%)"])!=null?_a:r["Discount (%)"])!=null?_b:r["Discount Percentage"])!=null?_c:r["Column O"],discount=Number(String(discountRaw!=null?discountRaw:"").replace(/%/g,"").replace(/,/g,".").trim());if(hasProduct(r,brandNeedle)&&Number.isFinite(discount)&&Math.abs(discount-99.99)<.011){const q=Number(qty(r));Number.isFinite(q)&&q>0&&(total+=q)}}),total}function foodQtyWithSamples(day,brandNeedle,qtyValue){const sampleQty=sampleQtyForDay(day,brandNeedle),qtyText=Number(qtyValue||0).toFixed(0)+" Qty";return sampleQty>0?qtyText+" (Sample: "+sampleQty.toFixed(0)+" Qty)":qtyText}function getHuftReportDay(){const tableReport=readHuftDailyTableReport();if(tableReport)return tableReport.day;const today=key(new Date);if(dayIndex&&dayIndex.has(today))return today;const available=[...dayIndex?dayIndex.keys():[]].filter(d=>d<=today).sort();return available.length?available[available.length-1]:today}function getHuftReportData(day){const tableReport=readHuftDailyTableReport();return tableReport&&(!day||tableReport.day===day||!dayIndex||!dayIndex.has(day))?tableReport:{day:day||getHuftReportDay(),x:calcDay(day||getHuftReportDay())}}function getLatestUploadedSaleDateTime(){if(!Array.isArray(rows)||!rows.length)return"";let latest=null;return rows.forEach(r=>{const raw=r&&(r._date!==void 0&&r._date!==null&&r._date!==""?r._date:r.Date),d=parseDate(raw);d&&!Number.isNaN(d.getTime())&&(!latest||d>latest)&&(latest=d)}),latest?latest.toLocaleString("en-IN",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:!0}):""}function getLastUploadTimestamp(){try{const raw=localStorage.getItem("HUFT_Hourly_Sale_LastUploadMeta");if(raw){const meta=JSON.parse(raw);if(meta&&meta.uploadedAt)return new Date(meta.uploadedAt).toLocaleString("en-IN",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:!0})}}catch{}return""}function buildWhatsApp(day){const report=getHuftReportData(day),x=report.x,reportDay=report.day,store=document.getElementById("storeName").textContent,dt=new Date(reportDay+"T00:00:00").toLocaleDateString("en-IN",{day:"2-digit",month:"long",year:"numeric"}),latestSaleDateTime=getLatestUploadedSaleDateTime(),uploadedAt=getLastUploadTimestamp(),retailSale2=Number(x.retail)||0,spaSale2=Number(x.spa)||0,totalSale=Number(x.total)||retailSale2+spaSale2;return`HUFT DAILY SALES REPORT
 Date: ${dt}
@@ -1949,194 +1690,7 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
 </style>
 
 
-<!-- HUFT STORE & STAFF PROFILE MODAL -->
-<div id="huftStoreProfileModal" role="dialog" aria-modal="true" aria-labelledby="storeProfileTitle" style="display:none;">
-  <div class="bi-profile-backdrop" onclick="closeStoreProfileModal()"></div>
-  <div class="bi-profile-card">
-    <div class="bi-profile-header">
-      <div class="bi-profile-header-left">
-        <div class="bi-profile-avatar-large" id="profileHeaderAvatar">H</div>
-        <div>
-          <div class="bi-profile-badge-row">
-            <h2 id="storeProfileTitle" class="bi-profile-name">Store &amp; Staff Profile</h2>
-            <span class="bi-profile-active-tag">● Store Active &amp; Synced</span>
-          </div>
-          <div class="bi-profile-sub" id="profileHeaderSub">Heads Up For Tails — Hyderguda (Store #104) • Hyderabad Cluster</div>
-        </div>
-      </div>
-      <button type="button" class="bi-modal-close-btn" onclick="closeStoreProfileModal()" aria-label="Close profile">✕ Close</button>
-    </div>
 
-    <!-- Profile Nav Tabs -->
-    <div class="bi-profile-tabs">
-      <button type="button" class="bi-p-tab active" onclick="switchProfileTab('info', this)">🏢 Store Information</button>
-      <button type="button" class="bi-p-tab" onclick="switchProfileTab('team', this)">👥 Staff &amp; Team Roster</button>
-      <button type="button" class="bi-p-tab" onclick="switchProfileTab('targets', this)">🎯 Target Configuration</button>
-      <button type="button" class="bi-p-tab" onclick="switchProfileTab('cloud', this)">☁️ Central Cloud Database</button>
-    </div>
-
-    <!-- Tab 1: Store Information -->
-    <div id="pTab-info" class="bi-profile-pane active">
-      <div class="bi-info-grid">
-        <div class="bi-info-item">
-          <span class="bi-info-label">Brand / Business</span>
-          <strong class="bi-info-val">Heads Up For Tails (HUFT)</strong>
-        </div>
-        <div class="bi-info-item">
-          <span class="bi-info-label">Store Code &amp; ID</span>
-          <strong class="bi-info-val" id="profileStoreCode">HYD-HYDERGUDA (#104)</strong>
-        </div>
-        <div class="bi-info-item">
-          <span class="bi-info-label">Store Manager / In-Charge</span>
-          <strong class="bi-info-val" id="profileManagerDisplay">Chandulal Banoth</strong>
-        </div>
-        <div class="bi-info-item">
-          <span class="bi-info-label">Direct Contact Phone</span>
-          <strong class="bi-info-val">+91 91212 28424</strong>
-        </div>
-        <div class="bi-info-item">
-          <span class="bi-info-label">Official Store Email</span>
-          <strong class="bi-info-val" id="profileStoreEmail">hyderguda@headsupfortails.com</strong>
-        </div>
-        <div class="bi-info-item">
-          <span class="bi-info-label">Operating Hours</span>
-          <strong class="bi-info-val">10:00 AM – 09:30 PM (Daily)</strong>
-        </div>
-        <div class="bi-info-item" style="grid-column: 1 / -1;">
-          <span class="bi-info-label">Full Location Address</span>
-          <strong class="bi-info-val">Ground Floor, Near Old MLA Quarters Rd, Hyderguda, Hyderabad, Telangana 500029</strong>
-        </div>
-        <div class="bi-info-item" style="grid-column: 1 / -1;">
-          <span class="bi-info-label">Store Facilities</span>
-          <strong class="bi-info-val">Pet Retail • Grooming &amp; SPA Salon • Fresh Nutrition Counter</strong>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab 2: Staff & Team Roster -->
-    <div id="pTab-team" class="bi-profile-pane">
-      <p style="font-size: 12px; color: #64748b; margin: 0 0 12px;">Active store associates, grooming specialists, and front-desk personnel for this store.</p>
-      <div class="bi-profile-staff-list">
-        <div class="bi-staff-row">
-          <div class="bi-staff-info">
-            <div class="bi-staff-avatar">CB</div>
-            <div>
-              <div class="bi-staff-name">Chandulal Banoth</div>
-              <div class="bi-staff-role">Store Manager &amp; Retail Lead</div>
-            </div>
-          </div>
-          <span class="bi-staff-badge">Store In-Charge</span>
-        </div>
-        <div class="bi-staff-row">
-          <div class="bi-staff-info">
-            <div class="bi-staff-avatar" style="background:#e0e7ff; color:#4338ca;">SK</div>
-            <div>
-              <div class="bi-staff-name">Suresh Kumar</div>
-              <div class="bi-staff-role">Senior Pet Stylist / SPA Specialist</div>
-            </div>
-          </div>
-          <span class="bi-staff-badge" style="background:#fef3c7; color:#b45309;">SPA Lead</span>
-        </div>
-        <div class="bi-staff-row">
-          <div class="bi-staff-info">
-            <div class="bi-staff-avatar" style="background:#dcfce7; color:#15803d;">RS</div>
-            <div>
-              <div class="bi-staff-name">Rahul Sharma</div>
-              <div class="bi-staff-role">Retail Associate / POS Specialist</div>
-            </div>
-          </div>
-          <span class="bi-staff-badge">Sales Team</span>
-        </div>
-        <div class="bi-staff-row">
-          <div class="bi-staff-info">
-            <div class="bi-staff-avatar" style="background:#fce7f3; color:#be185d;">PA</div>
-            <div>
-              <div class="bi-staff-name">Priya Ananth</div>
-              <div class="bi-staff-role">Customer Care &amp; Nutrition Consultant</div>
-            </div>
-          </div>
-          <span class="bi-staff-badge">Nutrition</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab 3: Target Configuration -->
-    <div id="pTab-targets" class="bi-profile-pane">
-      <div class="bi-target-input-row">
-        <div class="bi-target-input-group">
-          <label>Weekday Retail Target (₹)</label>
-          <input type="number" id="cfgWeekdayRetail" value="28636" />
-        </div>
-        <div class="bi-target-input-group">
-          <label>Weekday SPA Target (₹)</label>
-          <input type="number" id="cfgWeekdaySpa" value="16364" />
-        </div>
-      </div>
-      <div class="bi-target-input-row">
-        <div class="bi-target-input-group">
-          <label>Weekend Retail Target (₹)</label>
-          <input type="number" id="cfgWeekendRetail" value="46667" />
-        </div>
-        <div class="bi-target-input-group">
-          <label>Weekend SPA Target (₹)</label>
-          <input type="number" id="cfgWeekendSpa" value="26667" />
-        </div>
-      </div>
-      <div class="bi-target-input-row">
-        <div class="bi-target-input-group">
-          <label>Store Manager Name</label>
-          <input type="text" id="cfgStoreManagerName" value="Chandulal Banoth" />
-        </div>
-        <div class="bi-target-input-group">
-          <label>Contact Phone Number</label>
-          <input type="text" id="cfgContactPhone" value="+91 91212 28424" />
-        </div>
-      </div>
-      <button type="button" class="tab active" style="padding:10px 16px; font-size:13px; font-weight:700;" onclick="saveProfileTargets()">
-        💾 Save Profile &amp; Target Settings
-      </button>
-    </div>
-
-    <!-- Tab 4: Cloud Database & Device Purge -->
-    <div id="pTab-cloud" class="bi-profile-pane">
-      <div class="bi-info-grid">
-        <div class="bi-info-item">
-          <span class="bi-info-label">Central Cloud Database</span>
-          <strong class="bi-info-val">Supabase Enterprise Central DB (Active)</strong>
-        </div>
-        <div class="bi-info-item">
-          <span class="bi-info-label">Store Scope</span>
-          <strong class="bi-info-val">Hyderabad Cluster (Hyderguda #104)</strong>
-        </div>
-        <div class="bi-info-item">
-          <span class="bi-info-label">Device-to-Device Auto Purge</span>
-          <strong class="bi-info-val" style="color:#10b981;">Enabled • Stale Cache Auto-Purged</strong>
-        </div>
-        <div class="bi-info-item">
-          <span class="bi-info-label">Cloud Sync Status</span>
-          <strong class="bi-info-val" id="profileLastSyncDisplay">Connected &amp; Live</strong>
-        </div>
-      </div>
-      <div style="display:flex; gap:10px; margin-top:14px;">
-        <button type="button" class="bi-p-tab" style="background:#e0f2fe; color:#0369a1; border-color:#bae6fd; font-weight:700;" onclick="huftManualCloudSync()">
-          🔄 Sync With Cloud Engine
-        </button>
-        <button type="button" class="bi-p-tab" style="background:#fef2f2; color:#dc2626; border-color:#fecaca; font-weight:700;" onclick="huftPurgeDeviceCacheNow()">
-          🧹 Purge Stale Device Data Now
-        </button>
-      </div>
-    </div>
-
-    <!-- Modal Footer -->
-    <div class="bi-profile-footer">
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span class="huft-cloud-pulse-dot"></span>
-        <span style="font-size:12px; font-weight:600; color:#334155;">Cloud Connected • No Login Required</span>
-      </div>
-      <div style="font-size: 11px; color: #94a3b8;">STORE INTELLIGENCE v1.0.3 • Live Engine</div>
-    </div>
-  </div>
-</div>
 <!-- END HUFT STORE & STAFF PROFILE MODAL -->
 
 
@@ -2231,29 +1785,7 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
   // Run auto purge immediately on load
   autoPurgeDeviceStaleData();
 
-  // Profile modal helpers
-  window.openStoreProfileModal = function() {
-    const modal = document.getElementById('huftStoreProfileModal');
-    if (modal) modal.style.display = 'flex';
-  };
-
-  window.closeStoreProfileModal = function() {
-    const modal = document.getElementById('huftStoreProfileModal');
-    if (modal) modal.style.display = 'none';
-  };
-
-  window.switchProfileTab = function(tabKey, btn) {
-    document.querySelectorAll('.bi-p-tab').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-
-    document.querySelectorAll('.bi-profile-pane').forEach(p => p.classList.remove('active'));
-    const targetPane = document.getElementById('pTab-' + tabKey);
-    if (targetPane) targetPane.classList.add('active');
-  };
-
-  window.saveProfileTargets = function() {
-    alert("Profile targets updated successfully! Synced across store configuration.");
-  };
+  
 
   // Periodic cloud check
   setInterval(window.huftManualCloudSync, 5 * 60 * 1000);

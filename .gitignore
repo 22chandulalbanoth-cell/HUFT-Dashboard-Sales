@@ -16,3 +16,5 @@ desktop.ini
 deploy_to_cloudflare.bat
 .wrangler
 
+node_modules
+

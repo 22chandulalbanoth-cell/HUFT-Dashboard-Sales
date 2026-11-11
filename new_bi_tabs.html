@@ -1,0 +1,526 @@
+
+<!-- =========================================================================
+     ENTERPRISE BI: TAB 3 — SPA ANALYSIS (#spaAnalysis)
+     ========================================================================= -->
+<section id="spaAnalysis" class="page">
+  <div class="bi-page-header">
+    <div class="dashTop">
+      <div>
+        <div class="dashTitle">✂️ Fresh SPA Service Performance</div>
+        <div class="dashSub">Detailed analysis of fresh SPA groomings and services. Package redemptions are strictly excluded from fresh revenue.</div>
+      </div>
+      <div class="dashActions">
+        <button type="button" class="bi-btn-teal" onclick="refreshSpaAnalysis()">↻ Refresh SPA Analysis</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPA KPI Cards -->
+  <div class="kpiGrid" style="grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));">
+    <div class="kpi" style="border-left: 3.5px solid #0D9488 !important;">
+      <span>Fresh SPA Sales</span>
+      <b id="biSpaSales">₹0</b>
+      <small id="biSpaSalesSub">Excludes package redemptions</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #2563EB !important;">
+      <span>SPA Bills</span>
+      <b id="biSpaBills">0</b>
+      <small id="biSpaBillsSub">Distinct fresh SPA invoices</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #8B5CF6 !important;">
+      <span>SPA Customers</span>
+      <b id="biSpaCustomers">0</b>
+      <small id="biSpaCustomersSub">Unique pet parents served</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #F59E0B !important;">
+      <span>SPA Target</span>
+      <b id="biSpaTarget">₹0</b>
+      <small id="biSpaTargetSub">Weekday ₹16.4K • Weekend ₹26.7K</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #16A36A !important;">
+      <span>SPA Achievement</span>
+      <b id="biSpaAch">0%</b>
+      <small id="biSpaAchSub">Actual vs Target pace</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #0EA5E9 !important;">
+      <span>Pet Count</span>
+      <b id="biSpaPets">0</b>
+      <small id="biSpaPetsSub">Validated unique pets groomed</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #64748B !important;">
+      <span>SPA Average Bill</span>
+      <b id="biSpaAtv">₹0</b>
+      <small id="biSpaAtvSub">Fresh SPA sales / SPA bills</small>
+    </div>
+  </div>
+
+  <!-- SPA Performance Table -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <b>Daily SPA Service Breakdown</b>
+        <span style="display:block;">Daily bills, revenue, pet count, and target achievement</span>
+      </div>
+    </div>
+    <div class="tableWrap">
+      <table id="biSpaTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Date</th>
+            <th style="text-align: left;">Store</th>
+            <th>SPA Bills</th>
+            <th>Fresh SPA Sales</th>
+            <th>Pet Count</th>
+            <th>SPA Target</th>
+            <th>Achievement %</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="biSpaTableBody">
+          <tr><td colspan="8" style="text-align: center; color: #718096; padding: 20px;">Upload sales data to view daily SPA performance.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     ENTERPRISE BI: TAB 4 — PACKAGE ANALYSIS (#packageAnalysis)
+     ========================================================================= -->
+<section id="packageAnalysis" class="page">
+  <div class="bi-page-header">
+    <div class="dashTop">
+      <div>
+        <div class="dashTitle">📦 Package Sales, Redemption & Returns</div>
+        <div class="dashSub">Auditing prepaid grooming packages sold (ADHYG), redemptions, and reversals.</div>
+      </div>
+      <div class="dashActions">
+        <button type="button" class="bi-btn-teal" onclick="refreshPackageAnalysis()">↻ Refresh Package Analysis</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Package KPI Cards -->
+  <div class="kpiGrid" style="grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));">
+    <div class="kpi" style="border-left: 3.5px solid #0D9488 !important;">
+      <span>Package Sales</span>
+      <b id="biPkgSales">₹0</b>
+      <small id="biPkgSalesSub">Prepaid packages sold</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #2563EB !important;">
+      <span>Packages Sold</span>
+      <b id="biPkgQty">0</b>
+      <small id="biPkgQtySub">Units sold in period</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #8B5CF6 !important;">
+      <span>Package Customers</span>
+      <b id="biPkgCustomers">0</b>
+      <small id="biPkgCustomersSub">Unique package buyers</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #16A36A !important;">
+      <span>Packages Redeemed</span>
+      <b id="biPkgRedeemed">0</b>
+      <small id="biPkgRedeemedSub">Sessions redeemed</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #0EA5E9 !important;">
+      <span>Redemption Bills</span>
+      <b id="biPkgRedemptionBills">0</b>
+      <small id="biPkgRedemptionBillsSub">Bills with redemptions</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #DC6262 !important;">
+      <span>Package Returns</span>
+      <b id="biPkgReturns">₹0</b>
+      <small id="biPkgReturnsSub">Reversed package value</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #17212F !important;">
+      <span>Net Package Sales</span>
+      <b id="biPkgNet">₹0</b>
+      <small id="biPkgNetSub">Sales − Returns</small>
+    </div>
+  </div>
+
+  <!-- Section 1: Package Sales Table (ADHYG) -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px;">
+      <b>1. Package Sales (Invoice Prefix ADHYG)</b>
+      <span>New package purchase transactions recorded in selected range</span>
+    </div>
+    <div class="tableWrap" style="max-height: 260px;">
+      <table id="biPkgSalesTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Invoice Number</th>
+            <th style="text-align: left;">Date</th>
+            <th style="text-align: left;">Store</th>
+            <th style="text-align: left;">Employee</th>
+            <th>Package Amount</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody id="biPkgSalesTableBody">
+          <tr><td colspan="6" style="text-align: center; color: #718096; padding: 20px;">Upload sales data to view package transactions.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 2: Package Redemption Table -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px;">
+      <b>2. Package Redemption History</b>
+      <span>SPA service redemptions covered by prepaid packages</span>
+    </div>
+    <div class="tableWrap" style="max-height: 260px;">
+      <table id="biPkgRedemptionTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Invoice</th>
+            <th style="text-align: left;">Date</th>
+            <th style="text-align: left;">Store</th>
+            <th>Discount / Tag</th>
+            <th>Payment Method</th>
+            <th>Redemption Count</th>
+          </tr>
+        </thead>
+        <tbody id="biPkgRedemptionTableBody">
+          <tr><td colspan="6" style="text-align: center; color: #718096; padding: 20px;">No package redemptions recorded for selected period.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 3: Package Returns Table -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px;">
+      <b>3. Package Returns & Reversals</b>
+      <span>Refunds, reversals, and voided package bills</span>
+    </div>
+    <div class="tableWrap" style="max-height: 200px;">
+      <table id="biPkgReturnsTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Return Invoice</th>
+            <th style="text-align: left;">Original Invoice</th>
+            <th style="text-align: left;">Date</th>
+            <th style="text-align: left;">Store</th>
+            <th>Return Amount</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody id="biPkgReturnsTableBody">
+          <tr><td colspan="6" style="text-align: center; color: #718096; padding: 20px;">No package returns recorded for selected period.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     ENTERPRISE BI: TAB 5 — BRAND ANALYSIS (#brandAnalysis)
+     ========================================================================= -->
+<section id="brandAnalysis" class="page">
+  <div class="bi-page-header">
+    <div class="dashTop">
+      <div>
+        <div class="dashTitle">🏷️ HUFT Brand & Product Performance</div>
+        <div class="dashSub">Sales contribution and volume analytics for Sara's, Hearty, Meowsi, NutriMeow, and NutriWag.</div>
+      </div>
+      <div class="dashActions">
+        <button type="button" class="bi-btn-teal" onclick="refreshBrandAnalysis()">↻ Refresh Brand Analysis</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Brand KPI Cards -->
+  <div class="kpiGrid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+    <div class="kpi" style="border-left: 3.5px solid #0D9488 !important;">
+      <span>Total Brand Sales</span>
+      <b id="biBrandTotalSales">₹0</b>
+      <small id="biBrandTotalSalesSub">All 5 private food brands</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #2563EB !important;">
+      <span>Total Quantity</span>
+      <b id="biBrandTotalQty">0</b>
+      <small id="biBrandTotalQtySub">Packs and units sold</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #8B5CF6 !important;">
+      <span>Total Bills</span>
+      <b id="biBrandTotalBills">0</b>
+      <small id="biBrandTotalBillsSub">Invoices containing food brands</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #F59E0B !important;">
+      <span>Highest-Selling Brand</span>
+      <b id="biBrandTopName">—</b>
+      <small id="biBrandTopSub">Top revenue contributor</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #16A36A !important;">
+      <span>Brand Contribution</span>
+      <b id="biBrandContribPct">0%</b>
+      <small id="biBrandContribPctSub">% of total store retail revenue</small>
+    </div>
+  </div>
+
+  <!-- Brand Breakdown Table -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px;">
+      <b>HUFT Food Brands Overview</b>
+      <span>Revenue, quantity, bill conversion, and portfolio share</span>
+    </div>
+    <div class="tableWrap">
+      <table id="biBrandTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Brand Name</th>
+            <th>Sales (₹)</th>
+            <th>Quantity Sold</th>
+            <th>Bill Count</th>
+            <th>Brand Share %</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="biBrandTableBody">
+          <tr><td colspan="6" style="text-align: center; color: #718096; padding: 20px;">Upload sales data to view brand breakdown.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     ENTERPRISE BI: TAB 7 — CUSTOMER ANALYSIS (#customerAnalysis)
+     ========================================================================= -->
+<section id="customerAnalysis" class="page">
+  <div class="bi-page-header">
+    <div class="dashTop">
+      <div>
+        <div class="dashTitle">👤 Customer Retention & Intelligence</div>
+        <div class="dashSub">Customer purchase trends, frequency, and repeat shopper analytics. Phone numbers are securely masked.</div>
+      </div>
+      <div class="dashActions">
+        <button type="button" class="bi-btn-teal" onclick="refreshCustomerAnalysis()">↻ Refresh Customer Analysis</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer KPI Cards -->
+  <div class="kpiGrid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+    <div class="kpi" style="border-left: 3.5px solid #0D9488 !important;">
+      <span>Total Customers</span>
+      <b id="biCustTotal">0</b>
+      <small id="biCustTotalSub">Distinct customer profiles</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #2563EB !important;">
+      <span>New Customers</span>
+      <b id="biCustNew">0</b>
+      <small id="biCustNewSub">First purchase in period</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #16A36A !important;">
+      <span>Returning Customers</span>
+      <b id="biCustReturning">0</b>
+      <small id="biCustReturningSub">Multiple visits recorded</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #8B5CF6 !important;">
+      <span>Total Bills</span>
+      <b id="biCustBills">0</b>
+      <small id="biCustBillsSub">POS sales transactions</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #0EA5E9 !important;">
+      <span>Average Bill Value</span>
+      <b id="biCustAtv">₹0</b>
+      <small id="biCustAtvSub">Net sales / total orders</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #F59E0B !important;">
+      <span>Repeat Customer Rate</span>
+      <b id="biCustRepeatPct">0%</b>
+      <small id="biCustRepeatPctSub">Returning / Total customers</small>
+    </div>
+  </div>
+
+  <!-- Customer Trends Table -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px;">
+      <b>Top Customer Accounts by Spend (Masked)</b>
+      <span>Privacy-safe customer purchase history and average ticket size</span>
+    </div>
+    <div class="tableWrap" style="max-height: 380px;">
+      <table id="biCustTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Customer Identifier</th>
+            <th>Total Spend (₹)</th>
+            <th>Total Invoices</th>
+            <th>Average Ticket (₹)</th>
+            <th>Units Bought</th>
+            <th>Customer Type</th>
+          </tr>
+        </thead>
+        <tbody id="biCustTableBody">
+          <tr><td colspan="6" style="text-align: center; color: #718096; padding: 20px;">Upload sales data to view customer trends.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     ENTERPRISE BI: TAB 8 — TARGET ANALYSIS (#targetAnalysis)
+     ========================================================================= -->
+<section id="targetAnalysis" class="page">
+  <div class="bi-page-header">
+    <div class="dashTop">
+      <div>
+        <div class="dashTitle">🎯 Store Target & Run-Rate Monitoring</div>
+        <div class="dashSub">Tracking retail and SPA revenue achievement against weekday and weekend targets.</div>
+      </div>
+      <div class="dashActions">
+        <button type="button" class="bi-btn-teal" onclick="refreshTargetAnalysis()">↻ Refresh Targets</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Target KPI Cards -->
+  <div class="kpiGrid" style="grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));">
+    <div class="kpi" style="border-left: 3.5px solid #0D9488 !important;">
+      <span>Retail Target</span>
+      <b id="biTgtRetailTgt">₹0</b>
+      <small>Weekday ₹28.6K • Weekend ₹46.7K</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #2563EB !important;">
+      <span>Retail Actual</span>
+      <b id="biTgtRetailAct">₹0</b>
+      <small id="biTgtRetailActSub">Achieved retail revenue</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #8B5CF6 !important;">
+      <span>SPA Target</span>
+      <b id="biTgtSpaTgt">₹0</b>
+      <small>Weekday ₹16.4K • Weekend ₹26.7K</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #0EA5E9 !important;">
+      <span>SPA Actual</span>
+      <b id="biTgtSpaAct">₹0</b>
+      <small id="biTgtSpaActSub">Achieved SPA revenue</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #17212F !important;">
+      <span>Total Target</span>
+      <b id="biTgtTotalTgt">₹0</b>
+      <small>Retail + SPA combined target</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #16A36A !important;">
+      <span>Achievement</span>
+      <b id="biTgtTotalAch">0%</b>
+      <small id="biTgtTotalAchSub">Actual / Target × 100</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #F59E0B !important;">
+      <span>Remaining Target</span>
+      <b id="biTgtRemaining">₹0</b>
+      <small id="biTgtRemainingSub">Target − Actual</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #64748B !important;">
+      <span>Projected Closing</span>
+      <b id="biTgtProjected">₹0</b>
+      <small id="biTgtProjectedSub">Estimated month-end sales</small>
+    </div>
+  </div>
+
+  <!-- Target Progress Legend -->
+  <div style="background: #FFFFFF; border: 1px solid #E5EAF0; border-radius: 8px; padding: 10px 16px; margin-bottom: 14px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 11.5px;">
+    <span style="font-weight: 700; color: #17212F;">Performance Status:</span>
+    <span class="bi-badge-danger">Below 80%: Below Target</span>
+    <span class="bi-badge-warning">80–99%: Near Target</span>
+    <span class="bi-badge-success">100–109%: Target Achieved</span>
+    <span class="bi-badge-teal">110%+: Above Target</span>
+  </div>
+
+  <!-- Target Table -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px;">
+      <b>Daily Target vs Achievement Breakdown</b>
+      <span>Daily target pace, actual sales, and achievement progress</span>
+    </div>
+    <div class="tableWrap">
+      <table id="biTargetTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Date</th>
+            <th style="text-align: left;">Day Type</th>
+            <th>Retail Target</th>
+            <th>Retail Actual</th>
+            <th>SPA Target</th>
+            <th>SPA Actual</th>
+            <th>Total Target</th>
+            <th>Total Actual</th>
+            <th>Achievement %</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="biTargetTableBody">
+          <tr><td colspan="10" style="text-align: center; color: #718096; padding: 20px;">Upload sales data to view target analytics.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     ENTERPRISE BI: TAB 11 — SETTINGS (#settingsTab)
+     ========================================================================= -->
+<section id="settingsTab" class="page">
+  <div class="bi-page-header">
+    <div class="dashTop">
+      <div>
+        <div class="dashTitle">⚙️ Platform & Target Settings</div>
+        <div class="dashSub">Manage store parameters, daily sales targets, brand mappings, and cloud synchronization preferences.</div>
+      </div>
+      <div class="dashActions">
+        <button type="button" class="bi-btn-teal" onclick="saveBiSettings()">💾 Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;">
+    <!-- Store Settings -->
+    <div class="bi-card">
+      <h3 style="font-size: 15px; font-weight: 700; color: #17212F; margin: 0 0 12px 0;">🏬 Store Configuration</h3>
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 12px;">
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Primary Store Name</label>
+          <input type="text" id="biSetStoreName" value="HUFT Hyderabad (Hyderguda)" style="width: 100%; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Store Code / Branch ID</label>
+          <input type="text" id="biSetStoreCode" value="HYDERGUDA" style="width: 100%; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Cloud Sync Endpoint</label>
+          <input type="text" readonly value="Supabase Cloud Central Synchronization" style="width: 100%; box-sizing: border-box; background: #F8FAFC; color: #64748B;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily Target Settings -->
+    <div class="bi-card">
+      <h3 style="font-size: 15px; font-weight: 700; color: #17212F; margin: 0 0 12px 0;">🎯 Configurable Daily Targets</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px;">
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Weekday Retail Target (₹)</label>
+          <input type="number" id="biSetWeekdayRetail" value="28636" style="width: 100%; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Weekday SPA Target (₹)</label>
+          <input type="number" id="biSetWeekdaySpa" value="16364" style="width: 100%; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Weekend Retail Target (₹)</label>
+          <input type="number" id="biSetWeekendRetail" value="46667" style="width: 100%; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Weekend SPA Target (₹)</label>
+          <input type="number" id="biSetWeekendSpa" value="26667" style="width: 100%; box-sizing: border-box;">
+        </div>
+      </div>
+      <div style="font-size: 11px; color: #718096; margin-top: 10px;">
+        * Targets are stored locally in your browser and automatically update all Target and Run-Rate calculations.
+      </div>
+    </div>
+  </div>
+</section>

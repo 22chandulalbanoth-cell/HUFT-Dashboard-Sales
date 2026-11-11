@@ -1852,6 +1852,8 @@ tr:hover td {
 }
 </style>
 
+
+
 </head>
 <body>
 <div class="huft-uv-bg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -2076,9 +2078,11 @@ tr:hover td {
 
 <header class="header">
   <div>
-    <div class="brand">STORE INTELLIGENCE <span class="si-design-pill">Design direction</span></div>
-    <div class="sub" id="storeName">Store Intelligence POS — Banjara / Hyderguda</div>
-  </div>
+    <div class="bi-header-left">
+    <div class="bi-breadcrumb">HUFT BI / <span id="biCurrentTabBreadcrumb">Dashboard</span></div>
+    <h1 class="bi-page-title" id="biCurrentTabHeading">Executive Overview</h1>
+    <div class="sub" id="storeName" style="display:none;">Store Intelligence POS — Banjara / Hyderguda</div>
+  </div>>
   <form class="huft-ps-form" id="huftPhoneSearchForm" role="search" autocomplete="off" onsubmit="return false">
     <label class="huft-ps-box" for="huftPhoneSearchInput">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
@@ -2127,35 +2131,74 @@ tr:hover td {
 <div id="uploadDiagnostics" hidden role="status" aria-live="polite" style="white-space:pre-wrap;margin:8px 0;padding:10px 12px;border:1px solid #f0b8a8;border-left:4px solid #c2410c;border-radius:6px;background:#fff7ed;color:#7c2d12;font:12px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere"></div>
   </div>
 
-  <div class="tabs" id="navRailTabs"><button type="button" class="nav-toggle" id="huftNavToggle" aria-expanded="false" aria-controls="navRailTabs" aria-label="Open navigation"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button>
-    <button class="tab active" onclick="showTab('dashboard',this)" aria-label="Dashboard" title="Dashboard"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg></span><span class="nav-lbl">Dashboard</span></button>
-    <button class="tab" onclick="showTab('huft',this)" aria-label="Sales Analytics" title="Sales Analytics"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg></span><span class="nav-lbl">Sales Analytics</span></button>
-    <button class="tab" onclick="showTab('comparison',this)" aria-label="Month Comparison" title="Month Comparison"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg></span><span class="nav-lbl">Month Comparison</span></button>
-    <button class="tab" id="storeComparisonTabButton" hidden onclick="showTab('storeComparison',this)" aria-label="Store Comparison" title="Store Comparison"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 9.5 5.8 4h12.4L20 9.5"/><path d="M4 9.5c0 1.4 1.1 2.5 2.5 2.5S9 10.9 9 9.5c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5c0 1.4 1.1 2.5 2.5 2.5S19 10.9 19 9.5"/><path d="M5 12v8h14v-8"/><path d="M10 20v-4.5h4V20"/></svg></span><span class="nav-lbl">Store Comparison</span></button>
-    <button class="tab" onclick="showTab('employeeSales',this)" aria-label="Employee Sales" title="Employee Sales"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20c.8-3.4 3.3-5.3 6.5-5.3s5.7 1.9 6.5 5.3"/><circle cx="17" cy="9" r="2.6"/><path d="M16.2 14.7c2.5.1 4.2 1.7 4.8 4.3"/></svg></span><span class="nav-lbl">Employee Sales</span></button>
-    <button class="tab" onclick="showTab('whatsapp',this)" aria-label="WA" title="WA"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20.2l1.3-3.6A8.2 8.2 0 1 1 8.8 19.1z"/><path d="M9 9.6c.2 2 2.3 4.3 4.5 5.1l1.2-1.2"/></svg></span><span class="nav-lbl">WA</span></button>
-    <button class="tab" onclick="showTab('weeklyReview',this)" aria-label="Weekly Review & PPT" title="Weekly Review & PPT"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12.5" rx="2.5"/><path d="M12 16.5V20M8 20.5h8M7.5 12l3-3.2 2.4 2.2 3.6-3.8"/></svg></span><span class="nav-lbl">Weekly Review & PPT</span></button>
-    <span id="huftReleaseBadge">v4.2 Enterprise</span>
-    <button type="button" id="huftReleaseNotesOpen" class="tab huft-release-notes-button" aria-haspopup="dialog" aria-controls="huftReleaseNotesModal" aria-label="Release notes" title="Release notes"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9.5L20 7.5V21H6z"/><path d="M9.5 12.5h7M9.5 16.5h7M14.5 3v4.5H20"/></svg></span><span class="nav-lbl">Release notes</span></button>
-      
-  <!-- Bottom Store Profile Pill in Navigation Rail -->
-  
-    <button class="tab" onclick="window.location.href='/admin'" aria-label="Central Admin" title="Central Admin" style="display:flex; align-items:center; justify-content:center; cursor:pointer;">
-      <span class="nav-ico" aria-hidden="true" style="display:grid; place-items:center;">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </span>
-      <span class="nav-lbl">Central Admin</span>
+  <div class="tabs" id="navRailTabs">
+    <button type="button" class="nav-toggle" id="huftNavToggle" aria-expanded="false" aria-controls="navRailTabs" aria-label="Toggle navigation">
+      <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <span>Menu</span>
     </button>
-
-<div class="rail-profile-wrap" style="margin-top:auto; padding-top:10px; width:100%; display:flex; flex-direction:column; align-items:center; border-top:1px solid #E2E8F0;">
-    <button type="button" class="tab rail-profile-btn" id="railProfileBtn" onclick="openStoreProfileModal()" title="View Store Profile & Authorization" aria-label="View Store Profile & Authorization" style="position:relative; width:44px; height:44px; border-radius:10px; background:#FFFFFF; border:1px solid #E2E8F0; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 1px 3px rgba(0,0,0,0.05); transition:all 0.2s ease;">
-      <span class="nav-ico" style="display:grid; place-items:center;">
-        <span id="railAvatarInitial" style="width:28px; height:28px; border-radius:6px; background:#EA580C; color:#FFFFFF; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center;">H</span>
-      </span>
-      <span class="nav-lbl" id="railProfileName" style="font-weight:600; font-size:12px; margin-left:8px; color:#0F172A;">Hyderguda</span>
-    </button>
+    <div class="bi-sidebar-brand">
+      <span class="bi-paw-icon">🐾</span>
+      <div class="bi-brand-text">
+        <span class="bi-brand-title">HUFT Sales Analysis</span>
+        <span class="bi-brand-subtitle">Business Intelligence</span>
+      </div>
+    </div>
+    <div class="bi-nav-list">
+      <button class="tab active" onclick="showTab('dashboard',this)" aria-label="Dashboard" title="Dashboard">
+        <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+        <span class="nav-lbl">Dashboard</span>
+      </button>
+      <button class="tab" onclick="showTab('huft',this)" aria-label="Sales Analysis" title="Sales Analysis">
+        <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h16M5 15l4-5 4 3 6-7"/><circle cx="9" cy="10" r="1.5"/><circle cx="13" cy="13" r="1.5"/><circle cx="19" cy="6" r="1.5"/></svg></span>
+        <span class="nav-lbl">Sales Analysis</span>
+      </button>
+      <button class="tab" onclick="showTab('spaAnalysis',this)" aria-label="SPA Analysis" title="SPA Analysis">
+        <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2C8.5 7 5 10 5 14a7 7 0 0 0 14 0c0-4-3.5-7-7-12Z"/><circle cx="12" cy="14" r="2.5"/></svg></span>
+        <span class="nav-lbl">SPA Analysis</span>
+      </button>
+      <button class="tab" onclick="showTab('packageAnalysis',this)" aria-label="Package Analysis" title="Package Analysis">
+        <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m3 8 9 6 9-6M12 14v6"/></svg></span>
+        <span class="nav-lbl">Package Analysis</span>
+      </button>
+      <button class="tab" onclick="showTab('brandAnalysis',this)" aria-label="Brand Analysis" title="Brand Analysis">
+        <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg></span>
+        <span class="nav-lbl">Brand Analysis</span>
+      </button>
+      <button class="tab" onclick="showTab('employeeSales',this)" aria-label="Employee Analysis" title="Employee Analysis">
+        <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 19c.8-3.4 3.3-5 6.5-5s5.7 1.6 6.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.5c2.3.2 4 1.5 4.5 4"/></svg></span>
+        <span class="nav-lbl">Employee Analysis</span>
+      </button>
+      <button class="tab" onclick="showTab('customerAnalysis',this)" aria-label="Customer Analysis" title="Customer Analysis">
+        <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+        <span class="nav-lbl">Customer Analysis</span>
+      </button>
+      <button class="tab" onclick="showTab('targetAnalysis',this)" aria-label="Target Analysis" title="Target Analysis">
+        <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></span>
+        <span class="nav-lbl">Target Analysis</span>
+      </button>
+      <button class="tab" onclick="showTab('weeklyReview',this)" aria-label="Weekly Review" title="Weekly Review">
+        <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4M7 11l3-3 2 2 4-4"/></svg></span>
+        <span class="nav-lbl">Weekly Review</span>
+      </button>
+      <button class="tab" onclick="showTab('whatsapp',this)" aria-label="EOD Report" title="EOD Report">
+        <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/><path d="M9 10h.01M12 10h.01M15 10h.01"/></svg></span>
+        <span class="nav-lbl">EOD Report</span>
+      </button>
+      <button class="tab" onclick="showTab('settingsTab',this)" aria-label="Settings" title="Settings">
+        <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+        <span class="nav-lbl">Settings</span>
+      </button>
+      <button class="tab" id="storeComparisonTabButton" hidden onclick="showTab('storeComparison',this)" aria-label="Store Comparison" title="Store Comparison"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 9.5 5.8 4h12.4L20 9.5"/><path d="M5 12v8h14v-8"/></svg></span><span class="nav-lbl">Store Comparison</span></button>
+      <button class="tab" id="comparisonTabButton" hidden onclick="showTab('comparison',this)" aria-label="Month Comparison" title="Month Comparison"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/></svg></span><span class="nav-lbl">Month Comparison</span></button>
+    </div>
+    <div class="bi-sidebar-footer">
+      <span id="huftReleaseBadge" class="bi-badge">v5.0 Enterprise BI</span>
+      <button type="button" id="huftReleaseNotesOpen" class="tab huft-release-notes-button" aria-haspopup="dialog" aria-controls="huftReleaseNotesModal" aria-label="Open release notes and system status" title="System Status & Release Notes">
+        <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></span>
+        <span class="nav-lbl">System Info</span>
+      </button>
+    </div>
   </div>
-</div>
 
   <section id="whatsapp" class="page">
   <!-- WhatsApp Communications Master Header -->
@@ -2916,6 +2959,537 @@ tr:hover td {
 
   </section>
 
+
+
+<!-- ENTERPRISE BI ADDITIONAL TABS -->
+
+<!-- =========================================================================
+     ENTERPRISE BI: TAB 3 — SPA ANALYSIS (#spaAnalysis)
+     ========================================================================= -->
+<section id="spaAnalysis" class="page">
+  <div class="bi-page-header">
+    <div class="dashTop">
+      <div>
+        <div class="dashTitle">✂️ Fresh SPA Service Performance</div>
+        <div class="dashSub">Detailed analysis of fresh SPA groomings and services. Package redemptions are strictly excluded from fresh revenue.</div>
+      </div>
+      <div class="dashActions">
+        <button type="button" class="bi-btn-teal" onclick="refreshSpaAnalysis()">↻ Refresh SPA Analysis</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPA KPI Cards -->
+  <div class="kpiGrid" style="grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));">
+    <div class="kpi" style="border-left: 3.5px solid #0D9488 !important;">
+      <span>Fresh SPA Sales</span>
+      <b id="biSpaSales">₹0</b>
+      <small id="biSpaSalesSub">Excludes package redemptions</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #2563EB !important;">
+      <span>SPA Bills</span>
+      <b id="biSpaBills">0</b>
+      <small id="biSpaBillsSub">Distinct fresh SPA invoices</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #8B5CF6 !important;">
+      <span>SPA Customers</span>
+      <b id="biSpaCustomers">0</b>
+      <small id="biSpaCustomersSub">Unique pet parents served</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #F59E0B !important;">
+      <span>SPA Target</span>
+      <b id="biSpaTarget">₹0</b>
+      <small id="biSpaTargetSub">Weekday ₹16.4K • Weekend ₹26.7K</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #16A36A !important;">
+      <span>SPA Achievement</span>
+      <b id="biSpaAch">0%</b>
+      <small id="biSpaAchSub">Actual vs Target pace</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #0EA5E9 !important;">
+      <span>Pet Count</span>
+      <b id="biSpaPets">0</b>
+      <small id="biSpaPetsSub">Validated unique pets groomed</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #64748B !important;">
+      <span>SPA Average Bill</span>
+      <b id="biSpaAtv">₹0</b>
+      <small id="biSpaAtvSub">Fresh SPA sales / SPA bills</small>
+    </div>
+  </div>
+
+  <!-- SPA Performance Table -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <b>Daily SPA Service Breakdown</b>
+        <span style="display:block;">Daily bills, revenue, pet count, and target achievement</span>
+      </div>
+    </div>
+    <div class="tableWrap">
+      <table id="biSpaTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Date</th>
+            <th style="text-align: left;">Store</th>
+            <th>SPA Bills</th>
+            <th>Fresh SPA Sales</th>
+            <th>Pet Count</th>
+            <th>SPA Target</th>
+            <th>Achievement %</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="biSpaTableBody">
+          <tr><td colspan="8" style="text-align: center; color: #718096; padding: 20px;">Upload sales data to view daily SPA performance.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     ENTERPRISE BI: TAB 4 — PACKAGE ANALYSIS (#packageAnalysis)
+     ========================================================================= -->
+<section id="packageAnalysis" class="page">
+  <div class="bi-page-header">
+    <div class="dashTop">
+      <div>
+        <div class="dashTitle">📦 Package Sales, Redemption & Returns</div>
+        <div class="dashSub">Auditing prepaid grooming packages sold (ADHYG), redemptions, and reversals.</div>
+      </div>
+      <div class="dashActions">
+        <button type="button" class="bi-btn-teal" onclick="refreshPackageAnalysis()">↻ Refresh Package Analysis</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Package KPI Cards -->
+  <div class="kpiGrid" style="grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));">
+    <div class="kpi" style="border-left: 3.5px solid #0D9488 !important;">
+      <span>Package Sales</span>
+      <b id="biPkgSales">₹0</b>
+      <small id="biPkgSalesSub">Prepaid packages sold</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #2563EB !important;">
+      <span>Packages Sold</span>
+      <b id="biPkgQty">0</b>
+      <small id="biPkgQtySub">Units sold in period</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #8B5CF6 !important;">
+      <span>Package Customers</span>
+      <b id="biPkgCustomers">0</b>
+      <small id="biPkgCustomersSub">Unique package buyers</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #16A36A !important;">
+      <span>Packages Redeemed</span>
+      <b id="biPkgRedeemed">0</b>
+      <small id="biPkgRedeemedSub">Sessions redeemed</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #0EA5E9 !important;">
+      <span>Redemption Bills</span>
+      <b id="biPkgRedemptionBills">0</b>
+      <small id="biPkgRedemptionBillsSub">Bills with redemptions</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #DC6262 !important;">
+      <span>Package Returns</span>
+      <b id="biPkgReturns">₹0</b>
+      <small id="biPkgReturnsSub">Reversed package value</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #17212F !important;">
+      <span>Net Package Sales</span>
+      <b id="biPkgNet">₹0</b>
+      <small id="biPkgNetSub">Sales − Returns</small>
+    </div>
+  </div>
+
+  <!-- Section 1: Package Sales Table (ADHYG) -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px;">
+      <b>1. Package Sales (Invoice Prefix ADHYG)</b>
+      <span>New package purchase transactions recorded in selected range</span>
+    </div>
+    <div class="tableWrap" style="max-height: 260px;">
+      <table id="biPkgSalesTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Invoice Number</th>
+            <th style="text-align: left;">Date</th>
+            <th style="text-align: left;">Store</th>
+            <th style="text-align: left;">Employee</th>
+            <th>Package Amount</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody id="biPkgSalesTableBody">
+          <tr><td colspan="6" style="text-align: center; color: #718096; padding: 20px;">Upload sales data to view package transactions.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 2: Package Redemption Table -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px;">
+      <b>2. Package Redemption History</b>
+      <span>SPA service redemptions covered by prepaid packages</span>
+    </div>
+    <div class="tableWrap" style="max-height: 260px;">
+      <table id="biPkgRedemptionTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Invoice</th>
+            <th style="text-align: left;">Date</th>
+            <th style="text-align: left;">Store</th>
+            <th>Discount / Tag</th>
+            <th>Payment Method</th>
+            <th>Redemption Count</th>
+          </tr>
+        </thead>
+        <tbody id="biPkgRedemptionTableBody">
+          <tr><td colspan="6" style="text-align: center; color: #718096; padding: 20px;">No package redemptions recorded for selected period.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 3: Package Returns Table -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px;">
+      <b>3. Package Returns & Reversals</b>
+      <span>Refunds, reversals, and voided package bills</span>
+    </div>
+    <div class="tableWrap" style="max-height: 200px;">
+      <table id="biPkgReturnsTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Return Invoice</th>
+            <th style="text-align: left;">Original Invoice</th>
+            <th style="text-align: left;">Date</th>
+            <th style="text-align: left;">Store</th>
+            <th>Return Amount</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody id="biPkgReturnsTableBody">
+          <tr><td colspan="6" style="text-align: center; color: #718096; padding: 20px;">No package returns recorded for selected period.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     ENTERPRISE BI: TAB 5 — BRAND ANALYSIS (#brandAnalysis)
+     ========================================================================= -->
+<section id="brandAnalysis" class="page">
+  <div class="bi-page-header">
+    <div class="dashTop">
+      <div>
+        <div class="dashTitle">🏷️ HUFT Brand & Product Performance</div>
+        <div class="dashSub">Sales contribution and volume analytics for Sara's, Hearty, Meowsi, NutriMeow, and NutriWag.</div>
+      </div>
+      <div class="dashActions">
+        <button type="button" class="bi-btn-teal" onclick="refreshBrandAnalysis()">↻ Refresh Brand Analysis</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Brand KPI Cards -->
+  <div class="kpiGrid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+    <div class="kpi" style="border-left: 3.5px solid #0D9488 !important;">
+      <span>Total Brand Sales</span>
+      <b id="biBrandTotalSales">₹0</b>
+      <small id="biBrandTotalSalesSub">All 5 private food brands</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #2563EB !important;">
+      <span>Total Quantity</span>
+      <b id="biBrandTotalQty">0</b>
+      <small id="biBrandTotalQtySub">Packs and units sold</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #8B5CF6 !important;">
+      <span>Total Bills</span>
+      <b id="biBrandTotalBills">0</b>
+      <small id="biBrandTotalBillsSub">Invoices containing food brands</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #F59E0B !important;">
+      <span>Highest-Selling Brand</span>
+      <b id="biBrandTopName">—</b>
+      <small id="biBrandTopSub">Top revenue contributor</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #16A36A !important;">
+      <span>Brand Contribution</span>
+      <b id="biBrandContribPct">0%</b>
+      <small id="biBrandContribPctSub">% of total store retail revenue</small>
+    </div>
+  </div>
+
+  <!-- Brand Breakdown Table -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px;">
+      <b>HUFT Food Brands Overview</b>
+      <span>Revenue, quantity, bill conversion, and portfolio share</span>
+    </div>
+    <div class="tableWrap">
+      <table id="biBrandTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Brand Name</th>
+            <th>Sales (₹)</th>
+            <th>Quantity Sold</th>
+            <th>Bill Count</th>
+            <th>Brand Share %</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="biBrandTableBody">
+          <tr><td colspan="6" style="text-align: center; color: #718096; padding: 20px;">Upload sales data to view brand breakdown.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     ENTERPRISE BI: TAB 7 — CUSTOMER ANALYSIS (#customerAnalysis)
+     ========================================================================= -->
+<section id="customerAnalysis" class="page">
+  <div class="bi-page-header">
+    <div class="dashTop">
+      <div>
+        <div class="dashTitle">👤 Customer Retention & Intelligence</div>
+        <div class="dashSub">Customer purchase trends, frequency, and repeat shopper analytics. Phone numbers are securely masked.</div>
+      </div>
+      <div class="dashActions">
+        <button type="button" class="bi-btn-teal" onclick="refreshCustomerAnalysis()">↻ Refresh Customer Analysis</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer KPI Cards -->
+  <div class="kpiGrid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+    <div class="kpi" style="border-left: 3.5px solid #0D9488 !important;">
+      <span>Total Customers</span>
+      <b id="biCustTotal">0</b>
+      <small id="biCustTotalSub">Distinct customer profiles</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #2563EB !important;">
+      <span>New Customers</span>
+      <b id="biCustNew">0</b>
+      <small id="biCustNewSub">First purchase in period</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #16A36A !important;">
+      <span>Returning Customers</span>
+      <b id="biCustReturning">0</b>
+      <small id="biCustReturningSub">Multiple visits recorded</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #8B5CF6 !important;">
+      <span>Total Bills</span>
+      <b id="biCustBills">0</b>
+      <small id="biCustBillsSub">POS sales transactions</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #0EA5E9 !important;">
+      <span>Average Bill Value</span>
+      <b id="biCustAtv">₹0</b>
+      <small id="biCustAtvSub">Net sales / total orders</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #F59E0B !important;">
+      <span>Repeat Customer Rate</span>
+      <b id="biCustRepeatPct">0%</b>
+      <small id="biCustRepeatPctSub">Returning / Total customers</small>
+    </div>
+  </div>
+
+  <!-- Customer Trends Table -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px;">
+      <b>Top Customer Accounts by Spend (Masked)</b>
+      <span>Privacy-safe customer purchase history and average ticket size</span>
+    </div>
+    <div class="tableWrap" style="max-height: 380px;">
+      <table id="biCustTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Customer Identifier</th>
+            <th>Total Spend (₹)</th>
+            <th>Total Invoices</th>
+            <th>Average Ticket (₹)</th>
+            <th>Units Bought</th>
+            <th>Customer Type</th>
+          </tr>
+        </thead>
+        <tbody id="biCustTableBody">
+          <tr><td colspan="6" style="text-align: center; color: #718096; padding: 20px;">Upload sales data to view customer trends.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     ENTERPRISE BI: TAB 8 — TARGET ANALYSIS (#targetAnalysis)
+     ========================================================================= -->
+<section id="targetAnalysis" class="page">
+  <div class="bi-page-header">
+    <div class="dashTop">
+      <div>
+        <div class="dashTitle">🎯 Store Target & Run-Rate Monitoring</div>
+        <div class="dashSub">Tracking retail and SPA revenue achievement against weekday and weekend targets.</div>
+      </div>
+      <div class="dashActions">
+        <button type="button" class="bi-btn-teal" onclick="refreshTargetAnalysis()">↻ Refresh Targets</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Target KPI Cards -->
+  <div class="kpiGrid" style="grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));">
+    <div class="kpi" style="border-left: 3.5px solid #0D9488 !important;">
+      <span>Retail Target</span>
+      <b id="biTgtRetailTgt">₹0</b>
+      <small>Weekday ₹28.6K • Weekend ₹46.7K</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #2563EB !important;">
+      <span>Retail Actual</span>
+      <b id="biTgtRetailAct">₹0</b>
+      <small id="biTgtRetailActSub">Achieved retail revenue</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #8B5CF6 !important;">
+      <span>SPA Target</span>
+      <b id="biTgtSpaTgt">₹0</b>
+      <small>Weekday ₹16.4K • Weekend ₹26.7K</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #0EA5E9 !important;">
+      <span>SPA Actual</span>
+      <b id="biTgtSpaAct">₹0</b>
+      <small id="biTgtSpaActSub">Achieved SPA revenue</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #17212F !important;">
+      <span>Total Target</span>
+      <b id="biTgtTotalTgt">₹0</b>
+      <small>Retail + SPA combined target</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #16A36A !important;">
+      <span>Achievement</span>
+      <b id="biTgtTotalAch">0%</b>
+      <small id="biTgtTotalAchSub">Actual / Target × 100</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #F59E0B !important;">
+      <span>Remaining Target</span>
+      <b id="biTgtRemaining">₹0</b>
+      <small id="biTgtRemainingSub">Target − Actual</small>
+    </div>
+    <div class="kpi" style="border-left: 3.5px solid #64748B !important;">
+      <span>Projected Closing</span>
+      <b id="biTgtProjected">₹0</b>
+      <small id="biTgtProjectedSub">Estimated month-end sales</small>
+    </div>
+  </div>
+
+  <!-- Target Progress Legend -->
+  <div style="background: #FFFFFF; border: 1px solid #E5EAF0; border-radius: 8px; padding: 10px 16px; margin-bottom: 14px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 11.5px;">
+    <span style="font-weight: 700; color: #17212F;">Performance Status:</span>
+    <span class="bi-badge-danger">Below 80%: Below Target</span>
+    <span class="bi-badge-warning">80–99%: Near Target</span>
+    <span class="bi-badge-success">100–109%: Target Achieved</span>
+    <span class="bi-badge-teal">110%+: Above Target</span>
+  </div>
+
+  <!-- Target Table -->
+  <div class="bi-card">
+    <div class="chartHead" style="margin-bottom: 12px;">
+      <b>Daily Target vs Achievement Breakdown</b>
+      <span>Daily target pace, actual sales, and achievement progress</span>
+    </div>
+    <div class="tableWrap">
+      <table id="biTargetTable">
+        <thead>
+          <tr>
+            <th style="text-align: left;">Date</th>
+            <th style="text-align: left;">Day Type</th>
+            <th>Retail Target</th>
+            <th>Retail Actual</th>
+            <th>SPA Target</th>
+            <th>SPA Actual</th>
+            <th>Total Target</th>
+            <th>Total Actual</th>
+            <th>Achievement %</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="biTargetTableBody">
+          <tr><td colspan="10" style="text-align: center; color: #718096; padding: 20px;">Upload sales data to view target analytics.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     ENTERPRISE BI: TAB 11 — SETTINGS (#settingsTab)
+     ========================================================================= -->
+<section id="settingsTab" class="page">
+  <div class="bi-page-header">
+    <div class="dashTop">
+      <div>
+        <div class="dashTitle">⚙️ Platform & Target Settings</div>
+        <div class="dashSub">Manage store parameters, daily sales targets, brand mappings, and cloud synchronization preferences.</div>
+      </div>
+      <div class="dashActions">
+        <button type="button" class="bi-btn-teal" onclick="saveBiSettings()">💾 Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;">
+    <!-- Store Settings -->
+    <div class="bi-card">
+      <h3 style="font-size: 15px; font-weight: 700; color: #17212F; margin: 0 0 12px 0;">🏬 Store Configuration</h3>
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 12px;">
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Primary Store Name</label>
+          <input type="text" id="biSetStoreName" value="HUFT Hyderabad (Hyderguda)" style="width: 100%; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Store Code / Branch ID</label>
+          <input type="text" id="biSetStoreCode" value="HYDERGUDA" style="width: 100%; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Cloud Sync Endpoint</label>
+          <input type="text" readonly value="Supabase Cloud Central Synchronization" style="width: 100%; box-sizing: border-box; background: #F8FAFC; color: #64748B;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily Target Settings -->
+    <div class="bi-card">
+      <h3 style="font-size: 15px; font-weight: 700; color: #17212F; margin: 0 0 12px 0;">🎯 Configurable Daily Targets</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px;">
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Weekday Retail Target (₹)</label>
+          <input type="number" id="biSetWeekdayRetail" value="28636" style="width: 100%; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Weekday SPA Target (₹)</label>
+          <input type="number" id="biSetWeekdaySpa" value="16364" style="width: 100%; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Weekend Retail Target (₹)</label>
+          <input type="number" id="biSetWeekendRetail" value="46667" style="width: 100%; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="display: block; font-weight: 600; color: #718096; margin-bottom: 4px;">Weekend SPA Target (₹)</label>
+          <input type="number" id="biSetWeekendSpa" value="26667" style="width: 100%; box-sizing: border-box;">
+        </div>
+      </div>
+      <div style="font-size: 11px; color: #718096; margin-top: 10px;">
+        * Targets are stored locally in your browser and automatically update all Target and Run-Rate calculations.
+      </div>
+    </div>
+  </div>
+</section>
+
+
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
@@ -3593,7 +4167,11 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
 
 
 <style id="huft-eod-report-style">#huftEodReportPanel{margin:0 0 16px;padding:12px 16px;border:1px solid rgba(255,255,255,.82);border-radius:12px;background:rgba(255,255,255,.68);box-shadow:0 8px 22px rgba(15,23,42,.06);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}#huftEodReportPanel .eodHead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:0}#huftEodReportPanel h2{margin:0;font-size:15px;color:#203653}#huftEodReportPanel .eodSub{font-size:11px;color:#64748b;margin-top:8px}#huftEodReportPanel .eodActions{display:flex;gap:8px;flex-wrap:wrap}#huftEodMessageContent[hidden]{display:none!important}#huftEodOpen{min-width:0;border:0;border-radius:8px;padding:9px 15px;font-size:13px;font-weight:700;background:#203653;color:#fff;cursor:pointer;box-shadow:0 3px 8px rgba(32,54,83,.16)}#huftEodOpen:hover{background:#29496f}#huftEodReportPanel .eodActions button{border:1px solid #cbd5e1;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700;background:#203653!important;color:#fff!important;cursor:pointer}#huftEodMessageContent.eodModalBackdrop{position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(15,23,42,.48);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}#huftEodMessageContent .eodModalCard{width:min(620px,94vw);height:min(76vh,620px);max-height:76vh;overflow:hidden;display:flex;flex-direction:column;gap:8px;padding:14px;border-radius:12px;background:#fff;box-shadow:0 24px 80px rgba(15,23,42,.28);border:1px solid #e2e8f0;box-sizing:border-box}#huftEodMessageContent .eodModalTitleRow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:0;flex:0 0 auto}#huftEodMessageContent .eodModalTitleRow h3{margin:0;color:#203653;font-size:15px}#huftEodMessageContent .eodCloseButton{width:32px;height:32px;padding:0;border:0;border-radius:8px;background:#f1f5f9;color:#334155;font-size:24px;line-height:1;cursor:pointer}#huftEodReportText{display:block;width:100%;height:0;min-height:0;max-height:none;flex:1 1 auto;resize:none;white-space:pre-wrap;overflow:auto;border:1px solid #d5deea;border-radius:8px;padding:10px;background:#f8fbff;color:#203047;font:11px/1.35 Inter,'Segoe UI',Arial,sans-serif;box-sizing:border-box}#huftEodMessageContent .eodToolbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:0 0 auto}#huftEodMessageContent .eodToolbar label{display:flex;align-items:center;gap:5px;font-size:11px;color:#475569}#huftEodMessageContent .eodToolbar input{font:12px Arial,sans-serif;padding:5px 7px;border:1px solid #d5dce5;border-radius:5px;background:#fff;color:#203047}#huftEodMessageContent .eodToolbar button{font:500 11px Arial,sans-serif;padding:6px 9px;border:1px solid #d5dce5;border-radius:5px;background:#f1f5f9;color:#203047;cursor:pointer}#huftEodMessageContent .eodToolbar button:hover{background:#e2e8f0}@media(max-width:650px){#huftEodReportPanel{padding:10px 12px}}@media(max-width:650px){#huftEodMessageContent.eodModalBackdrop{padding:10px}}@media(max-width:650px){#huftEodMessageContent .eodModalCard{width:96vw;height:78vh;max-height:78vh;padding:10px;gap:7px}}@media(max-width:650px){#huftEodReportText{font-size:10px;line-height:1.3;padding:8px}}@media(max-width:650px){#huftEodReportPanel .eodActions{width:auto}}@media(max-width:650px){#huftEodReportPanel .eodActions button{flex:initial}}</style>
-<script id="huft-eod-report-engine">(function(){"use strict";const $=id=>document.getElementById(id),money=v=>"\u20B9"+Math.round(Number(v)||0).toLocaleString("en-IN")+"/-",fmtDate=d=>{const dt=new Date(String(d)+"T00:00:00");return Number.isNaN(dt.getTime())?String(d||"\u2014"):dt.toLocaleDateString("en-IN",{day:"2-digit",month:"long",year:"numeric"})},safeNum=v=>Number.isFinite(Number(v))?Number(v):0;function availableDays(endDay){const month=String(endDay||"").slice(0,7),source=typeof dayIndex!="undefined"&&dayIndex instanceof Map?[...dayIndex.keys()]:[];return[...new Set(source.filter(d=>String(d).slice(0,7)===month&&String(d)<=endDay))].sort()}function rowsFor(day){try{return typeof dashboardRowsForDay=="function"?dashboardRowsForDay(day):dayIndex&&dayIndex.get(day)||[]}catch{return[]}}function petCountForDay(day){const source=rowsFor(day),firstField=(r,exactKeys,keyPattern)=>{for(const k of exactKeys)if(r&&r[k]!==void 0&&r[k]!==null&&String(r[k]).trim()!=="")return r[k];if(r&&typeof r=="object"){const k=Object.keys(r).find(k2=>keyPattern.test(String(k2))&&r[k2]!==void 0&&r[k2]!==null&&String(r[k2]).trim()!=="");if(k)return r[k]}return""},groups=new Map;let currentOrderContext=null;source.forEach((r,rowIndex)=>{const rawOrderRef=String(r._orderRef||r["Order Ref"]||"").trim(),rawInvoice=String(r._invoiceDisplayName||r["Invoice/Display Name"]||r["Column F"]||"").trim();(rawOrderRef||rawInvoice)&&(currentOrderContext={orderRef:rawOrderRef,invoice:rawInvoice,orderType:String(r._orderType||r["Order Type"]||""),status:String(r.Status||r["Invoice/Status"]||r["Delivery Status"]||"")});const orderContext=currentOrderContext||{},categoryRaw=String(firstField(r,["Order Lines/Product/Product Category","Product Category","Category","Column K","category"],/(?:product\s*category|^category$|column\s*k)/i)||"").trim();let spaRow=/^spa\s*services?\b/i.test(categoryRaw);try{typeof isSpaCategory=="function"&&(spaRow=!!isSpaCategory(r)||spaRow)}catch{}if(!spaRow)return;const productName=String(firstField(r,["Order Lines/Product/Name","Product Name","Name","Column J","productName","product_name"],/(?:order\s*lines\/product\/name|^product\s*name$|^name$|column\s*j|product[_ ]?name)/i)||"").trim().toLowerCase(),orderType=String(firstField(r,["Order Type","_orderType"],/^order\s*type$|_orderType/i)||orderContext.orderType||"").trim().toLowerCase(),orderStatus=String(firstField(r,["Status","Invoice/Status","Delivery Status"],/^(?:status|invoice\/status|delivery\s*status)$/i)||orderContext.status||"").trim().toLowerCase();if(/(?:spa\s*subscription|package\s*sale|grooming\s*package|prepaid\s*package)/i.test(orderType)||/(?:cancel|cancelled|canceled|void|voided)/i.test(orderStatus)||/(?:package\s*(?:sale|purchase)|grooming\s*package|skin\s*&?\s*coat\s*pack|spa\s*pack|prepaid\s*pack)/i.test(productName))return;const q=Math.max(0,safeNum(firstField(r,["Order Lines/Quantity","Quantity","Qty","Column N","quantity"],/(?:order\s*lines\/quantity|^quantity$|^qty$|column\s*n)/i)));if(!q)return;const inv=String(firstField(r,["Column F","_invoiceDisplayName","Invoice/Display Name","Invoice","Invoice Number","Order Ref","_orderRef"],/(?:invoice\/display\s*name|^invoice$|invoice\s*number|^order\s*ref$|column\s*f|_orderref)/i)||orderContext.invoice||"").trim(),key=String(r._orderRef||r["Order Ref"]||orderContext.orderRef||"").trim()||inv||"NO_INVOICE_ROW_"+rowIndex,isBathCutStyle=/^bath,?\s*cut\s*&\s*style(?:\s*\(dogs\))?/.test(productName),isAddonOnly=/(?:^haircut(?:\s|$)|massage|sanitary\s*trim|\bent\b|ent\s*maintenance|face\s*trim|add[- ]?on|nail\s*clipping|ear\s*cleaning|eye\s*cleaning|teeth\s*cleaning|paw\s*pad)/.test(productName)&&!isBathCutStyle,subCategory=categoryRaw.split("/").slice(1).join(" / ").toLowerCase(),isGrooming=!isAddonOnly&&(/(?:full\s*grooming|grooming\s*&?\s*haircut|bath\s*&\s*blow\s*dry|bath\s*blow\s*dry|puppy\s*grooming|kitten\s*grooming|sensitive\s*skin\s*combo|medicated\s*bath|dry\s*grooming)/.test(productName)||/(?:dog|cat|puppy|kitten).*grooming|grooming/.test(subCategory)||isBathCutStyle),isStandaloneQuickService=/(?:sanitary\s*trim|face\s*trim|\bmaintenance\b|ent\s*maintenance|dry\s*grooming|nail\s*clipping|ear\s*cleaning|eye\s*cleaning|teeth\s*cleaning|paw\s*pad)/.test(productName)&&!/(?:massage|skin\s*&?\s*coat\s*pack|add[- ]?on|haircut)/.test(productName);groups.has(key)||groups.set(key,{primaryByName:new Map,quickByName:new Map});const g=groups.get(key);isGrooming?g.primaryByName.set(productName,(g.primaryByName.get(productName)||0)+q):isStandaloneQuickService&&g.quickByName.set(productName,(g.quickByName.get(productName)||0)+q)});let total=0;return groups.forEach(g=>{const primary=[...g.primaryByName.values()],quick=[...g.quickByName.values()];total+=primary.length?Math.max(...primary):quick.length?Math.max(...quick):0}),total}const PET_OVERRIDE_KEY="huftEodPetCountOverrides_v3";function readPetOverrides(){try{return JSON.parse(localStorage.getItem(PET_OVERRIDE_KEY)||"{}")||{}}catch{return{}}}function petCountForEod(day){const overrides=readPetOverrides();return Object.prototype.hasOwnProperty.call(overrides,day)?Math.max(0,Math.floor(safeNum(overrides[day]))):petCountForDay(day)}function getMetrics(day){let x;try{x=typeof calcDay=="function"?calcDay(day):null}catch{x=null}x||(x={retail:0,spa:0,total:0,qty:0,foodTotal:0});const source=rowsFor(day).filter(r=>!String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup")),invoices=new Set;let units=0;source.forEach(r=>{try{const inv=typeof invoiceNo=="function"?invoiceNo(r):String(r["Invoice/Display Name"]||r["Column F"]||"").trim();inv&&invoices.add(inv)}catch{}try{units+=safeNum(typeof qty=="function"?qty(r):r["Order Lines/Quantity"])}catch{}});const brandData=[{label:"Sara's Wholesome",key:"Sara's Wholesome",needle:"HUFT Sara's Wholesome"},{label:"Hearty",key:"Hearty",needle:"HUFT Hearty"},{label:"Meowsi",key:"Meowsi",needle:"HUFT Meowsi"},{label:"NutriMeow",key:"NutriMeow",needle:"NutriMeow"},{label:"NutriWag",key:"NutriWag",needle:"NutriWag"}].map(b=>{let qtyValue=safeNum(x[b.key+"Q"]),amountValue=safeNum(x[b.key+"A"]),sample=0;try{sample=typeof sampleQtyForDay=="function"?safeNum(sampleQtyForDay(day,b.needle)):0}catch{}return{...b,qty:qtyValue,amount:amountValue,sample}}),totalBills=safeNum(x.orders)>0?safeNum(x.orders):invoices.size;return{retail:safeNum(x.retail),spa:safeNum(x.spa),total:safeNum(x.total)||safeNum(x.retail)+safeNum(x.spa),foodTotal:safeNum(x.foodTotal),qty:units,bills:totalBills,atv:totalBills?(safeNum(x.retail)+safeNum(x.spa))/totalBills:0,upt:totalBills?units/totalBills:0,packages:safeNum(x.spaPackagesUsed),pets:petCountForEod(day),brands:brandData}}const EOD_DAY_TARGET_KEY="huftEodDayTargets_v1";function readEodDayTargets(){try{return JSON.parse(localStorage.getItem(EOD_DAY_TARGET_KEY)||"{}")||{}}catch{return{}}}function eodDayTargetsFor(date){var _a;const all=readEodDayTargets();if(Object.prototype.hasOwnProperty.call(all,date)&&all[date]&&Object.prototype.hasOwnProperty.call(all[date],"retail")&&Object.prototype.hasOwnProperty.call(all[date],"spa"))return{...all[date],source:"eod"};try{const plans=JSON.parse(localStorage.getItem("huftDailyEmployeeTargetPlans_v1")||"{}")||{},storeName=String(((_a=$("storeName"))==null?void 0:_a.textContent)||"").trim().replace(/^HUFT\s*[-–—:]?\s*/i,"").trim().toLowerCase(),matches=Object.values(plans).filter(p=>{if(!p||String(p.date||"")!==String(date||""))return!1;const ps=String(p.store||"").trim().replace(/^HUFT\s*[-–—:]?\s*/i,"").trim().toLowerCase();return!storeName||!ps||ps===storeName||ps.includes(storeName)||storeName.includes(ps)});if(matches.length){const p=matches[matches.length-1];return{retail:Math.max(0,safeNum(p.retail)),spa:Math.max(0,safeNum(p.spa)),source:"planner"}}}catch(e){console.warn("Could not read Daily Employee Target Planner targets:",e)}return all[date]||{}}function saveEodDayTargets(date,retail,spa){const all=readEodDayTargets();all[date]={retail:Math.max(0,safeNum(retail)),spa:Math.max(0,safeNum(spa))};try{localStorage.setItem(EOD_DAY_TARGET_KEY,JSON.stringify(all))}catch{}}function eodWeekDays(day){const m=String(day||"").match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return[day];const dt=new Date(+m[1],+m[2]-1,+m[3]),back=(dt.getDay()+6)%7,out=[];for(let i=back;i>=0;i--){const x=new Date(dt.getFullYear(),dt.getMonth(),dt.getDate()-i),k=x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0");dayIndex.has(k)&&out.push(k)}return out.length?out:[day]}function eodAggMetrics(ds){const ms=ds.map(getMetrics),sm=k=>ms.reduce((a,x)=>a+safeNum(x[k]),0),retail=sm("retail"),spa=sm("spa"),bills=sm("bills"),units=sm("qty"),brands=ms[0].brands.map(b=>{let q=0,a=0,sp=0;return ms.forEach(x=>{const it=x.brands.find(y=>y.key===b.key);it&&(q+=it.qty,a+=it.amount,sp+=it.sample)}),{...b,qty:q,amount:a,sample:sp}});return{retail,spa,total:sm("total")||retail+spa,foodTotal:sm("foodTotal"),qty:units,bills,atv:bills?(retail+spa)/bills:0,upt:bills?units/bills:0,packages:sm("packages"),pets:sm("pets"),brands}}function buildEod(){var _a,_b;const box=$("huftEodReportText");if(!box)return;if(typeof calcDay!="function"||typeof dayIndex=="undefined"||!(dayIndex instanceof Map)||!dayIndex.size){box.value="Upload sales data to generate the EOD report.";return}const dateInput=$("huftEodDate"),defaultDay=typeof getHuftReportDay=="function"?getHuftReportDay():[...dayIndex.keys()].sort().slice(-1)[0];dateInput&&!dateInput.value&&(dateInput.value=defaultDay||"");const requestedDay=dateInput&&dateInput.value?dateInput.value:defaultDay,petInput=$("huftEodPetsInput");if(petInput&&petInput.dataset.dirty!=="1"&&document.activeElement!==petInput){const overrides=readPetOverrides();petInput.value=Object.prototype.hasOwnProperty.call(overrides,requestedDay)?overrides[requestedDay]:""}const savedDayTargets=eodDayTargetsFor(requestedDay),retailTargetInput=$("huftEodRetailTargetInput"),spaTargetInput=$("huftEodSpaTargetInput");retailTargetInput&&retailTargetInput.dataset.dirty!=="1"&&document.activeElement!==retailTargetInput&&(retailTargetInput.value=Object.prototype.hasOwnProperty.call(savedDayTargets,"retail")?savedDayTargets.retail:""),spaTargetInput&&spaTargetInput.dataset.dirty!=="1"&&document.activeElement!==spaTargetInput&&(spaTargetInput.value=Object.prototype.hasOwnProperty.call(savedDayTargets,"spa")?savedDayTargets.spa:"");const targetStatus=$("huftEodStatus");savedDayTargets.source==="planner"&&targetStatus&&(targetStatus.dataset.targetSource="Daily Employee Target Planner");const day=dayIndex.has(requestedDay)?requestedDay:defaultDay,eodMode=window.__eodMode||"day",weekMode=eodMode!=="day",weekDays=eodMode==="week"?eodWeekDays(day):eodMode==="month"?availableDays(day):[day],daily=weekMode?eodAggMetrics(weekDays):getMetrics(day),days=availableDays(day),mtd=days.map(getMetrics),sum=key=>mtd.reduce((a,x)=>a+safeNum(x[key]),0),brandMtd=daily.brands.map(b=>{let q=0,a=0,s=0;return mtd.forEach(x=>{const item=x.brands.find(y=>y.key===b.key);item&&(q+=item.qty,a+=item.amount,s+=item.sample)}),{...b,mtdQty:q,mtdAmount:a,mtdSample:s}}),retailMtd=sum("retail"),spaMtd=sum("spa"),totalMtd=retailMtd+spaMtd,store=((_b=(_a=$("storeName"))==null?void 0:_a.textContent)==null?void 0:_b.trim())||"Store not identified",latest=typeof getLatestUploadedSaleDateTime=="function"?getLatestUploadedSaleDateTime():"",storeTarget=(()=>{try{return typeof storeTargetRead=="function"?storeTargetRead():{}}catch{return{}}})()[store]||{},targetSource=(()=>{const r=$("aiRetailTarget"),sp=$("aiSpaTarget");if(r&&sp)return{retail:safeNum(r.value),spa:safeNum(sp.value)};try{return typeof readHuftGlobalTargets=="function"?readHuftGlobalTargets():null}catch{return null}})()||storeTarget,retailTarget=safeNum(targetSource.retail)||0,spaTarget=safeNum(targetSource.spa)||0,totalTarget=retailTarget+spaTarget,employeeTotals=new Map,employeeLookup=(()=>{try{return typeof employeeNameLookup=="function"?employeeNameLookup():null}catch{return null}})(),employeeNamesByRow=new Map;let previousEmployeeName="";(Array.isArray(rows)?rows:[]).forEach(r=>{let resolved="";try{resolved=typeof employeeDisplayName=="function"?employeeDisplayName(resolveEmployeeName(r,employeeLookup||{byInvoice:new Map,byOrder:new Map})):String(r["Column AC"]||r.Employees||r._employee||r.Employee||"").trim()}catch{}if(!resolved)try{const k=Object.keys(r).find(k2=>/^(employees?|employee name|sales ?person|salesperson|cashier|staff|_employee|column ac)$/i.test(k2.trim())&&String(r[k2]||"").trim());k&&(resolved=String(r[k]).trim())}catch{}(!resolved||/^(unassigned|employee)$/i.test(resolved))&&(resolved=""),resolved?previousEmployeeName=resolved:resolved=previousEmployeeName,resolved&&employeeNamesByRow.set(r,resolved)}),weekDays.flatMap(d=>rowsFor(d)).forEach(r=>{const name=employeeNamesByRow.get(r)||"";if(!name||/^(odoo.?bot|public user|undefined|null|employee|unknown|unassigned|n\/a|na|-)$/i.test(name)||String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup"))return;try{if(typeof employeeIsRetailRow=="function"&&!employeeIsRetailRow(r))return;if(typeof employeeIsRetailRow!="function"&&typeof isRetail=="function"&&!isRetail(r))return}catch{return}let sale=0;try{sale=typeof amount=="function"?Number(amount(r))||0:typeof valAmount=="function"?Number(valAmount(r))||0:Number(r["Order Lines/Subtotal"])||0}catch{}if(sale<=0)return;const key=[...employeeTotals.keys()].find(k=>k.toLowerCase()===name.toLowerCase())||name;employeeTotals.set(key,(employeeTotals.get(key)||0)+sale)});const pct=(actual,target)=>target>0?Math.round(actual/target*100)+"%":"",achievementPct=(actual,target,digits=0)=>{const a=Number(actual),t=Number(target),value=a/t*100;return!Number.isFinite(a)||!Number.isFinite(t)||t<=0||!Number.isFinite(value)?"Target not set":(digits?value.toFixed(digits):String(Math.round(value)))+"%"},configuredRetailDaily=safeNum(storeTarget.dailyRetail||storeTarget.retailDaily||storeTarget.retailTargetDaily),configuredSpaDaily=safeNum(storeTarget.dailySpa||storeTarget.spaDaily||storeTarget.spaTargetDaily),manualTargets=eodDayTargetsFor(day),__autoDailyTarget=(monthly,type,dd)=>{const m=String(dd||day||"").match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return monthly>0?monthly/30:0;const y=+m[1],mo=+m[2]-1,d=+m[3],dim=new Date(y,mo+1,0).getDate(),isWe=i=>{const w=new Date(y,mo,i).getDay();return w===0||w===6};let achievedBefore=0;days.forEach((k,i)=>{var _a2;k<dd&&(achievedBefore+=safeNum((_a2=mtd[i])==null?void 0:_a2[type]))});const remaining=Math.max(0,monthly-achievedBefore);let weekdays=0,weekends=0;for(let i=d;i<=dim;i++)isWe(i)?weekends++:weekdays++;const weekdayWeight=weekdays?.6:0,weekendWeight=weekends?.4:0,totalWeight=weekdayWeight+weekendWeight;return totalWeight?Math.round(remaining*(isWe(d)?weekendWeight:weekdayWeight)/totalWeight/(isWe(d)?weekends:weekdays)):0},__dayTgt=d=>{const mt=eodDayTargetsFor(d);return{r:Object.prototype.hasOwnProperty.call(mt,"retail")?safeNum(mt.retail):configuredRetailDaily||__autoDailyTarget(retailTarget,"retail",d),s:Object.prototype.hasOwnProperty.call(mt,"spa")?safeNum(mt.spa):configuredSpaDaily||__autoDailyTarget(spaTarget,"spa",d)}},dailyRetailTarget=weekDays.reduce((a,d)=>a+__dayTgt(d).r,0),dailySpaTarget=weekDays.reduce((a,d)=>a+__dayTgt(d).s,0),periodWord=eodMode==="week"?"This Week":eodMode==="month"?"This Month":"Today",retailRemainingTarget=Math.max(0,retailTarget-retailMtd),spaRemainingTarget=Math.max(0,spaTarget-spaMtd),totalRemainingTarget=Math.max(0,totalTarget-totalMtd),retailMtdPct=achievementPct(retailMtd,retailTarget,1),spaMtdPct=achievementPct(spaMtd,spaTarget,1),lines=["*Store Name: "+store+"*","",weekMode?"*"+(eodMode==="month"?"Month":"Week")+":* "+fmtDate(weekDays[0])+" \u2013 "+fmtDate(weekDays[weekDays.length-1])+" ("+weekDays.length+" day"+(weekDays.length>1?"s":"")+")":"*Date:* "+fmtDate(day),"\u2022 Retail Target"+(weekMode?eodMode==="month"?" (Month)":" (Week)":"")+": "+(dailyRetailTarget?money(dailyRetailTarget):""),"\u2022 Retail Sales: "+money(daily.retail),"\u2022 Retail MTD Target vs Achievement: "+money(retailMtd),"\u2022 MTD Target Achievement: "+retailMtdPct,"\u2022 ATV: "+money(daily.atv),"\u2022 UPT: "+daily.upt.toFixed(2),"\u2022 No. of Bills: "+daily.bills,"","*SPA*","\u2022 SPA Target"+(weekMode?eodMode==="month"?" (Month)":" (Week)":"")+": "+(dailySpaTarget?money(dailySpaTarget):""),"\u2022 SPA Sales: "+money(daily.spa),"\u2022 SPA MTD Achievement: "+money(spaMtd),"\u2022 SPA MTD Target Achievement: "+spaMtdPct,"","*Total Sales:* "+money(daily.total)+" | Achievement: "+(dailyRetailTarget+dailySpaTarget?pct(daily.total,dailyRetailTarget+dailySpaTarget):""),"","*Pet*","\u2022 Number of Pets: "+daily.pets,"\u2022 Pets MTD: "+sum("pets"),...daily.brands.flatMap(b=>["","*"+b.label+"*","\u2022 "+periodWord+": "+money(b.amount)+" | Qty: "+b.qty.toFixed(0),"\u2022 MTD: "+money((brandMtd.find(x=>x.key===b.key)||{}).mtdAmount||0)+" | Qty: "+((brandMtd.find(x=>x.key===b.key)||{}).mtdQty||0)]),...daily.brands.some(b=>Number(b.sample)>0)?["","*Sampling*",...daily.brands.filter(b=>Number(b.sample)>0).map(b=>"\u2022 "+b.label+": "+Number(b.sample).toFixed(0)),"\u2022 Total Samples: "+daily.brands.reduce((total,b)=>total+Math.max(0,Number(b.sample)||0),0).toFixed(0)]:[],"","*Individual Employee Sales \u2014 "+periodWord+" (Retail):*",...[...employeeTotals.entries()].filter(([,sale])=>sale>0).sort((a,b)=>b[1]-a[1]).map(([name,sale])=>"\u2022 "+name+" \u2014 "+money(sale)).concat([]).length?[...employeeTotals.entries()].filter(([,sale])=>sale>0).sort((a,b)=>b[1]-a[1]).map(([name,sale])=>"\u2022 "+name+" \u2014 "+money(sale)):["\u2022 No employee-wise retail sales found for this date (check the Employee column in the uploaded POS file)"],"","","*FINAL MTD SUMMARY*","\u2022 Retail MTD: "+money(retailMtd)+(retailTarget>0?" ("+retailMtdPct+")":""),"\u2022 SPA MTD: "+money(spaMtd)+(spaTarget>0?" ("+spaMtdPct+")":""),"\u2022 Total MTD: "+money(totalMtd)+(totalTarget?" ("+pct(totalMtd,totalTarget)+")":""),"\u2022 Total Brand Food Sale MTD: "+money(sum("foodTotal"))];box.value=lines.join(`
+<script id="huft-eod-report-engine">(function(){"use strict";const $=id=>document.getElementById(id),money=v=>"\u20B9"+Math.round(Number(v)||0).toLocaleString("en-IN")+"/-",fmtDate=d=>{const dt=new Date(String(d)+"T00:00:00");return Number.isNaN(dt.getTime())?String(d||"\u2014"):dt.toLocaleDateString("en-IN",{day:"2-digit",month:"long",year:"numeric"})},safeNum=v=>Number.isFinite(Number(v))?Number(v):0;function availableDays(endDay){const month=String(endDay||"").slice(0,7),source=typeof dayIndex!="undefined"&&dayIndex instanceof Map?[...dayIndex.keys()]:[];return[...new Set(source.filter(d=>String(d).slice(0,7)===month&&String(d)<=endDay))].sort()}function rowsFor(day){try{return typeof dashboardRowsForDay=="function"?dashboardRowsForDay(day):dayIndex&&dayIndex.get(day)||[]}catch{return[]}}function petCountForDay(day){
+  window.petCountForDay = petCountForDay;const source=rowsFor(day),firstField=(r,exactKeys,keyPattern)=>{for(const k of exactKeys)if(r&&r[k]!==void 0&&r[k]!==null&&String(r[k]).trim()!=="")return r[k];if(r&&typeof r=="object"){const k=Object.keys(r).find(k2=>keyPattern.test(String(k2))&&r[k2]!==void 0&&r[k2]!==null&&String(r[k2]).trim()!=="");if(k)return r[k]}return""},groups=new Map;let currentOrderContext=null;source.forEach((r,rowIndex)=>{const rawOrderRef=String(r._orderRef||r["Order Ref"]||"").trim(),rawInvoice=String(r._invoiceDisplayName||r["Invoice/Display Name"]||r["Column F"]||"").trim();(rawOrderRef||rawInvoice)&&(currentOrderContext={orderRef:rawOrderRef,invoice:rawInvoice,orderType:String(r._orderType||r["Order Type"]||""),status:String(r.Status||r["Invoice/Status"]||r["Delivery Status"]||"")});const orderContext=currentOrderContext||{},categoryRaw=String(firstField(r,["Order Lines/Product/Product Category","Product Category","Category","Column K","category"],/(?:product\s*category|^category$|column\s*k)/i)||"").trim();let spaRow=/^spa\s*services?\b/i.test(categoryRaw);try{typeof isSpaCategory=="function"&&(spaRow=!!isSpaCategory(r)||spaRow)}catch{}if(!spaRow)return;const productName=String(firstField(r,["Order Lines/Product/Name","Product Name","Name","Column J","productName","product_name"],/(?:order\s*lines\/product\/name|^product\s*name$|^name$|column\s*j|product[_ ]?name)/i)||"").trim().toLowerCase(),orderType=String(firstField(r,["Order Type","_orderType"],/^order\s*type$|_orderType/i)||orderContext.orderType||"").trim().toLowerCase(),orderStatus=String(firstField(r,["Status","Invoice/Status","Delivery Status"],/^(?:status|invoice\/status|delivery\s*status)$/i)||orderContext.status||"").trim().toLowerCase();if(/(?:spa\s*subscription|package\s*sale|grooming\s*package|prepaid\s*package)/i.test(orderType)||/(?:cancel|cancelled|canceled|void|voided)/i.test(orderStatus)||/(?:package\s*(?:sale|purchase)|grooming\s*package|skin\s*&?\s*coat\s*pack|spa\s*pack|prepaid\s*pack)/i.test(productName))return;const q=Math.max(0,safeNum(firstField(r,["Order Lines/Quantity","Quantity","Qty","Column N","quantity"],/(?:order\s*lines\/quantity|^quantity$|^qty$|column\s*n)/i)));if(!q)return;const inv=String(firstField(r,["Column F","_invoiceDisplayName","Invoice/Display Name","Invoice","Invoice Number","Order Ref","_orderRef"],/(?:invoice\/display\s*name|^invoice$|invoice\s*number|^order\s*ref$|column\s*f|_orderref)/i)||orderContext.invoice||"").trim(),key=String(r._orderRef||r["Order Ref"]||orderContext.orderRef||"").trim()||inv||"NO_INVOICE_ROW_"+rowIndex,isBathCutStyle=/^bath,?\s*cut\s*&\s*style(?:\s*\(dogs\))?/.test(productName),isAddonOnly=/(?:^haircut(?:\s|$)|massage|sanitary\s*trim|\bent\b|ent\s*maintenance|face\s*trim|add[- ]?on|nail\s*clipping|ear\s*cleaning|eye\s*cleaning|teeth\s*cleaning|paw\s*pad)/.test(productName)&&!isBathCutStyle,subCategory=categoryRaw.split("/").slice(1).join(" / ").toLowerCase(),isGrooming=!isAddonOnly&&(/(?:full\s*grooming|grooming\s*&?\s*haircut|bath\s*&\s*blow\s*dry|bath\s*blow\s*dry|puppy\s*grooming|kitten\s*grooming|sensitive\s*skin\s*combo|medicated\s*bath|dry\s*grooming)/.test(productName)||/(?:dog|cat|puppy|kitten).*grooming|grooming/.test(subCategory)||isBathCutStyle),isStandaloneQuickService=/(?:sanitary\s*trim|face\s*trim|\bmaintenance\b|ent\s*maintenance|dry\s*grooming|nail\s*clipping|ear\s*cleaning|eye\s*cleaning|teeth\s*cleaning|paw\s*pad)/.test(productName)&&!/(?:massage|skin\s*&?\s*coat\s*pack|add[- ]?on|haircut)/.test(productName);groups.has(key)||groups.set(key,{primaryByName:new Map,quickByName:new Map});const g=groups.get(key);isGrooming?g.primaryByName.set(productName,(g.primaryByName.get(productName)||0)+q):isStandaloneQuickService&&g.quickByName.set(productName,(g.quickByName.get(productName)||0)+q)});let total=0;return groups.forEach(g=>{const primary=[...g.primaryByName.values()],quick=[...g.quickByName.values()];total+=primary.length?Math.max(...primary):quick.length?Math.max(...quick):0}),total}
+window.petCountForDay = petCountForDay;
+window.petCountForEod = petCountForEod;
+const PET_OVERRIDE_KEY="huftEodPetCountOverrides_v3";function readPetOverrides(){try{return JSON.parse(localStorage.getItem(PET_OVERRIDE_KEY)||"{}")||{}}catch{return{}}}function petCountForEod(day){const overrides=readPetOverrides();return Object.prototype.hasOwnProperty.call(overrides,day)?Math.max(0,Math.floor(safeNum(overrides[day]))):petCountForDay(day)}function getMetrics(day){let x;try{x=typeof calcDay=="function"?calcDay(day):null}catch{x=null}x||(x={retail:0,spa:0,total:0,qty:0,foodTotal:0});const source=rowsFor(day).filter(r=>!String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup")),invoices=new Set;let units=0;source.forEach(r=>{try{const inv=typeof invoiceNo=="function"?invoiceNo(r):String(r["Invoice/Display Name"]||r["Column F"]||"").trim();inv&&invoices.add(inv)}catch{}try{units+=safeNum(typeof qty=="function"?qty(r):r["Order Lines/Quantity"])}catch{}});const brandData=[{label:"Sara's Wholesome",key:"Sara's Wholesome",needle:"HUFT Sara's Wholesome"},{label:"Hearty",key:"Hearty",needle:"HUFT Hearty"},{label:"Meowsi",key:"Meowsi",needle:"HUFT Meowsi"},{label:"NutriMeow",key:"NutriMeow",needle:"NutriMeow"},{label:"NutriWag",key:"NutriWag",needle:"NutriWag"}].map(b=>{let qtyValue=safeNum(x[b.key+"Q"]),amountValue=safeNum(x[b.key+"A"]),sample=0;try{sample=typeof sampleQtyForDay=="function"?safeNum(sampleQtyForDay(day,b.needle)):0}catch{}return{...b,qty:qtyValue,amount:amountValue,sample}}),totalBills=safeNum(x.orders)>0?safeNum(x.orders):invoices.size;return{retail:safeNum(x.retail),spa:safeNum(x.spa),total:safeNum(x.total)||safeNum(x.retail)+safeNum(x.spa),foodTotal:safeNum(x.foodTotal),qty:units,bills:totalBills,atv:totalBills?(safeNum(x.retail)+safeNum(x.spa))/totalBills:0,upt:totalBills?units/totalBills:0,packages:safeNum(x.spaPackagesUsed),pets:petCountForEod(day),brands:brandData}}const EOD_DAY_TARGET_KEY="huftEodDayTargets_v1";function readEodDayTargets(){try{return JSON.parse(localStorage.getItem(EOD_DAY_TARGET_KEY)||"{}")||{}}catch{return{}}}function eodDayTargetsFor(date){var _a;const all=readEodDayTargets();if(Object.prototype.hasOwnProperty.call(all,date)&&all[date]&&Object.prototype.hasOwnProperty.call(all[date],"retail")&&Object.prototype.hasOwnProperty.call(all[date],"spa"))return{...all[date],source:"eod"};try{const plans=JSON.parse(localStorage.getItem("huftDailyEmployeeTargetPlans_v1")||"{}")||{},storeName=String(((_a=$("storeName"))==null?void 0:_a.textContent)||"").trim().replace(/^HUFT\s*[-–—:]?\s*/i,"").trim().toLowerCase(),matches=Object.values(plans).filter(p=>{if(!p||String(p.date||"")!==String(date||""))return!1;const ps=String(p.store||"").trim().replace(/^HUFT\s*[-–—:]?\s*/i,"").trim().toLowerCase();return!storeName||!ps||ps===storeName||ps.includes(storeName)||storeName.includes(ps)});if(matches.length){const p=matches[matches.length-1];return{retail:Math.max(0,safeNum(p.retail)),spa:Math.max(0,safeNum(p.spa)),source:"planner"}}}catch(e){console.warn("Could not read Daily Employee Target Planner targets:",e)}return all[date]||{}}function saveEodDayTargets(date,retail,spa){const all=readEodDayTargets();all[date]={retail:Math.max(0,safeNum(retail)),spa:Math.max(0,safeNum(spa))};try{localStorage.setItem(EOD_DAY_TARGET_KEY,JSON.stringify(all))}catch{}}function eodWeekDays(day){const m=String(day||"").match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return[day];const dt=new Date(+m[1],+m[2]-1,+m[3]),back=(dt.getDay()+6)%7,out=[];for(let i=back;i>=0;i--){const x=new Date(dt.getFullYear(),dt.getMonth(),dt.getDate()-i),k=x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0");dayIndex.has(k)&&out.push(k)}return out.length?out:[day]}function eodAggMetrics(ds){const ms=ds.map(getMetrics),sm=k=>ms.reduce((a,x)=>a+safeNum(x[k]),0),retail=sm("retail"),spa=sm("spa"),bills=sm("bills"),units=sm("qty"),brands=ms[0].brands.map(b=>{let q=0,a=0,sp=0;return ms.forEach(x=>{const it=x.brands.find(y=>y.key===b.key);it&&(q+=it.qty,a+=it.amount,sp+=it.sample)}),{...b,qty:q,amount:a,sample:sp}});return{retail,spa,total:sm("total")||retail+spa,foodTotal:sm("foodTotal"),qty:units,bills,atv:bills?(retail+spa)/bills:0,upt:bills?units/bills:0,packages:sm("packages"),pets:sm("pets"),brands}}function buildEod(){var _a,_b;const box=$("huftEodReportText");if(!box)return;if(typeof calcDay!="function"||typeof dayIndex=="undefined"||!(dayIndex instanceof Map)||!dayIndex.size){box.value="Upload sales data to generate the EOD report.";return}const dateInput=$("huftEodDate"),defaultDay=typeof getHuftReportDay=="function"?getHuftReportDay():[...dayIndex.keys()].sort().slice(-1)[0];dateInput&&!dateInput.value&&(dateInput.value=defaultDay||"");const requestedDay=dateInput&&dateInput.value?dateInput.value:defaultDay,petInput=$("huftEodPetsInput");if(petInput&&petInput.dataset.dirty!=="1"&&document.activeElement!==petInput){const overrides=readPetOverrides();petInput.value=Object.prototype.hasOwnProperty.call(overrides,requestedDay)?overrides[requestedDay]:""}const savedDayTargets=eodDayTargetsFor(requestedDay),retailTargetInput=$("huftEodRetailTargetInput"),spaTargetInput=$("huftEodSpaTargetInput");retailTargetInput&&retailTargetInput.dataset.dirty!=="1"&&document.activeElement!==retailTargetInput&&(retailTargetInput.value=Object.prototype.hasOwnProperty.call(savedDayTargets,"retail")?savedDayTargets.retail:""),spaTargetInput&&spaTargetInput.dataset.dirty!=="1"&&document.activeElement!==spaTargetInput&&(spaTargetInput.value=Object.prototype.hasOwnProperty.call(savedDayTargets,"spa")?savedDayTargets.spa:"");const targetStatus=$("huftEodStatus");savedDayTargets.source==="planner"&&targetStatus&&(targetStatus.dataset.targetSource="Daily Employee Target Planner");const day=dayIndex.has(requestedDay)?requestedDay:defaultDay,eodMode=window.__eodMode||"day",weekMode=eodMode!=="day",weekDays=eodMode==="week"?eodWeekDays(day):eodMode==="month"?availableDays(day):[day],daily=weekMode?eodAggMetrics(weekDays):getMetrics(day),days=availableDays(day),mtd=days.map(getMetrics),sum=key=>mtd.reduce((a,x)=>a+safeNum(x[key]),0),brandMtd=daily.brands.map(b=>{let q=0,a=0,s=0;return mtd.forEach(x=>{const item=x.brands.find(y=>y.key===b.key);item&&(q+=item.qty,a+=item.amount,s+=item.sample)}),{...b,mtdQty:q,mtdAmount:a,mtdSample:s}}),retailMtd=sum("retail"),spaMtd=sum("spa"),totalMtd=retailMtd+spaMtd,store=((_b=(_a=$("storeName"))==null?void 0:_a.textContent)==null?void 0:_b.trim())||"Store not identified",latest=typeof getLatestUploadedSaleDateTime=="function"?getLatestUploadedSaleDateTime():"",storeTarget=(()=>{try{return typeof storeTargetRead=="function"?storeTargetRead():{}}catch{return{}}})()[store]||{},targetSource=(()=>{const r=$("aiRetailTarget"),sp=$("aiSpaTarget");if(r&&sp)return{retail:safeNum(r.value),spa:safeNum(sp.value)};try{return typeof readHuftGlobalTargets=="function"?readHuftGlobalTargets():null}catch{return null}})()||storeTarget,retailTarget=safeNum(targetSource.retail)||0,spaTarget=safeNum(targetSource.spa)||0,totalTarget=retailTarget+spaTarget,employeeTotals=new Map,employeeLookup=(()=>{try{return typeof employeeNameLookup=="function"?employeeNameLookup():null}catch{return null}})(),employeeNamesByRow=new Map;let previousEmployeeName="";(Array.isArray(rows)?rows:[]).forEach(r=>{let resolved="";try{resolved=typeof employeeDisplayName=="function"?employeeDisplayName(resolveEmployeeName(r,employeeLookup||{byInvoice:new Map,byOrder:new Map})):String(r["Column AC"]||r.Employees||r._employee||r.Employee||"").trim()}catch{}if(!resolved)try{const k=Object.keys(r).find(k2=>/^(employees?|employee name|sales ?person|salesperson|cashier|staff|_employee|column ac)$/i.test(k2.trim())&&String(r[k2]||"").trim());k&&(resolved=String(r[k]).trim())}catch{}(!resolved||/^(unassigned|employee)$/i.test(resolved))&&(resolved=""),resolved?previousEmployeeName=resolved:resolved=previousEmployeeName,resolved&&employeeNamesByRow.set(r,resolved)}),weekDays.flatMap(d=>rowsFor(d)).forEach(r=>{const name=employeeNamesByRow.get(r)||"";if(!name||/^(odoo.?bot|public user|undefined|null|employee|unknown|unassigned|n\/a|na|-)$/i.test(name)||String(r._orderType||r["Order Type"]||"").toLowerCase().includes("wallet topup"))return;try{if(typeof employeeIsRetailRow=="function"&&!employeeIsRetailRow(r))return;if(typeof employeeIsRetailRow!="function"&&typeof isRetail=="function"&&!isRetail(r))return}catch{return}let sale=0;try{sale=typeof amount=="function"?Number(amount(r))||0:typeof valAmount=="function"?Number(valAmount(r))||0:Number(r["Order Lines/Subtotal"])||0}catch{}if(sale<=0)return;const key=[...employeeTotals.keys()].find(k=>k.toLowerCase()===name.toLowerCase())||name;employeeTotals.set(key,(employeeTotals.get(key)||0)+sale)});const pct=(actual,target)=>target>0?Math.round(actual/target*100)+"%":"",achievementPct=(actual,target,digits=0)=>{const a=Number(actual),t=Number(target),value=a/t*100;return!Number.isFinite(a)||!Number.isFinite(t)||t<=0||!Number.isFinite(value)?"Target not set":(digits?value.toFixed(digits):String(Math.round(value)))+"%"},configuredRetailDaily=safeNum(storeTarget.dailyRetail||storeTarget.retailDaily||storeTarget.retailTargetDaily),configuredSpaDaily=safeNum(storeTarget.dailySpa||storeTarget.spaDaily||storeTarget.spaTargetDaily),manualTargets=eodDayTargetsFor(day),__autoDailyTarget=(monthly,type,dd)=>{const m=String(dd||day||"").match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return monthly>0?monthly/30:0;const y=+m[1],mo=+m[2]-1,d=+m[3],dim=new Date(y,mo+1,0).getDate(),isWe=i=>{const w=new Date(y,mo,i).getDay();return w===0||w===6};let achievedBefore=0;days.forEach((k,i)=>{var _a2;k<dd&&(achievedBefore+=safeNum((_a2=mtd[i])==null?void 0:_a2[type]))});const remaining=Math.max(0,monthly-achievedBefore);let weekdays=0,weekends=0;for(let i=d;i<=dim;i++)isWe(i)?weekends++:weekdays++;const weekdayWeight=weekdays?.6:0,weekendWeight=weekends?.4:0,totalWeight=weekdayWeight+weekendWeight;return totalWeight?Math.round(remaining*(isWe(d)?weekendWeight:weekdayWeight)/totalWeight/(isWe(d)?weekends:weekdays)):0},__dayTgt=d=>{const mt=eodDayTargetsFor(d);return{r:Object.prototype.hasOwnProperty.call(mt,"retail")?safeNum(mt.retail):configuredRetailDaily||__autoDailyTarget(retailTarget,"retail",d),s:Object.prototype.hasOwnProperty.call(mt,"spa")?safeNum(mt.spa):configuredSpaDaily||__autoDailyTarget(spaTarget,"spa",d)}},dailyRetailTarget=weekDays.reduce((a,d)=>a+__dayTgt(d).r,0),dailySpaTarget=weekDays.reduce((a,d)=>a+__dayTgt(d).s,0),periodWord=eodMode==="week"?"This Week":eodMode==="month"?"This Month":"Today",retailRemainingTarget=Math.max(0,retailTarget-retailMtd),spaRemainingTarget=Math.max(0,spaTarget-spaMtd),totalRemainingTarget=Math.max(0,totalTarget-totalMtd),retailMtdPct=achievementPct(retailMtd,retailTarget,1),spaMtdPct=achievementPct(spaMtd,spaTarget,1),lines=["*Store Name: "+store+"*","",weekMode?"*"+(eodMode==="month"?"Month":"Week")+":* "+fmtDate(weekDays[0])+" \u2013 "+fmtDate(weekDays[weekDays.length-1])+" ("+weekDays.length+" day"+(weekDays.length>1?"s":"")+")":"*Date:* "+fmtDate(day),"\u2022 Retail Target"+(weekMode?eodMode==="month"?" (Month)":" (Week)":"")+": "+(dailyRetailTarget?money(dailyRetailTarget):""),"\u2022 Retail Sales: "+money(daily.retail),"\u2022 Retail MTD Target vs Achievement: "+money(retailMtd),"\u2022 MTD Target Achievement: "+retailMtdPct,"\u2022 ATV: "+money(daily.atv),"\u2022 UPT: "+daily.upt.toFixed(2),"\u2022 No. of Bills: "+daily.bills,"","*SPA*","\u2022 SPA Target"+(weekMode?eodMode==="month"?" (Month)":" (Week)":"")+": "+(dailySpaTarget?money(dailySpaTarget):""),"\u2022 SPA Sales: "+money(daily.spa),"\u2022 SPA MTD Achievement: "+money(spaMtd),"\u2022 SPA MTD Target Achievement: "+spaMtdPct,"","*Total Sales:* "+money(daily.total)+" | Achievement: "+(dailyRetailTarget+dailySpaTarget?pct(daily.total,dailyRetailTarget+dailySpaTarget):""),"","*Pet*","\u2022 Number of Pets: "+daily.pets,"\u2022 Pets MTD: "+sum("pets"),...daily.brands.flatMap(b=>["","*"+b.label+"*","\u2022 "+periodWord+": "+money(b.amount)+" | Qty: "+b.qty.toFixed(0),"\u2022 MTD: "+money((brandMtd.find(x=>x.key===b.key)||{}).mtdAmount||0)+" | Qty: "+((brandMtd.find(x=>x.key===b.key)||{}).mtdQty||0)]),...daily.brands.some(b=>Number(b.sample)>0)?["","*Sampling*",...daily.brands.filter(b=>Number(b.sample)>0).map(b=>"\u2022 "+b.label+": "+Number(b.sample).toFixed(0)),"\u2022 Total Samples: "+daily.brands.reduce((total,b)=>total+Math.max(0,Number(b.sample)||0),0).toFixed(0)]:[],"","*Individual Employee Sales \u2014 "+periodWord+" (Retail):*",...[...employeeTotals.entries()].filter(([,sale])=>sale>0).sort((a,b)=>b[1]-a[1]).map(([name,sale])=>"\u2022 "+name+" \u2014 "+money(sale)).concat([]).length?[...employeeTotals.entries()].filter(([,sale])=>sale>0).sort((a,b)=>b[1]-a[1]).map(([name,sale])=>"\u2022 "+name+" \u2014 "+money(sale)):["\u2022 No employee-wise retail sales found for this date (check the Employee column in the uploaded POS file)"],"","","*FINAL MTD SUMMARY*","\u2022 Retail MTD: "+money(retailMtd)+(retailTarget>0?" ("+retailMtdPct+")":""),"\u2022 SPA MTD: "+money(spaMtd)+(spaTarget>0?" ("+spaMtdPct+")":""),"\u2022 Total MTD: "+money(totalMtd)+(totalTarget?" ("+pct(totalMtd,totalTarget)+")":""),"\u2022 Total Brand Food Sale MTD: "+money(sum("foodTotal"))];box.value=lines.join(`
 `).replace(/\n{3,}/g,`
 
 `).trim(),typeof window.renderHuftWhatsAppPreview=="function"&&window.renderHuftWhatsAppPreview(box.value);const status=$("huftEodStatus");status&&(status.textContent="EOD for "+fmtDate(day)+" \u2022 MTD includes "+days.length+" available date(s). Employee sales are shown once in the retail section.")}window.buildEod=buildEod;async function copyEod(){const box=$("huftEodReportText");if(!box)return;try{await navigator.clipboard.writeText(box.value)}catch{box.focus(),box.select();try{document.execCommand("copy")}catch{}}const status=$("huftEodStatus");status&&(status.textContent="EOD message copied. Paste it into WhatsApp.")}document.addEventListener("DOMContentLoaded",function(){var _a,_b,_c,_d,_e,_f,_g,_h;const eodModal=$("huftEodMessageContent");eodModal&&eodModal.parentElement!==document.body&&document.body.appendChild(eodModal),(_a=$("huftEodOpen"))==null||_a.addEventListener("click",function(){const content=$("huftEodMessageContent");content&&(content.hidden=!1,content.style.display="flex"),buildEod()}),(_b=$("huftEodClose"))==null||_b.addEventListener("click",function(){const content=$("huftEodMessageContent");content&&(content.hidden=!0,content.style.display="none")}),(_c=$("huftEodMessageContent"))==null||_c.addEventListener("click",function(e){e.target===this&&(this.hidden=!0,this.style.display="none")}),document.addEventListener("keydown",function(e){if(e.key==="Escape"){const content=$("huftEodMessageContent");content&&(content.hidden=!0,content.style.display="none")}}),(_d=$("huftEodRefresh"))==null||_d.addEventListener("click",buildEod);let dashboardTargetEodTimer=0;["aiRetailTarget","aiSpaTarget"].forEach(id=>{const input=$(id);if(!input||input.dataset.eodRefreshBound==="1")return;input.dataset.eodRefreshBound="1";const refresh=()=>{clearTimeout(dashboardTargetEodTimer),dashboardTargetEodTimer=setTimeout(buildEod,120)};input.addEventListener("input",refresh),input.addEventListener("change",refresh)}),(_e=$("huftEodTargetsSave"))==null||_e.addEventListener("click",function(){var _a2;const date=(_a2=$("huftEodDate"))==null?void 0:_a2.value;if(!date){const status2=$("huftEodStatus");status2&&(status2.textContent="Select a date before saving day targets.");return}const r=$("huftEodRetailTargetInput"),sp=$("huftEodSpaTargetInput");if(!r||!sp||r.value.trim()===""||sp.value.trim()===""){const status2=$("huftEodStatus");status2&&(status2.textContent="Enter both Retail and SPA day targets.");return}saveEodDayTargets(date,r.value,sp.value),buildEod();const status=$("huftEodStatus");status&&(status.textContent="Retail and SPA day targets saved for "+date+".")}),(_f=$("huftEodPetsSave"))==null||_f.addEventListener("click",function(){var _a2;const date=(_a2=$("huftEodDate"))==null?void 0:_a2.value;if(!date){const status2=$("huftEodStatus");status2&&(status2.textContent="Select a date before saving the pet count.");return}const input=$("huftEodPetsInput");if(!input||input.value.trim()===""){const status2=$("huftEodStatus");status2&&(status2.textContent="Enter the number of pets for the selected date.");return}const overrides=readPetOverrides();overrides[date]=Math.max(0,Math.floor(safeNum(input.value)));try{localStorage.setItem(PET_OVERRIDE_KEY,JSON.stringify(overrides))}catch{}buildEod();const status=$("huftEodStatus");status&&(status.textContent="Pet count saved for "+date+". MTD pet total updated.")}),(_g=$("huftEodDate"))==null||_g.addEventListener("change",function(){const overrides=readPetOverrides(),d=this.value,input=$("huftEodPetsInput");input&&(input.value=Object.prototype.hasOwnProperty.call(overrides,d)?overrides[d]:""),buildEod()}),(_h=$("huftEodCopy"))==null||_h.addEventListener("click",copyEod),buildEod();const oldRefresh=window.refreshHUFTSaleReport;if(typeof oldRefresh=="function"&&!oldRefresh.__eodWrapped){const wrapped=function(){const result=oldRefresh.apply(this,arguments);return setTimeout(buildEod,0),result};wrapped.__eodWrapped=!0,window.refreshHUFTSaleReport=wrapped}const file=$("file");file&&file.addEventListener("change",()=>setTimeout(buildEod,1e3)),document.addEventListener("click",function(e){e.target&&e.target.matches('button[onclick="refreshTable()"],button[onclick="refreshDashboard()"],button[onclick="refreshSalesDashboard()"]')&&setTimeout(buildEod,100)}),setInterval(()=>{const eod=document.getElementById("huftEodMessageContent");if(document.hidden||!eod||eod.hidden)return;try{buildEod()}catch{}},6e4)})})();
@@ -8286,488 +8864,1074 @@ html body .tableWrap {
 </style>
 
 
-<style id="clean-modern-enterprise-theme">
 
+
+<script id="enterprise-bi-engine">
+/**
+ * HUFT Enterprise Business Intelligence Data & Tab Engine
+ * Design D Standard: Enterprise BI
+ */
+
+(function () {
+  console.log('[Enterprise BI Engine] Initializing...');
+
+  function formatInr(val) {
+    val = Number(val) || 0;
+    if (Math.abs(val) >= 10000000) return '₹' + (val / 10000000).toFixed(2) + 'Cr';
+    if (Math.abs(val) >= 100000) return '₹' + (val / 100000).toFixed(2) + 'L';
+    if (Math.abs(val) >= 1000) return '₹' + (val / 1000).toFixed(1) + 'K';
+    return '₹' + Math.round(val).toLocaleString('en-IN');
+  }
+
+  function formatFullInr(val) {
+    val = Number(val) || 0;
+    return '₹' + Math.round(val).toLocaleString('en-IN');
+  }
+
+  function getActiveDates() {
+    const F = document.getElementById('from')?.value || '';
+    const T = document.getElementById('to')?.value || '';
+    if (F && T && F.length === 10 && T.length === 10) {
+      const dates = [];
+      let cur = new Date(F + 'T12:00:00');
+      const end = new Date(T + 'T12:00:00');
+      while (cur <= end) {
+        const y = cur.getFullYear();
+        const m = String(cur.getMonth() + 1).padStart(2, '0');
+        const day = String(cur.getDate()).padStart(2, '0');
+        dates.push(`${y}-${m}-${day}`);
+        cur.setDate(cur.getDate() + 1);
+      }
+      if (dates.length) return dates;
+    }
+
+    if (Array.isArray(window.rows) && window.rows.length) {
+      const keys = [...new Set(window.rows.map(r => r._key).filter(k => typeof k === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(k)))].sort();
+      return keys.filter(d => (!F || d >= F) && (!T || d <= T));
+    }
+
+    return [];
+  }
+
+  function getActiveRows() {
+    if (!Array.isArray(window.rows)) return [];
+    const F = document.getElementById('from')?.value || '';
+    const T = document.getElementById('to')?.value || '';
+    return window.rows.filter(r => {
+      const k = typeof r._key === 'string' ? r._key : (r._date instanceof Date ? r._date.toISOString().slice(0, 10) : '');
+      if (!k) return true;
+      return (!F || k >= F) && (!T || k <= T);
+    });
+  }
+
+  function getStoreTargets() {
+    try {
+      const saved = localStorage.getItem('huft_bi_settings_targets');
+      if (saved) return JSON.parse(saved);
+    } catch (_) {}
+    return {
+      weekdayRetail: 28600,
+      weekendRetail: 46700,
+      weekdaySpa: 16400,
+      weekendSpa: 26700
+    };
+  }
+
+  // 1. SPA Analysis Tab
+  window.refreshSpaAnalysis = function () {
+    const dates = getActiveDates();
+    if (!dates.length) return;
+
+    let totSpaSales = 0;
+    let totSpaBills = 0;
+    const totSpaCustomers = new Set();
+    let totPets = 0;
+    let totSpaTarget = 0;
+    const targets = getStoreTargets();
+    const tableRows = [];
+
+    dates.forEach(d => {
+      const dayData = typeof window.calcDay === 'function' ? window.calcDay(d) : { spa: 0 };
+      const spaSales = dayData ? (dayData.spa || 0) : 0;
+      totSpaSales += spaSales;
+
+      const dayPets = typeof window.petCountForDay === 'function' ? (Number(window.petCountForDay(d)) || 0) : 0;
+      totPets += dayPets;
+
+      // Count distinct bills and customers
+      const dayRows = getActiveRows().filter(r => (typeof r._key === 'string' ? r._key : '').slice(0, 10) === d);
+      const billsSet = new Set();
+      dayRows.forEach(r => {
+        const cat = String(r['Order Lines/Product/Product Category'] || r.Category || '').toLowerCase();
+        if (cat.includes('spa')) {
+          const inv = String(r['Invoice/Display Name'] || r['Order Ref'] || r['Column F'] || '').trim();
+          if (inv) billsSet.add(inv);
+          const cust = String(r['Customer/Phone'] || r['Customer Phone'] || r.Customer || '').trim();
+          if (cust) totSpaCustomers.add(cust);
+        }
+      });
+      const dayBills = billsSet.size;
+      totSpaBills += dayBills;
+
+      const dt = new Date(d);
+      const isWeekend = dt.getDay() === 0 || dt.getDay() === 6;
+      const dayTarget = isWeekend ? targets.weekendSpa : targets.weekdaySpa;
+      totSpaTarget += dayTarget;
+
+      const ach = dayTarget > 0 ? (spaSales / dayTarget) * 100 : 0;
+      let badgeCls = 'bi-badge-neutral';
+      let badgeText = 'Pending';
+      if (ach >= 110) { badgeCls = 'bi-badge-success'; badgeText = 'Super Target'; }
+      else if (ach >= 100) { badgeCls = 'bi-badge-success'; badgeText = 'Target Achieved'; }
+      else if (ach >= 80) { badgeCls = 'bi-badge-warning'; badgeText = 'Near Target'; }
+      else { badgeCls = 'bi-badge-danger'; badgeText = 'Below Target'; }
+
+      tableRows.push(`<tr>
+        <td>${d}</td>
+        <td>Hyderguda</td>
+        <td>${dayBills}</td>
+        <td>${formatFullInr(spaSales)}</td>
+        <td>${dayPets}</td>
+        <td>${formatFullInr(dayTarget)}</td>
+        <td>${ach.toFixed(1)}%</td>
+        <td><span class="bi-badge ${badgeCls}">${badgeText}</span></td>
+      </tr>`);
+    });
+
+    const overallAch = totSpaTarget > 0 ? (totSpaSales / totSpaTarget) * 100 : 0;
+    const avgBill = totSpaBills > 0 ? Math.round(totSpaSales / totSpaBills) : 0;
+
+    const elSales = document.getElementById('biSpaSales');
+    const elBills = document.getElementById('biSpaBills');
+    const elCust = document.getElementById('biSpaCustomers');
+    const elTarget = document.getElementById('biSpaTarget');
+    const elAch = document.getElementById('biSpaAch');
+    const elPets = document.getElementById('biSpaPets');
+    const elAtv = document.getElementById('biSpaAtv');
+    const elBody = document.getElementById('biSpaTableBody');
+
+    if (elSales) elSales.textContent = formatInr(totSpaSales);
+    if (elBills) elBills.textContent = totSpaBills.toLocaleString('en-IN');
+    if (elCust) elCust.textContent = totSpaCustomers.size.toLocaleString('en-IN');
+    if (elTarget) elTarget.textContent = formatInr(totSpaTarget);
+    if (elAch) elAch.textContent = overallAch.toFixed(1) + '%';
+    if (elPets) elPets.textContent = totPets.toLocaleString('en-IN');
+    if (elAtv) elAtv.textContent = formatFullInr(avgBill);
+    if (elBody) elBody.innerHTML = tableRows.join('');
+  };
+
+  // 2. Package Analysis Tab
+  window.refreshPackageAnalysis = function () {
+    const pkgSales = typeof window.packageSaleRows === 'function' ? window.packageSaleRows() : [];
+    const pkgReturns = typeof window.packageReturnRows === 'function' ? window.packageReturnRows() : [];
+
+    const totalSalesVal = pkgSales.reduce((a, r) => a + (typeof window.packageSaleValue === 'function' ? window.packageSaleValue(r) : (Number(r['Order Lines/Subtotal'] ?? r['Subtotal'] ?? 0) || 0)), 0);
+    const totalQty = pkgSales.reduce((a, r) => a + (typeof window.packageSaleQuantity === 'function' ? window.packageSaleQuantity(r) : 1), 0);
+    const returnVal = pkgReturns.reduce((a, r) => a + (typeof window.packageReturnTotalValue === 'function' ? window.packageReturnTotalValue(r) : 0), 0);
+
+    let totalRedeemed = 0;
+    let redemptionBillsCount = 0;
+    const dates = getActiveDates();
+    dates.forEach(d => {
+      const redRows = typeof window.packageRedemptionRowsForDay === 'function' ? window.packageRedemptionRowsForDay(d) : [];
+      redRows.forEach(r => {
+        totalRedeemed += typeof window.spaPackagesUsed === 'function' ? (window.spaPackagesUsed(r) || 1) : 1;
+      });
+      redemptionBillsCount += redRows.length;
+    });
+
+    const uniqueCustomers = new Set(pkgSales.map(r => typeof window.customerKey === 'function' ? window.customerKey(r) : String(r['Customer/Phone'] || r.Customer || '')).filter(Boolean)).size;
+
+    const elSales = document.getElementById('biPkgSales');
+    const elQty = document.getElementById('biPkgQty');
+    const elCust = document.getElementById('biPkgCustomers');
+    const elRedeemed = document.getElementById('biPkgRedeemed');
+    const elRedBills = document.getElementById('biPkgRedemptionBills');
+    const elRetVal = document.getElementById('biPkgReturns');
+    const elNet = document.getElementById('biPkgNet');
+
+    if (elSales) elSales.textContent = formatInr(totalSalesVal);
+    if (elQty) elQty.textContent = totalQty.toLocaleString('en-IN');
+    if (elCust) elCust.textContent = uniqueCustomers.toLocaleString('en-IN');
+    if (elRedeemed) elRedeemed.textContent = totalRedeemed.toLocaleString('en-IN');
+    if (elRedBills) elRedBills.textContent = redemptionBillsCount.toLocaleString('en-IN');
+    if (elRetVal) elRetVal.textContent = formatInr(returnVal);
+    if (elNet) elNet.textContent = formatInr(totalSalesVal - returnVal);
+
+    // Sales table (6 columns: Invoice Number, Date, Store, Employee, Package Amount, Quantity)
+    const salesTableBody = document.getElementById('biPkgSalesTableBody');
+    if (salesTableBody) {
+      salesTableBody.innerHTML = pkgSales.slice(0, 50).map(r => {
+        const inv = String(r['Invoice/Display Name'] || r['Order Ref'] || r['Column F'] || '-');
+        const dt = String(r._key || r.Date || '-').slice(0, 10);
+        const emp = String(r['Created by'] || r['User'] || 'Store Staff');
+        const amt = typeof window.packageSaleValue === 'function' ? window.packageSaleValue(r) : (Number(r['Order Lines/Subtotal'] ?? r['Subtotal'] ?? 0) || 0);
+        const q = typeof window.packageSaleQuantity === 'function' ? window.packageSaleQuantity(r) : 1;
+        return `<tr>
+          <td><strong>${inv}</strong></td>
+          <td>${dt}</td>
+          <td>Hyderguda</td>
+          <td>${emp}</td>
+          <td class="text-right">${formatFullInr(amt)}</td>
+          <td class="text-right">${q}</td>
+        </tr>`;
+      }).join('') || '<tr><td colspan="6">No package sales found in selected period.</td></tr>';
+    }
+
+    // Redemption table (6 columns: Invoice, Date, Store, Discount / Tag, Payment Method, Redemption Count)
+    const redTableBody = document.getElementById('biPkgRedemptionTableBody');
+    if (redTableBody) {
+      const redRowsAll = [];
+      dates.forEach(d => {
+        const rows = typeof window.packageRedemptionRowsForDay === 'function' ? window.packageRedemptionRowsForDay(d) : [];
+        rows.forEach(r => redRowsAll.push({ r, d }));
+      });
+      redTableBody.innerHTML = redRowsAll.slice(0, 50).map(item => {
+        const inv = String(item.r['Invoice/Display Name'] || item.r['Order Ref'] || '-');
+        const dt = item.d;
+        const discount = String(item.r['Order Lines/Discount (%)'] || item.r['Discount'] || '100%');
+        const method = String(item.r['Payment Method'] || 'Package Redeem');
+        const sess = typeof window.spaPackagesUsed === 'function' ? (window.spaPackagesUsed(item.r) || 1) : 1;
+        return `<tr>
+          <td><strong>${inv}</strong></td>
+          <td>${dt}</td>
+          <td>Hyderguda</td>
+          <td>${discount}</td>
+          <td>${method}</td>
+          <td class="text-right">${sess}</td>
+        </tr>`;
+      }).join('') || '<tr><td colspan="6">No package redemptions found in selected period.</td></tr>';
+    }
+
+    // Return table (6 columns: Return Invoice, Original Invoice, Date, Store, Return Amount, Quantity)
+    const retTableBody = document.getElementById('biPkgReturnsTableBody');
+    if (retTableBody) {
+      retTableBody.innerHTML = pkgReturns.slice(0, 50).map(r => {
+        const inv = String(r['Invoice/Display Name'] || r['Order Ref'] || '-');
+        const origInv = String(r['Original Invoice'] || r['Order Ref'] || '-');
+        const dt = String(r._key || r.Date || '-').slice(0, 10);
+        const amt = typeof window.packageReturnTotalValue === 'function' ? window.packageReturnTotalValue(r) : 0;
+        const q = 1;
+        return `<tr>
+          <td><strong>${inv}</strong></td>
+          <td>${origInv}</td>
+          <td>${dt}</td>
+          <td>Hyderguda</td>
+          <td class="text-right">${formatFullInr(amt)}</td>
+          <td class="text-right">${q}</td>
+        </tr>`;
+      }).join('') || '<tr><td colspan="6">No package returns found in selected period.</td></tr>';
+    }
+  };
+
+  // 3. Brand Analysis Tab
+  window.refreshBrandAnalysis = function () {
+    const list = getActiveRows();
+    const brands = [
+      ["Sara's", ["sara's wholesome", "sara’s wholesome", "saras wholesome", "sara"]],
+      ["Hearty", ["hearty"]],
+      ["Meowsi", ["meowsi"]],
+      ["NutriMeow", ["nutri-meow", "nutrimeow", "nutri meow"]],
+      ["NutriWag", ["nutriwag", "nutri-wag", "nutri wag"]]
+    ];
+
+    let totalBrandSales = 0;
+    let totalBrandQty = 0;
+    let totalBrandBills = 0;
+    const brandData = [];
+
+    brands.forEach(b => {
+      const bRows = list.filter(r => {
+        const prod = String(r['Order Lines/Product/Name'] || r['Product Name'] || r['Name'] || r['Column J'] || '').toLowerCase();
+        return b[1].some(alias => prod.includes(alias));
+      });
+      const amt = bRows.reduce((a, r) => a + (Number(r['Order Lines/Subtotal'] ?? r['Subtotal'] ?? r['Column O'] ?? 0) || 0), 0);
+      const q = bRows.reduce((a, r) => a + (Number(r['Order Lines/Quantity'] ?? r['Quantity'] ?? r['Column N'] ?? 1) || 0), 0);
+      totalBrandSales += amt;
+      totalBrandQty += q;
+      totalBrandBills += bRows.length;
+      brandData.push({ name: b[0], sales: amt, qty: q, bills: bRows.length });
+    });
+
+    const elSales = document.getElementById('biBrandTotalSales');
+    const elQty = document.getElementById('biBrandTotalQty');
+    const elBills = document.getElementById('biBrandTotalBills');
+    const elTop = document.getElementById('biBrandTopName');
+    const elShare = document.getElementById('biBrandContribPct');
+    const elBody = document.getElementById('biBrandTableBody');
+
+    const topBrand = brandData.slice().sort((a, b) => b.sales - a.sales)[0] || { name: "Sara's" };
+    const totalStoreSales = list.reduce((a, r) => a + (Number(r['Order Lines/Subtotal'] ?? r['Subtotal'] ?? 0) || 0), 0);
+    const overallShare = totalStoreSales > 0 ? (totalBrandSales / totalStoreSales) * 100 : 0;
+
+    if (elSales) elSales.textContent = formatInr(totalBrandSales);
+    if (elQty) elQty.textContent = Math.round(totalBrandQty).toLocaleString('en-IN');
+    if (elBills) elBills.textContent = totalBrandBills.toLocaleString('en-IN');
+    if (elTop) elTop.textContent = topBrand.name;
+    if (elShare) elShare.textContent = overallShare.toFixed(1) + '%';
+
+    if (elBody) {
+      elBody.innerHTML = brandData.map(b => {
+        const share = totalBrandSales > 0 ? (b.sales / totalBrandSales) * 100 : 0;
+        return `<tr>
+          <td><strong>${b.name}</strong></td>
+          <td class="text-right">${formatFullInr(b.sales)}</td>
+          <td class="text-right">${Math.round(b.qty).toLocaleString('en-IN')}</td>
+          <td class="text-right">${b.bills.toLocaleString('en-IN')}</td>
+          <td class="text-right">${share.toFixed(1)}%</td>
+        </tr>`;
+      }).join('');
+    }
+  };
+
+  // 4. Customer Analysis Tab
+  window.refreshCustomerAnalysis = function () {
+    const list = getActiveRows();
+    const customerMap = new Map();
+
+    list.forEach(r => {
+      const custId = String(r['Customer/Phone'] || r['Customer Phone'] || r['Phone'] || r['Customer'] || '').trim();
+      if (!custId) return;
+      const amt = Number(r['Order Lines/Subtotal'] ?? r['Subtotal'] ?? r['Column O'] ?? 0) || 0;
+      const q = Number(r['Order Lines/Quantity'] ?? r['Quantity'] ?? r['Column N'] ?? 1) || 1;
+      const item = customerMap.get(custId) || { spend: 0, bills: 0, qty: 0 };
+      item.spend += amt;
+      item.bills += 1;
+      item.qty += q;
+      customerMap.set(custId, item);
+    });
+
+    const totalCustomers = customerMap.size;
+    let returningCount = 0;
+    let totalSpend = 0;
+    let totalCustomerBills = 0;
+    const sortedCusts = [];
+
+    customerMap.forEach((v, k) => {
+      if (v.bills > 1) returningCount++;
+      totalSpend += v.spend;
+      totalCustomerBills += v.bills;
+      sortedCusts.push({ id: k, ...v });
+    });
+
+    const newCustCount = totalCustomers - returningCount;
+    const repeatRate = totalCustomers > 0 ? (returningCount / totalCustomers) * 100 : 0;
+    const avgCustSpend = totalCustomers > 0 ? Math.round(totalSpend / totalCustomers) : 0;
+
+    const elTotal = document.getElementById('biCustTotal');
+    const elNew = document.getElementById('biCustNew');
+    const elReturning = document.getElementById('biCustReturning');
+    const elBills = document.getElementById('biCustBills');
+    const elAtv = document.getElementById('biCustAtv');
+    const elRepeat = document.getElementById('biCustRepeatPct');
+    const elBody = document.getElementById('biCustTableBody');
+
+    if (elTotal) elTotal.textContent = totalCustomers.toLocaleString('en-IN');
+    if (elNew) elNew.textContent = newCustCount.toLocaleString('en-IN');
+    if (elReturning) elReturning.textContent = returningCount.toLocaleString('en-IN');
+    if (elBills) elBills.textContent = totalCustomerBills.toLocaleString('en-IN');
+    if (elAtv) elAtv.textContent = formatFullInr(avgCustSpend);
+    if (elRepeat) elRepeat.textContent = repeatRate.toFixed(1) + '%';
+
+    function maskPhone(str) {
+      if (!str) return '—';
+      const clean = str.replace(/[^0-9]/g, '');
+      if (clean.length >= 10) {
+        return clean.slice(0, 2) + '******' + clean.slice(-2);
+      }
+      return str.slice(0, 2) + '***';
+    }
+
+    if (elBody) {
+      sortedCusts.sort((a, b) => b.spend - a.spend);
+      // 6 columns matching thead: Customer Identifier, Total Spend (₹), Total Invoices, Average Ticket (₹), Units Bought, Customer Type
+      elBody.innerHTML = sortedCusts.slice(0, 50).map(c => {
+        const type = c.bills > 1 ? '<span class="bi-badge bi-badge-success">Returning</span>' : '<span class="bi-badge bi-badge-neutral">New</span>';
+        const atv = c.bills > 0 ? Math.round(c.spend / c.bills) : 0;
+        return `<tr>
+          <td>${maskPhone(c.id)}</td>
+          <td class="text-right">${formatFullInr(c.spend)}</td>
+          <td class="text-right">${c.bills}</td>
+          <td class="text-right">${formatFullInr(atv)}</td>
+          <td class="text-right">${Math.round(c.qty)}</td>
+          <td>${type}</td>
+        </tr>`;
+      }).join('') || '<tr><td colspan="6">No customer transactions available.</td></tr>';
+    }
+  };
+
+  // 5. Target Analysis Tab
+  window.refreshTargetAnalysis = function () {
+    const dates = getActiveDates();
+    if (!dates.length) return;
+
+    const targets = getStoreTargets();
+    let totRetailTgt = 0, totRetailAct = 0;
+    let totSpaTgt = 0, totSpaAct = 0;
+    const tableRows = [];
+
+    dates.forEach(d => {
+      const dayData = typeof window.calcDay === 'function' ? window.calcDay(d) : { retail: 0, spa: 0, total: 0 };
+      const retAct = dayData ? (dayData.retail || 0) : 0;
+      const spaAct = dayData ? (dayData.spa || 0) : 0;
+      totRetailAct += retAct;
+      totSpaAct += spaAct;
+
+      const dt = new Date(d);
+      const isWeekend = dt.getDay() === 0 || dt.getDay() === 6;
+      const retTgt = isWeekend ? targets.weekendRetail : targets.weekdayRetail;
+      const spaTgt = isWeekend ? targets.weekendSpa : targets.weekdaySpa;
+      const combTgt = retTgt + spaTgt;
+      const combAct = retAct + spaAct;
+
+      totRetailTgt += retTgt;
+      totSpaTgt += spaTgt;
+
+      const ach = combTgt > 0 ? (combAct / combTgt) * 100 : 0;
+      let badgeCls = 'bi-badge-neutral';
+      let badgeText = 'Pending';
+      if (ach >= 110) { badgeCls = 'bi-badge-success'; badgeText = '110%+ Above Target'; }
+      else if (ach >= 100) { badgeCls = 'bi-badge-success'; badgeText = 'Target Achieved'; }
+      else if (ach >= 80) { badgeCls = 'bi-badge-warning'; badgeText = '80-99% Near'; }
+      else { badgeCls = 'bi-badge-danger'; badgeText = 'Below 80%'; }
+
+      // 10 columns matching thead: Date, Day Type, Retail Target, Retail Actual, SPA Target, SPA Actual, Total Target, Total Actual, Achievement %, Status
+      tableRows.push(`<tr>
+        <td>${d}</td>
+        <td>${isWeekend ? 'Weekend' : 'Weekday'}</td>
+        <td class="text-right">${formatFullInr(retTgt)}</td>
+        <td class="text-right">${formatFullInr(retAct)}</td>
+        <td class="text-right">${formatFullInr(spaTgt)}</td>
+        <td class="text-right">${formatFullInr(spaAct)}</td>
+        <td class="text-right">${formatFullInr(combTgt)}</td>
+        <td class="text-right">${formatFullInr(combAct)}</td>
+        <td class="text-right">${ach.toFixed(1)}%</td>
+        <td><span class="bi-badge ${badgeCls}">${badgeText}</span></td>
+      </tr>`);
+    });
+
+    const totCombTgt = totRetailTgt + totSpaTgt;
+    const totCombAct = totRetailAct + totSpaAct;
+    const combAch = totCombTgt > 0 ? (totCombAct / totCombTgt) * 100 : 0;
+
+    const elRetTgt = document.getElementById('biTgtRetailTgt');
+    const elRetAct = document.getElementById('biTgtRetailAct');
+    const elSpaTgt = document.getElementById('biTgtSpaTgt');
+    const elSpaAct = document.getElementById('biTgtSpaAct');
+    const elTotTgt = document.getElementById('biTgtTotalTgt');
+    const elTotAch = document.getElementById('biTgtTotalAch');
+    const elRem = document.getElementById('biTgtRemaining');
+    const elProj = document.getElementById('biTgtProjected');
+    const elBody = document.getElementById('biTargetTableBody');
+
+    if (elRetTgt) elRetTgt.textContent = formatInr(totRetailTgt);
+    if (elRetAct) elRetAct.textContent = formatInr(totRetailAct);
+    if (elSpaTgt) elSpaTgt.textContent = formatInr(totSpaTgt);
+    if (elSpaAct) elSpaAct.textContent = formatInr(totSpaAct);
+    if (elTotTgt) elTotTgt.textContent = formatInr(totCombTgt);
+    if (elTotAch) elTotAch.textContent = combAch.toFixed(1) + '%';
+    if (elRem) elRem.textContent = formatInr(Math.max(0, totCombTgt - totCombAct));
+    if (elProj) elProj.textContent = formatInr(totCombAct);
+    if (elBody) elBody.innerHTML = tableRows.join('');
+  };
+
+  // 6. Settings Tab
+  window.saveBiSettings = function () {
+    const wRet = Number(document.getElementById('biSetWeekdayRetail')?.value) || 28600;
+    const weRet = Number(document.getElementById('biSetWeekendRetail')?.value) || 46700;
+    const wSpa = Number(document.getElementById('biSetWeekdaySpa')?.value) || 16400;
+    const weSpa = Number(document.getElementById('biSetWeekendSpa')?.value) || 26700;
+
+    const targets = {
+      weekdayRetail: wRet,
+      weekendRetail: weRet,
+      weekdaySpa: wSpa,
+      weekendSpa: weSpa
+    };
+
+    localStorage.setItem('huft_bi_settings_targets', JSON.stringify(targets));
+    alert('Enterprise BI settings saved successfully!');
+    if (typeof window.refreshTargetAnalysis === 'function') window.refreshTargetAnalysis();
+    if (typeof window.refreshDashboard === 'function') window.refreshDashboard();
+  };
+
+  // Hook into showTab
+  const originalShowTab = window.showTab;
+  window.showTab = function (id, btn) {
+    if (id === 'eodReport') id = 'whatsapp';
+
+    const tabTitles = {
+      'dashboard': 'Executive Overview',
+      'huft': 'Sales Analytics',
+      'spaAnalysis': 'Fresh SPA Service Analytics',
+      'packageAnalysis': 'Package Sales, Redemption & Returns',
+      'brandAnalysis': 'HUFT Food & Private Brand Performance',
+      'employeeSales': 'Employee Sales Performance',
+      'customerAnalysis': 'Customer & Retention Intelligence',
+      'targetAnalysis': 'Target Pace & Daily Achievement',
+      'weeklyReview': 'Weekly Review & PPT Presentation',
+      'whatsapp': 'End of Day (EOD) Operations Report',
+      'settingsTab': 'Enterprise BI Settings & Configuration'
+    };
+
+    const bc = document.getElementById('biCurrentTabBreadcrumb');
+    const hd = document.getElementById('biCurrentTabHeading');
+    if (bc) bc.textContent = (id || '').toUpperCase();
+    if (hd) hd.textContent = tabTitles[id] || 'Analytics & Reporting';
+
+    if (originalShowTab) originalShowTab(id, btn);
+
+    if (id === 'spaAnalysis' && typeof window.refreshSpaAnalysis === 'function') window.refreshSpaAnalysis();
+    if (id === 'packageAnalysis' && typeof window.refreshPackageAnalysis === 'function') window.refreshPackageAnalysis();
+    if (id === 'brandAnalysis' && typeof window.refreshBrandAnalysis === 'function') window.refreshBrandAnalysis();
+    if (id === 'customerAnalysis' && typeof window.refreshCustomerAnalysis === 'function') window.refreshCustomerAnalysis();
+    if (id === 'targetAnalysis' && typeof window.refreshTargetAnalysis === 'function') window.refreshTargetAnalysis();
+  };
+
+  // Hook into refreshDashboard
+  const origRefreshDashboard = window.refreshDashboard;
+  if (typeof origRefreshDashboard === 'function') {
+    window.refreshDashboard = function () {
+      origRefreshDashboard();
+      setTimeout(function () {
+        if (typeof window.refreshSpaAnalysis === 'function') window.refreshSpaAnalysis();
+        if (typeof window.refreshPackageAnalysis === 'function') window.refreshPackageAnalysis();
+        if (typeof window.refreshBrandAnalysis === 'function') window.refreshBrandAnalysis();
+        if (typeof window.refreshCustomerAnalysis === 'function') window.refreshCustomerAnalysis();
+        if (typeof window.refreshTargetAnalysis === 'function') window.refreshTargetAnalysis();
+      }, 100);
+    };
+  }
+
+  // Dashboard Card Click triggers
+  function wireDashboardCardClicks() {
+    const kRetail = document.getElementById('kRetail');
+    if (kRetail) {
+      const card = kRetail.closest('.kpi');
+      if (card) {
+        card.style.cursor = 'pointer';
+        card.setAttribute('title', 'Click to open Sales Analysis');
+        card.addEventListener('click', () => window.showTab('huft'));
+      }
+    }
+
+    const kSpa = document.getElementById('kSpa');
+    if (kSpa) {
+      const card = kSpa.closest('.kpi');
+      if (card) {
+        card.style.cursor = 'pointer';
+        card.setAttribute('title', 'Click to open SPA Analysis');
+        card.addEventListener('click', () => window.showTab('spaAnalysis'));
+      }
+    }
+
+    const kFood = document.getElementById('kFood');
+    if (kFood) {
+      const card = kFood.closest('.kpi');
+      if (card) {
+        card.style.cursor = 'pointer';
+        card.setAttribute('title', 'Click to open Brand Analysis');
+        card.addEventListener('click', () => window.showTab('brandAnalysis'));
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wireDashboardCardClicks);
+  } else {
+    wireDashboardCardClicks();
+  }
+
+  console.log('HUFT Enterprise BI Engine successfully initialized.');
+})();
+
+</script>
+
+<style id="enterprise-bi-design-system-d">
 /* =========================================================================
-   STORE INTELLIGENCE / HUFT — PREMIER ENTERPRISE DESIGN SYSTEM
-   Standard: World-Class Retail SaaS (Stripe / Datadog / Linear Grade)
-   Palette: Cool Slate Navy (#0F172A, #1E293B), Crisp Minimalist White (#FFFFFF),
-   Cool Slate Canvas (#F8FAFC, #F1F5F9), Modern Indigo (#4F46E5) & Cobalt (#2563EB)
+   HUFT SALES ANALYSIS — ENTERPRISE BI DESIGN SYSTEM (DESIGN D)
+   Standard: Modern Executive Business Intelligence (Power BI / SaaS BI)
+   Palette:
+     Main Canvas Background: #F4F6F9
+     Sidebar Background: #17212F (Dark Charcoal)
+     Card Background: #FFFFFF
+     Primary Accent: #0D9488 (Teal)
+     Primary Text: #17212F
+     Secondary Text: #718096
+     Border: #E5EAF0
+     Success: #16A36A
+     Warning: #E5A13B
+     Danger: #DC6262
+     Chart Background: #FFFFFF
    ========================================================================= */
 
 :root {
-  --si-bg: #F8FAFC;
-  --si-surface: #FFFFFF;
-  --si-surface-subtle: #F1F5F9;
-  --si-border: #E2E8F0;
-  --si-border-strong: #CBD5E1;
-  --si-text-main: #0F172A;
-  --si-text-muted: #64748B;
-  --si-text-subtle: #94A3B8;
-  --si-primary: #4F46E5;
-  --si-primary-hover: #4338CA;
-  --si-primary-gradient: linear-gradient(135deg, #4F46E5 0%, #2563EB 100%);
-  --si-navy-gradient: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-  --si-accent-cobalt: #2563EB;
-  --si-success: #10B981;
-  --si-warning: #F59E0B;
-  --si-danger: #EF4444;
-  --si-radius-sm: 8px;
-  --si-radius-md: 12px;
-  --si-radius-lg: 16px;
-  --si-shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
-  --si-shadow-elevated: 0 10px 20px -5px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
+  --bi-bg: #F4F6F9;
+  --bi-sidebar-bg: #17212F;
+  --bi-sidebar-hover: rgba(255, 255, 255, 0.08);
+  --bi-sidebar-active: #0D9488;
+  --bi-sidebar-text: #A0AEC0;
+  --bi-sidebar-text-active: #FFFFFF;
+  --bi-card-bg: #FFFFFF;
+  --bi-primary: #0D9488;
+  --bi-primary-hover: #0F766E;
+  --bi-text-main: #17212F;
+  --bi-text-muted: #718096;
+  --bi-border: #E5EAF0;
+  --bi-border-strong: #CBD5E1;
+  --bi-success: #16A36A;
+  --bi-warning: #E5A13B;
+  --bi-danger: #DC6262;
+  --bi-radius-sm: 6px;
+  --bi-radius-md: 10px;
+  --bi-radius-lg: 14px;
+  --bi-shadow: 0 1px 3px 0 rgba(23, 33, 47, 0.05), 0 1px 2px -1px rgba(23, 33, 47, 0.03);
+  --bi-shadow-hover: 0 6px 16px -4px rgba(23, 33, 47, 0.08), 0 2px 4px -2px rgba(23, 33, 47, 0.03);
 }
 
 /* 1. Global Page Canvas & Typography */
-html, body, html body, .page, #dashboard, #huft, #comparison, #employeeSales, #whatsapp, #weeklyReview {
-  background: #F8FAFC !important;
-  background-color: #F8FAFC !important;
-  color: #0F172A !important;
+html, body, html body, .page {
+  background: #F4F6F9 !important;
+  background-color: #F4F6F9 !important;
+  color: #17212F !important;
   font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* 2. Left Navigation Rail (#navRailTabs) */
+/* 2. Fixed Dark Charcoal Sidebar (#navRailTabs) */
 html body #navRailTabs,
 html body .tabs {
-  background: #FFFFFF !important;
-  border-right: 1px solid #E2E8F0 !important;
-  box-shadow: 1px 0 3px rgba(15, 23, 42, 0.03) !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 230px !important;
+  background: #17212F !important;
+  background-color: #17212F !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+  z-index: 9900 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.12) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
 
+/* Sidebar Brand Header */
+.bi-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 18px 16px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 8px;
+}
+
+.bi-sidebar-paw {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #0D9488;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(13, 148, 136, 0.35);
+  flex-shrink: 0;
+}
+
+.bi-sidebar-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.bi-sidebar-title {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.bi-sidebar-sub {
+  color: #718096;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Sidebar Nav Items */
 html body #navRailTabs .tab,
-html body .tabs .tab {
+html body .tabs .tab,
+.bi-nav-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  width: calc(100% - 20px) !important;
+  margin: 2px 10px !important;
+  padding: 9px 12px !important;
+  border-radius: 8px !important;
   background: transparent !important;
-  color: #64748B !important;
+  color: #A0AEC0 !important;
   border: none !important;
-  border-radius: 12px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
   transition: all 0.15s ease !important;
+  text-align: left !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+  box-shadow: none !important;
 }
 
 html body #navRailTabs .tab:hover,
-html body .tabs .tab:hover {
-  background: #F8FAFC !important;
-  color: #0F172A !important;
+html body .tabs .tab:hover,
+.bi-nav-item:hover {
+  background: rgba(255, 255, 255, 0.07) !important;
+  color: #FFFFFF !important;
 }
 
+/* Active Nav Item (Teal Highlight) */
 html body #navRailTabs .tab.active,
-html body .tabs .tab.active {
-  background: #EEF2FF !important;
-  color: #4F46E5 !important;
+html body .tabs .tab.active,
+.bi-nav-item.active {
+  background: #0D9488 !important;
+  color: #FFFFFF !important;
   font-weight: 700 !important;
-  box-shadow: inset 0 0 0 1px #C7D2FE !important;
+  box-shadow: 0 2px 6px rgba(13, 148, 136, 0.3) !important;
 }
 
 html body #navRailTabs .tab.active svg,
-html body .tabs .tab.active svg {
-  stroke: #4F46E5 !important;
+html body .tabs .tab.active svg,
+.bi-nav-item.active svg {
+  stroke: #FFFFFF !important;
 }
 
-html body #huftNavToggle {
-  background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 8px !important;
-  color: #475569 !important;
+html body #navRailTabs .tab svg,
+html body .tabs .tab svg,
+.bi-nav-item svg {
+  width: 17px !important;
+  height: 17px !important;
+  stroke: #A0AEC0 !important;
+  flex-shrink: 0 !important;
+  transition: stroke 0.15s ease !important;
 }
 
-html body #huftNavToggle:hover {
-  background: #F8FAFC !important;
-  color: #0F172A !important;
-  border-color: #CBD5E1 !important;
+html body #navRailTabs .tab:hover svg,
+html body .tabs .tab:hover svg,
+.bi-nav-item:hover svg {
+  stroke: #FFFFFF !important;
 }
 
-/* Bottom Profile / Avatar in Rail */
-html body .rail-profile-wrap {
-  border-top: 1px solid #F1F5F9 !important;
+html body #navRailTabs .nav-lbl {
+  font-size: 12.5px !important;
+  display: inline-block !important;
 }
 
-html body #railAvatarInitial {
-  background: linear-gradient(135deg, #4F46E5, #2563EB) !important;
-  color: #FFFFFF !important;
-  border-radius: 8px !important;
-  font-weight: 700 !important;
+/* Sidebar Footer Profile / Store */
+.bi-sidebar-footer {
+  margin-top: auto;
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-/* 3. Top Header Bar */
-html body .topbar,
+/* 3. Main Container Layout (Offset for Sidebar) */
+html body .container,
+html body .header,
+html body #headerStorePill,
+html body .topbar {
+  margin-left: 230px !important;
+  width: calc(100% - 230px) !important;
+  box-sizing: border-box !important;
+}
+
+/* 4. Top Header Styling */
 html body .header,
 html body header,
-html body .dashTopBar,
-html body #topHeader,
-html body .dashTop {
+html body .topbar {
   background: #FFFFFF !important;
-  border-bottom: 1px solid #E2E8F0 !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03) !important;
+  border-bottom: 1px solid #E5EAF0 !important;
+  box-shadow: 0 1px 2px rgba(23, 33, 47, 0.03) !important;
+  padding: 12px 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 14px !important;
 }
 
-html body .brand,
-html body .store-title,
-html body .brand-title,
-html body .dashTitle,
-html body h1,
-html body h2,
-html body h3,
-html body h4,
-html body .panelTitle,
-html body .wr-title,
-html body .card h2,
-html body .chartHead,
-html body .chartHead b,
-html body .comparisonPiePanel .chartHead b,
-html body #comparison .comparisonPiePanel .chartHead b,
-html body #huftV26Headline .v26h-title,
-html body #huftV26Insights>summary,
-html body .v26i-card h4,
-html body .v26h-card span,
-html body #huftReleaseNotesModal .hrn-release h3,
-html body .storeTargetCard h4,
-html body .monthKpiCompare h3,
-html body .monthKpiToggleText strong,
-html body #monthKpiCompareToggle .monthKpiToggleText strong {
-  color: #0F172A !important;
-  letter-spacing: -0.02em !important;
+/* Breadcrumb & Page Title */
+.bi-header-left {
+  display: flex;
+  flex-direction: column;
 }
 
-html body .sub,
-html body .dashSub,
-html body .hint,
-html body small,
-html body .wr-sub {
-  color: #64748B !important;
+.bi-breadcrumb {
+  font-size: 11px;
+  color: #718096;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-/* Design Direction Pill & Live Status Badges */
-html body .si-design-pill {
-  background: #ECFDF5 !important;
-  color: #059669 !important;
-  border: 1px solid #A7F3D0 !important;
+.bi-breadcrumb span {
+  color: #0D9488;
+}
+
+.bi-page-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #17212F;
+  letter-spacing: -0.02em;
+  margin-top: 2px;
+}
+
+/* Store Badge in Header */
+html body .store-badge,
+html body #spStoreBranch,
+html body #waStorePill,
+.bi-store-badge {
+  background: #F4F6F9 !important;
+  border: 1px solid #E5EAF0 !important;
+  color: #17212F !important;
   border-radius: 9999px !important;
-  font-weight: 700 !important;
-  font-size: 11px !important;
-  padding: 3px 10px !important;
+  padding: 4px 12px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
 }
 
-html body .lastSaleStamp,
-html body #lastSaleStamp {
-  color: #64748B !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
-}
-
-/* 4. Customer Phone Search Bar */
-html body .huft-ps-box,
-html body .hid-search-box,
-html body .globalStoreSearchWrap {
+/* 5. Toolbar & Date Range Controls */
+html body .toolbar {
   background: #FFFFFF !important;
-  border: 1px solid #CBD5E1 !important;
+  border: 1px solid #E5EAF0 !important;
   border-radius: 10px !important;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
-  transition: all 0.15s ease !important;
+  padding: 10px 16px !important;
+  margin-bottom: 14px !important;
+  box-shadow: 0 1px 2px rgba(23, 33, 47, 0.03) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
 }
 
-html body .huft-ps-box:focus-within,
-html body .hid-search-box:focus-within,
-html body .globalStoreSearchWrap:focus-within {
-  border-color: #4F46E5 !important;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
-}
-
-/* 5. Date Pickers & Toolbar Actions */
+/* Inputs & Date Pickers */
 html body input[type="date"],
 html body input[type="text"],
-html body input[type="search"],
-html body input[type="tel"],
-html body input[type="password"],
 html body select,
 html body .date3d,
 html body #from,
-html body #to,
-html body .employee-target-input,
-html body .cmSearch,
-html body .huftForecastViewControl select,
-html body .huftForecastActions select {
+html body #to {
   background: #FFFFFF !important;
   border: 1px solid #CBD5E1 !important;
-  border-radius: 8px !important;
-  color: #0F172A !important;
-  font-size: 12.5px !important;
+  border-radius: 6px !important;
+  color: #17212F !important;
+  font-size: 12px !important;
   font-weight: 500 !important;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
-  transition: border-color 0.15s, box-shadow 0.15s !important;
+  padding: 6px 10px !important;
+  box-shadow: 0 1px 2px rgba(23, 33, 47, 0.02) !important;
 }
 
 html body input:focus,
-html body select:focus,
-html body input[type="date"]:focus,
-html body .employee-name-filter select:focus,
-html body .employee-multi-trigger:focus,
-html body .cmSearch:focus {
-  border-color: #4F46E5 !important;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
+html body select:focus {
+  border-color: #0D9488 !important;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15) !important;
   outline: none !important;
 }
 
-/* Primary Action Buttons (Indigo & Cobalt Gradient) */
+/* Primary Action Buttons (Teal #0D9488) */
 html body button.primary,
 html body .btn-primary,
-html body .sp-btn-primary,
-html body #customerPhoneSearchBtn,
-html body .hid-search-btn,
-html body .huft-ps-btn,
-html body .cmDone,
-html body #refreshComparisonBtn,
-html body .dashActions button,
-html body .dashActions button:not(.secondary),
 html body #huftRefreshLatestPOS,
 html body .toolbar3d:not(.fileChoose3D),
 html body button.primary.toolbar3d,
 html body .toolbar button.primary,
-html body #huftPhoneSearchGo,
-html body #huftInvoiceDrillModal .hid-search-btn,
-html body #huftInvoiceDrillSearchSubmit,
-html body .globalStoreFilterFoot button,
-html body button[onclick*="refreshDashboard"],
-html body button[onclick*="refreshComparison"],
-html body button[onclick*="refreshSalesDashboard"],
-html body button[onclick*="refreshHuft"],
-html body button.apply {
-  background: linear-gradient(135deg, #4F46E5 0%, #2563EB 100%) !important;
-  background-color: #4F46E5 !important;
-  background-image: linear-gradient(135deg, #4F46E5 0%, #2563EB 100%) !important;
+html body #customerPhoneSearchBtn,
+html body .hid-search-btn,
+html body .huft-ps-btn,
+html body #refreshComparisonBtn,
+html body .dashActions button,
+html body button[onclick*="refresh"],
+html body button.apply,
+.bi-btn-teal {
+  background: #0D9488 !important;
+  background-color: #0D9488 !important;
+  background-image: none !important;
   color: #FFFFFF !important;
   border: none !important;
-  border-radius: 8px !important;
+  border-radius: 6px !important;
   font-weight: 600 !important;
-  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25) !important;
+  font-size: 12.5px !important;
+  padding: 7px 16px !important;
+  cursor: pointer !important;
+  box-shadow: 0 1px 3px rgba(13, 148, 136, 0.25) !important;
   transition: all 0.15s ease !important;
 }
 
 html body button.primary:hover,
-html body .btn-primary:hover,
-html body .sp-btn-primary:hover,
-html body #customerPhoneSearchBtn:hover,
-html body .hid-search-btn:hover,
-html body .huft-ps-btn:hover,
-html body #refreshComparisonBtn:hover,
-html body .dashActions button:hover,
 html body #huftRefreshLatestPOS:hover,
 html body .toolbar3d:not(.fileChoose3D):hover,
-html body #huftInvoiceDrillModal .hid-search-btn:hover,
-html body #huftInvoiceDrillSearchSubmit:hover,
-html body button[onclick*="refreshDashboard"]:hover,
-html body button[onclick*="refreshComparison"]:hover,
-html body button[onclick*="refreshSalesDashboard"]:hover {
-  background: linear-gradient(135deg, #4338CA 0%, #1D4ED8 100%) !important;
-  background-color: #4338CA !important;
-  background-image: linear-gradient(135deg, #4338CA 0%, #1D4ED8 100%) !important;
-  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.35) !important;
+html body #customerPhoneSearchBtn:hover,
+html body .dashActions button:hover,
+.bi-btn-teal:hover {
+  background: #0F766E !important;
+  background-color: #0F766E !important;
+  box-shadow: 0 2px 6px rgba(13, 148, 136, 0.35) !important;
 }
 
-/* Upload Excel Button (Deep Slate Navy) */
+/* Upload Sales Button (Dark Charcoal #17212F) */
 html body button[onclick*="uploadExcel"],
 html body .upload-btn,
-html body #huftWaterUploadButton {
-  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%) !important;
-  background-color: #0F172A !important;
-  background-image: linear-gradient(135deg, #0F172A 0%, #1E293B 100%) !important;
+html body #huftWaterUploadButton,
+.bi-btn-dark {
+  background: #17212F !important;
+  background-color: #17212F !important;
+  background-image: none !important;
   color: #FFFFFF !important;
-  border: 1px solid #334155 !important;
-  border-radius: 8px !important;
+  border: 1px solid #2D3A4B !important;
+  border-radius: 6px !important;
   font-weight: 600 !important;
-  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.2) !important;
+  font-size: 12.5px !important;
+  padding: 7px 16px !important;
+  cursor: pointer !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
 }
 
 html body button[onclick*="uploadExcel"]:hover,
-html body .upload-btn:hover,
-html body #huftWaterUploadButton:hover {
-  background: #1E293B !important;
-  border-color: #475569 !important;
+html body #huftWaterUploadButton:hover,
+.bi-btn-dark:hover {
+  background: #223042 !important;
+  border-color: #3B4B5F !important;
 }
 
-/* Secondary & Standard Buttons */
-html body button:not(.primary):not(.sp-btn-primary):not(#customerPhoneSearchBtn):not(.hid-search-btn):not(.huft-ps-btn):not(.cmDone):not(#refreshComparisonBtn):not([onclick*="uploadExcel"]):not(.timingDayFilterBtn):not(.peakFilterBtn):not(.huftCompareViewBtn):not(#huftV26Presets button):not(.tab):not(.wa-nav-btn):not(#huftRefreshLatestPOS):not(.toolbar3d):not(.dashActions button):not(#huftPhoneSearchGo):not(#huftInvoiceDrillSearchSubmit):not(button[onclick*="refresh"]):not(button[onclick*="Refresh"]) {
-  background: #FFFFFF !important;
-  color: #334155 !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
-  transition: all 0.15s ease !important;
-}
-
-html body button:not(.primary):not(.sp-btn-primary):not(#customerPhoneSearchBtn):not(.hid-search-btn):not(.huft-ps-btn):not(.cmDone):not(#refreshComparisonBtn):not([onclick*="uploadExcel"]):not(.timingDayFilterBtn):not(.peakFilterBtn):not(.huftCompareViewBtn):not(#huftV26Presets button):not(.tab):not(.wa-nav-btn):not(#huftRefreshLatestPOS):not(.toolbar3d):not(.dashActions button):not(#huftPhoneSearchGo):not(#huftInvoiceDrillSearchSubmit):not(button[onclick*="refresh"]):not(button[onclick*="Refresh"]):hover {
-  background: #F8FAFC !important;
-  color: #0F172A !important;
-  border-color: #94A3B8 !important;
-}
-
-/* 6. Quick Range Pills Bar (#huftV26Presets) */
+/* 6. Quick Range Pills (#huftV26Presets) */
 html body #huftV26Presets {
   background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 12px !important;
-  padding: 8px 14px !important;
-  margin: 12px 0 16px 0 !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03) !important;
+  border: 1px solid #E5EAF0 !important;
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
+  margin: 10px 0 14px 0 !important;
+  box-shadow: 0 1px 2px rgba(23, 33, 47, 0.02) !important;
   display: flex !important;
   align-items: center !important;
-  gap: 8px !important;
+  gap: 6px !important;
   flex-wrap: wrap !important;
 }
 
 html body #huftV26Presets b {
-  color: #475569 !important;
+  color: #718096 !important;
   font-weight: 700 !important;
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   margin-right: 4px !important;
 }
 
 html body #huftV26Presets button {
-  background: #FFFFFF !important;
-  color: #334155 !important;
-  border: 1px solid #CBD5E1 !important;
+  background: #F4F6F9 !important;
+  color: #17212F !important;
+  border: 1px solid #E5EAF0 !important;
   border-radius: 9999px !important;
-  padding: 5px 13px !important;
-  font-size: 12px !important;
+  padding: 4px 11px !important;
+  font-size: 11.5px !important;
   font-weight: 600 !important;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+  box-shadow: none !important;
   transition: all 0.15s ease !important;
 }
 
 html body #huftV26Presets button:hover {
-  background: #F1F5F9 !important;
-  color: #0F172A !important;
-  border-color: #94A3B8 !important;
+  background: #E5EAF0 !important;
+  color: #17212F !important;
 }
 
 html body #huftV26Presets button.active,
 html body #huftV26Presets button[aria-pressed="true"] {
-  background: #4F46E5 !important;
+  background: #0D9488 !important;
   color: #FFFFFF !important;
-  border-color: #4F46E5 !important;
-  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25) !important;
+  border-color: #0D9488 !important;
+  box-shadow: 0 1px 3px rgba(13, 148, 136, 0.25) !important;
 }
 
-html body #huftV26Privacy {
-  background: #ECFDF5 !important;
-  border: 1px solid #A7F3D0 !important;
-  color: #065F46 !important;
-  border-radius: 9999px !important;
-  padding: 5px 13px !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-}
-
-/* 7. 15 KPI Cards — Luxury Retail Visual Hierarchy & Micro-Interactions */
+/* 7. KPI Cards — Enterprise BI Compact Standard */
 html body .kpiGrid {
   display: grid !important;
-  gap: 14px !important;
-  margin-bottom: 20px !important;
+  gap: 12px !important;
+  margin-bottom: 18px !important;
 }
 
-html body .kpi {
+html body .kpi,
+.bi-kpi-card {
   background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 14px !important;
-  padding: 16px 18px !important;
-  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02) !important;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border: 1px solid #E5EAF0 !important;
+  border-radius: 10px !important;
+  padding: 14px 16px !important;
+  box-shadow: 0 1px 3px 0 rgba(23, 33, 47, 0.04), 0 1px 2px -1px rgba(23, 33, 47, 0.02) !important;
+  transition: all 0.15s ease !important;
   cursor: pointer !important;
   position: relative !important;
-  overflow: hidden !important;
 }
 
-html body .kpi:hover {
-  transform: translateY(-2px) !important;
+html body .kpi:hover,
+.bi-kpi-card:hover {
   border-color: #CBD5E1 !important;
-  box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03) !important;
+  box-shadow: 0 4px 12px -2px rgba(23, 33, 47, 0.08) !important;
 }
 
-html body .kpi span {
-  font-size: 11px !important;
+html body .kpi span,
+.bi-kpi-label {
+  font-size: 11.5px !important;
   font-weight: 700 !important;
-  color: #64748B !important;
-  letter-spacing: 0.05em !important;
+  color: #718096 !important;
+  letter-spacing: 0.04em !important;
   text-transform: uppercase !important;
   display: block !important;
-  margin-bottom: 6px !important;
+  margin-bottom: 5px !important;
 }
 
-html body .kpi b {
+html body .kpi b,
+.bi-kpi-val {
   font-size: 24px !important;
   font-weight: 800 !important;
   letter-spacing: -0.03em !important;
-  color: #0F172A !important;
+  color: #17212F !important;
   display: block !important;
   font-feature-settings: "tnum" 1 !important;
   font-variant-numeric: tabular-nums !important;
 }
 
-html body .kpi small {
+html body .kpi small,
+.bi-kpi-sub {
   font-size: 11px !important;
   font-weight: 500 !important;
-  color: #94A3B8 !important;
+  color: #718096 !important;
   display: block !important;
   margin-top: 4px !important;
 }
 
-/* Semantic Card Accents (Subtle 3.5px left border indicator) */
-html body .kpi:has(#kTotal) {
-  border-left: 3.5px solid #4F46E5 !important;
-}
-html body .kpi:has(#kRetail) {
-  border-left: 3.5px solid #2563EB !important;
-}
-html body .kpi:has(#kSpa) {
-  border-left: 3.5px solid #8B5CF6 !important;
-}
-html body .kpi:has(#kFoodSales) {
-  border-left: 3.5px solid #0EA5E9 !important;
-}
-html body .kpi:has(#kOrders) {
-  border-left: 3.5px solid #10B981 !important;
-}
-html body .kpi:has(#kPositiveFeedback) {
-  border-left: 3.5px solid #F59E0B !important;
-}
-html body .kpi:has(#kReturnBills) {
-  border-left: 3.5px solid #EF4444 !important;
-}
+/* Subtle Left Semantic Accent Indicators */
+html body .kpi:has(#kTotal) { border-left: 3px solid #0D9488 !important; }
+html body .kpi:has(#kRetail) { border-left: 3px solid #2563EB !important; }
+html body .kpi:has(#kSpa) { border-left: 3px solid #8B5CF6 !important; }
+html body .kpi:has(#kFood) { border-left: 3px solid #0EA5E9 !important; }
+html body .kpi:has(#kOrders) { border-left: 3px solid #16A36A !important; }
+html body .kpi:has(#kWowBills) { border-left: 3px solid #E5A13B !important; }
+html body .kpi:has(#kReturnBills) { border-left: 3px solid #DC6262 !important; }
 
-/* 8. Current Month vs Last Month Accordion & Tiles */
-html body #monthKpiCompareToggle,
-html body .monthKpiCompareToggle {
-  background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 12px 12px 0 0 !important;
-  padding: 12px 18px !important;
-  color: #0F172A !important;
-}
-
-html body .monthKpiTile {
-  background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03) !important;
-  padding: 14px 16px !important;
-}
-
-html body .monthCompareLegend .curDot {
-  background: #4F46E5 !important;
-}
-
-html body .monthCompareLegend .prevDot {
-  background: #94A3B8 !important;
-}
-
-html body .curTrack {
-  height: 100% !important;
-  background: linear-gradient(90deg, #818CF8, #4F46E5) !important;
-}
-
-/* 9. Panels & Chart Cards */
+/* 8. Content Panels & Charts */
 html body .panel,
 html body .dashPanel,
 html body .chartPanel,
@@ -8779,100 +9943,40 @@ html body .wr-panel,
 html body .insights-accordion,
 html body .monthlyTrendInsight,
 html body .comparisonPiePanel,
-html body #comparison .comparisonPiePanel {
+.bi-card {
   background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 14px !important;
-  padding: 18px !important;
-  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04) !important;
-}
-
-/* Chart filter pills */
-html body .timingDayFilter,
-html body .peakFilter {
-  background: #F1F5F9 !important;
-  border-radius: 9999px !important;
-  padding: 3px !important;
-  display: inline-flex !important;
-  gap: 2px !important;
-  border: 1px solid #E2E8F0 !important;
-}
-
-html body .timingDayFilterBtn,
-html body .peakFilterBtn,
-html body .chartFilterBtn {
-  background: transparent !important;
-  color: #475569 !important;
-  border: none !important;
-  border-radius: 9999px !important;
-  padding: 4px 12px !important;
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  transition: all 0.15s ease !important;
-}
-
-html body .timingDayFilterBtn:hover,
-html body .peakFilterBtn:hover,
-html body .chartFilterBtn:hover {
-  color: #0F172A !important;
-}
-
-html body .timingDayFilterBtn.active,
-html body .peakFilterBtn.active,
-html body .chartFilterBtn.active,
-html body .timingDayFilterBtn[aria-pressed="true"],
-html body .peakFilterBtn[aria-pressed="true"] {
-  background: #FFFFFF !important;
-  color: #0F172A !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1) !important;
-  font-weight: 700 !important;
-}
-
-/* Month Comparison View Toggle Switch */
-html body .huftCompareViewSwitch {
-  background: #F1F5F9 !important;
+  border: 1px solid #E5EAF0 !important;
   border-radius: 10px !important;
-  padding: 4px !important;
-  display: inline-flex !important;
-  gap: 4px !important;
-  border: 1px solid #E2E8F0 !important;
+  padding: 16px 18px !important;
+  box-shadow: 0 1px 3px 0 rgba(23, 33, 47, 0.04) !important;
+  margin-bottom: 14px !important;
 }
 
-html body .huftCompareViewBtn {
-  background: transparent !important;
-  color: #475569 !important;
-  border: none !important;
-  border-radius: 7px !important;
-  padding: 6px 14px !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  transition: all 0.15s ease !important;
-}
-
-html body .huftCompareViewBtn:hover {
-  color: #0F172A !important;
-}
-
-html body .huftCompareViewBtn.active,
-html body .huftCompareViewBtn[aria-pressed="true"] {
-  background: #FFFFFF !important;
-  color: #4F46E5 !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1) !important;
+html body .chartHead b,
+html body .panelTitle,
+html body .dashTitle {
+  color: #17212F !important;
+  font-size: 14px !important;
   font-weight: 700 !important;
 }
 
-/* 10. Tables & Data Grids */
+html body .chartHead span,
+html body .dashSub {
+  color: #718096 !important;
+  font-size: 11px !important;
+}
+
+/* 9. Tables Standard */
 html body .tableWrap,
 html body .miniTableWrap,
 html body .dtp-table-wrap,
 html body .package-drill-table-wrap,
-html body .cmpo-table {
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 10px !important;
+html body .cmpo-table,
+.bi-table-wrap {
+  border: 1px solid #E5EAF0 !important;
+  border-radius: 8px !important;
   background: #FFFFFF !important;
-  overflow: hidden !important;
+  overflow: auto !important;
 }
 
 html body table {
@@ -8884,223 +9988,309 @@ html body table {
 
 html body th,
 html body table thead th,
-html body .package-drill-table th,
-html body .dayTrendPanel .dtrTableWrap th,
-html body .huft-month-summary th,
-html body .cmpo-table th,
-html body #huftCmpOptPanel .cmpo-table th {
-  background: #F8FAFC !important;
-  color: #1E293B !important;
-  border-color: #E2E8F0 !important;
+.bi-th {
+  background: #F4F6F9 !important;
+  color: #17212F !important;
+  border-color: #E5EAF0 !important;
   border-bottom: 2px solid #CBD5E1 !important;
   font-size: 11.5px !important;
   font-weight: 700 !important;
   letter-spacing: 0.02em !important;
-  padding: 10px 14px !important;
+  padding: 8px 12px !important;
 }
 
-html body td {
+html body td,
+.bi-td {
   background: #FFFFFF !important;
   color: #334155 !important;
-  border-color: #F1F5F9 !important;
-  border-bottom: 1px solid #E2E8F0 !important;
+  border-color: #F4F6F9 !important;
+  border-bottom: 1px solid #E5EAF0 !important;
   font-size: 12px !important;
-  padding: 10px 14px !important;
+  padding: 8px 12px !important;
 }
 
 html body tr:hover td {
   background: #F8FAFC !important;
 }
 
-html body tr.totalRow td,
-html body tr.employee-total-row td,
-html body .cmpo-table tr.cmpo-total td,
-html body #huftCmpOptPanel .cmpo-table tr.cmpo-total td {
-  background: #F1F5F9 !important;
-  color: #0F172A !important;
-  font-weight: 800 !important;
-  border-top: 2px solid #CBD5E1 !important;
+/* Status Badges */
+.bi-badge-success { background: #ECFDF5; color: #16A36A; border: 1px solid #A7F3D0; border-radius: 9999px; padding: 2px 8px; font-weight: 700; font-size: 11px; }
+.bi-badge-warning { background: #FFFBEB; color: #E5A13B; border: 1px solid #FCD34D; border-radius: 9999px; padding: 2px 8px; font-weight: 700; font-size: 11px; }
+.bi-badge-danger { background: #FEF2F2; color: #DC6262; border: 1px solid #FECACA; border-radius: 9999px; padding: 2px 8px; font-weight: 700; font-size: 11px; }
+.bi-badge-teal { background: #F0FDFA; color: #0D9488; border: 1px solid #99F6E4; border-radius: 9999px; padding: 2px 8px; font-weight: 700; font-size: 11px; }
+
+/* 10. Responsive Design for Sidebar */
+@media (max-width: 1024px) {
+  html body #navRailTabs,
+  html body .tabs {
+    width: 68px !important;
+  }
+  html body .container,
+  html body .header,
+  html body .topbar {
+    margin-left: 68px !important;
+    width: calc(100% - 68px) !important;
+  }
+  .bi-sidebar-titles,
+  html body #navRailTabs .nav-lbl {
+    display: none !important;
+  }
+  html body #navRailTabs .tab,
+  html body .tabs .tab {
+    justify-content: center !important;
+    width: 48px !important;
+    margin: 4px auto !important;
+    padding: 10px !important;
+  }
 }
 
-/* 11. 3-Level Monthly Summary Drilldown Modal & Dialogs */
-html body #huftInvoiceDrillModal,
-html body #storeProfileModal,
-html body .huftPopupOverlay,
-html body .chartModal,
-html body #huftReleaseNotesModal {
-  background: rgba(15, 23, 42, 0.6) !important;
-  backdrop-filter: blur(10px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
+
+/* =========================================================================
+   DEFINITIVE ENTERPRISE BI DESIGN D OVERRIDES & REFINEMENTS
+   ========================================================================= */
+
+/* Fixed Dark Charcoal Sidebar (#17212F) */
+html body #navRailTabs,
+html body .tabs#navRailTabs,
+#navRailTabs {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 240px !important;
+  min-width: 240px !important;
+  max-width: 240px !important;
+  background: #17212F !important;
+  background-color: #17212F !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.18) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
 
-html body .hid-panel,
-html body .sp-dialog,
-html body .huftPopupPanel,
-html body .chartModalBox,
-html body .dtp-modal-card,
-html body #huftReleaseNotesModal .hrn-card {
-  background: #FFFFFF !important;
-  border: 1px solid rgba(226, 232, 240, 0.8) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25) !important;
+/* Sidebar Brand Header */
+.bi-sidebar-brand {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 20px 16px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  margin-bottom: 10px !important;
+  background: #17212F !important;
 }
 
-html body .hid-head,
-html body .sp-head,
-html body .huftPopupHead,
-html body .chartModalTop,
-html body #huftReleaseNotesModal .hrn-head {
-  background: #FFFFFF !important;
-  border-bottom: 1px solid #E2E8F0 !important;
+.bi-paw-icon {
+  font-size: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+  background: #0D9488 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.4) !important;
+  flex-shrink: 0 !important;
 }
 
-html body .hid-metric {
-  background: #F8FAFC !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 10px !important;
-  padding: 10px 14px !important;
+.bi-brand-text {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  overflow: hidden !important;
 }
 
-html body .hid-metric span {
-  color: #64748B !important;
-  font-size: 10.5px !important;
+.bi-brand-title {
+  font-size: 13.5px !important;
   font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.04em !important;
+  color: #FFFFFF !important;
+  letter-spacing: -0.01em !important;
+  white-space: nowrap !important;
 }
 
-html body .hid-metric b {
-  color: #0F172A !important;
-  font-size: 17px !important;
-  font-weight: 800 !important;
+.bi-brand-subtitle {
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  color: #718096 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  white-space: nowrap !important;
+}
+
+.bi-nav-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+  flex: 1 1 auto !important;
+}
+
+/* Sidebar Navigation Items */
+html body #navRailTabs .tab,
+html body .tabs#navRailTabs .tab {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  width: calc(100% - 20px) !important;
+  margin: 1px 10px !important;
+  padding: 9px 12px !important;
+  border-radius: 7px !important;
+  background: transparent !important;
+  color: #A0AEC0 !important;
+  border: 1px solid transparent !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  text-decoration: none !important;
+  box-sizing: border-box !important;
+  min-height: 38px !important;
+}
+
+html body #navRailTabs .tab:hover,
+html body .tabs#navRailTabs .tab:hover {
+  background: rgba(255, 255, 255, 0.07) !important;
+  color: #FFFFFF !important;
+}
+
+html body #navRailTabs .tab.active,
+html body .tabs#navRailTabs .tab.active {
+  background: #0D9488 !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.35) !important;
+}
+
+html body #navRailTabs .tab .nav-ico {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 18px !important;
+  height: 18px !important;
+  flex-shrink: 0 !important;
+  color: inherit !important;
+}
+
+html body #navRailTabs .tab .nav-ico svg {
+  width: 18px !important;
+  height: 18px !important;
+  stroke: currentColor !important;
+  stroke-width: 1.8 !important;
+  fill: none !important;
+}
+
+html body #navRailTabs .tab .nav-lbl,
+html body #navRailTabs .nav-lbl {
+  display: inline-block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: none !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  color: inherit !important;
+  letter-spacing: -0.01em !important;
+  white-space: nowrap !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+/* Sidebar Footer */
+.bi-sidebar-footer {
+  padding: 14px 16px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: #17212F !important;
+}
+
+.bi-badge {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  color: #0D9488 !important;
+  background: rgba(13, 148, 136, 0.15) !important;
+  padding: 2px 7px !important;
+  border-radius: 4px !important;
+  border: 1px solid rgba(13, 148, 136, 0.3) !important;
+}
+
+/* Top Header & Canvas Offset */
+html body .header,
+html body header.header {
+  margin-left: 240px !important;
+  width: calc(100% - 240px) !important;
+  max-width: calc(100% - 240px) !important;
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E5EAF0 !important;
+  padding: 14px 28px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+  box-sizing: border-box !important;
+}
+
+html body .container,
+html body main.container {
+  margin-left: 240px !important;
+  width: calc(100% - 240px) !important;
+  max-width: calc(100% - 240px) !important;
+  background: #F4F6F9 !important;
+  padding: 20px 28px 60px 28px !important;
+  box-sizing: border-box !important;
+}
+
+/* Breadcrumb & Header Title */
+.bi-header-left {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+.bi-breadcrumb {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #718096 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+.bi-breadcrumb span {
+  color: #0D9488 !important;
+}
+
+.bi-page-title {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #17212F !important;
+  margin: 0 !important;
   letter-spacing: -0.02em !important;
 }
 
-/* Modal Close & Back Buttons */
-html body .hid-close,
-html body .hid-back,
-html body .sp-btn-close,
-html body .sp-btn-secondary,
-html body .chartModalClose,
-html body #huftReleaseNotesModal .hrn-close,
-html body .package-drill-back,
-html body #compareFilterReset {
-  background: #F8FAFC !important;
-  color: #334155 !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-}
-
-html body .hid-close:hover,
-html body .hid-back:hover,
-html body .sp-btn-close:hover,
-html body .sp-btn-secondary:hover,
-html body .chartModalClose:hover,
-html body #huftReleaseNotesModal .hrn-close:hover,
-html body .package-drill-back:hover,
-html body #compareFilterReset:hover {
-  background: #F1F5F9 !important;
-  color: #0F172A !important;
-  border-color: #94A3B8 !important;
-}
-
-/* 12. WhatsApp Tab Sub-navigation Buttons */
-html body .wa-nav-btn {
-  background: #FFFFFF !important;
-  color: #334155 !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 9999px !important;
-  padding: 8px 16px !important;
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  cursor: pointer !important;
-  transition: all 0.15s ease !important;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
-}
-
-html body .wa-nav-btn:hover {
-  background: #F1F5F9 !important;
-  color: #0F172A !important;
-  border-color: #94A3B8 !important;
-}
-
-html body .wa-nav-btn.active,
-html body .wa-nav-btn[aria-pressed="true"] {
-  background: #4F46E5 !important;
-  color: #FFFFFF !important;
-  border-color: #4F46E5 !important;
-  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3) !important;
-}
-
-/* 13. Tooltips & Floating Notification Widgets */
-html body #huftKpiHoverPopup,
-html body #huftAdditionalKpiMousePopup,
-html body #huftMonthKpiHoverTip,
-html body #chartPointPopup,
-html body .chartPointPopup,
-html body #dtrTip,
-html body .employee-percent-tooltip,
-html body .employee-sale-hover-tip {
-  background: rgba(15, 23, 42, 0.95) !important;
-  backdrop-filter: blur(8px) !important;
-  color: #F8FAFC !important;
-  border: 1px solid #334155 !important;
-  border-radius: 8px !important;
-  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.4) !important;
-}
-
-html body #huftKpiHoverPopup strong,
-html body #huftAdditionalKpiMousePopup strong,
-html body .huft-tip-title,
-html body .ptTitle,
-html body .estip-title {
-  color: #FFFFFF !important;
-}
-
-html body #huftKpiHoverPopup span,
-html body #huftAdditionalKpiMousePopup span,
-html body .huft-tip-row,
-html body .ptRow,
-html body .estip-row {
-  color: #94A3B8 !important;
-}
-
-/* 14. Floating WhatsApp Reminder Widget */
-html body .huft-report-time-pill,
-html body [class*="huft-report-time"] {
-  background: #FFFFFF !important;
-  color: #0F172A !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15) !important;
-}
-
-/* 15. Badges, Chips & Release Badge */
-html body #huftReleaseBadge {
-  background: #EEF2FF !important;
-  color: #4F46E5 !important;
-  border: 1px solid #C7D2FE !important;
-  border-radius: 9999px !important;
-}
-
-html body .v26chip,
-html body .v26chip.ok {
-  background: #ECFDF5 !important;
-  color: #047857 !important;
-  border-color: #A7F3D0 !important;
-}
-
-html body .v26chip.warn {
-  background: #FFFBEB !important;
-  color: #B45309 !important;
-  border-color: #FCD34D !important;
-}
-
-html body .v26chip.bad {
-  background: #FEF2F2 !important;
-  color: #B91C1C !important;
-  border-color: #FECACA !important;
+/* Responsive adjustment */
+@media (max-width: 900px) {
+  html body #navRailTabs {
+    width: 64px !important;
+    min-width: 64px !important;
+  }
+  html body #navRailTabs .nav-lbl,
+  .bi-brand-text,
+  .bi-badge {
+    display: none !important;
+  }
+  html body .header,
+  html body header.header,
+  html body .container,
+  html body main.container {
+    margin-left: 64px !important;
+    width: calc(100% - 64px) !important;
+    max-width: calc(100% - 64px) !important;
+  }
 }
 
 </style>

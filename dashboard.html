@@ -8289,7 +8289,8 @@ html body .tableWrap {
 <style id="clean-modern-enterprise-theme">
 
 /* =========================================================================
-   CLEAN MODERN ENTERPRISE DESIGN SYSTEM
+   STORE INTELLIGENCE / HUFT — PREMIER ENTERPRISE DESIGN SYSTEM
+   Standard: World-Class Retail SaaS (Stripe / Datadog / Linear Grade)
    Palette: Cool Slate Navy (#0F172A, #1E293B), Crisp Minimalist White (#FFFFFF),
    Cool Slate Canvas (#F8FAFC, #F1F5F9), Modern Indigo (#4F46E5) & Cobalt (#2563EB)
    ========================================================================= */
@@ -8311,6 +8312,11 @@ html body .tableWrap {
   --si-success: #10B981;
   --si-warning: #F59E0B;
   --si-danger: #EF4444;
+  --si-radius-sm: 8px;
+  --si-radius-md: 12px;
+  --si-radius-lg: 16px;
+  --si-shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
+  --si-shadow-elevated: 0 10px 20px -5px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
 }
 
 /* 1. Global Page Canvas & Typography */
@@ -8320,9 +8326,71 @@ html, body, html body, .page, #dashboard, #huft, #comparison, #employeeSales, #w
   color: #0F172A !important;
   font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif !important;
   -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
 }
 
-/* 2. Top Header & Global Bar */
+/* 2. Left Navigation Rail (#navRailTabs) */
+html body #navRailTabs,
+html body .tabs {
+  background: #FFFFFF !important;
+  border-right: 1px solid #E2E8F0 !important;
+  box-shadow: 1px 0 3px rgba(15, 23, 42, 0.03) !important;
+}
+
+html body #navRailTabs .tab,
+html body .tabs .tab {
+  background: transparent !important;
+  color: #64748B !important;
+  border: none !important;
+  border-radius: 12px !important;
+  transition: all 0.15s ease !important;
+}
+
+html body #navRailTabs .tab:hover,
+html body .tabs .tab:hover {
+  background: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+html body #navRailTabs .tab.active,
+html body .tabs .tab.active {
+  background: #EEF2FF !important;
+  color: #4F46E5 !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 0 0 1px #C7D2FE !important;
+}
+
+html body #navRailTabs .tab.active svg,
+html body .tabs .tab.active svg {
+  stroke: #4F46E5 !important;
+}
+
+html body #huftNavToggle {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 8px !important;
+  color: #475569 !important;
+}
+
+html body #huftNavToggle:hover {
+  background: #F8FAFC !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+/* Bottom Profile / Avatar in Rail */
+html body .rail-profile-wrap {
+  border-top: 1px solid #F1F5F9 !important;
+}
+
+html body #railAvatarInitial {
+  background: linear-gradient(135deg, #4F46E5, #2563EB) !important;
+  color: #FFFFFF !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+}
+
+/* 3. Top Header Bar */
 html body .topbar,
 html body .header,
 html body header,
@@ -8331,10 +8399,10 @@ html body #topHeader,
 html body .dashTop {
   background: #FFFFFF !important;
   border-bottom: 1px solid #E2E8F0 !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03) !important;
 }
 
-/* All headings, titles and panel titles (replacing all #8a3600, #9a3412, #7c2d12) */
+html body .brand,
 html body .store-title,
 html body .brand-title,
 html body .dashTitle,
@@ -8370,46 +8438,43 @@ html body .wr-sub {
   color: #64748B !important;
 }
 
-/* 3. Global Badges & Header Controls */
-html body .pill,
-html body .badge,
-html body .store-badge,
-html body #spStoreBranch,
-html body #waStorePill,
-html body #mobStoreSub {
-  background: #EEF2FF !important;
-  color: #4F46E5 !important;
-  border: 1px solid #C7D2FE !important;
+/* Design Direction Pill & Live Status Badges */
+html body .si-design-pill {
+  background: #ECFDF5 !important;
+  color: #059669 !important;
+  border: 1px solid #A7F3D0 !important;
   border-radius: 9999px !important;
-  font-weight: 600 !important;
-}
-
-html body #spModalAvatar,
-html body #railAvatarInitial {
-  background: linear-gradient(135deg, #4F46E5, #2563EB) !important;
-  color: #FFFFFF !important;
   font-weight: 700 !important;
+  font-size: 11px !important;
+  padding: 3px 10px !important;
 }
 
-/* Central Administrator Pill */
-html body #headerStorePill,
-html body button[onclick*="openStoreProfileModal"],
-html body .admin-badge {
-  background: linear-gradient(135deg, #0F172A, #1E293B) !important;
-  color: #FFFFFF !important;
-  border: 1px solid #334155 !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12) !important;
+html body .lastSaleStamp,
+html body #lastSaleStamp {
+  color: #64748B !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
 }
 
-html body #headerStorePill:hover,
-html body button[onclick*="openStoreProfileModal"]:hover {
-  background: #1E293B !important;
-  border-color: #475569 !important;
+/* 4. Customer Phone Search Bar */
+html body .huft-ps-box,
+html body .hid-search-box,
+html body .globalStoreSearchWrap {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+  transition: all 0.15s ease !important;
 }
 
-/* 4. Inputs, Search & Date Controls */
+html body .huft-ps-box:focus-within,
+html body .hid-search-box:focus-within,
+html body .globalStoreSearchWrap:focus-within {
+  border-color: #4F46E5 !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
+}
+
+/* 5. Date Pickers & Toolbar Actions */
 html body input[type="date"],
 html body input[type="text"],
 html body input[type="search"],
@@ -8444,24 +8509,7 @@ html body .cmSearch:focus {
   outline: none !important;
 }
 
-/* Search Containers */
-html body .huft-ps-box,
-html body .hid-search-box,
-html body .globalStoreSearchWrap {
-  background: #FFFFFF !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 8px !important;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
-}
-
-html body .huft-ps-box:focus-within,
-html body .hid-search-box:focus-within,
-html body .globalStoreSearchWrap:focus-within {
-  border-color: #4F46E5 !important;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
-}
-
-/* 5. Primary Buttons & CTAs (Replaces ALL Orange #EA580C / Rust #8A3600 / Brown #9A3412 Buttons) */
+/* Primary Action Buttons (Indigo & Cobalt Gradient) */
 html body button.primary,
 html body .btn-primary,
 html body .sp-btn-primary,
@@ -8517,7 +8565,7 @@ html body button[onclick*="refreshSalesDashboard"]:hover {
   box-shadow: 0 4px 10px rgba(79, 70, 229, 0.35) !important;
 }
 
-/* Upload Excel Button */
+/* Upload Excel Button (Deep Slate Navy) */
 html body button[onclick*="uploadExcel"],
 html body .upload-btn,
 html body #huftWaterUploadButton {
@@ -8555,16 +8603,25 @@ html body button:not(.primary):not(.sp-btn-primary):not(#customerPhoneSearchBtn)
   border-color: #94A3B8 !important;
 }
 
-/* 6. Quick Range Pills (#huftV26Presets) */
+/* 6. Quick Range Pills Bar (#huftV26Presets) */
 html body #huftV26Presets {
-  margin: 12px 0 6px 0 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 12px !important;
+  padding: 8px 14px !important;
+  margin: 12px 0 16px 0 !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03) !important;
+  display: flex !important;
+  align-items: center !important;
   gap: 8px !important;
+  flex-wrap: wrap !important;
 }
 
 html body #huftV26Presets b {
   color: #475569 !important;
   font-weight: 700 !important;
   font-size: 12px !important;
+  margin-right: 4px !important;
 }
 
 html body #huftV26Presets button {
@@ -8593,105 +8650,124 @@ html body #huftV26Presets button[aria-pressed="true"] {
   box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25) !important;
 }
 
-/* 7. Navigation Tabs */
-html body .tabs,
-html body #navRailTabs,
-html body .tab-bar {
+html body #huftV26Privacy {
+  background: #ECFDF5 !important;
+  border: 1px solid #A7F3D0 !important;
+  color: #065F46 !important;
+  border-radius: 9999px !important;
+  padding: 5px 13px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+/* 7. 15 KPI Cards — Luxury Retail Visual Hierarchy & Micro-Interactions */
+html body .kpiGrid {
+  display: grid !important;
+  gap: 14px !important;
+  margin-bottom: 20px !important;
+}
+
+html body .kpi {
   background: #FFFFFF !important;
   border: 1px solid #E2E8F0 !important;
-  border-radius: 10px !important;
-  padding: 4px !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+  border-radius: 14px !important;
+  padding: 16px 18px !important;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
-html body .tab {
-  background: transparent !important;
+html body .kpi:hover {
+  transform: translateY(-2px) !important;
+  border-color: #CBD5E1 !important;
+  box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03) !important;
+}
+
+html body .kpi span {
+  font-size: 11px !important;
+  font-weight: 700 !important;
   color: #64748B !important;
-  border: none !important;
-  border-radius: 7px !important;
-  padding: 8px 16px !important;
-  font-weight: 600 !important;
-  font-size: 13px !important;
-  transition: all 0.15s ease !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  display: block !important;
+  margin-bottom: 6px !important;
 }
 
-html body .tab:hover {
-  background: #F8FAFC !important;
+html body .kpi b {
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+  color: #0F172A !important;
+  display: block !important;
+  font-feature-settings: "tnum" 1 !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+html body .kpi small {
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  color: #94A3B8 !important;
+  display: block !important;
+  margin-top: 4px !important;
+}
+
+/* Semantic Card Accents (Subtle 3.5px left border indicator) */
+html body .kpi:has(#kTotal) {
+  border-left: 3.5px solid #4F46E5 !important;
+}
+html body .kpi:has(#kRetail) {
+  border-left: 3.5px solid #2563EB !important;
+}
+html body .kpi:has(#kSpa) {
+  border-left: 3.5px solid #8B5CF6 !important;
+}
+html body .kpi:has(#kFoodSales) {
+  border-left: 3.5px solid #0EA5E9 !important;
+}
+html body .kpi:has(#kOrders) {
+  border-left: 3.5px solid #10B981 !important;
+}
+html body .kpi:has(#kPositiveFeedback) {
+  border-left: 3.5px solid #F59E0B !important;
+}
+html body .kpi:has(#kReturnBills) {
+  border-left: 3.5px solid #EF4444 !important;
+}
+
+/* 8. Current Month vs Last Month Accordion & Tiles */
+html body #monthKpiCompareToggle,
+html body .monthKpiCompareToggle {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 12px 12px 0 0 !important;
+  padding: 12px 18px !important;
   color: #0F172A !important;
 }
 
-html body .tab.active,
-html body .tab[aria-selected="true"] {
-  background: #EEF2FF !important;
-  color: #4F46E5 !important;
-  font-weight: 700 !important;
-  box-shadow: inset 0 0 0 1px #C7D2FE !important;
-}
-
-/* 8. KPI Cards & Metric Tiles */
-html body .kpi,
-html body .kpi-card,
-html body .metric-card,
-html body .huft-kpi-card,
-html body .dashCard,
-html body .huftKpiBox,
-html body #totalSalesKpiCard,
-html body .compareSummaryBox,
-html body .v26h-card,
-html body #huftV26Headline,
-html body #huftV26Insights,
-html body .v26i-card,
-html body .package-sale-drill-kpi,
-html body .storeTargetCard,
-html body .huftForecastKpis article {
+html body .monthKpiTile {
   background: #FFFFFF !important;
   border: 1px solid #E2E8F0 !important;
   border-radius: 12px !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03) !important;
-  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03) !important;
+  padding: 14px 16px !important;
 }
 
-html body .kpi:hover,
-html body .kpi-card:hover,
-html body .huft-kpi-card:hover {
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
-  border-color: #CBD5E1 !important;
+html body .monthCompareLegend .curDot {
+  background: #4F46E5 !important;
 }
 
-html body .kpi-title,
-html body .kpi-label,
-html body .cardTitle,
-html body .kpiHead,
-html body .compareSummaryBox .csbLabel {
-  color: #64748B !important;
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
+html body .monthCompareLegend .prevDot {
+  background: #94A3B8 !important;
 }
 
-html body .kpi-value,
-html body .metric-value,
-html body .kpiVal,
-html body .compareSummaryBox .csbVal,
-html body .v26h-card>b,
-html body .package-sale-drill-kpi b {
-  color: #0F172A !important;
-  font-size: 22px !important;
-  font-weight: 800 !important;
-  letter-spacing: -0.02em !important;
+html body .curTrack {
+  height: 100% !important;
+  background: linear-gradient(90deg, #818CF8, #4F46E5) !important;
 }
 
-html body .kpi-sub,
-html body .subtext,
-html body .kpiSub,
-html body .compareSummaryBox .csbSub {
-  color: #94A3B8 !important;
-  font-size: 11px !important;
-  font-weight: 500 !important;
-}
-
-/* 9. Panels, Charts & Containers */
+/* 9. Panels & Chart Cards */
 html body .panel,
 html body .dashPanel,
 html body .chartPanel,
@@ -8706,17 +8782,28 @@ html body .comparisonPiePanel,
 html body #comparison .comparisonPiePanel {
   background: #FFFFFF !important;
   border: 1px solid #E2E8F0 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
+  border-radius: 14px !important;
+  padding: 18px !important;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04) !important;
 }
 
 /* Chart filter pills */
+html body .timingDayFilter,
+html body .peakFilter {
+  background: #F1F5F9 !important;
+  border-radius: 9999px !important;
+  padding: 3px !important;
+  display: inline-flex !important;
+  gap: 2px !important;
+  border: 1px solid #E2E8F0 !important;
+}
+
 html body .timingDayFilterBtn,
 html body .peakFilterBtn,
 html body .chartFilterBtn {
-  background: #F8FAFC !important;
+  background: transparent !important;
   color: #475569 !important;
-  border: 1px solid #CBD5E1 !important;
+  border: none !important;
   border-radius: 9999px !important;
   padding: 4px 12px !important;
   font-size: 11.5px !important;
@@ -8728,9 +8815,7 @@ html body .chartFilterBtn {
 html body .timingDayFilterBtn:hover,
 html body .peakFilterBtn:hover,
 html body .chartFilterBtn:hover {
-  background: #F1F5F9 !important;
   color: #0F172A !important;
-  border-color: #94A3B8 !important;
 }
 
 html body .timingDayFilterBtn.active,
@@ -8738,18 +8823,27 @@ html body .peakFilterBtn.active,
 html body .chartFilterBtn.active,
 html body .timingDayFilterBtn[aria-pressed="true"],
 html body .peakFilterBtn[aria-pressed="true"] {
-  background: #4F46E5 !important;
-  color: #FFFFFF !important;
-  border-color: #4F46E5 !important;
-  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.3) !important;
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1) !important;
+  font-weight: 700 !important;
 }
 
-/* Month Comparison View Toggle Buttons */
+/* Month Comparison View Toggle Switch */
+html body .huftCompareViewSwitch {
+  background: #F1F5F9 !important;
+  border-radius: 10px !important;
+  padding: 4px !important;
+  display: inline-flex !important;
+  gap: 4px !important;
+  border: 1px solid #E2E8F0 !important;
+}
+
 html body .huftCompareViewBtn {
-  background: #FFFFFF !important;
-  color: #334155 !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 8px !important;
+  background: transparent !important;
+  color: #475569 !important;
+  border: none !important;
+  border-radius: 7px !important;
   padding: 6px 14px !important;
   font-size: 12px !important;
   font-weight: 600 !important;
@@ -8758,27 +8852,25 @@ html body .huftCompareViewBtn {
 }
 
 html body .huftCompareViewBtn:hover {
-  background: #F8FAFC !important;
   color: #0F172A !important;
-  border-color: #94A3B8 !important;
 }
 
 html body .huftCompareViewBtn.active,
 html body .huftCompareViewBtn[aria-pressed="true"] {
-  background: #4F46E5 !important;
-  color: #FFFFFF !important;
-  border-color: #4F46E5 !important;
-  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25) !important;
+  background: #FFFFFF !important;
+  color: #4F46E5 !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1) !important;
+  font-weight: 700 !important;
 }
 
-/* 10. Tables & Grids */
+/* 10. Tables & Data Grids */
 html body .tableWrap,
 html body .miniTableWrap,
 html body .dtp-table-wrap,
 html body .package-drill-table-wrap,
 html body .cmpo-table {
   border: 1px solid #E2E8F0 !important;
-  border-radius: 8px !important;
+  border-radius: 10px !important;
   background: #FFFFFF !important;
   overflow: hidden !important;
 }
@@ -8804,7 +8896,7 @@ html body #huftCmpOptPanel .cmpo-table th {
   font-size: 11.5px !important;
   font-weight: 700 !important;
   letter-spacing: 0.02em !important;
-  padding: 10px 12px !important;
+  padding: 10px 14px !important;
 }
 
 html body td {
@@ -8813,7 +8905,7 @@ html body td {
   border-color: #F1F5F9 !important;
   border-bottom: 1px solid #E2E8F0 !important;
   font-size: 12px !important;
-  padding: 10px 12px !important;
+  padding: 10px 14px !important;
 }
 
 html body tr:hover td {
@@ -8830,15 +8922,15 @@ html body #huftCmpOptPanel .cmpo-table tr.cmpo-total td {
   border-top: 2px solid #CBD5E1 !important;
 }
 
-/* 11. Modals & Overlays */
+/* 11. 3-Level Monthly Summary Drilldown Modal & Dialogs */
 html body #huftInvoiceDrillModal,
 html body #storeProfileModal,
 html body .huftPopupOverlay,
 html body .chartModal,
 html body #huftReleaseNotesModal {
   background: rgba(15, 23, 42, 0.6) !important;
-  backdrop-filter: blur(6px) !important;
-  -webkit-backdrop-filter: blur(6px) !important;
+  backdrop-filter: blur(10px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
 }
 
 html body .hid-panel,
@@ -8848,8 +8940,8 @@ html body .chartModalBox,
 html body .dtp-modal-card,
 html body #huftReleaseNotesModal .hrn-card {
   background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 14px !important;
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  border-radius: 16px !important;
   box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25) !important;
 }
 
@@ -8865,17 +8957,23 @@ html body #huftReleaseNotesModal .hrn-head {
 html body .hid-metric {
   background: #F8FAFC !important;
   border: 1px solid #E2E8F0 !important;
-  border-radius: 8px !important;
+  border-radius: 10px !important;
+  padding: 10px 14px !important;
 }
 
 html body .hid-metric span {
   color: #64748B !important;
   font-size: 10.5px !important;
   font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
 }
 
 html body .hid-metric b {
   color: #0F172A !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
 }
 
 /* Modal Close & Back Buttons */
@@ -8890,7 +8988,7 @@ html body #compareFilterReset {
   background: #F8FAFC !important;
   color: #334155 !important;
   border: 1px solid #CBD5E1 !important;
-  border-radius: 6px !important;
+  border-radius: 8px !important;
   font-weight: 600 !important;
 }
 
@@ -8907,7 +9005,7 @@ html body #compareFilterReset:hover {
   border-color: #94A3B8 !important;
 }
 
-/* 12. WhatsApp Tab Sub-navigation Buttons (.wa-nav-btn) */
+/* 12. WhatsApp Tab Sub-navigation Buttons */
 html body .wa-nav-btn {
   background: #FFFFFF !important;
   color: #334155 !important;
@@ -8935,17 +9033,7 @@ html body .wa-nav-btn[aria-pressed="true"] {
   box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3) !important;
 }
 
-/* 13. Floating WhatsApp Reminder Widget */
-html body .huft-report-time-pill,
-html body [class*="huft-report-time"] {
-  background: #FFFFFF !important;
-  color: #0F172A !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15) !important;
-}
-
-/* 14. Tooltips */
+/* 13. Tooltips & Floating Notification Widgets */
 html body #huftKpiHoverPopup,
 html body #huftAdditionalKpiMousePopup,
 html body #huftMonthKpiHoverTip,
@@ -8954,7 +9042,8 @@ html body .chartPointPopup,
 html body #dtrTip,
 html body .employee-percent-tooltip,
 html body .employee-sale-hover-tip {
-  background: #0F172A !important;
+  background: rgba(15, 23, 42, 0.95) !important;
+  backdrop-filter: blur(8px) !important;
   color: #F8FAFC !important;
   border: 1px solid #334155 !important;
   border-radius: 8px !important;
@@ -8975,6 +9064,16 @@ html body .huft-tip-row,
 html body .ptRow,
 html body .estip-row {
   color: #94A3B8 !important;
+}
+
+/* 14. Floating WhatsApp Reminder Widget */
+html body .huft-report-time-pill,
+html body [class*="huft-report-time"] {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15) !important;
 }
 
 /* 15. Badges, Chips & Release Badge */
@@ -9002,35 +9101,6 @@ html body .v26chip.bad {
   background: #FEF2F2 !important;
   color: #B91C1C !important;
   border-color: #FECACA !important;
-}
-
-/* 16. Month Comparison Legend & Track Progress */
-html body .monthCompareLegend .curDot {
-  background: #4F46E5 !important;
-}
-
-html body .monthCompareLegend .prevDot {
-  background: #94A3B8 !important;
-}
-
-html body .curTrack {
-  height: 100% !important;
-  background: linear-gradient(90deg, #818CF8, #4F46E5) !important;
-}
-
-/* 17. Error & Notice Banners */
-html body #huftRuntimeError {
-  background: #EFF6FF !important;
-  border: 1px solid #BFDBFE !important;
-  color: #1E3A8A !important;
-  border-radius: 8px !important;
-}
-
-html body #huftRuntimeError button {
-  background: #3B82F6 !important;
-  color: #FFFFFF !important;
-  border: none !important;
-  border-radius: 6px !important;
 }
 
 </style>

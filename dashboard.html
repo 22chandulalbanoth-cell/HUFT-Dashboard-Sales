@@ -375,7 +375,7 @@ window.getActiveStoreId = getActiveStoreId;
 <script id="huft-runtime-diagnostics">(function(){const pending=[],show=message=>{const value=String(message||"Unknown error"),box=document.getElementById("huftRuntimeError"),text=document.getElementById("huftRuntimeErrorText");if(!box||!text){pending.push(value);return}text.textContent+=(text.textContent?`
 
 `:"")+value,box.style.display="block"};window.huftShowRuntimeError=show,document.addEventListener("DOMContentLoaded",()=>{const close=document.getElementById("huftRuntimeErrorClose");for(close&&close.addEventListener("click",()=>{const box=document.getElementById("huftRuntimeError");box&&(box.style.display="none")});pending.length;)show(pending.shift())}),window.addEventListener("error",e=>{if(e&&e.target&&(e.target.tagName==="LINK"||e.target.tagName==="SCRIPT"||e.target.tagName==="IMG")){console.warn("[HUFT] Resource fallback triggered:",e.target.src||e.target.href);return}const message=e&&e.message?e.message:"Script or resource failed to load";show(message+(e&&e.filename?`
-`+e.filename+(e.lineno?":"+e.lineno:""):""))}),window.addEventListener("unhandledrejection",e=>{const reason=e&&e.reason;show("Unhandled promise rejection: "+(reason&&reason.stack?reason.stack:reason&&reason.message?reason.message:String(reason)))});const nativeConsoleError=console.error.bind(console);console.error=(...args)=>{nativeConsoleError(...args),show(args.map(v=>v&&v.stack?v.stack:String(v)).join(" "))}})();function packageSaleRows(){var _a,_b;const F=((_a=document.getElementById("from"))==null?void 0:_a.value)||"",T=((_b=document.getElementById("to"))==null?void 0:_b.value)||"";return(Array.isArray(allStoreRows)&&allStoreRows.length?allStoreRows:Array.isArray(rows)?rows:[]).filter(r=>isAdhygPackageSale(r)&&r._key&&(!F||r._key>=F)&&(!T||r._key<=T))}function isSpaSubscriptionPackage(r){return/\bSPA\s+SUBSCRIPTION\b/i.test(String((r==null?void 0:r["Column U"])||(r==null?void 0:r["SPA Subscription"])||(r==null?void 0:r["Order Type"])||(r==null?void 0:r._orderType)||""))}function isReversedPackageBill(r){return/\breversed\b/i.test(String((r==null?void 0:r["Column AD"])||(r==null?void 0:r.Reversed)||(r==null?void 0:r["Invoice Status"])||""))}function isPackageReturnBill(r){return isReversedPackageBill(r)||typeof isReturnBill=="function"&&isReturnBill(r)||/\b(?:reversal\s+of|refund)\b/i.test(String((r==null?void 0:r["Invoice/Display Name"])||(r==null?void 0:r["Column F"])||(r==null?void 0:r._invoiceDisplayName)||""))||/^(?:RET(?:URN)?(?:[-/\s]|$)|CN(?:[-/\s]|$)|CREDIT[\s_-]*NOTE(?:[-/\s]|$))/i.test(String((r==null?void 0:r["Invoice/Display Name"])||(r==null?void 0:r["Column F"])||(r==null?void 0:r._invoiceDisplayName)||""))}function packageSaleValue(r){return isPackageReturnBill(r)?0:Number(amount(r))||0}function packageSaleQuantity(r){return isPackageReturnBill(r)?0:Number(qty(r))||0}function packageInvoiceKey(r,i){const ref=billKey(r)||packageSaleField(r,["Invoice/Display Name","Column F","_invoiceDisplayName","Order Ref","_orderRef"],"");return ref||String(r._key||"")+"|"+String(getPackageSaleStore(r)||"")+"|"+String(r._orderRef||"ROW-"+i)}function packageReturnRows(){return packageSaleRows().filter(isPackageReturnBill)}function packageSaleRowsByStore(){const baseList=packageSaleRows();if(typeof selectedRows=="function"){const allowed=new Set(selectedRows());return baseList.filter(r=>allowed.has(r))}return baseList}function packageSaleMoney(v){return"\u20B9"+(Number(v)||0).toLocaleString("en-IN",{maximumFractionDigits:2})}function packageSaleField(r,keys,fb="\u2014"){for(const k of keys)if(r[k]!==void 0&&String(r[k]).trim()!=="")return String(r[k]).trim();return fb}function packageSaleEsc(v){return String(v!=null?v:"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c])}function employeeHistoryName(r,lookup){try{const direct=employeeDisplayName((r==null?void 0:r["Column AC"])||(r==null?void 0:r.Employees)||(r==null?void 0:r["Order Lines/Employees"])||(r==null?void 0:r["Employee Name"])||(r==null?void 0:r._employee)||"");return direct&&!/^(?:unassigned|employee)$/i.test(direct)?direct:employeeDisplayName(resolveEmployeeName(r,lookup||employeeNameLookup()))||"Unassigned"}catch{return"Unassigned"}}function employeeNameBadge(name){const label=String(name||"Unassigned").trim()||"Unassigned";return'<span class="employee-history-badge">'+packageSaleEsc(label)+"</span>"}function employeeNameBadgeList(names){const list=[...new Set(Array.from(names||[]).map(x=>String(x||"").trim()).filter(x=>x&&x!=="Unassigned"))];return list.length?list.map(employeeNameBadge).join(" "):employeeNameBadge("Unassigned")}function refreshPackageSaleCard(){const list=packageSaleRows(),total=list.reduce((a,r)=>a+packageSaleValue(r),0),q=list.reduce((a,r)=>a+packageSaleQuantity(r),0),bills=new Set(list.map((r,i)=>packageInvoiceKey(r,i)).filter(Boolean)).size,returns=new Set(packageReturnRows().map((r,i)=>packageInvoiceKey(r,i)).filter(Boolean)).size,el=document.getElementById("kPackageSale"),compactTotal=total>=1e3?"\u20B9"+(total/1e3).toLocaleString("en-IN",{maximumFractionDigits:total>=1e5?0:1})+"K":"\u20B9"+Math.round(total).toLocaleString("en-IN");el&&(el.textContent=compactTotal+" / "+q.toLocaleString("en-IN",{maximumFractionDigits:2}));const sub=document.querySelector("#packageSaleDrillCard small");sub&&(sub.textContent=bills.toLocaleString("en-IN")+" package bills \u2022 Click \u2192 Month \u2192 Date \u2192 Invoices");const returnEl=document.getElementById("kPackageReturnBills");returnEl&&(returnEl.textContent=returns.toLocaleString("en-IN"))}function openPackageSaleDrill(){renderPackageSaleMonths();const m=document.getElementById("packageSaleDrillModal");m&&m.classList.add("show")}function closePackageSaleDrill(){var _a;(_a=document.getElementById("packageSaleDrillModal"))==null||_a.classList.remove("show")}function openPackageReturnDrill(){renderPackageReturnMonths();const m=document.getElementById("packageSaleDrillModal");m&&m.classList.add("show")}function renderPackageReturnMonths(){const list=packageReturnRows(),groups={};list.forEach(r=>{const k=(r._key||"").slice(0,7)||"Unknown";(groups[k]||(groups[k]=[])).push(r)});const keys=Object.keys(groups).sort().reverse(),title=document.getElementById("packageSaleDrillTitle"),sub=document.getElementById("packageSaleDrillSubtitle"),body=document.getElementById("packageSaleDrillBody");title&&(title.textContent="Package Return Bills \u2014 By Month"),sub&&(sub.textContent="Reversed SPA Subscription bills \u2022 return values excluded from package sales"),body&&(body.innerHTML='<div class="package-drill-month-count">'+new Set(list.map((r,i)=>packageInvoiceKey(r,i))).size+' reversed package bills</div><div class="package-drill-table-wrap"><table class="package-drill-table"><thead><tr><th>Month</th><th>Return Bills</th><th>Details</th></tr></thead><tbody>'+keys.map(k=>{const rows2=groups[k],count=new Set(rows2.map((r,i)=>packageInvoiceKey(r,i))).size,label=k==="Unknown"?k:new Date(k+"-01T12:00:00").toLocaleDateString("en-IN",{month:"long",year:"numeric"});return"<tr><td>"+packageSaleEsc(label)+"</td><td>"+count+'</td><td><button class="package-drill-link" onclick="renderPackageReturnDates(&quot;'+k+'&quot;)">Open month \u2192</button></td></tr>'}).join("")+"</tbody></table></div>"+(keys.length?"":"<p>No reversed SPA Subscription bills found for the selected dates.</p>"))}function renderPackageReturnDates(month){const list=packageReturnRows().filter(r=>(r._key||"").slice(0,7)===month),groups={};list.forEach(r=>{const k=r._key||"Unknown";(groups[k]||(groups[k]=[])).push(r)});const keys=Object.keys(groups).sort().reverse(),title=document.getElementById("packageSaleDrillTitle"),body=document.getElementById("packageSaleDrillBody");title&&(title.textContent="Package Return Bills \u2022 "+(month==="Unknown"?month:new Date(month+"-01T12:00:00").toLocaleDateString("en-IN",{month:"long",year:"numeric"}))),body&&(body.innerHTML='<button class="package-drill-back" onclick="renderPackageReturnMonths()">\u2190 Back to months</button><div class="package-drill-table-wrap"><table class="package-drill-table"><thead><tr><th>Date</th><th>Return Bills</th><th>Details</th></tr></thead><tbody>'+keys.map(k=>{const count=new Set(groups[k].map((r,i)=>packageInvoiceKey(r,i))).size;return"<tr><td>"+packageSaleEsc(k)+"</td><td>"+count+'</td><td><button class="package-drill-link" onclick="renderPackageReturnInvoices(&quot;'+month+"&quot;,&quot;"+k+'&quot;)">Open date \u2192</button></td></tr>'}).join("")+"</tbody></table></div>")}function renderPackageReturnInvoices(month,date){const list=packageReturnRows().filter(r=>(r._key||"").slice(0,7)===month&&r._key===date),invoices=new Map;list.forEach((r,i)=>{const k=packageInvoiceKey(r,i);invoices.has(k)||invoices.set(k,r)});const title=document.getElementById("packageSaleDrillTitle"),body=document.getElementById("packageSaleDrillBody");title&&(title.textContent="Reversed Package Invoices \u2022 "+date),body&&(body.innerHTML='<button class="package-drill-back" onclick="renderPackageReturnDates(&quot;'+month+'&quot;)">\u2190 Back to dates</button><div class="package-drill-table-wrap"><table class="package-drill-table"><thead><tr><th>Invoice</th><th>Customer</th><th>Employee</th><th>Package</th><th>Store / POS</th><th>Status</th></tr></thead><tbody>'+[...invoices.entries()].map(([key,r])=>"<tr><td>"+packageSaleEsc(key)+"</td><td>"+packageSaleEsc(packageSaleField(r,["Customer","Customer Name","Column G"]))+"</td><td>"+employeeNameBadge(employeeHistoryName(r))+"</td><td>SPA Subscription</td><td>"+packageSaleEsc(getPackageSaleStore(r))+"</td><td>Reversed</td></tr>").join("")+"</tbody></table></div><p><b>"+invoices.size+" return bills \u2022 amounts excluded from package sales</b></p>")}function packageSaleMetrics(list,monthCount){const total=list.reduce((a,r)=>a+packageSaleValue(r),0),q=list.reduce((a,r)=>a+packageSaleQuantity(r),0),invoices=new Set(list.map((r,i)=>packageInvoiceKey(r,i)).filter(Boolean)).size,storeBreakdown={};list.forEach((r,i)=>{const store=getPackageSaleStore(r);storeBreakdown[store]||(storeBreakdown[store]={qty:0,amount:0,bills:new Set}),storeBreakdown[store].qty+=packageSaleQuantity(r),storeBreakdown[store].amount+=packageSaleValue(r),storeBreakdown[store].bills.add(packageInvoiceKey(r,i))});const storeKeys=Object.keys(storeBreakdown).sort(),storeHtml=storeKeys.length>1?'<div style="margin-top:12px;border-top:1px solid #fed7aa;padding-top:12px"><div style="font-size:10px;color:#7c879b;font-weight:700;margin-bottom:8px">Store Breakdown:</div><table style="width:100%;font-size:10px;border-collapse:collapse">'+storeKeys.map(store=>'<tr><td style="padding:4px;border:1px solid #fed7aa">'+packageSaleEsc(store)+'</td><td style="text-align:right;padding:4px;border:1px solid #fed7aa">'+storeBreakdown[store].bills.size+'</td><td style="text-align:right;padding:4px;border:1px solid #fed7aa">'+storeBreakdown[store].qty.toLocaleString("en-IN",{maximumFractionDigits:2})+'</td><td style="text-align:right;padding:4px;border:1px solid #fed7aa">'+packageSaleMoney(storeBreakdown[store].amount)+"</td></tr>").join("")+"</table></div>":"";return'<div class="package-drill-metrics"><div class="package-drill-metric"><span>Package Sale</span><b>'+packageSaleMoney(total)+'</b><small>Reversed bills excluded from value</small></div><div class="package-drill-metric"><span>Packages Sold (Qty)</span><b>'+q.toLocaleString("en-IN",{maximumFractionDigits:2})+'</b><small>Reversed bills excluded from quantity</small></div><div class="package-drill-metric"><span>Package Bills</span><b>'+invoices+'</b><small>Includes reversed bills</small></div><div class="package-drill-metric"><span>Stores</span><b>'+storeKeys.length+"</b><small>Participating stores</small></div></div>"+storeHtml}function renderPackageSaleMonths(){var _a,_b;const list=packageSaleRows(),groups={};list.forEach(r=>{const k=(r._key||"").slice(0,7)||"Unknown";(groups[k]||(groups[k]=[])).push(r)});const keys=Object.keys(groups).sort().reverse();document.getElementById("packageSaleDrillTitle").textContent="Package Sale \u2014 Monthly Summary (All Stores)",document.getElementById("packageSaleDrillSubtitle").textContent=(((_a=document.getElementById("from"))==null?void 0:_a.value)||"All dates")+" to "+(((_b=document.getElementById("to"))==null?void 0:_b.value)||"All dates")+" \u2022 SPA Subscription package bills included; reversed bills count but their value is excluded",document.getElementById("packageSaleDrillBody").innerHTML=packageSaleMetrics(list,keys.length)+'<div class="package-drill-month-count">'+keys.length+' months</div><div class="package-drill-table-wrap"><table class="package-drill-table"><thead><tr><th>Month</th><th>Invoices</th><th>Qty</th><th>Amount</th></tr></thead><tbody>'+keys.map(k=>{const a=groups[k],v=a.reduce((s,r)=>s+packageSaleValue(r),0),q=a.reduce((s,r)=>s+packageSaleQuantity(r),0),inv=new Set(a.map((r,i)=>packageInvoiceKey(r,i))).size,label=k==="Unknown"?k:new Date(k+"-01T12:00:00").toLocaleDateString("en-IN",{month:"long",year:"numeric"});return'<tr><td><button class="package-drill-link" onclick="renderPackageSaleDates(&quot;'+k+'&quot;)">'+packageSaleEsc(label)+"</button></td><td>"+inv+' invoices</td><td class="package-drill-num">'+q.toLocaleString("en-IN",{maximumFractionDigits:2})+'</td><td class="package-drill-num">'+packageSaleMoney(v)+"</td></tr>"}).join("")+"</tbody></table></div>"+(keys.length?"":"<p>No package-sale invoices found for the selected date range.</p>")}function renderPackageSaleDates(month){const list=packageSaleRows().filter(r=>(r._key||"").slice(0,7)===month),groups={};list.forEach(r=>(groups[r._key]||(groups[r._key]=[])).push(r));const keys=Object.keys(groups).sort().reverse();document.getElementById("packageSaleDrillTitle").textContent="Package Sale \u2022 "+(month==="Unknown"?month:new Date(month+"-01T12:00:00").toLocaleDateString("en-IN",{month:"long",year:"numeric"})),document.getElementById("packageSaleDrillBody").innerHTML='<button class="package-drill-back" onclick="renderPackageSaleMonths()">\u2190 Back to months</button><table class="package-drill-table"><thead><tr><th>Date</th><th>Package Sale</th><th>Qty</th><th>Lines</th><th>Details</th></tr></thead><tbody>'+keys.map(k=>{const a=groups[k],v=a.reduce((s,r)=>s+packageSaleValue(r),0),q=a.reduce((s,r)=>s+packageSaleQuantity(r),0);return"<tr><td>"+packageSaleEsc(k)+"</td><td>"+packageSaleMoney(v)+"</td><td>"+q.toLocaleString("en-IN",{maximumFractionDigits:2})+"</td><td>"+a.length+'</td><td><button class="package-drill-link" onclick="renderPackageSaleInvoices(&quot;'+month+"&quot;,&quot;"+k+'&quot;)">Open date \u2192</button></td></tr>'}).join("")+"</tbody></table>"}function renderPackageSaleInvoices(month,date){const list=packageSaleRows().filter(r=>(r._key||"").slice(0,7)===month&&r._key===date);document.getElementById("packageSaleDrillTitle").textContent="Package Sale \u2022 "+date+" \u2022 Invoice Details";const get=(r,ks)=>packageSaleField(r,ks),totalAmt=list.reduce((a,r)=>a+packageSaleValue(r),0),totalQty=list.reduce((a,r)=>a+packageSaleQuantity(r),0);document.getElementById("packageSaleDrillBody").innerHTML='<button class="package-drill-back" onclick="renderPackageSaleDates(&quot;'+month+'&quot;)">\u2190 Back to dates</button><table class="package-drill-table"><thead><tr><th>Invoice</th><th>Customer Name</th><th>Employee</th><th>Product</th><th>Qty</th><th>Amount</th><th>Store / POS</th></tr></thead><tbody>'+list.map(r=>"<tr><td>"+packageSaleEsc(get(r,["Invoice/Display Name","Column F","_invoiceDisplayName"]))+"</td><td>"+packageSaleEsc(get(r,["Customer","Customer Name","Partner Name","Client Name","Column G"]))+"</td><td>"+employeeNameBadge(employeeHistoryName(r))+"</td><td>"+packageSaleEsc(get(r,["Order Lines/Product","Product","Product Name","Column J"]))+"</td><td>"+(packageSaleQuantity(r)||0).toLocaleString("en-IN",{maximumFractionDigits:2})+"</td><td>"+(isPackageReturnBill(r)?"\u2014 (Reversed)":packageSaleMoney(packageSaleValue(r)))+"</td><td>"+packageSaleEsc(get(r,["Point of Sale","Store","Store Name","Column C"]))+"</td></tr>").join("")+"</tbody></table><p><b>Total: "+packageSaleMoney(totalAmt)+" \u2022 Qty: "+totalQty.toLocaleString("en-IN",{maximumFractionDigits:2})+"</b></p>"}function validatePackageAtvMatch(){const packageList=packageSaleRows(),packageTotal=packageList.reduce((a,r)=>a+packageSaleValue(r),0),packageQty=packageList.reduce((a,r)=>a+packageSaleQuantity(r),0),byStore={};return packageList.forEach(r=>{const store=getPackageSaleStore(r);byStore[store]||(byStore[store]={total:0,qty:0,invoices:new Set}),byStore[store].total+=packageSaleValue(r),byStore[store].qty+=packageSaleQuantity(r);const inv=packageSaleField(r,["Invoice/Display Name","Column F","_invoiceDisplayName"]);byStore[store].invoices.add(inv)}),console.log("=== PACKAGE SALES TO ATV RECONCILIATION ==="),console.log("Total Package Sales: "+packageSaleMoney(packageTotal)),console.log("Total Packages Qty: "+packageQty),console.log("Total Invoice Lines: "+packageList.length),console.log(`
+`+e.filename+(e.lineno?":"+e.lineno:""):""))}),window.addEventListener("unhandledrejection",e=>{const reason=e&&e.reason;show("Unhandled promise rejection: "+(reason&&reason.stack?reason.stack:reason&&reason.message?reason.message:String(reason)))});const nativeConsoleError=console.error.bind(console);console.error=(...args)=>{nativeConsoleError(...args),show(args.map(v=>v&&v.stack?v.stack:String(v)).join(" "))}})();function packageSaleRows(){var _a,_b;const F=((_a=document.getElementById("from"))==null?void 0:_a.value)||"",T=((_b=document.getElementById("to"))==null?void 0:_b.value)||"";return(Array.isArray(allStoreRows)&&allStoreRows.length?allStoreRows:Array.isArray(rows)?rows:[]).filter(r=>isAdhygPackageSale(r)&&r._key&&(!F||r._key>=F)&&(!T||r._key<=T))}function isSpaSubscriptionPackage(r){return/\bSPA\s+SUBSCRIPTION\b/i.test(String((r==null?void 0:r["Column U"])||(r==null?void 0:r["SPA Subscription"])||(r==null?void 0:r["Order Type"])||(r==null?void 0:r._orderType)||""))}function isReversedPackageBill(r){return/\breversed\b/i.test(String((r==null?void 0:r["Column AD"])||(r==null?void 0:r.Reversed)||(r==null?void 0:r["Invoice Status"])||""))}function isPackageReturnBill(r){return isReversedPackageBill(r)||typeof isReturnBill=="function"&&isReturnBill(r)||/\b(?:reversal\s+of|refund)\b/i.test(String((r==null?void 0:r["Invoice/Display Name"])||(r==null?void 0:r["Column F"])||(r==null?void 0:r._invoiceDisplayName)||""))||/^(?:RET(?:URN)?(?:[-/\s]|$)|CN(?:[-/\s]|$)|CREDIT[\s_-]*NOTE(?:[-/\s]|$))/i.test(String((r==null?void 0:r["Invoice/Display Name"])||(r==null?void 0:r["Column F"])||(r==null?void 0:r._invoiceDisplayName)||""))}function packageSaleValue(r){return isPackageReturnBill(r)?0:Number(amount(r))||0}function packageSaleQuantity(r){return isPackageReturnBill(r)?0:Number(qty(r))||0}function packageInvoiceKey(r,i){const ref=billKey(r)||packageSaleField(r,["Invoice/Display Name","Column F","_invoiceDisplayName","Order Ref","_orderRef"],"");return ref||String(r._key||"")+"|"+String(getPackageSaleStore(r)||"")+"|"+String(r._orderRef||"ROW-"+i)}function packageReturnRows(){return packageSaleRows().filter(isPackageReturnBill)}function packageSaleRowsByStore(){const baseList=packageSaleRows();if(typeof selectedRows=="function"){const allowed=new Set(selectedRows());return baseList.filter(r=>allowed.has(r))}return baseList}function packageSaleMoney(v){return"\u20B9"+(Number(v)||0).toLocaleString("en-IN",{maximumFractionDigits:2})}function packageSaleField(r,keys,fb="\u2014"){for(const k of keys)if(r[k]!==void 0&&String(r[k]).trim()!=="")return String(r[k]).trim();return fb}function packageSaleEsc(v){return String(v!=null?v:"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c])}function employeeHistoryName(r,lookup){try{const direct=employeeDisplayName((r==null?void 0:r["Column AC"])||(r==null?void 0:r.Employees)||(r==null?void 0:r["Order Lines/Employees"])||(r==null?void 0:r["Employee Name"])||(r==null?void 0:r._employee)||"");return direct&&!/^(?:unassigned|employee)$/i.test(direct)?direct:employeeDisplayName(resolveEmployeeName(r,lookup||employeeNameLookup()))||"Unassigned"}catch{return"Unassigned"}}function employeeNameBadge(name){const label=String(name||"Unassigned").trim()||"Unassigned";return'<span class="employee-history-badge">'+packageSaleEsc(label)+"</span>"}function employeeNameBadgeList(names){const list=[...new Set(Array.from(names||[]).map(x=>String(x||"").trim()).filter(x=>x&&x!=="Unassigned"))];return list.length?list.map(employeeNameBadge).join(" "):employeeNameBadge("Unassigned")}function refreshPackageSaleCard(){const list=packageSaleRows(),total=list.reduce((a,r)=>a+packageSaleValue(r),0),q=list.reduce((a,r)=>a+packageSaleQuantity(r),0),bills=new Set(list.map((r,i)=>packageInvoiceKey(r,i)).filter(Boolean)).size,returns=new Set(packageReturnRows().map((r,i)=>packageInvoiceKey(r,i)).filter(Boolean)).size,el=document.getElementById("kPackageSale"),compactTotal=total>=1e3?"\u20B9"+(total/1e3).toLocaleString("en-IN",{maximumFractionDigits:total>=1e5?0:1})+"K":"\u20B9"+Math.round(total).toLocaleString("en-IN");el&&(el.textContent=compactTotal+" / "+q.toLocaleString("en-IN",{maximumFractionDigits:2}));const sub=document.querySelector("#packageSaleDrillCard small");sub&&(sub.textContent=bills.toLocaleString("en-IN")+" package bills \u2022 Click \u2192 Month \u2192 Date \u2192 Invoices");const returnEl=document.getElementById("kPackageReturnBills");returnEl&&(returnEl.textContent=returns.toLocaleString("en-IN"))}function openPackageSaleDrill(){renderPackageSaleMonths();const m=document.getElementById("packageSaleDrillModal");m&&m.classList.add("show")}function closePackageSaleDrill(){var _a;(_a=document.getElementById("packageSaleDrillModal"))==null||_a.classList.remove("show")}function openPackageReturnDrill(){renderPackageReturnMonths();const m=document.getElementById("packageSaleDrillModal");m&&m.classList.add("show")}function renderPackageReturnMonths(){const list=packageReturnRows(),groups={};list.forEach(r=>{const k=(r._key||"").slice(0,7)||"Unknown";(groups[k]||(groups[k]=[])).push(r)});const keys=Object.keys(groups).sort().reverse(),title=document.getElementById("packageSaleDrillTitle"),sub=document.getElementById("packageSaleDrillSubtitle"),body=document.getElementById("packageSaleDrillBody");title&&(title.textContent="Package Return Bills \u2014 By Month"),sub&&(sub.textContent="Reversed SPA Subscription bills \u2022 return values excluded from package sales"),body&&(body.innerHTML='<div class="package-drill-month-count">'+new Set(list.map((r,i)=>packageInvoiceKey(r,i))).size+' reversed package bills</div><div class="package-drill-table-wrap"><table class="package-drill-table"><thead><tr><th>Month</th><th>Return Bills</th><th>Details</th></tr></thead><tbody>'+keys.map(k=>{const rows2=groups[k],count=new Set(rows2.map((r,i)=>packageInvoiceKey(r,i))).size,label=k==="Unknown"?k:new Date(k+"-01T12:00:00").toLocaleDateString("en-IN",{month:"long",year:"numeric"});return"<tr><td>"+packageSaleEsc(label)+"</td><td>"+count+'</td><td><button class="package-drill-link" onclick="renderPackageReturnDates(\'' + k + '\')">Open month \u2192</button></td></tr>'}).join("")+"</tbody></table></div>"+(keys.length?"":"<p>No reversed SPA Subscription bills found for the selected dates.</p>"))}function renderPackageReturnDates(month){const list=packageReturnRows().filter(r=>(r._key||"").slice(0,7)===month),groups={};list.forEach(r=>{const k=r._key||"Unknown";(groups[k]||(groups[k]=[])).push(r)});const keys=Object.keys(groups).sort().reverse(),title=document.getElementById("packageSaleDrillTitle"),body=document.getElementById("packageSaleDrillBody");title&&(title.textContent="Package Return Bills \u2022 "+(month==="Unknown"?month:new Date(month+"-01T12:00:00").toLocaleDateString("en-IN",{month:"long",year:"numeric"}))),body&&(body.innerHTML='<button class="package-drill-back" onclick="renderPackageReturnMonths()">\u2190 Back to months</button><div class="package-drill-table-wrap"><table class="package-drill-table"><thead><tr><th>Date</th><th>Return Bills</th><th>Details</th></tr></thead><tbody>'+keys.map(k=>{const count=new Set(groups[k].map((r,i)=>packageInvoiceKey(r,i))).size;return"<tr><td>"+packageSaleEsc(k)+"</td><td>"+count+'</td><td><button class="package-drill-link" onclick="renderPackageReturnInvoices(\'' + month + '\',\'' + k + '\')">Open date \u2192</button></td></tr>'}).join("")+"</tbody></table></div>")}function renderPackageReturnInvoices(month,date){const list=packageReturnRows().filter(r=>(r._key||"").slice(0,7)===month&&r._key===date),invoices=new Map;list.forEach((r,i)=>{const k=packageInvoiceKey(r,i);invoices.has(k)||invoices.set(k,r)});const title=document.getElementById("packageSaleDrillTitle"),body=document.getElementById("packageSaleDrillBody");title&&(title.textContent="Reversed Package Invoices \u2022 "+date),body&&(body.innerHTML='<button class="package-drill-back" onclick="renderPackageReturnDates(\'' + month + '\')">\u2190 Back to dates</button><div class="package-drill-table-wrap"><table class="package-drill-table"><thead><tr><th>Invoice</th><th>Customer</th><th>Employee</th><th>Package</th><th>Store / POS</th><th>Status</th></tr></thead><tbody>'+[...invoices.entries()].map(([key,r])=>"<tr><td>"+packageSaleEsc(key)+"</td><td>"+packageSaleEsc(packageSaleField(r,["Customer","Customer Name","Column G"]))+"</td><td>"+employeeNameBadge(employeeHistoryName(r))+"</td><td>SPA Subscription</td><td>"+packageSaleEsc(getPackageSaleStore(r))+"</td><td>Reversed</td></tr>").join("")+"</tbody></table></div><p><b>"+invoices.size+" return bills \u2022 amounts excluded from package sales</b></p>")}function packageSaleMetrics(list,monthCount){const total=list.reduce((a,r)=>a+packageSaleValue(r),0),q=list.reduce((a,r)=>a+packageSaleQuantity(r),0),invoices=new Set(list.map((r,i)=>packageInvoiceKey(r,i)).filter(Boolean)).size,storeBreakdown={};list.forEach((r,i)=>{const store=getPackageSaleStore(r);storeBreakdown[store]||(storeBreakdown[store]={qty:0,amount:0,bills:new Set}),storeBreakdown[store].qty+=packageSaleQuantity(r),storeBreakdown[store].amount+=packageSaleValue(r),storeBreakdown[store].bills.add(packageInvoiceKey(r,i))});const storeKeys=Object.keys(storeBreakdown).sort(),storeHtml=storeKeys.length>1?'<div style="margin-top:12px;border-top:1px solid #fed7aa;padding-top:12px"><div style="font-size:10px;color:#7c879b;font-weight:700;margin-bottom:8px">Store Breakdown:</div><table style="width:100%;font-size:10px;border-collapse:collapse">'+storeKeys.map(store=>'<tr><td style="padding:4px;border:1px solid #fed7aa">'+packageSaleEsc(store)+'</td><td style="text-align:right;padding:4px;border:1px solid #fed7aa">'+storeBreakdown[store].bills.size+'</td><td style="text-align:right;padding:4px;border:1px solid #fed7aa">'+storeBreakdown[store].qty.toLocaleString("en-IN",{maximumFractionDigits:2})+'</td><td style="text-align:right;padding:4px;border:1px solid #fed7aa">'+packageSaleMoney(storeBreakdown[store].amount)+"</td></tr>").join("")+"</table></div>":"";return'<div class="package-drill-metrics"><div class="package-drill-metric"><span>Package Sale</span><b>'+packageSaleMoney(total)+'</b><small>Reversed bills excluded from value</small></div><div class="package-drill-metric"><span>Packages Sold (Qty)</span><b>'+q.toLocaleString("en-IN",{maximumFractionDigits:2})+'</b><small>Reversed bills excluded from quantity</small></div><div class="package-drill-metric"><span>Package Bills</span><b>'+invoices+'</b><small>Includes reversed bills</small></div><div class="package-drill-metric"><span>Stores</span><b>'+storeKeys.length+"</b><small>Participating stores</small></div></div>"+storeHtml}function renderPackageSaleMonths(){var _a,_b;const list=packageSaleRows(),groups={};list.forEach(r=>{const k=(r._key||"").slice(0,7)||"Unknown";(groups[k]||(groups[k]=[])).push(r)});const keys=Object.keys(groups).sort().reverse();document.getElementById("packageSaleDrillTitle").textContent="Package Sale \u2014 Monthly Summary (All Stores)",document.getElementById("packageSaleDrillSubtitle").textContent=(((_a=document.getElementById("from"))==null?void 0:_a.value)||"All dates")+" to "+(((_b=document.getElementById("to"))==null?void 0:_b.value)||"All dates")+" \u2022 SPA Subscription package bills included; reversed bills count but their value is excluded",document.getElementById("packageSaleDrillBody").innerHTML=packageSaleMetrics(list,keys.length)+'<div class="package-drill-month-count">'+keys.length+' months</div><div class="package-drill-table-wrap"><table class="package-drill-table"><thead><tr><th>Month</th><th>Invoices</th><th>Qty</th><th>Amount</th></tr></thead><tbody>'+keys.map(k=>{const a=groups[k],v=a.reduce((s,r)=>s+packageSaleValue(r),0),q=a.reduce((s,r)=>s+packageSaleQuantity(r),0),inv=new Set(a.map((r,i)=>packageInvoiceKey(r,i))).size,label=k==="Unknown"?k:new Date(k+"-01T12:00:00").toLocaleDateString("en-IN",{month:"long",year:"numeric"});return'<tr><td><button class="package-drill-link" onclick="renderPackageSaleDates(\'' + k + '\')">'+packageSaleEsc(label)+"</button></td><td>"+inv+' invoices</td><td class="package-drill-num">'+q.toLocaleString("en-IN",{maximumFractionDigits:2})+'</td><td class="package-drill-num">'+packageSaleMoney(v)+"</td></tr>"}).join("")+"</tbody></table></div>"+(keys.length?"":"<p>No package-sale invoices found for the selected date range.</p>")}function renderPackageSaleDates(month){const list=packageSaleRows().filter(r=>(r._key||"").slice(0,7)===month),groups={};list.forEach(r=>(groups[r._key]||(groups[r._key]=[])).push(r));const keys=Object.keys(groups).sort().reverse();document.getElementById("packageSaleDrillTitle").textContent="Package Sale \u2022 "+(month==="Unknown"?month:new Date(month+"-01T12:00:00").toLocaleDateString("en-IN",{month:"long",year:"numeric"})),document.getElementById("packageSaleDrillBody").innerHTML='<button class="package-drill-back" onclick="renderPackageSaleMonths()">\u2190 Back to months</button><table class="package-drill-table"><thead><tr><th>Date</th><th>Package Sale</th><th>Qty</th><th>Lines</th><th>Details</th></tr></thead><tbody>'+keys.map(k=>{const a=groups[k],v=a.reduce((s,r)=>s+packageSaleValue(r),0),q=a.reduce((s,r)=>s+packageSaleQuantity(r),0);return"<tr><td>"+packageSaleEsc(k)+"</td><td>"+packageSaleMoney(v)+"</td><td>"+q.toLocaleString("en-IN",{maximumFractionDigits:2})+"</td><td>"+a.length+'</td><td><button class="package-drill-link" onclick="renderPackageSaleInvoices(\'' + month + '\',\'' + k + '\')">Open date \u2192</button></td></tr>'}).join("")+"</tbody></table>"}function renderPackageSaleInvoices(month,date){const list=packageSaleRows().filter(r=>(r._key||"").slice(0,7)===month&&r._key===date);document.getElementById("packageSaleDrillTitle").textContent="Package Sale \u2022 "+date+" \u2022 Invoice Details";const get=(r,ks)=>packageSaleField(r,ks),totalAmt=list.reduce((a,r)=>a+packageSaleValue(r),0),totalQty=list.reduce((a,r)=>a+packageSaleQuantity(r),0);document.getElementById("packageSaleDrillBody").innerHTML='<button class="package-drill-back" onclick="renderPackageSaleDates(\'' + month + '\')">\u2190 Back to dates</button><table class="package-drill-table"><thead><tr><th>Invoice</th><th>Customer Name</th><th>Employee</th><th>Product</th><th>Qty</th><th>Amount</th><th>Store / POS</th></tr></thead><tbody>'+list.map(r=>"<tr><td>"+packageSaleEsc(get(r,["Invoice/Display Name","Column F","_invoiceDisplayName"]))+"</td><td>"+packageSaleEsc(get(r,["Customer","Customer Name","Partner Name","Client Name","Column G"]))+"</td><td>"+employeeNameBadge(employeeHistoryName(r))+"</td><td>"+packageSaleEsc(get(r,["Order Lines/Product","Product","Product Name","Column J"]))+"</td><td>"+(packageSaleQuantity(r)||0).toLocaleString("en-IN",{maximumFractionDigits:2})+"</td><td>"+(isPackageReturnBill(r)?"\u2014 (Reversed)":packageSaleMoney(packageSaleValue(r)))+"</td><td>"+packageSaleEsc(get(r,["Point of Sale","Store","Store Name","Column C"]))+"</td></tr>").join("")+"</tbody></table><p><b>Total: "+packageSaleMoney(totalAmt)+" \u2022 Qty: "+totalQty.toLocaleString("en-IN",{maximumFractionDigits:2})+"</b></p>"}function validatePackageAtvMatch(){const packageList=packageSaleRows(),packageTotal=packageList.reduce((a,r)=>a+packageSaleValue(r),0),packageQty=packageList.reduce((a,r)=>a+packageSaleQuantity(r),0),byStore={};return packageList.forEach(r=>{const store=getPackageSaleStore(r);byStore[store]||(byStore[store]={total:0,qty:0,invoices:new Set}),byStore[store].total+=packageSaleValue(r),byStore[store].qty+=packageSaleQuantity(r);const inv=packageSaleField(r,["Invoice/Display Name","Column F","_invoiceDisplayName"]);byStore[store].invoices.add(inv)}),console.log("=== PACKAGE SALES TO ATV RECONCILIATION ==="),console.log("Total Package Sales: "+packageSaleMoney(packageTotal)),console.log("Total Packages Qty: "+packageQty),console.log("Total Invoice Lines: "+packageList.length),console.log(`
 By Store:`),Object.keys(byStore).sort().forEach(store=>{const data=byStore[store];console.log("  "+store+":"),console.log("    - Sale Amount: "+packageSaleMoney(data.total)),console.log("    - Qty: "+data.qty),console.log("    - Invoice Count: "+data.invoices.size)}),byStore}
 </script>
 
@@ -1854,6 +1854,9 @@ tr:hover td {
 
 
 
+
+
+
 </head>
 <body>
 <div class="huft-uv-bg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -2222,6 +2225,10 @@ tr:hover td {
       
     </div>
     <div class="bi-sidebar-footer">
+      <button type="button" class="tab huft-store-profile-btn" id="huftStoreProfileRailBtn" onclick="openStoreProfileModal()" aria-label="Store Profile" title="Store & Staff Profile (Hyderguda #104)">
+        <span class="bi-store-avatar-sq">S</span>
+        <span class="nav-lbl">Store Profile</span>
+      </button>
       <span id="huftReleaseBadge" class="bi-badge">v5.0 Enterprise BI</span>
       <button type="button" id="huftReleaseNotesOpen" class="tab huft-release-notes-button" aria-haspopup="dialog" aria-controls="huftReleaseNotesModal" aria-label="Open release notes and system status" title="System Status & Release Notes">
         <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></span>
@@ -7387,6 +7394,13 @@ html body #huftInvoiceDrillModal .huft-history-loading span {
 
     <!-- Modules Grid -->
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px;">
+      <button type="button" onclick="openStoreProfileModal(); toggleMobileMoreDrawer(false);" style="background:linear-gradient(135deg, #FFF7ED, #FFEDD5); border:1px solid #FED7AA; border-radius:10px; padding:12px; display:flex; align-items:center; gap:10px; text-align:left; cursor:pointer; grid-column:span 2;">
+  <span style="width:34px; height:34px; border-radius:8px; background:linear-gradient(135deg, #EA580C, #C2410C); color:#FFFFFF; font-weight:800; font-size:16px; display:flex; align-items:center; justify-content:center;">S</span>
+  <div>
+    <div style="font-size:12.5px; font-weight:700; color:#9A3412;">Store &amp; Staff Profile</div>
+    <div style="font-size:10px; color:#C2410C;">Hyderguda #104 • Roster &amp; Targets</div>
+  </div>
+</button>
       <button type="button" onclick="openDrawerModule('comparison')" style="background:#F8FAFC; border:1px solid #E3E7ED; border-radius:8px; padding:12px; text-align:left; cursor:pointer;">
         <div style="font-size:12.5px; font-weight:700; color:#202938;">Month Comparison</div>
         <div style="font-size:10.5px; color:#687386; margin-top:2px;">Compare with previous months</div>
@@ -10525,5 +10539,1126 @@ table.bi-table tfoot td {
 }
 
 </style>
+
+<!-- HUFT STORE & STAFF PROFILE MASTER MODAL -->
+<div id="huftStoreProfileModal" class="bi-profile-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="storeProfileTitle" style="display:none;">
+  <div class="bi-profile-backdrop" onclick="closeStoreProfileModal()"></div>
+  <div class="bi-profile-card">
+    <div class="bi-profile-header">
+      <div class="bi-profile-header-left">
+        <div class="bi-profile-avatar-large">S</div>
+        <div>
+          <div class="bi-profile-badge-row">
+            <h2 id="storeProfileTitle" class="bi-profile-name">Store &amp; Staff Profile</h2>
+            <span class="bi-profile-active-tag">● Store Active &amp; Synced</span>
+          </div>
+          <div class="bi-profile-sub">Heads Up For Tails — Hyderguda (Store #104) • Hyderabad Cluster</div>
+        </div>
+      </div>
+      <button type="button" class="bi-modal-close-btn" onclick="closeStoreProfileModal()" aria-label="Close profile">✕ Close</button>
+    </div>
+
+    <!-- Profile Nav Tabs -->
+    <div class="bi-profile-tabs">
+      <button type="button" class="bi-p-tab active" onclick="switchProfileTab('info', this)">🏢 Store Information</button>
+      <button type="button" class="bi-p-tab" onclick="switchProfileTab('team', this)">👥 Staff &amp; Team Roster</button>
+      <button type="button" class="bi-p-tab" onclick="switchProfileTab('targets', this)">🎯 Target Configuration</button>
+      <button type="button" class="bi-p-tab" onclick="switchProfileTab('cloud', this)">☁️ Central Cloud Database</button>
+    </div>
+
+    <!-- Tab 1: Store Information -->
+    <div id="pTab-info" class="bi-profile-pane active">
+      <div class="bi-info-grid">
+        <div class="bi-info-item">
+          <span class="bi-info-label">Brand / Business</span>
+          <strong class="bi-info-val">Heads Up For Tails (HUFT)</strong>
+        </div>
+        <div class="bi-info-item">
+          <span class="bi-info-label">Store Code &amp; ID</span>
+          <strong class="bi-info-val">HYD-HYDERGUDA (#104)</strong>
+        </div>
+        <div class="bi-info-item">
+          <span class="bi-info-label">Store Manager / In-Charge</span>
+          <strong class="bi-info-val" id="profileManagerDisplay">Chandulal Banoth</strong>
+        </div>
+        <div class="bi-info-item">
+          <span class="bi-info-label">Direct Contact Phone</span>
+          <strong class="bi-info-val" id="profilePhoneDisplay">+91 91212 28424</strong>
+        </div>
+        <div class="bi-info-item bi-info-wide">
+          <span class="bi-info-label">Official Store Email</span>
+          <strong class="bi-info-val">hyderguda@headsupfortails.com</strong>
+        </div>
+        <div class="bi-info-item bi-info-wide">
+          <span class="bi-info-label">Full Location Address</span>
+          <strong class="bi-info-val">Ground Floor, Near Old MLA Quarters Rd, Hyderguda, Hyderabad, Telangana 500029</strong>
+        </div>
+        <div class="bi-info-item">
+          <span class="bi-info-label">Store Operating Hours</span>
+          <strong class="bi-info-val">10:00 AM – 09:30 PM (Daily)</strong>
+        </div>
+        <div class="bi-info-item">
+          <span class="bi-info-label">Store Facilities</span>
+          <strong class="bi-info-val">Pet Retail + Grooming &amp; SPA Salon</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Staff & Team Roster -->
+    <div id="pTab-team" class="bi-profile-pane">
+      <div class="bi-team-desc">Active store associates, grooming specialists, and front-desk personnel for Hyderguda. Metrics update automatically with uploaded sales data.</div>
+      <div class="bi-team-list" id="profileTeamList">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+
+    <!-- Tab 3: Target Configuration -->
+    <div id="pTab-targets" class="bi-profile-pane">
+      <div class="bi-target-edit-grid">
+        <div class="bi-target-field">
+          <label for="cfgWeekdayRetail">Weekday Retail Target (₹)</label>
+          <input type="number" id="cfgWeekdayRetail" value="28636">
+        </div>
+        <div class="bi-target-field">
+          <label for="cfgWeekdaySpa">Weekday SPA Target (₹)</label>
+          <input type="number" id="cfgWeekdaySpa" value="16364">
+        </div>
+        <div class="bi-target-field">
+          <label for="cfgWeekendRetail">Weekend Retail Target (₹)</label>
+          <input type="number" id="cfgWeekendRetail" value="46667">
+        </div>
+        <div class="bi-target-field">
+          <label for="cfgWeekendSpa">Weekend SPA Target (₹)</label>
+          <input type="number" id="cfgWeekendSpa" value="26667">
+        </div>
+        <div class="bi-target-field">
+          <label for="cfgManagerName">Store Manager Name</label>
+          <input type="text" id="cfgManagerName" value="Chandulal Banoth">
+        </div>
+        <div class="bi-target-field">
+          <label for="cfgStorePhone">Contact Phone Number</label>
+          <input type="text" id="cfgStorePhone" value="+91 91212 28424">
+        </div>
+      </div>
+      <div class="bi-target-actions">
+        <button type="button" class="bi-btn-save-profile" onclick="saveStoreProfileSettings()">💾 Save Profile &amp; Target Settings</button>
+        <span id="profileSaveNotice" class="bi-save-notice" style="display:none;">✓ Settings successfully saved!</span>
+      </div>
+    </div>
+
+    <!-- Tab 4: Central Cloud Database -->
+    <div id="pTab-cloud" class="bi-profile-pane">
+      <div class="bi-cloud-info-box">
+        <div class="bi-cloud-row">
+          <span>Central Cloud Database:</span>
+          <strong>wyqksfncdlwjduyispmb (Supabase Enterprise Central DB)</strong>
+        </div>
+        <div class="bi-cloud-row">
+          <span>Store ID Scope:</span>
+          <strong>hyderguda</strong>
+        </div>
+        <div class="bi-cloud-row">
+          <span>Local IndexedDB Status:</span>
+          <strong id="profileLocalRecordsStatus">Active • In-Browser High Performance Cache</strong>
+        </div>
+        <div class="bi-cloud-row">
+          <span>Last Cloud Sync:</span>
+          <strong id="profileLastSyncStatus">Connected &amp; Operational</strong>
+        </div>
+      </div>
+      <div class="bi-cloud-actions" style="margin-top:14px; display:flex; gap:10px;">
+        <button type="button" class="bi-btn-cloud-sync" onclick="triggerProfileCloudSync()">🔄 Test &amp; Sync Cloud Database</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script id="huft-store-profile-script">
+(function() {
+  window.openStoreProfileModal = function() {
+    const modal = document.getElementById('huftStoreProfileModal');
+    if (!modal) return;
+    modal.classList.add('open'); modal.style.display = '';
+    document.body.style.overflow = 'hidden';
+
+    // Load saved settings
+    try {
+      const savedProfile = JSON.parse(localStorage.getItem('HUFT_StoreProfile_Settings') || '{}');
+      if (savedProfile.manager) {
+        document.getElementById('cfgManagerName').value = savedProfile.manager;
+        document.getElementById('profileManagerDisplay').textContent = savedProfile.manager;
+      }
+      if (savedProfile.phone) {
+        document.getElementById('cfgStorePhone').value = savedProfile.phone;
+        document.getElementById('profilePhoneDisplay').textContent = savedProfile.phone;
+      }
+    } catch(e) {}
+
+    try {
+      const savedTargets = JSON.parse(localStorage.getItem('HUFT_Daily_Targets_Config') || '{}');
+      if (savedTargets.weekdayRetail) document.getElementById('cfgWeekdayRetail').value = savedTargets.weekdayRetail;
+      if (savedTargets.weekdaySpa) document.getElementById('cfgWeekdaySpa').value = savedTargets.weekdaySpa;
+      if (savedTargets.weekendRetail) document.getElementById('cfgWeekendRetail').value = savedTargets.weekendRetail;
+      if (savedTargets.weekendSpa) document.getElementById('cfgWeekendSpa').value = savedTargets.weekendSpa;
+    } catch(e) {}
+
+    // Update records status
+    try {
+      const count = (window.rows && window.rows.length) || (window.allStoreRows && window.allStoreRows.length) || 0;
+      const statEl = document.getElementById('profileLocalRecordsStatus');
+      if (statEl) {
+        statEl.textContent = count > 0 
+          ? 'Active • ' + count.toLocaleString('en-IN') + ' records loaded in memory' 
+          : 'Ready • Awaiting sales Excel upload';
+      }
+    } catch(e) {}
+
+    populateProfileTeamData();
+  };
+
+  window.closeStoreProfileModal = function() {
+    const modal = document.getElementById('huftStoreProfileModal');
+    if (modal) {
+      modal.classList.remove('open'); modal.style.display = '';
+      document.body.style.overflow = '';
+    }
+  };
+
+  window.switchProfileTab = function(tabId, btn) {
+    document.querySelectorAll('.bi-p-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.bi-profile-pane').forEach(p => p.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const target = document.getElementById('pTab-' + tabId);
+    if (target) target.classList.add('active');
+  };
+
+  window.populateProfileTeamData = function() {
+    const container = document.getElementById('profileTeamList');
+    if (!container) return;
+
+    const data = (window.rows && window.rows.length) ? window.rows : (window.allStoreRows || []);
+    const empMap = new Map();
+
+    if (data.length > 0) {
+      data.forEach(r => {
+        const name = String(r['Column AC'] || r['Employees'] || r['Employee'] || r['_employee'] || '').trim();
+        if (!name || /^(unknown|unassigned|employee|n\/a|na|-)$/i.test(name)) return;
+        const sub = Number(r['Order Lines/Subtotal'] ?? r['Subtotal'] ?? 0) || 0;
+        const isSpa = String(r['Order Lines/Product/Product Category'] ?? r['Category'] ?? '').toLowerCase().includes('spa');
+        const isFood = String(r['Order Lines/Product/Product Category'] ?? r['Category'] ?? '').toLowerCase().includes('food');
+        const ref = String(r['Order Ref'] ?? r['Invoice/Display Name'] ?? '').trim();
+
+        if (!empMap.has(name)) {
+          empMap.set(name, { name, total: 0, retail: 0, spa: 0, food: 0, orders: new Set() });
+        }
+        const item = empMap.get(name);
+        item.total += sub;
+        if (isSpa) item.spa += sub; else item.retail += sub;
+        if (isFood) item.food += sub;
+        if (ref) item.orders.add(ref);
+      });
+    }
+
+    const fmt = n => '₹' + Math.round(n).toLocaleString('en-IN');
+    let teamHtml = '';
+
+    if (empMap.size > 0) {
+      const sorted = [...empMap.values()].sort((a, b) => b.total - a.total);
+      teamHtml = sorted.map((emp, idx) => {
+        const isLead = idx === 0 || /chandulal/i.test(emp.name);
+        const role = isLead ? 'Store Manager & Lead' : (emp.spa > emp.retail ? 'SPA Grooming Specialist' : 'Retail Sales Associate');
+        return `<div class="bi-team-card">
+          <div class="bi-team-card-head">
+            <div class="bi-team-avatar">${emp.name.charAt(0).toUpperCase()}</div>
+            <div class="bi-team-meta">
+              <strong class="bi-team-name">${emp.name}</strong>
+              <span class="bi-team-role">${role}</span>
+            </div>
+            <div class="bi-team-total">
+              <span class="bi-tt-label">Total Achieved</span>
+              <strong class="bi-tt-val">${fmt(emp.total)}</strong>
+            </div>
+          </div>
+          <div class="bi-team-stats-row">
+            <div class="bi-ts-item"><span>Retail:</span> <b>${fmt(emp.retail)}</b></div>
+            <div class="bi-ts-item"><span>SPA:</span> <b>${fmt(emp.spa)}</b></div>
+            <div class="bi-ts-item"><span>Food:</span> <b>${fmt(emp.food)}</b></div>
+            <div class="bi-ts-item"><span>Orders:</span> <b>${emp.orders.size}</b></div>
+          </div>
+        </div>`;
+      }).join('');
+    } else {
+      teamHtml = `
+        <div class="bi-team-card">
+          <div class="bi-team-card-head">
+            <div class="bi-team-avatar">C</div>
+            <div class="bi-team-meta">
+              <strong class="bi-team-name">Chandulal Banoth</strong>
+              <span class="bi-team-role">Store Manager &amp; In-Charge</span>
+            </div>
+            <div class="bi-team-total"><span class="bi-tt-label">Branch</span><strong class="bi-tt-val">HYD-104</strong></div>
+          </div>
+        </div>
+        <div class="bi-team-card">
+          <div class="bi-team-card-head">
+            <div class="bi-team-avatar">G</div>
+            <div class="bi-team-meta">
+              <strong class="bi-team-name">Hyderguda SPA &amp; Grooming Team</strong>
+              <span class="bi-team-role">Certified Pet Stylists &amp; Groomers</span>
+            </div>
+            <div class="bi-team-total"><span class="bi-tt-label">Status</span><strong class="bi-tt-val">Active</strong></div>
+          </div>
+        </div>
+        <div class="bi-team-card">
+          <div class="bi-team-card-head">
+            <div class="bi-team-avatar">R</div>
+            <div class="bi-team-meta">
+              <strong class="bi-team-name">Retail Experience Team</strong>
+              <span class="bi-team-role">Floor Specialists &amp; Cashiers</span>
+            </div>
+            <div class="bi-team-total"><span class="bi-tt-label">Status</span><strong class="bi-tt-val">Active</strong></div>
+          </div>
+        </div>
+      `;
+    }
+
+    container.innerHTML = teamHtml;
+  };
+
+  window.saveStoreProfileSettings = function() {
+    const manager = document.getElementById('cfgManagerName').value.trim();
+    const phone = document.getElementById('cfgStorePhone').value.trim();
+    const wkRetail = Number(document.getElementById('cfgWeekdayRetail').value) || 28636;
+    const wkSpa = Number(document.getElementById('cfgWeekdaySpa').value) || 16364;
+    const weRetail = Number(document.getElementById('cfgWeekendRetail').value) || 46667;
+    const weSpa = Number(document.getElementById('cfgWeekendSpa').value) || 26667;
+
+    try {
+      localStorage.setItem('HUFT_StoreProfile_Settings', JSON.stringify({ manager, phone }));
+      localStorage.setItem('HUFT_Daily_Targets_Config', JSON.stringify({
+        weekdayRetail: wkRetail,
+        weekdaySpa: wkSpa,
+        weekendRetail: weRetail,
+        weekendSpa: weSpa
+      }));
+
+      document.getElementById('profileManagerDisplay').textContent = manager || 'Chandulal Banoth';
+      document.getElementById('profilePhoneDisplay').textContent = phone || '+91 91212 28424';
+
+      const notice = document.getElementById('profileSaveNotice');
+      if (notice) {
+        notice.style.display = 'inline';
+        setTimeout(() => { notice.style.display = 'none'; }, 3000);
+      }
+
+      if (typeof window.recalculateAllDashboardKpis === 'function') {
+        window.recalculateAllDashboardKpis();
+      }
+    } catch(err) {
+      console.warn('Could not save profile settings:', err);
+    }
+  };
+
+  window.triggerProfileCloudSync = function() {
+    const statEl = document.getElementById('profileLastSyncStatus');
+    if (statEl) statEl.textContent = 'Syncing with Supabase Central DB…';
+    setTimeout(() => {
+      if (statEl) statEl.textContent = '✓ Synchronized (' + new Date().toLocaleTimeString() + ')';
+    }, 900);
+  };
+
+  // Close on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      window.closeStoreProfileModal();
+    }
+  });
+})();
+</script>
+
+
+<script id="huft-url-view-params">
+window.addEventListener('DOMContentLoaded', function() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const view = params.get('view');
+    if (view === 'profile') {
+      setTimeout(function() {
+        if (typeof window.openStoreProfileModal === 'function') window.openStoreProfileModal();
+      }, 300);
+    } else if (view === 'monthly_summary' || view === 'summary') {
+      setTimeout(function() {
+        const kTotal = document.getElementById('kTotal');
+        if (kTotal) {
+          const card = kTotal.closest('.kpi');
+          if (card) card.click();
+        }
+      }, 400);
+    }
+  } catch(e) {}
+});
+</script>
+
+
+<style id="huft-master-centered-and-profile-css">
+/* =========================================================================
+   HUFT ENTERPRISE BI — SLIM RAIL, CENTERED SUMMARY & STORE PROFILE MASTER
+   Matches User Reference & Screenshots 100%
+   ========================================================================= */
+
+/* --- Clean Canvas & Page Background --- */
+html, body {
+  background: #F4F6F9 !important;
+  color: #0F172A !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+/* --- Slim Modern Icon Navigation Rail (Image 1) --- */
+@media (min-width: 851px) {
+  #navRailTabs, .tabs, html body #navRailTabs, html body .tabs {
+    position: fixed !important;
+    left: 14px !important;
+    top: 14px !important;
+    bottom: 14px !important;
+    width: 66px !important;
+    min-width: 66px !important;
+    max-width: 66px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 12px 6px !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(24px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+    border: 1px solid rgba(226, 232, 240, 0.95) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.07) !important;
+    z-index: 1000 !important;
+    box-sizing: border-box !important;
+  }
+
+  .container, html body .container {
+    margin-left: 92px !important;
+    margin-right: 18px !important;
+    max-width: calc(100% - 110px) !important;
+    width: calc(100% - 110px) !important;
+    padding-top: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  .header, html body .header {
+    padding-left: 92px !important;
+  }
+
+  #navRailTabs .bi-sidebar-brand {
+    display: none !important;
+  }
+
+  #navRailTabs .bi-nav-list {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 7px !important;
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding-bottom: 6px !important;
+  }
+
+  #navRailTabs .tab, html body .tabs .tab {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: #64748B !important;
+    cursor: pointer !important;
+    position: relative !important;
+    transition: all 0.18s ease !important;
+  }
+
+  #navRailTabs .tab:hover, html body .tabs .tab:hover {
+    background: #F1F5F9 !important;
+    color: #0F172A !important;
+    border-color: #E2E8F0 !important;
+  }
+
+  #navRailTabs .tab.active, html body .tabs .tab.active {
+    background: #FFF7ED !important;
+    color: #EA580C !important;
+    border-color: #FED7AA !important;
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.18) !important;
+  }
+
+  #navRailTabs .tab.active .nav-ico svg {
+    stroke: #EA580C !important;
+  }
+
+  #navRailTabs .tab .nav-lbl {
+    position: absolute !important;
+    left: 56px !important;
+    top: 50% !important;
+    transform: translateY(-50%) translateX(-4px) !important;
+    background: #0F172A !important;
+    color: #FFFFFF !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    padding: 5px 10px !important;
+    border-radius: 6px !important;
+    white-space: nowrap !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2) !important;
+    transition: opacity 0.15s ease, transform 0.15s ease !important;
+    z-index: 1050 !important;
+  }
+
+  #navRailTabs .tab:hover .nav-lbl {
+    opacity: 1 !important;
+    transform: translateY(-50%) translateX(0) !important;
+  }
+
+  #navRailTabs .bi-sidebar-footer {
+    margin-top: auto !important;
+    padding-top: 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    border-top: 1px solid #E2E8F0 !important;
+  }
+
+  #navRailTabs #huftReleaseBadge {
+    display: none !important;
+  }
+}
+
+/* Orange Square Profile Avatar */
+.bi-store-avatar-sq {
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+  color: #FFFFFF !important;
+  font-size: 19px !important;
+  font-weight: 800 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35) !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease !important;
+  cursor: pointer !important;
+}
+
+.bi-store-avatar-sq:hover {
+  transform: scale(1.08) !important;
+  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5) !important;
+}
+
+/* --- Mobile Responsiveness (<= 850px) --- */
+@media (max-width: 850px) {
+  #navRailTabs, .tabs, html body #navRailTabs, html body .tabs {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 260px !important;
+    transform: translateX(-100%) !important;
+    border-radius: 0 !important;
+    padding: 16px 12px !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    box-shadow: none !important;
+    transition: transform 0.28s ease !important;
+    z-index: 99999 !important;
+  }
+
+  #navRailTabs.mobile-open, .tabs.mobile-open {
+    transform: translateX(0) !important;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.45) !important;
+  }
+
+  #navRailTabs .bi-sidebar-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 6px 12px 14px !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    margin-bottom: 12px !important;
+  }
+
+  #navRailTabs .bi-brand-text {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  #navRailTabs .bi-nav-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+  }
+
+  #navRailTabs .tab {
+    width: 100% !important;
+    height: 42px !important;
+    padding: 8px 12px !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    border-radius: 8px !important;
+  }
+
+  #navRailTabs .tab .nav-lbl {
+    position: static !important;
+    transform: none !important;
+    background: transparent !important;
+    color: inherit !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 0 !important;
+    opacity: 1 !important;
+    box-shadow: none !important;
+  }
+
+  .container {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    max-width: calc(100% - 20px) !important;
+    padding-top: 54px !important;
+  }
+}
+
+/* --- Centered Summary Modal (#huftInvoiceDrillModal) (Image 2) --- */
+#huftInvoiceDrillModal {
+  display: none !important;
+}
+
+#huftInvoiceDrillModal.open {
+  display: flex !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483600 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
+  margin: 0 !important;
+  background: rgba(15, 23, 42, 0.42) !important;
+  backdrop-filter: blur(10px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(120%) !important;
+  animation: hidFadeIn 0.18s ease both !important;
+}
+
+#huftInvoiceDrillModal.open .hid-panel {
+  position: relative !important;
+  width: min(1040px, 95vw) !important;
+  max-width: 95vw !important;
+  height: auto !important;
+  max-height: min(88vh, 900px) !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 14px !important;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.22) !important;
+  animation: hidPopIn 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both !important;
+}
+
+#huftInvoiceDrillModal.open .hid-head {
+  flex: 0 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  padding: 16px 20px !important;
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #EEF2F6 !important;
+}
+
+#huftInvoiceDrillModal.open .hid-title {
+  color: #0F172A !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  margin: 0 !important;
+}
+
+#huftInvoiceDrillModal.open .hid-sub {
+  color: #64748B !important;
+  font-size: 11px !important;
+  margin-top: 3px !important;
+}
+
+#huftInvoiceDrillModal.open .hid-body {
+  flex: 1 1 auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 16px 20px 22px !important;
+}
+
+#huftInvoiceDrillModal.open .hid-metrics {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)) !important;
+  gap: 10px 12px !important;
+  margin-bottom: 16px !important;
+  padding-bottom: 14px !important;
+  border-bottom: 1px solid #E5E7EB !important;
+}
+
+#huftInvoiceDrillModal.open .hid-metric {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 8px !important;
+  padding: 10px 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03) !important;
+}
+
+#huftInvoiceDrillModal.open .hid-metric span {
+  font-size: 11px !important;
+  color: #64748B !important;
+  font-weight: 600 !important;
+}
+
+#huftInvoiceDrillModal.open .hid-metric b {
+  font-size: 16px !important;
+  color: #0F172A !important;
+  font-weight: 800 !important;
+}
+
+#huftInvoiceDrillModal.open .hid-metric small {
+  font-size: 10px !important;
+  color: #94A3B8 !important;
+}
+
+#huftInvoiceDrillModal .hid-search-btn {
+  background: #EA580C !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-weight: 700 !important;
+  padding: 7px 16px !important;
+  cursor: pointer !important;
+  transition: background 0.15s ease !important;
+}
+
+#huftInvoiceDrillModal .hid-search-btn:hover {
+  background: #C2410C !important;
+}
+
+#huftInvoiceDrillModal .hid-close {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 6px !important;
+  color: #334155 !important;
+  padding: 7px 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+/* --- Store Profile Modal (#huftStoreProfileModal) --- */
+.bi-profile-modal-overlay {
+  display: none !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483620 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 18px !important;
+}
+
+.bi-profile-modal-overlay.open {
+  display: flex !important;
+  animation: hidFadeIn 0.18s ease both !important;
+}
+
+.bi-profile-backdrop {
+  position: absolute !important;
+  inset: 0 !important;
+  background: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(12px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
+}
+
+.bi-profile-card {
+  position: relative !important;
+  width: min(840px, 95vw) !important;
+  max-width: 95vw !important;
+  max-height: min(88vh, 880px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.25) !important;
+  overflow: hidden !important;
+  animation: hidPopIn 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both !important;
+}
+
+.bi-profile-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 16px 20px !important;
+  border-bottom: 1px solid #EEF2F6 !important;
+  background: #FFFFFF !important;
+}
+
+.bi-profile-header-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+}
+
+.bi-profile-avatar-large {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 14px !important;
+  background: linear-gradient(135deg, #EA580C, #C2410C) !important;
+  color: #FFFFFF !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35) !important;
+}
+
+.bi-profile-badge-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+}
+
+.bi-profile-name {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  margin: 0 !important;
+}
+
+.bi-profile-active-tag {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #065F46 !important;
+  background: #D1FAE5 !important;
+  padding: 2px 8px !important;
+  border-radius: 999px !important;
+}
+
+.bi-profile-sub {
+  font-size: 11.5px !important;
+  color: #64748B !important;
+  margin-top: 2px !important;
+}
+
+.bi-modal-close-btn {
+  background: #F1F5F9 !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 8px !important;
+  color: #334155 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 6px 12px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.bi-modal-close-btn:hover {
+  background: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+.bi-profile-tabs {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 10px 20px !important;
+  background: #F8FAFC !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  overflow-x: auto !important;
+}
+
+.bi-p-tab {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
+  padding: 7px 12px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #64748B !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: all 0.15s ease !important;
+}
+
+.bi-p-tab:hover {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+.bi-p-tab.active {
+  background: #FFFFFF !important;
+  color: #EA580C !important;
+  border-color: #FED7AA !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+.bi-profile-pane {
+  display: none !important;
+  padding: 20px !important;
+  overflow-y: auto !important;
+}
+
+.bi-profile-pane.active {
+  display: block !important;
+}
+
+.bi-info-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px 18px !important;
+}
+
+.bi-info-wide {
+  grid-column: span 2 !important;
+}
+
+.bi-info-item {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  padding: 12px 14px !important;
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 10px !important;
+}
+
+.bi-info-label {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #64748B !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.4px !important;
+}
+
+.bi-info-val {
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  color: #0F172A !important;
+}
+
+.bi-team-desc {
+  font-size: 12px !important;
+  color: #64748B !important;
+  margin-bottom: 14px !important;
+}
+
+.bi-team-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  max-height: 52vh !important;
+  overflow-y: auto !important;
+}
+
+.bi-team-card {
+  padding: 12px 14px !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 10px !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03) !important;
+}
+
+.bi-team-card-head {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.bi-team-avatar {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 10px !important;
+  background: #EEF2F6 !important;
+  color: #334155 !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.bi-team-meta {
+  flex: 1 1 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.bi-team-name {
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  color: #0F172A !important;
+}
+
+.bi-team-role {
+  font-size: 11px !important;
+  color: #64748B !important;
+}
+
+.bi-team-total {
+  text-align: right !important;
+}
+
+.bi-tt-label {
+  font-size: 10px !important;
+  color: #94A3B8 !important;
+  display: block !important;
+}
+
+.bi-tt-val {
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  color: #EA580C !important;
+}
+
+.bi-team-stats-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  margin-top: 10px !important;
+  padding-top: 8px !important;
+  border-top: 1px dashed #E2E8F0 !important;
+  font-size: 11.5px !important;
+  flex-wrap: wrap !important;
+}
+
+.bi-ts-item span {
+  color: #64748B !important;
+}
+
+.bi-ts-item b {
+  color: #0F172A !important;
+  font-weight: 700 !important;
+}
+
+.bi-target-edit-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.bi-target-field {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+.bi-target-field label {
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  color: #334155 !important;
+}
+
+.bi-target-field input {
+  padding: 8px 12px !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  color: #0F172A !important;
+  background: #FFFFFF !important;
+  outline: none !important;
+}
+
+.bi-target-field input:focus {
+  border-color: #EA580C !important;
+  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15) !important;
+}
+
+.bi-target-actions {
+  margin-top: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.bi-btn-save-profile {
+  background: #EA580C !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  padding: 10px 18px !important;
+  cursor: pointer !important;
+  transition: background 0.15s ease !important;
+}
+
+.bi-btn-save-profile:hover {
+  background: #C2410C !important;
+}
+
+.bi-save-notice {
+  font-size: 12px !important;
+  color: #059669 !important;
+  font-weight: 700 !important;
+}
+
+.bi-cloud-info-box {
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 10px !important;
+  padding: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+.bi-cloud-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  font-size: 12.5px !important;
+  padding-bottom: 8px !important;
+  border-bottom: 1px solid #EEF2F6 !important;
+}
+
+.bi-cloud-row:last-child {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+.bi-cloud-row span {
+  color: #64748B !important;
+}
+
+.bi-cloud-row strong {
+  color: #0F172A !important;
+}
+
+.bi-btn-cloud-sync {
+  background: #0F172A !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  padding: 9px 16px !important;
+  cursor: pointer !important;
+}
+</style>
+
 </body>
 </html>

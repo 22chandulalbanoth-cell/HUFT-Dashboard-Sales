@@ -22,6 +22,11 @@
   function getActiveDates() {
     const F = document.getElementById('from')?.value || '';
     const T = document.getElementById('to')?.value || '';
+    const rowList = (Array.isArray(window.rows) && window.rows.length) ? window.rows : (Array.isArray(window.allStoreRows) ? window.allStoreRows : []);
+    if (rowList.length) {
+      const keys = [...new Set(rowList.filter(r => r && r._key).map(r => String(r._key).slice(0, 10)).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d) && (!F || d >= F) && (!T || d <= T)))].sort();
+      if (keys.length) return keys;
+    }
     if (F && T && F.length === 10 && T.length === 10) {
       const dates = [];
       let cur = new Date(F + 'T12:00:00');
@@ -33,14 +38,8 @@
         dates.push(`${y}-${m}-${day}`);
         cur.setDate(cur.getDate() + 1);
       }
-      if (dates.length) return dates;
+      return dates;
     }
-
-    if (Array.isArray(window.rows) && window.rows.length) {
-      const keys = [...new Set(window.rows.map(r => r._key).filter(k => typeof k === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(k)))].sort();
-      return keys.filter(d => (!F || d >= F) && (!T || d <= T));
-    }
-
     return [];
   }
 
@@ -68,7 +67,214 @@
     };
   }
 
-  // 1. SPA Analysis Tab
+  // 1. Tab 1: Store Performance & Tab 1 Extra KPIs
+  window.refreshStorePerformance = function () {
+    const dates = getActiveDates();
+    if (!dates.length) return;
+
+    const targets = getStoreTargets();
+    const pkgSales = typeof window.packageSaleRows === 'function' ? window.packageSaleRows() : [];
+
+    let totRetSales = 0;
+    let totSpaSales = 0;
+    let totPkgSales = 0;
+    let totSales = 0;
+    let totTarget = 0;
+    let totPets = 0;
+
+    dates.forEach(d => {
+      const dayData = typeof window.calcDay === 'function' ? window.calcDay(d) : { retail: 0, spa: 0, total: 0 };
+      totRetSales += dayData ? (dayData.retail || 0) : 0;
+      totSpaSales += dayData ? (dayData.spa || 0) : 0;
+      totSales += dayData ? (dayData.total || 0) : 0;
+
+      const dayPets = typeof window.petCountForDay === 'function' ? (Number(window.petCountForDay(d)) || 0) : 0;
+      totPets += dayPets;
+
+      const dt = new Date(d);
+      const isWeekend = dt.getDay() === 0 || dt.getDay() === 6;
+      const retTgt = isWeekend ? targets.weekendRetail : targets.weekdayRetail;
+      const spaTgt = isWeekend ? targets.weekendSpa : targets.weekdaySpa;
+      totTarget += (retTgt + spaTgt);
+    });
+
+    pkgSales.forEach(r => {
+      const k = typeof r._key === 'string' ? r._key : (r._date instanceof Date ? r._date.toISOString().slice(0, 10) : String(r.Date || ''));
+      if (dates.includes(k.slice(0, 10))) {
+        totPkgSales += (typeof window.packageSaleValue === 'function' ? window.packageSaleValue(r) : (Number(r['Order Lines/Subtotal'] ?? r['Subtotal'] ?? 0) || 0));
+      }
+    });
+
+    const ach = totTarget > 0 ? (totSales / totTarget) * 100 : 0;
+
+    // Update Tab 1 Pet Count & Target Achievement KPI Cards
+    const elPets = document.getElementById('kPets');
+    if (elPets) elPets.textContent = totPets.toLocaleString('en-IN');
+
+    const elAch = document.getElementById('kAchievement');
+    if (elAch) elAch.textContent = ach.toFixed(1) + '%';
+    const elAchSub = document.getElementById('kAchievementSub');
+    if (elAchSub) {
+      if (ach >= 100) elAchSub.textContent = 'Target Achieved (' + formatInr(totSales) + ' / ' + formatInr(totTarget) + ')';
+      else elAchSub.textContent = 'Pace: ' + formatInr(totSales) + ' of ' + formatInr(totTarget);
+    }
+
+    // Populate Store Performance Table (#biStorePerfBody)
+    const elBody = document.getElementById('biStorePerfBody');
+    if (elBody) {
+      let badgeCls = 'bi-badge-neutral';
+      let badgeText = 'Pending';
+      if (ach >= 110) { badgeCls = 'bi-badge-success'; badgeText = 'Super Target'; }
+      else if (ach >= 100) { badgeCls = 'bi-badge-success'; badgeText = 'Target Achieved'; }
+      else if (ach >= 80) { badgeCls = 'bi-badge-warning'; badgeText = 'Near Target'; }
+      else { badgeCls = 'bi-badge-danger'; badgeText = 'Below Target'; }
+
+      elBody.innerHTML = `<tr>
+        <td style="font-weight: 600; text-align: left;">Hyderguda</td>
+        <td style="text-align: right;">${formatFullInr(totRetSales)}</td>
+        <td style="text-align: right;">${formatFullInr(totSpaSales)}</td>
+        <td style="text-align: right;">${formatFullInr(totPkgSales)}</td>
+        <td style="text-align: right; font-weight: 700;">${formatFullInr(totSales)}</td>
+        <td style="text-align: right;">${formatFullInr(totTarget)}</td>
+        <td style="text-align: right; font-weight: 600;"><span class="bi-badge ${badgeCls}">${ach.toFixed(1)}% (${badgeText})</span></td>
+      </tr>`;
+    }
+  };
+
+  // 2. Tab 2: Sales Analysis (Synchronized 100% with Tab 1)
+  window.refreshSalesAnalysis = function () {
+    const dates = getActiveDates();
+    if (!dates.length) return;
+
+    const targets = getStoreTargets();
+    const pkgSales = typeof window.packageSaleRows === 'function' ? window.packageSaleRows() : [];
+
+    let totRetSales = 0;
+    let totSpaSales = 0;
+    let totFoodSales = 0;
+    let totPkgSales = 0;
+    let totSales = 0;
+    let totRetTarget = 0;
+    let totSpaTarget = 0;
+    let totTarget = 0;
+    const tableRows = [];
+
+    // Distinct bill count across dates matching refreshDashboard
+    const scopedRows = dates.flatMap(d => typeof window.dashboardRowsForDay === 'function' ? window.dashboardRowsForDay(d) : []);
+    const billRows = scopedRows.filter(r => typeof window.validLineRow === 'function' ? window.validLineRow(r) : true);
+    const orderRefs = new Set();
+    billRows.forEach((r, i) => {
+      const isReturn = typeof window.isReturnBill === 'function' && window.isReturnBill(r);
+      const ref = isReturn && typeof window.billKey === 'function' ? window.billKey(r) : (typeof window.salesOrderKey === 'function' ? window.salesOrderKey(r, i) : null);
+      if (ref && !/^ROW-\d+$/.test(ref)) {
+        if (!isReturn) orderRefs.add(ref);
+      } else if (typeof window.salesOrderFallbackKey === 'function') {
+        const fallback = window.salesOrderFallbackKey(r, isReturn);
+        if (fallback && !isReturn) orderRefs.add(fallback);
+      }
+    });
+    const totalBills = orderRefs.size || (scopedRows.length ? new Set(scopedRows.map(r => r['Invoice/Display Name'] || r['Order Ref'] || r['Column F'])).size : 0);
+
+    dates.forEach(d => {
+      const dayData = typeof window.calcDay === 'function' ? window.calcDay(d) : { retail: 0, spa: 0, total: 0, foodTotal: 0 };
+      const retAct = dayData ? (dayData.retail || 0) : 0;
+      const spaAct = dayData ? (dayData.spa || 0) : 0;
+      const foodAct = dayData ? (dayData.foodTotal || 0) : 0;
+      const dayTotal = dayData ? (dayData.total || 0) : 0;
+
+      const dayPkgRows = pkgSales.filter(r => {
+        const k = typeof r._key === 'string' ? r._key : (r._date instanceof Date ? r._date.toISOString().slice(0, 10) : String(r.Date || ''));
+        return k.slice(0, 10) === d;
+      });
+      const pkgAct = dayPkgRows.reduce((a, r) => a + (typeof window.packageSaleValue === 'function' ? window.packageSaleValue(r) : (Number(r['Order Lines/Subtotal'] ?? r['Subtotal'] ?? 0) || 0)), 0);
+
+      const dt = new Date(d);
+      const isWeekend = dt.getDay() === 0 || dt.getDay() === 6;
+      const retTgt = isWeekend ? targets.weekendRetail : targets.weekdayRetail;
+      const spaTgt = isWeekend ? targets.weekendSpa : targets.weekdaySpa;
+      const dayTgt = retTgt + spaTgt;
+
+      totRetSales += retAct;
+      totSpaSales += spaAct;
+      totFoodSales += foodAct;
+      totPkgSales += pkgAct;
+      totSales += dayTotal;
+      totRetTarget += retTgt;
+      totSpaTarget += spaTgt;
+      totTarget += dayTgt;
+
+      const ach = dayTgt > 0 ? (dayTotal / dayTgt) * 100 : 0;
+      let badgeCls = 'bi-badge-neutral';
+      let badgeText = 'Pending';
+      if (ach >= 110) { badgeCls = 'bi-badge-success'; badgeText = 'Super Target'; }
+      else if (ach >= 100) { badgeCls = 'bi-badge-success'; badgeText = 'Target Achieved'; }
+      else if (ach >= 80) { badgeCls = 'bi-badge-warning'; badgeText = 'Near Target'; }
+      else { badgeCls = 'bi-badge-danger'; badgeText = 'Below Target'; }
+
+      tableRows.push(`<tr>
+        <td style="font-weight: 500;">${d}</td>
+        <td style="text-align: right;">${formatFullInr(retAct)}</td>
+        <td style="text-align: right;">${formatFullInr(spaAct)}</td>
+        <td style="text-align: right;">${formatFullInr(foodAct)}</td>
+        <td style="text-align: right;">${formatFullInr(pkgAct)}</td>
+        <td style="text-align: right; font-weight: 600;">${formatFullInr(dayTotal)}</td>
+        <td style="text-align: right;">${formatFullInr(dayTgt)}</td>
+        <td style="text-align: right; font-weight: 600;">${ach.toFixed(1)}%</td>
+        <td><span class="bi-badge ${badgeCls}">${badgeText}</span></td>
+      </tr>`);
+    });
+
+    const overallAch = totTarget > 0 ? (totSales / totTarget) * 100 : 0;
+    const avgBill = totalBills > 0 ? Math.round(totSales / totalBills) : 0;
+
+    // Set 8 KPI cards in Tab 2
+    const elTotSales = document.getElementById('biSalesTotSales');
+    const elRetSales = document.getElementById('biSalesRetSales');
+    const elSpaSales = document.getElementById('biSalesSpaSales');
+    const elRetTarget = document.getElementById('biSalesRetTarget');
+    const elSpaTarget = document.getElementById('biSalesSpaTarget');
+    const elTotBills = document.getElementById('biSalesTotBills');
+    const elAtv = document.getElementById('biSalesAtv');
+    const elAch = document.getElementById('biSalesAch');
+
+    if (elTotSales) elTotSales.textContent = formatInr(totSales);
+    if (elRetSales) elRetSales.textContent = formatInr(totRetSales);
+    if (elSpaSales) elSpaSales.textContent = formatInr(totSpaSales);
+    if (elRetTarget) elRetTarget.textContent = formatInr(totRetTarget);
+    if (elSpaTarget) elSpaTarget.textContent = formatInr(totSpaTarget);
+    if (elTotBills) elTotBills.textContent = totalBills.toLocaleString('en-IN');
+    if (elAtv) elAtv.textContent = formatFullInr(avgBill);
+    if (elAch) elAch.textContent = overallAch.toFixed(1) + '%';
+
+    // Table Body
+    const elBody = document.getElementById('biSalesAnalysisBody');
+    if (elBody) elBody.innerHTML = tableRows.join('');
+
+    // Table Foot
+    const elFoot = document.getElementById('biSalesAnalysisFoot');
+    if (elFoot) {
+      let totBadge = 'bi-badge-neutral';
+      let totText = 'Pending';
+      if (overallAch >= 110) { totBadge = 'bi-badge-success'; totText = 'Super Target'; }
+      else if (overallAch >= 100) { totBadge = 'bi-badge-success'; totText = 'Target Achieved'; }
+      else if (overallAch >= 80) { totBadge = 'bi-badge-warning'; totText = 'Near Target'; }
+      else { totBadge = 'bi-badge-danger'; totText = 'Below Target'; }
+
+      elFoot.innerHTML = `<tr>
+        <td><strong>TOTAL (${dates.length} Days)</strong></td>
+        <td style="text-align: right; font-weight: 700;">${formatFullInr(totRetSales)}</td>
+        <td style="text-align: right; font-weight: 700;">${formatFullInr(totSpaSales)}</td>
+        <td style="text-align: right; font-weight: 700;">${formatFullInr(totFoodSales)}</td>
+        <td style="text-align: right; font-weight: 700;">${formatFullInr(totPkgSales)}</td>
+        <td style="text-align: right; font-weight: 800; color: #0D9488;">${formatFullInr(totSales)}</td>
+        <td style="text-align: right; font-weight: 700;">${formatFullInr(totTarget)}</td>
+        <td style="text-align: right; font-weight: 700;">${overallAch.toFixed(1)}%</td>
+        <td><span class="bi-badge ${totBadge}">${totText}</span></td>
+      </tr>`;
+    }
+  };
+
+  // 3. Tab 3: SPA Analysis Tab
   window.refreshSpaAnalysis = function () {
     const dates = getActiveDates();
     if (!dates.length) return;
@@ -89,7 +295,6 @@
       const dayPets = typeof window.petCountForDay === 'function' ? (Number(window.petCountForDay(d)) || 0) : 0;
       totPets += dayPets;
 
-      // Count distinct bills and customers
       const dayRows = getActiveRows().filter(r => (typeof r._key === 'string' ? r._key : '').slice(0, 10) === d);
       const billsSet = new Set();
       dayRows.forEach(r => {
@@ -121,9 +326,9 @@
         <td>${d}</td>
         <td>Hyderguda</td>
         <td>${dayBills}</td>
-        <td>${formatFullInr(spaSales)}</td>
+        <td class="text-right">${formatFullInr(spaSales)}</td>
         <td>${dayPets}</td>
-        <td>${formatFullInr(dayTarget)}</td>
+        <td class="text-right">${formatFullInr(dayTarget)}</td>
         <td>${ach.toFixed(1)}%</td>
         <td><span class="bi-badge ${badgeCls}">${badgeText}</span></td>
       </tr>`);
@@ -151,7 +356,7 @@
     if (elBody) elBody.innerHTML = tableRows.join('');
   };
 
-  // 2. Package Analysis Tab
+  // 4. Tab 4: Package Analysis Tab
   window.refreshPackageAnalysis = function () {
     const pkgSales = typeof window.packageSaleRows === 'function' ? window.packageSaleRows() : [];
     const pkgReturns = typeof window.packageReturnRows === 'function' ? window.packageReturnRows() : [];
@@ -189,7 +394,6 @@
     if (elRetVal) elRetVal.textContent = formatInr(returnVal);
     if (elNet) elNet.textContent = formatInr(totalSalesVal - returnVal);
 
-    // Sales table (6 columns: Invoice Number, Date, Store, Employee, Package Amount, Quantity)
     const salesTableBody = document.getElementById('biPkgSalesTableBody');
     if (salesTableBody) {
       salesTableBody.innerHTML = pkgSales.slice(0, 50).map(r => {
@@ -209,7 +413,6 @@
       }).join('') || '<tr><td colspan="6">No package sales found in selected period.</td></tr>';
     }
 
-    // Redemption table (6 columns: Invoice, Date, Store, Discount / Tag, Payment Method, Redemption Count)
     const redTableBody = document.getElementById('biPkgRedemptionTableBody');
     if (redTableBody) {
       const redRowsAll = [];
@@ -234,7 +437,6 @@
       }).join('') || '<tr><td colspan="6">No package redemptions found in selected period.</td></tr>';
     }
 
-    // Return table (6 columns: Return Invoice, Original Invoice, Date, Store, Return Amount, Quantity)
     const retTableBody = document.getElementById('biPkgReturnsTableBody');
     if (retTableBody) {
       retTableBody.innerHTML = pkgReturns.slice(0, 50).map(r => {
@@ -255,7 +457,7 @@
     }
   };
 
-  // 3. Brand Analysis Tab
+  // 5. Tab 5: Brand Analysis Tab
   window.refreshBrandAnalysis = function () {
     const list = getActiveRows();
     const brands = [
@@ -315,7 +517,7 @@
     }
   };
 
-  // 4. Customer Analysis Tab
+  // 6. Tab 7: Customer Analysis Tab
   window.refreshCustomerAnalysis = function () {
     const list = getActiveRows();
     const customerMap = new Map();
@@ -349,49 +551,39 @@
     const repeatRate = totalCustomers > 0 ? (returningCount / totalCustomers) * 100 : 0;
     const avgCustSpend = totalCustomers > 0 ? Math.round(totalSpend / totalCustomers) : 0;
 
-    const elTotal = document.getElementById('biCustTotal');
+    const elTot = document.getElementById('biCustTotal');
     const elNew = document.getElementById('biCustNew');
-    const elReturning = document.getElementById('biCustReturning');
+    const elRet = document.getElementById('biCustReturning');
     const elBills = document.getElementById('biCustBills');
-    const elAtv = document.getElementById('biCustAtv');
-    const elRepeat = document.getElementById('biCustRepeatPct');
+    const elAvg = document.getElementById('biCustAvgSpend');
+    const elRep = document.getElementById('biCustRepeatRate');
     const elBody = document.getElementById('biCustTableBody');
 
-    if (elTotal) elTotal.textContent = totalCustomers.toLocaleString('en-IN');
+    if (elTot) elTot.textContent = totalCustomers.toLocaleString('en-IN');
     if (elNew) elNew.textContent = newCustCount.toLocaleString('en-IN');
-    if (elReturning) elReturning.textContent = returningCount.toLocaleString('en-IN');
+    if (elRet) elRet.textContent = returningCount.toLocaleString('en-IN');
     if (elBills) elBills.textContent = totalCustomerBills.toLocaleString('en-IN');
-    if (elAtv) elAtv.textContent = formatFullInr(avgCustSpend);
-    if (elRepeat) elRepeat.textContent = repeatRate.toFixed(1) + '%';
-
-    function maskPhone(str) {
-      if (!str) return '—';
-      const clean = str.replace(/[^0-9]/g, '');
-      if (clean.length >= 10) {
-        return clean.slice(0, 2) + '******' + clean.slice(-2);
-      }
-      return str.slice(0, 2) + '***';
-    }
+    if (elAvg) elAvg.textContent = formatFullInr(avgCustSpend);
+    if (elRep) elRep.textContent = repeatRate.toFixed(1) + '%';
 
     if (elBody) {
       sortedCusts.sort((a, b) => b.spend - a.spend);
-      // 6 columns matching thead: Customer Identifier, Total Spend (₹), Total Invoices, Average Ticket (₹), Units Bought, Customer Type
-      elBody.innerHTML = sortedCusts.slice(0, 50).map(c => {
-        const type = c.bills > 1 ? '<span class="bi-badge bi-badge-success">Returning</span>' : '<span class="bi-badge bi-badge-neutral">New</span>';
-        const atv = c.bills > 0 ? Math.round(c.spend / c.bills) : 0;
+      elBody.innerHTML = sortedCusts.slice(0, 50).map((c, idx) => {
+        const masked = c.id.length >= 7 ? c.id.slice(0, 3) + '••••' + c.id.slice(-3) : c.id;
+        const segment = c.spend >= 10000 ? 'VIP / High Value' : (c.bills > 2 ? 'Regular Customer' : 'Standard');
         return `<tr>
-          <td>${maskPhone(c.id)}</td>
-          <td class="text-right">${formatFullInr(c.spend)}</td>
+          <td>#${idx + 1}</td>
+          <td><code>${masked}</code></td>
           <td class="text-right">${c.bills}</td>
-          <td class="text-right">${formatFullInr(atv)}</td>
-          <td class="text-right">${Math.round(c.qty)}</td>
-          <td>${type}</td>
+          <td class="text-right">${c.qty}</td>
+          <td class="text-right">${formatFullInr(c.spend)}</td>
+          <td><span class="bi-badge bi-badge-teal">${segment}</span></td>
         </tr>`;
-      }).join('') || '<tr><td colspan="6">No customer transactions available.</td></tr>';
+      }).join('') || '<tr><td colspan="6">No customer records in selected period.</td></tr>';
     }
   };
 
-  // 5. Target Analysis Tab
+  // 7. Tab 8: Target Analysis Tab
   window.refreshTargetAnalysis = function () {
     const dates = getActiveDates();
     if (!dates.length) return;
@@ -426,7 +618,6 @@
       else if (ach >= 80) { badgeCls = 'bi-badge-warning'; badgeText = '80-99% Near'; }
       else { badgeCls = 'bi-badge-danger'; badgeText = 'Below 80%'; }
 
-      // 10 columns matching thead: Date, Day Type, Retail Target, Retail Actual, SPA Target, SPA Actual, Total Target, Total Actual, Achievement %, Status
       tableRows.push(`<tr>
         <td>${d}</td>
         <td>${isWeekend ? 'Weekend' : 'Weekday'}</td>
@@ -450,23 +641,27 @@
     const elSpaTgt = document.getElementById('biTgtSpaTgt');
     const elSpaAct = document.getElementById('biTgtSpaAct');
     const elTotTgt = document.getElementById('biTgtTotalTgt');
-    const elTotAch = document.getElementById('biTgtTotalAch');
+    const elTotAct = document.getElementById('biTgtTotalAct');
+    const elAch = document.getElementById('biTgtAchPct');
     const elRem = document.getElementById('biTgtRemaining');
-    const elProj = document.getElementById('biTgtProjected');
-    const elBody = document.getElementById('biTargetTableBody');
+    const elBody = document.getElementById('biTgtTableBody');
 
     if (elRetTgt) elRetTgt.textContent = formatInr(totRetailTgt);
     if (elRetAct) elRetAct.textContent = formatInr(totRetailAct);
     if (elSpaTgt) elSpaTgt.textContent = formatInr(totSpaTgt);
     if (elSpaAct) elSpaAct.textContent = formatInr(totSpaAct);
     if (elTotTgt) elTotTgt.textContent = formatInr(totCombTgt);
-    if (elTotAch) elTotAch.textContent = combAch.toFixed(1) + '%';
-    if (elRem) elRem.textContent = formatInr(Math.max(0, totCombTgt - totCombAct));
-    if (elProj) elProj.textContent = formatInr(totCombAct);
+    if (elTotAct) elTotAct.textContent = formatInr(totCombAct);
+    if (elAch) elAch.textContent = combAch.toFixed(1) + '%';
+    if (elRem) {
+      const rem = totCombTgt - totCombAct;
+      elRem.textContent = rem <= 0 ? 'Surplus ' + formatInr(Math.abs(rem)) : formatInr(rem);
+    }
+
     if (elBody) elBody.innerHTML = tableRows.join('');
   };
 
-  // 6. Settings Tab
+  // 8. Tab 11: Settings Tab Save
   window.saveBiSettings = function () {
     const wRet = Number(document.getElementById('biSetWeekdayRetail')?.value) || 28600;
     const weRet = Number(document.getElementById('biSetWeekendRetail')?.value) || 46700;
@@ -482,11 +677,22 @@
 
     localStorage.setItem('huft_bi_settings_targets', JSON.stringify(targets));
     alert('Enterprise BI settings saved successfully!');
-    if (typeof window.refreshTargetAnalysis === 'function') window.refreshTargetAnalysis();
-    if (typeof window.refreshDashboard === 'function') window.refreshDashboard();
+    refreshAllBiViews();
   };
 
-  // Hook into showTab
+  // 9. Master Refresh Orchestrator
+  function refreshAllBiViews() {
+    if (typeof window.refreshStorePerformance === 'function') window.refreshStorePerformance();
+    if (typeof window.refreshSalesAnalysis === 'function') window.refreshSalesAnalysis();
+    if (typeof window.refreshSpaAnalysis === 'function') window.refreshSpaAnalysis();
+    if (typeof window.refreshPackageAnalysis === 'function') window.refreshPackageAnalysis();
+    if (typeof window.refreshBrandAnalysis === 'function') window.refreshBrandAnalysis();
+    if (typeof window.refreshCustomerAnalysis === 'function') window.refreshCustomerAnalysis();
+    if (typeof window.refreshTargetAnalysis === 'function') window.refreshTargetAnalysis();
+  }
+  window.refreshAllBiViews = refreshAllBiViews;
+
+  // 10. Hook into showTab
   const originalShowTab = window.showTab;
   window.showTab = function (id, btn) {
     if (id === 'eodReport') id = 'whatsapp';
@@ -512,6 +718,8 @@
 
     if (originalShowTab) originalShowTab(id, btn);
 
+    if (id === 'dashboard' && typeof window.refreshStorePerformance === 'function') window.refreshStorePerformance();
+    if (id === 'huft' && typeof window.refreshSalesAnalysis === 'function') window.refreshSalesAnalysis();
     if (id === 'spaAnalysis' && typeof window.refreshSpaAnalysis === 'function') window.refreshSpaAnalysis();
     if (id === 'packageAnalysis' && typeof window.refreshPackageAnalysis === 'function') window.refreshPackageAnalysis();
     if (id === 'brandAnalysis' && typeof window.refreshBrandAnalysis === 'function') window.refreshBrandAnalysis();
@@ -519,23 +727,40 @@
     if (id === 'targetAnalysis' && typeof window.refreshTargetAnalysis === 'function') window.refreshTargetAnalysis();
   };
 
-  // Hook into refreshDashboard
+  // 11. Hook into refreshDashboard and refreshSalesDashboard
   const origRefreshDashboard = window.refreshDashboard;
   if (typeof origRefreshDashboard === 'function') {
     window.refreshDashboard = function () {
       origRefreshDashboard();
-      setTimeout(function () {
-        if (typeof window.refreshSpaAnalysis === 'function') window.refreshSpaAnalysis();
-        if (typeof window.refreshPackageAnalysis === 'function') window.refreshPackageAnalysis();
-        if (typeof window.refreshBrandAnalysis === 'function') window.refreshBrandAnalysis();
-        if (typeof window.refreshCustomerAnalysis === 'function') window.refreshCustomerAnalysis();
-        if (typeof window.refreshTargetAnalysis === 'function') window.refreshTargetAnalysis();
-      }, 100);
+      setTimeout(refreshAllBiViews, 50);
     };
   }
 
-  // Dashboard Card Click triggers
+  const origRefreshSalesDashboard = window.refreshSalesDashboard;
+  window.refreshSalesDashboard = function () {
+    if (typeof origRefreshSalesDashboard === 'function') {
+      try { origRefreshSalesDashboard(); } catch (e) { console.warn(e); }
+    }
+    setTimeout(refreshAllBiViews, 100);
+  };
+
+  // 12. Date input change listeners
+  function bindDateInputs() {
+    ['from', 'to'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && !el.__biBound) {
+        el.__biBound = true;
+        el.addEventListener('change', () => {
+          setTimeout(refreshAllBiViews, 100);
+        });
+      }
+    });
+  }
+
+  // 13. Dashboard Card Click Triggers
   function wireDashboardCardClicks() {
+    bindDateInputs();
+
     const kRetail = document.getElementById('kRetail');
     if (kRetail) {
       const card = kRetail.closest('.kpi');
@@ -563,6 +788,16 @@
         card.style.cursor = 'pointer';
         card.setAttribute('title', 'Click to open Brand Analysis');
         card.addEventListener('click', () => window.showTab('brandAnalysis'));
+      }
+    }
+
+    const kPkg = document.getElementById('kPackageSale');
+    if (kPkg) {
+      const card = kPkg.closest('.kpi');
+      if (card) {
+        card.style.cursor = 'pointer';
+        card.setAttribute('title', 'Click to open Package Analysis');
+        card.addEventListener('click', () => window.showTab('packageAnalysis'));
       }
     }
   }

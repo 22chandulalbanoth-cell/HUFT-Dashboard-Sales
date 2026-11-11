@@ -692,6 +692,25 @@
   }
   window.refreshAllBiViews = refreshAllBiViews;
 
+  
+  // Mobile Sidebar Drawer Toggle
+  window.toggleMobileSidebar = function (open) {
+    const sidebar = document.getElementById('navRailTabs');
+    const backdrop = document.getElementById('biSidebarBackdrop');
+    if (!sidebar) return;
+
+    const isOpen = sidebar.classList.contains('mobile-open');
+    const shouldOpen = typeof open === 'boolean' ? open : !isOpen;
+
+    if (shouldOpen) {
+      sidebar.classList.add('mobile-open');
+      backdrop && backdrop.classList.add('active');
+    } else {
+      sidebar.classList.remove('mobile-open');
+      backdrop && backdrop.classList.remove('active');
+    }
+  };
+
   // 10. Hook into showTab
   const originalShowTab = window.showTab;
   window.showTab = function (id, btn) {
@@ -717,6 +736,7 @@
     if (hd) hd.textContent = tabTitles[id] || 'Analytics & Reporting';
 
     if (originalShowTab) originalShowTab(id, btn);
+    if (typeof window.toggleMobileSidebar === 'function') window.toggleMobileSidebar(false);
 
     if (id === 'dashboard' && typeof window.refreshStorePerformance === 'function') window.refreshStorePerformance();
     if (id === 'huft' && typeof window.refreshSalesAnalysis === 'function') window.refreshSalesAnalysis();

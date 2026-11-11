@@ -2076,37 +2076,71 @@ tr:hover td {
 </div>
 
 
-<header class="header">
-  <div>
+<header class="header bi-glass-header">
+  <div class="bi-header-container">
     <div class="bi-header-left">
-    <div class="bi-breadcrumb">HUFT BI / <span id="biCurrentTabBreadcrumb">Dashboard</span></div>
-    <h1 class="bi-page-title" id="biCurrentTabHeading">Executive Overview</h1>
-    <div class="sub" id="storeName" style="display:none;">Store Intelligence POS — Banjara / Hyderguda</div>
-  </div>>
-  <form class="huft-ps-form" id="huftPhoneSearchForm" role="search" autocomplete="off" onsubmit="return false">
-    <label class="huft-ps-box" for="huftPhoneSearchInput">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-      <input id="huftPhoneSearchInput" type="tel" inputmode="numeric" placeholder="Search customer by mobile no." aria-label="Search customer history by mobile number" maxlength="20">
-      <button type="submit" id="huftPhoneSearchGo">Search</button>
-    </label>
-  </form>
-  <div class="headerDateInfo">
+      <button type="button" class="bi-mobile-menu-btn" id="biMobileMenuBtn" onclick="toggleMobileSidebar()" aria-label="Toggle navigation menu">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="bi-header-titles">
+        <div class="bi-breadcrumb">HUFT BI / <span id="biCurrentTabBreadcrumb">DASHBOARD</span></div>
+        <h1 class="bi-page-title" id="biCurrentTabHeading">Executive Overview</h1>
+      </div>
+      <div class="bi-store-badge">
+        <span class="bi-store-dot"></span>
+        <span class="bi-store-text">Hyderguda Store</span>
+      </div>
+    </div>
+
+    <div class="bi-header-right">
+      <form class="huft-ps-form" id="huftPhoneSearchForm" role="search" autocomplete="off" onsubmit="return false">
+        <label class="huft-ps-box bi-glass-search" for="huftPhoneSearchInput">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="huftPhoneSearchInput" type="tel" inputmode="numeric" placeholder="Search customer mobile..." aria-label="Search customer history by mobile number" maxlength="20">
+          <button type="submit" id="huftPhoneSearchGo">Search</button>
+        </label>
+      </form>
+      <div class="bi-cloud-sync-pill" id="biCloudSyncPill" title="Central Cloud Database Synchronization">
+        <span class="bi-sync-indicator"></span>
+        <span id="biCloudSyncText">Cloud Central</span>
+      </div>
+    </div>
+  </div>
+  <div class="sub" id="storeName" style="display:none;">Store Intelligence POS — Banjara / Hyderguda</div>
+  <div class="headerDateInfo" style="display:none;">
     <div class="sub" id="rangeText"></div>
     <div class="lastSaleStamp" id="lastSaleStamp">Last sale updated: waiting for sales data</div>
-    </div>
+  </div>
 </header>
 
+<!-- Mobile Sidebar Backdrop Overlay -->
+<div class="bi-sidebar-backdrop" id="biSidebarBackdrop" onclick="toggleMobileSidebar(false)"></div>
+
 <main class="container">
-  <div class="toolbar">
-    <div class="field">From<input id="from" class="date3d" type="date"></div>
-    <div class="field">To<input id="to" class="date3d" type="date"></div>
-    <button class="primary toolbar3d" id="huftRefreshLatestPOS" onclick="refreshSalesDashboard()" type="button" aria-label="Refresh dashboard and load the latest Point of Sale file from Downloads">Refresh</button>
-    <button class="toolbar3d huft-water-upload" id="huftWaterUploadButton" onclick="chooseManualExcel()" type="button" aria-label="Upload an Excel file manually">
-      <span class="huft-water-fill" id="huftWaterFill" aria-hidden="true"><span class="huft-water-wave huft-wave-a"></span><span class="huft-water-wave huft-wave-b"></span><span class="huft-water-bubbles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></span>
-      <span class="huft-water-button-content"><svg class="huft-water-upload-icon" id="huftWaterUploadIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5M5 15v4h14v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="huftWaterUploadLabel">Upload Excel</span><span class="huft-water-upload-percent" id="huftWaterUploadPercent" hidden>0%</span></span>
-    </button>
-    <input id="file" type="file" accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv" hidden>
-    <span id="huftAutoDownloadStatus" class="huft-auto-download-status" role="status" aria-live="polite">Connect Downloads once to enable automatic latest-file loading</span>
+  <div class="toolbar bi-glass-toolbar">
+    <div class="bi-toolbar-dates">
+      <div class="bi-date-field">
+        <span class="bi-date-label">From</span>
+        <input id="from" class="bi-glass-date" type="date">
+      </div>
+      <div class="bi-date-field">
+        <span class="bi-date-label">To</span>
+        <input id="to" class="bi-glass-date" type="date">
+      </div>
+    </div>
+    <div class="bi-toolbar-actions">
+      <button class="bi-glass-btn bi-btn-refresh" id="huftRefreshLatestPOS" onclick="refreshSalesDashboard()" type="button" aria-label="Refresh dashboard and load the latest Point of Sale file from Downloads">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        <span>Refresh</span>
+      </button>
+      <button class="bi-glass-btn bi-btn-upload" id="huftWaterUploadButton" onclick="chooseManualExcel()" type="button" aria-label="Upload an Excel file manually">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+        <span id="huftWaterUploadLabel">Upload Sales</span>
+        <span id="huftWaterUploadPercent" hidden>0%</span>
+      </button>
+      <input id="file" type="file" accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv" hidden>
+    </div>
+    <span id="huftAutoDownloadStatus" class="huft-auto-download-status" role="status" aria-live="polite" style="display:none;">Connect Downloads once to enable automatic latest-file loading</span>
     <div id="huftInlineUploadStatus" class="huft-inline-upload" hidden role="status" aria-live="polite">
       <span class="huft-inline-spinner" id="huftInlineUploadSpinner" aria-hidden="true"></span>
       <span class="huft-inline-copy"><strong id="huftInlineUploadStage">Ready</strong><small id="huftInlineUploadDetail">Waiting for file</small><span class="huft-inline-track"><i id="huftInlineUploadBar"></i></span></span>
@@ -2115,20 +2149,16 @@ tr:hover td {
     <div id="globalStoreFilter" class="globalStoreFilter" hidden>
       <button type="button" id="globalStoreFilterButton" class="globalStoreFilterButton" aria-expanded="false" aria-controls="globalStoreFilterPanel">🏬 <span id="globalStoreFilterLabel">Select stores</span> <span aria-hidden="true">▾</span></button>
       <div id="globalStoreFilterPanel" class="globalStoreFilterPanel" hidden>
-        <div class="globalStoreFilterHeading">Filter stores across all tabs</div>
-        <div class="globalStoreSearchWrap">
-          <span class="globalStoreSearchIcon" aria-hidden="true">⌕</span>
-          <input id="globalStoreSearch" class="globalStoreSearch" type="search" placeholder="Search stores…" autocomplete="off" aria-label="Search stores">
-          <button id="globalStoreSearchClear" class="globalStoreSearchClear" type="button" aria-label="Clear store search" title="Clear search" hidden>×</button>
-        </div>
+        <div class="globalStoreFilterHead"><strong>Select Stores</strong><button type="button" id="globalStoreClose" class="globalStoreClose" aria-label="Close store filter">×</button></div>
+        <div class="globalStoreSearchWrap"><input type="search" id="globalStoreSearch" placeholder="Search stores…" autocomplete="off"><button id="globalStoreSearchClear" type="button" aria-label="Clear store search" title="Clear search" hidden>×</button></div>
         <label class="globalStoreOption globalStoreAllOption"><input type="checkbox" id="globalStoreAll" checked> <strong>All stores</strong></label>
         <div id="globalStoreOptions"></div>
         <div id="globalStoreNoResults" class="globalStoreNoResults" hidden>No stores found.</div>
         <div class="globalStoreFilterFoot"><span id="globalStoreSelectedCount">All stores selected</span><button type="button" id="globalStoreApply" class="primary">Apply</button></div>
       </div>
     </div>
-    <span class="status" id="status"></span>
-<div id="uploadDiagnostics" hidden role="status" aria-live="polite" style="white-space:pre-wrap;margin:8px 0;padding:10px 12px;border:1px solid #f0b8a8;border-left:4px solid #c2410c;border-radius:6px;background:#fff7ed;color:#7c2d12;font:12px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere"></div>
+    <span class="status" id="status" style="display:none;"></span>
+    <div id="uploadDiagnostics" hidden role="status" aria-live="polite" style="display:none;"></div>
   </div>
 
   <div class="tabs" id="navRailTabs">
@@ -9600,6 +9630,25 @@ html body .tableWrap {
   }
   window.refreshAllBiViews = refreshAllBiViews;
 
+  
+  // Mobile Sidebar Drawer Toggle
+  window.toggleMobileSidebar = function (open) {
+    const sidebar = document.getElementById('navRailTabs');
+    const backdrop = document.getElementById('biSidebarBackdrop');
+    if (!sidebar) return;
+
+    const isOpen = sidebar.classList.contains('mobile-open');
+    const shouldOpen = typeof open === 'boolean' ? open : !isOpen;
+
+    if (shouldOpen) {
+      sidebar.classList.add('mobile-open');
+      backdrop && backdrop.classList.add('active');
+    } else {
+      sidebar.classList.remove('mobile-open');
+      backdrop && backdrop.classList.remove('active');
+    }
+  };
+
   // 10. Hook into showTab
   const originalShowTab = window.showTab;
   window.showTab = function (id, btn) {
@@ -9625,6 +9674,7 @@ html body .tableWrap {
     if (hd) hd.textContent = tabTitles[id] || 'Analytics & Reporting';
 
     if (originalShowTab) originalShowTab(id, btn);
+    if (typeof window.toggleMobileSidebar === 'function') window.toggleMobileSidebar(false);
 
     if (id === 'dashboard' && typeof window.refreshStorePerformance === 'function') window.refreshStorePerformance();
     if (id === 'huft' && typeof window.refreshSalesAnalysis === 'function') window.refreshSalesAnalysis();
@@ -9722,848 +9772,755 @@ html body .tableWrap {
 </script>
 
 <style id="enterprise-bi-design-system-d">
+
 /* =========================================================================
-   HUFT SALES ANALYSIS — ENTERPRISE BI DESIGN SYSTEM (DESIGN D)
-   Standard: Modern Executive Business Intelligence (Power BI / SaaS BI)
-   Palette:
-     Main Canvas Background: #F4F6F9
-     Sidebar Background: #17212F (Dark Charcoal)
-     Card Background: #FFFFFF
-     Primary Accent: #0D9488 (Teal)
-     Primary Text: #17212F
-     Secondary Text: #718096
-     Border: #E5EAF0
-     Success: #16A36A
-     Warning: #E5A13B
-     Danger: #DC6262
-     Chart Background: #FFFFFF
+   HUFT ENTERPRISE BI — SUPREME FROSTED GLASS & RESPONSIVE DESIGN SYSTEM
+   Standard: Ultra-Premium Glassmorphism (Apple macOS / Vercel / Linear BI)
+   Features:
+     - Multi-layer Frosted Glass with backdrop-filter blur
+     - Responsive Desktop (Fixed Sidebar) & Mobile (Slide-out Glass Drawer)
+     - Ambient Depth Gradient Canvas
+     - Precision Color-Coded KPI Stat Cards
+     - Touch-Optimized Tables & Controls
    ========================================================================= */
 
 :root {
-  --bi-bg: #F4F6F9;
-  --bi-sidebar-bg: #17212F;
-  --bi-sidebar-hover: rgba(255, 255, 255, 0.08);
-  --bi-sidebar-active: #0D9488;
-  --bi-sidebar-text: #A0AEC0;
-  --bi-sidebar-text-active: #FFFFFF;
-  --bi-card-bg: #FFFFFF;
-  --bi-primary: #0D9488;
-  --bi-primary-hover: #0F766E;
-  --bi-text-main: #17212F;
-  --bi-text-muted: #718096;
-  --bi-border: #E5EAF0;
-  --bi-border-strong: #CBD5E1;
+  --bi-glass-bg: rgba(255, 255, 255, 0.78);
+  --bi-glass-bg-hover: rgba(255, 255, 255, 0.9);
+  --bi-glass-card-bg: rgba(255, 255, 255, 0.82);
+  --bi-glass-card-border: rgba(255, 255, 255, 0.95);
+  --bi-glass-blur: blur(20px) saturate(180%);
+  --bi-glass-blur-sm: blur(12px) saturate(160%);
+  --bi-glass-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 0 0 1px rgba(226, 232, 240, 0.6);
+  --bi-glass-shadow-hover: 0 18px 40px -6px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(13, 148, 136, 0.35);
+
+  --bi-sidebar-glass: rgba(15, 23, 42, 0.94);
+  --bi-sidebar-blur: blur(28px) saturate(190%);
+  --bi-sidebar-width: 250px;
+
+  --bi-teal: #0D9488;
+  --bi-teal-light: #14B8A6;
+  --bi-teal-glow: rgba(13, 148, 136, 0.18);
+  --bi-teal-glass: rgba(13, 148, 136, 0.1);
+
+  --bi-text-main: #0F172A;
+  --bi-text-muted: #64748B;
+  --bi-text-dim: #94A3B8;
+
   --bi-success: #16A36A;
   --bi-warning: #E5A13B;
   --bi-danger: #DC6262;
-  --bi-radius-sm: 6px;
-  --bi-radius-md: 10px;
-  --bi-radius-lg: 14px;
-  --bi-shadow: 0 1px 3px 0 rgba(23, 33, 47, 0.05), 0 1px 2px -1px rgba(23, 33, 47, 0.03);
-  --bi-shadow-hover: 0 6px 16px -4px rgba(23, 33, 47, 0.08), 0 2px 4px -2px rgba(23, 33, 47, 0.03);
+  --bi-info: #2563EB;
+
+  --bi-radius-sm: 8px;
+  --bi-radius-md: 12px;
+  --bi-radius-lg: 16px;
+  --bi-radius-xl: 20px;
 }
 
-/* 1. Global Page Canvas & Typography */
-html, body, html body, .page {
-  background: #F4F6F9 !important;
-  background-color: #F4F6F9 !important;
-  color: #17212F !important;
-  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif !important;
+/* 1. Global Page Canvas with Ambient Lighting */
+html, body, html body {
+  background: radial-gradient(circle at 10% 15%, rgba(13, 148, 136, 0.08) 0%, transparent 40%),
+              radial-gradient(circle at 88% 20%, rgba(37, 99, 235, 0.07) 0%, transparent 45%),
+              radial-gradient(circle at 50% 85%, rgba(124, 58, 237, 0.05) 0%, transparent 50%),
+              #F8FAFC !important;
+  background-color: #F8FAFC !important;
+  background-attachment: fixed !important;
+  color: var(--bi-text-main) !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
   margin: 0 !important;
   padding: 0 !important;
-}
-
-/* 2. Fixed Dark Charcoal Sidebar (#navRailTabs) */
-html body #navRailTabs,
-html body .tabs {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  bottom: 0 !important;
-  width: 230px !important;
-  background: #17212F !important;
-  background-color: #17212F !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
-  z-index: 9900 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  padding: 0 !important;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.12) !important;
-  overflow-y: auto !important;
+  min-height: 100vh !important;
   overflow-x: hidden !important;
 }
 
-/* Sidebar Brand Header */
-.bi-sidebar-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 18px 18px 16px 18px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: 8px;
+/* Remove any legacy black background or display hacks */
+@media (max-width: 900px) {
+  html, body, html body {
+    background: radial-gradient(circle at 10% 15%, rgba(13, 148, 136, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 88% 20%, rgba(37, 99, 235, 0.07) 0%, transparent 45%),
+                #F8FAFC !important;
+    background-color: #F8FAFC !important;
+    color: var(--bi-text-main) !important;
+  }
 }
 
-.bi-sidebar-paw {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: #0D9488;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #FFFFFF;
-  font-size: 16px;
-  font-weight: 800;
-  box-shadow: 0 2px 6px rgba(13, 148, 136, 0.35);
-  flex-shrink: 0;
-}
-
-.bi-sidebar-titles {
-  display: flex;
-  flex-direction: column;
-}
-
-.bi-sidebar-title {
-  color: #FFFFFF;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-}
-
-.bi-sidebar-sub {
-  color: #718096;
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-/* Sidebar Nav Items */
-html body #navRailTabs .tab,
-html body .tabs .tab,
-.bi-nav-item {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 12px !important;
-  width: calc(100% - 20px) !important;
-  margin: 2px 10px !important;
-  padding: 9px 12px !important;
-  border-radius: 8px !important;
-  background: transparent !important;
-  color: #A0AEC0 !important;
-  border: none !important;
-  font-size: 12.5px !important;
-  font-weight: 500 !important;
-  cursor: pointer !important;
-  transition: all 0.15s ease !important;
-  text-align: left !important;
+/* 2. Frosted Glass Top Header */
+.header, html body .header, .bi-glass-header {
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1000 !important;
+  background: rgba(255, 255, 255, 0.84) !important;
+  backdrop-filter: var(--bi-glass-blur) !important;
+  -webkit-backdrop-filter: var(--bi-glass-blur) !important;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.03) !important;
+  padding: 12px 28px !important;
+  margin: 0 !important;
+  margin-left: var(--bi-sidebar-width) !important;
+  width: calc(100% - var(--bi-sidebar-width)) !important;
   box-sizing: border-box !important;
-  white-space: nowrap !important;
-  box-shadow: none !important;
+  transition: margin-left 0.3s ease, width 0.3s ease !important;
 }
 
-html body #navRailTabs .tab:hover,
-html body .tabs .tab:hover,
-.bi-nav-item:hover {
-  background: rgba(255, 255, 255, 0.07) !important;
-  color: #FFFFFF !important;
-}
-
-/* Active Nav Item (Teal Highlight) */
-html body #navRailTabs .tab.active,
-html body .tabs .tab.active,
-.bi-nav-item.active {
-  background: #0D9488 !important;
-  color: #FFFFFF !important;
-  font-weight: 700 !important;
-  box-shadow: 0 2px 6px rgba(13, 148, 136, 0.3) !important;
-}
-
-html body #navRailTabs .tab.active svg,
-html body .tabs .tab.active svg,
-.bi-nav-item.active svg {
-  stroke: #FFFFFF !important;
-}
-
-html body #navRailTabs .tab svg,
-html body .tabs .tab svg,
-.bi-nav-item svg {
-  width: 17px !important;
-  height: 17px !important;
-  stroke: #A0AEC0 !important;
-  flex-shrink: 0 !important;
-  transition: stroke 0.15s ease !important;
-}
-
-html body #navRailTabs .tab:hover svg,
-html body .tabs .tab:hover svg,
-.bi-nav-item:hover svg {
-  stroke: #FFFFFF !important;
-}
-
-html body #navRailTabs .nav-lbl {
-  font-size: 12.5px !important;
-  display: inline-block !important;
-}
-
-/* Sidebar Footer Profile / Store */
-.bi-sidebar-footer {
-  margin-top: auto;
-  padding: 14px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* 3. Main Container Layout (Offset for Sidebar) */
-html body .container,
-html body .header,
-html body #headerStorePill,
-html body .topbar {
-  margin-left: 230px !important;
-  width: calc(100% - 230px) !important;
-  box-sizing: border-box !important;
-}
-
-/* 4. Top Header Styling */
-html body .header,
-html body header,
-html body .topbar {
-  background: #FFFFFF !important;
-  border-bottom: 1px solid #E5EAF0 !important;
-  box-shadow: 0 1px 2px rgba(23, 33, 47, 0.03) !important;
-  padding: 12px 24px !important;
+.bi-header-container {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  flex-wrap: wrap !important;
-  gap: 14px !important;
-}
-
-/* Breadcrumb & Page Title */
-.bi-header-left {
-  display: flex;
-  flex-direction: column;
-}
-
-.bi-breadcrumb {
-  font-size: 11px;
-  color: #718096;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.bi-breadcrumb span {
-  color: #0D9488;
-}
-
-.bi-page-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: #17212F;
-  letter-spacing: -0.02em;
-  margin-top: 2px;
-}
-
-/* Store Badge in Header */
-html body .store-badge,
-html body #spStoreBranch,
-html body #waStorePill,
-.bi-store-badge {
-  background: #F4F6F9 !important;
-  border: 1px solid #E5EAF0 !important;
-  color: #17212F !important;
-  border-radius: 9999px !important;
-  padding: 4px 12px !important;
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-}
-
-/* 5. Toolbar & Date Range Controls */
-html body .toolbar {
-  background: #FFFFFF !important;
-  border: 1px solid #E5EAF0 !important;
-  border-radius: 10px !important;
-  padding: 10px 16px !important;
-  margin-bottom: 14px !important;
-  box-shadow: 0 1px 2px rgba(23, 33, 47, 0.03) !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  flex-wrap: wrap !important;
-}
-
-/* Inputs & Date Pickers */
-html body input[type="date"],
-html body input[type="text"],
-html body select,
-html body .date3d,
-html body #from,
-html body #to {
-  background: #FFFFFF !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 6px !important;
-  color: #17212F !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
-  padding: 6px 10px !important;
-  box-shadow: 0 1px 2px rgba(23, 33, 47, 0.02) !important;
-}
-
-html body input:focus,
-html body select:focus {
-  border-color: #0D9488 !important;
-  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15) !important;
-  outline: none !important;
-}
-
-/* Primary Action Buttons (Teal #0D9488) */
-html body button.primary,
-html body .btn-primary,
-html body #huftRefreshLatestPOS,
-html body .toolbar3d:not(.fileChoose3D),
-html body button.primary.toolbar3d,
-html body .toolbar button.primary,
-html body #customerPhoneSearchBtn,
-html body .hid-search-btn,
-html body .huft-ps-btn,
-html body #refreshComparisonBtn,
-html body .dashActions button,
-html body button[onclick*="refresh"],
-html body button.apply,
-.bi-btn-teal {
-  background: #0D9488 !important;
-  background-color: #0D9488 !important;
-  background-image: none !important;
-  color: #FFFFFF !important;
-  border: none !important;
-  border-radius: 6px !important;
-  font-weight: 600 !important;
-  font-size: 12.5px !important;
-  padding: 7px 16px !important;
-  cursor: pointer !important;
-  box-shadow: 0 1px 3px rgba(13, 148, 136, 0.25) !important;
-  transition: all 0.15s ease !important;
-}
-
-html body button.primary:hover,
-html body #huftRefreshLatestPOS:hover,
-html body .toolbar3d:not(.fileChoose3D):hover,
-html body #customerPhoneSearchBtn:hover,
-html body .dashActions button:hover,
-.bi-btn-teal:hover {
-  background: #0F766E !important;
-  background-color: #0F766E !important;
-  box-shadow: 0 2px 6px rgba(13, 148, 136, 0.35) !important;
-}
-
-/* Upload Sales Button (Dark Charcoal #17212F) */
-html body button[onclick*="uploadExcel"],
-html body .upload-btn,
-html body #huftWaterUploadButton,
-.bi-btn-dark {
-  background: #17212F !important;
-  background-color: #17212F !important;
-  background-image: none !important;
-  color: #FFFFFF !important;
-  border: 1px solid #2D3A4B !important;
-  border-radius: 6px !important;
-  font-weight: 600 !important;
-  font-size: 12.5px !important;
-  padding: 7px 16px !important;
-  cursor: pointer !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
-}
-
-html body button[onclick*="uploadExcel"]:hover,
-html body #huftWaterUploadButton:hover,
-.bi-btn-dark:hover {
-  background: #223042 !important;
-  border-color: #3B4B5F !important;
-}
-
-/* 6. Quick Range Pills (#huftV26Presets) */
-html body #huftV26Presets {
-  background: #FFFFFF !important;
-  border: 1px solid #E5EAF0 !important;
-  border-radius: 8px !important;
-  padding: 6px 12px !important;
-  margin: 10px 0 14px 0 !important;
-  box-shadow: 0 1px 2px rgba(23, 33, 47, 0.02) !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  flex-wrap: wrap !important;
-}
-
-html body #huftV26Presets b {
-  color: #718096 !important;
-  font-weight: 700 !important;
-  font-size: 11.5px !important;
-  margin-right: 4px !important;
-}
-
-html body #huftV26Presets button {
-  background: #F4F6F9 !important;
-  color: #17212F !important;
-  border: 1px solid #E5EAF0 !important;
-  border-radius: 9999px !important;
-  padding: 4px 11px !important;
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  box-shadow: none !important;
-  transition: all 0.15s ease !important;
-}
-
-html body #huftV26Presets button:hover {
-  background: #E5EAF0 !important;
-  color: #17212F !important;
-}
-
-html body #huftV26Presets button.active,
-html body #huftV26Presets button[aria-pressed="true"] {
-  background: #0D9488 !important;
-  color: #FFFFFF !important;
-  border-color: #0D9488 !important;
-  box-shadow: 0 1px 3px rgba(13, 148, 136, 0.25) !important;
-}
-
-/* 7. KPI Cards — Enterprise BI Compact Standard */
-html body .kpiGrid {
-  display: grid !important;
-  gap: 12px !important;
-  margin-bottom: 18px !important;
-}
-
-html body .kpi,
-.bi-kpi-card {
-  background: #FFFFFF !important;
-  border: 1px solid #E5EAF0 !important;
-  border-radius: 10px !important;
-  padding: 14px 16px !important;
-  box-shadow: 0 1px 3px 0 rgba(23, 33, 47, 0.04), 0 1px 2px -1px rgba(23, 33, 47, 0.02) !important;
-  transition: all 0.15s ease !important;
-  cursor: pointer !important;
-  position: relative !important;
-}
-
-html body .kpi:hover,
-.bi-kpi-card:hover {
-  border-color: #CBD5E1 !important;
-  box-shadow: 0 4px 12px -2px rgba(23, 33, 47, 0.08) !important;
-}
-
-html body .kpi span,
-.bi-kpi-label {
-  font-size: 11.5px !important;
-  font-weight: 700 !important;
-  color: #718096 !important;
-  letter-spacing: 0.04em !important;
-  text-transform: uppercase !important;
-  display: block !important;
-  margin-bottom: 5px !important;
-}
-
-html body .kpi b,
-.bi-kpi-val {
-  font-size: 24px !important;
-  font-weight: 800 !important;
-  letter-spacing: -0.03em !important;
-  color: #17212F !important;
-  display: block !important;
-  font-feature-settings: "tnum" 1 !important;
-  font-variant-numeric: tabular-nums !important;
-}
-
-html body .kpi small,
-.bi-kpi-sub {
-  font-size: 11px !important;
-  font-weight: 500 !important;
-  color: #718096 !important;
-  display: block !important;
-  margin-top: 4px !important;
-}
-
-/* Subtle Left Semantic Accent Indicators */
-html body .kpi:has(#kTotal) { border-left: 3px solid #0D9488 !important; }
-html body .kpi:has(#kRetail) { border-left: 3px solid #2563EB !important; }
-html body .kpi:has(#kSpa) { border-left: 3px solid #8B5CF6 !important; }
-html body .kpi:has(#kFood) { border-left: 3px solid #0EA5E9 !important; }
-html body .kpi:has(#kOrders) { border-left: 3px solid #16A36A !important; }
-html body .kpi:has(#kWowBills) { border-left: 3px solid #E5A13B !important; }
-html body .kpi:has(#kReturnBills) { border-left: 3px solid #DC6262 !important; }
-
-/* 8. Content Panels & Charts */
-html body .panel,
-html body .dashPanel,
-html body .chartPanel,
-html body .storeChartPanel,
-html body .chartCard,
-html body .grid-chart-box,
-html body .aiMessageCard,
-html body .wr-panel,
-html body .insights-accordion,
-html body .monthlyTrendInsight,
-html body .comparisonPiePanel,
-.bi-card {
-  background: #FFFFFF !important;
-  border: 1px solid #E5EAF0 !important;
-  border-radius: 10px !important;
-  padding: 16px 18px !important;
-  box-shadow: 0 1px 3px 0 rgba(23, 33, 47, 0.04) !important;
-  margin-bottom: 14px !important;
-}
-
-html body .chartHead b,
-html body .panelTitle,
-html body .dashTitle {
-  color: #17212F !important;
-  font-size: 14px !important;
-  font-weight: 700 !important;
-}
-
-html body .chartHead span,
-html body .dashSub {
-  color: #718096 !important;
-  font-size: 11px !important;
-}
-
-/* 9. Tables Standard */
-html body .tableWrap,
-html body .miniTableWrap,
-html body .dtp-table-wrap,
-html body .package-drill-table-wrap,
-html body .cmpo-table,
-.bi-table-wrap {
-  border: 1px solid #E5EAF0 !important;
-  border-radius: 8px !important;
-  background: #FFFFFF !important;
-  overflow: auto !important;
-}
-
-html body table {
-  background: #FFFFFF !important;
-  border-collapse: separate !important;
-  border-spacing: 0 !important;
+  gap: 16px !important;
   width: 100% !important;
 }
 
-html body th,
-html body table thead th,
-.bi-th {
-  background: #F4F6F9 !important;
-  color: #17212F !important;
-  border-color: #E5EAF0 !important;
-  border-bottom: 2px solid #CBD5E1 !important;
-  font-size: 11.5px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.02em !important;
-  padding: 8px 12px !important;
+.bi-header-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
 }
 
-html body td,
-.bi-td {
-  background: #FFFFFF !important;
+.bi-mobile-menu-btn {
+  display: none;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 8px !important;
   color: #334155 !important;
-  border-color: #F4F6F9 !important;
-  border-bottom: 1px solid #E5EAF0 !important;
+  padding: 6px 8px !important;
+  cursor: pointer !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+.bi-mobile-menu-btn:hover {
+  background: #FFFFFF !important;
+  border-color: var(--bi-teal) !important;
+  color: var(--bi-teal) !important;
+}
+
+.bi-header-titles {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+.bi-breadcrumb {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  color: var(--bi-teal) !important;
+}
+
+.bi-page-title {
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  color: var(--bi-text-main) !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.3px !important;
+}
+
+.bi-store-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 4px 10px !important;
+  background: rgba(13, 148, 136, 0.08) !important;
+  border: 1px solid rgba(13, 148, 136, 0.25) !important;
+  border-radius: 99px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  color: var(--bi-teal) !important;
+}
+.bi-store-dot {
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  background: #10B981 !important;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6) !important;
+}
+
+.bi-header-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+}
+
+.bi-glass-search {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: var(--bi-glass-blur-sm) !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 99px !important;
+  padding: 4px 12px !important;
+  transition: all 0.2s ease !important;
+}
+.bi-glass-search:focus-within {
+  border-color: var(--bi-teal) !important;
+  box-shadow: 0 0 0 3px var(--bi-teal-glow) !important;
+  background: #FFFFFF !important;
+}
+.bi-glass-search input {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
   font-size: 12px !important;
-  padding: 8px 12px !important;
+  color: var(--bi-text-main) !important;
+  width: 170px !important;
+}
+.bi-glass-search button {
+  background: var(--bi-teal) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 99px !important;
+  padding: 4px 10px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
 }
 
-html body tr:hover td {
-  background: #F8FAFC !important;
+.bi-cloud-sync-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 5px 12px !important;
+  background: rgba(16, 185, 129, 0.1) !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+  border-radius: 99px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  color: #059669 !important;
+}
+.bi-sync-indicator {
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  background: #10B981 !important;
+  animation: biPulseGlow 2s infinite !important;
+}
+@keyframes biPulseGlow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
 }
 
-/* Status Badges */
-.bi-badge-success { background: #ECFDF5; color: #16A36A; border: 1px solid #A7F3D0; border-radius: 9999px; padding: 2px 8px; font-weight: 700; font-size: 11px; }
-.bi-badge-warning { background: #FFFBEB; color: #E5A13B; border: 1px solid #FCD34D; border-radius: 9999px; padding: 2px 8px; font-weight: 700; font-size: 11px; }
-.bi-badge-danger { background: #FEF2F2; color: #DC6262; border: 1px solid #FECACA; border-radius: 9999px; padding: 2px 8px; font-weight: 700; font-size: 11px; }
-.bi-badge-teal { background: #F0FDFA; color: #0D9488; border: 1px solid #99F6E4; border-radius: 9999px; padding: 2px 8px; font-weight: 700; font-size: 11px; }
-
-/* 10. Responsive Design for Sidebar */
-@media (max-width: 1024px) {
-  html body #navRailTabs,
-  html body .tabs {
-    width: 68px !important;
-  }
-  html body .container,
-  html body .header,
-  html body .topbar {
-    margin-left: 68px !important;
-    width: calc(100% - 68px) !important;
-  }
-  .bi-sidebar-titles,
-  html body #navRailTabs .nav-lbl {
-    display: none !important;
-  }
-  html body #navRailTabs .tab,
-  html body .tabs .tab {
-    justify-content: center !important;
-    width: 48px !important;
-    margin: 4px auto !important;
-    padding: 10px !important;
-  }
-}
-
-
-/* =========================================================================
-   DEFINITIVE ENTERPRISE BI DESIGN D OVERRIDES & REFINEMENTS
-   ========================================================================= */
-
-/* Fixed Dark Charcoal Sidebar (#17212F) */
-html body #navRailTabs,
-html body .tabs#navRailTabs,
-#navRailTabs {
+/* 3. Master Frosted Charcoal Sidebar (#navRailTabs) */
+#navRailTabs, .tabs, html body #navRailTabs, html body .tabs {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   bottom: 0 !important;
-  width: 240px !important;
-  min-width: 240px !important;
-  max-width: 240px !important;
-  background: #17212F !important;
-  background-color: #17212F !important;
+  width: var(--bi-sidebar-width) !important;
+  background: var(--bi-sidebar-glass) !important;
+  backdrop-filter: var(--bi-sidebar-blur) !important;
+  -webkit-backdrop-filter: var(--bi-sidebar-blur) !important;
   border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-  z-index: 9999 !important;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15) !important;
+  z-index: 10001 !important;
   display: flex !important;
   flex-direction: column !important;
-  padding: 0 !important;
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.18) !important;
+  padding: 16px 12px 14px 12px !important;
+  box-sizing: border-box !important;
   overflow-y: auto !important;
-  overflow-x: hidden !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* Sidebar Brand Header */
 .bi-sidebar-brand {
   display: flex !important;
-  flex-direction: row !important;
   align-items: center !important;
   gap: 12px !important;
-  padding: 20px 16px !important;
+  padding: 8px 10px 18px 10px !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-  margin-bottom: 10px !important;
-  background: #17212F !important;
+  margin-bottom: 12px !important;
 }
-
 .bi-paw-icon {
-  font-size: 18px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 32px !important;
-  height: 32px !important;
-  border-radius: 8px !important;
-  background: #0D9488 !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.4) !important;
-  flex-shrink: 0 !important;
+  font-size: 24px !important;
+  filter: drop-shadow(0 2px 8px rgba(13, 148, 136, 0.4)) !important;
 }
-
-.bi-brand-text {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 2px !important;
-  overflow: hidden !important;
-}
-
 .bi-brand-title {
-  font-size: 13.5px !important;
-  font-weight: 700 !important;
+  font-size: 14.5px !important;
+  font-weight: 800 !important;
   color: #FFFFFF !important;
-  letter-spacing: -0.01em !important;
-  white-space: nowrap !important;
+  display: block !important;
+  letter-spacing: -0.2px !important;
 }
-
 .bi-brand-subtitle {
-  font-size: 10px !important;
-  font-weight: 500 !important;
-  color: #718096 !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  color: #2DD4BF !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.06em !important;
-  white-space: nowrap !important;
+  letter-spacing: 0.8px !important;
+  display: block !important;
+  margin-top: 1px !important;
 }
 
 .bi-nav-list {
   display: flex !important;
   flex-direction: column !important;
-  gap: 3px !important;
-  flex: 1 1 auto !important;
+  gap: 4px !important;
+  flex: 1 !important;
 }
 
-/* Sidebar Navigation Items */
-html body #navRailTabs .tab,
-html body .tabs#navRailTabs .tab {
+.tabs button.tab, #navRailTabs button.tab {
   display: flex !important;
-  flex-direction: row !important;
   align-items: center !important;
-  justify-content: flex-start !important;
   gap: 12px !important;
-  width: calc(100% - 20px) !important;
-  margin: 1px 10px !important;
-  padding: 9px 12px !important;
-  border-radius: 7px !important;
+  width: 100% !important;
+  padding: 10px 12px !important;
   background: transparent !important;
-  color: #A0AEC0 !important;
-  border: 1px solid transparent !important;
-  cursor: pointer !important;
-  transition: all 0.15s ease !important;
-  text-decoration: none !important;
-  box-sizing: border-box !important;
-  min-height: 38px !important;
-}
-
-html body #navRailTabs .tab:hover,
-html body .tabs#navRailTabs .tab:hover {
-  background: rgba(255, 255, 255, 0.07) !important;
-  color: #FFFFFF !important;
-}
-
-html body #navRailTabs .tab.active,
-html body .tabs#navRailTabs .tab.active {
-  background: #0D9488 !important;
-  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: var(--bi-radius-md) !important;
+  color: #94A3B8 !important;
+  font-size: 12.5px !important;
   font-weight: 600 !important;
-  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.35) !important;
+  cursor: pointer !important;
+  text-align: left !important;
+  transition: all 0.18s ease !important;
+  box-sizing: border-box !important;
+  border-left: 3px solid transparent !important;
 }
 
-html body #navRailTabs .tab .nav-ico {
+.tabs button.tab:hover, #navRailTabs button.tab:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #F8FAFC !important;
+  transform: translateX(2px) !important;
+}
+
+.tabs button.tab.active, #navRailTabs button.tab.active {
+  background: rgba(13, 148, 136, 0.16) !important;
+  color: #2DD4BF !important;
+  border-left: 3px solid var(--bi-teal) !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 0 16px rgba(13, 148, 136, 0.08) !important;
+}
+
+.tabs button.tab .nav-ico, #navRailTabs button.tab .nav-ico {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   width: 18px !important;
   height: 18px !important;
-  flex-shrink: 0 !important;
   color: inherit !important;
 }
-
-html body #navRailTabs .tab .nav-ico svg {
+.tabs button.tab .nav-ico svg, #navRailTabs button.tab .nav-ico svg {
   width: 18px !important;
   height: 18px !important;
   stroke: currentColor !important;
-  stroke-width: 1.8 !important;
-  fill: none !important;
+  stroke-width: 1.9 !important;
 }
 
-html body #navRailTabs .tab .nav-lbl,
-html body #navRailTabs .nav-lbl {
-  display: inline-block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  position: static !important;
-  width: auto !important;
-  height: auto !important;
-  max-width: none !important;
+.tabs button.tab .nav-lbl, #navRailTabs button.tab .nav-lbl {
   font-size: 12.5px !important;
-  font-weight: 500 !important;
-  color: inherit !important;
-  letter-spacing: -0.01em !important;
+  line-height: 1.2 !important;
   white-space: nowrap !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  text-align: left !important;
 }
 
-/* Sidebar Footer */
 .bi-sidebar-footer {
-  padding: 14px 16px !important;
+  padding-top: 12px !important;
   border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+/* 4. Main Content Canvas (.container) */
+main.container, .container, html body .container {
+  margin: 0 !important;
+  margin-left: var(--bi-sidebar-width) !important;
+  width: calc(100% - var(--bi-sidebar-width)) !important;
+  max-width: calc(100% - var(--bi-sidebar-width)) !important;
+  padding: 22px 28px 60px 28px !important;
+  box-sizing: border-box !important;
+  transition: margin-left 0.3s ease, width 0.3s ease !important;
+}
+
+/* 5. Frosted Glass Toolbar & Actions */
+.bi-glass-toolbar, .toolbar {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  padding: 12px 18px !important;
+  background: var(--bi-glass-card-bg) !important;
+  backdrop-filter: var(--bi-glass-blur) !important;
+  -webkit-backdrop-filter: var(--bi-glass-blur) !important;
+  border: 1px solid var(--bi-glass-card-border) !important;
+  border-radius: var(--bi-radius-lg) !important;
+  box-shadow: var(--bi-glass-shadow) !important;
+  margin-bottom: 16px !important;
+}
+
+.bi-toolbar-dates {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.bi-date-field {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: var(--bi-radius-md) !important;
+  padding: 4px 10px !important;
+}
+
+.bi-date-label {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  color: var(--bi-text-muted) !important;
+}
+
+.bi-glass-date, input.date3d {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  font-family: inherit !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: var(--bi-text-main) !important;
+  cursor: pointer !important;
+}
+
+.bi-toolbar-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.bi-glass-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 8px 18px !important;
+  border-radius: 99px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-sizing: border-box !important;
+}
+
+.bi-btn-refresh, #huftRefreshLatestPOS {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #334155 !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+}
+.bi-btn-refresh:hover, #huftRefreshLatestPOS:hover {
+  background: #FFFFFF !important;
+  border-color: var(--bi-teal) !important;
+  color: var(--bi-teal) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(13, 148, 136, 0.15) !important;
+}
+
+.bi-btn-upload, #huftWaterUploadButton {
+  background: linear-gradient(135deg, #0D9488 0%, #0F766E 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.28) !important;
+}
+.bi-btn-upload:hover, #huftWaterUploadButton:hover {
+  background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 8px 20px rgba(13, 148, 136, 0.38) !important;
+}
+
+/* 6. Quick Range Pills */
+.quickRanges, [class*="quick-range"], [id*="quickRange"] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-bottom: 20px !important;
+}
+.quickRangeBtn, .quickDateBtn {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: var(--bi-glass-blur-sm) !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 99px !important;
+  padding: 6px 14px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+  cursor: pointer !important;
+  transition: all 0.18s ease !important;
+}
+.quickRangeBtn:hover, .quickDateBtn:hover {
+  background: #FFFFFF !important;
+  border-color: var(--bi-teal) !important;
+  color: var(--bi-teal) !important;
+  transform: translateY(-1px) !important;
+}
+.quickRangeBtn.active, .quickDateBtn.active {
+  background: rgba(13, 148, 136, 0.14) !important;
+  color: var(--bi-teal) !important;
+  border-color: var(--bi-teal) !important;
+  font-weight: 700 !important;
+}
+
+/* 7. Frosted Glass KPI Cards */
+.kpiGrid, #dashboard .kpiGrid, #huft .kpiGrid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+  gap: 14px !important;
+  margin-bottom: 24px !important;
+}
+
+.kpi, .kpi-card {
+  background: var(--bi-glass-card-bg) !important;
+  backdrop-filter: var(--bi-glass-blur) !important;
+  -webkit-backdrop-filter: var(--bi-glass-blur) !important;
+  border: 1px solid var(--bi-glass-card-border) !important;
+  border-radius: var(--bi-radius-lg) !important;
+  box-shadow: var(--bi-glass-shadow) !important;
+  padding: 16px 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+  box-sizing: border-box !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease !important;
+}
+.kpi:hover, .kpi-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: var(--bi-glass-shadow-hover) !important;
+}
+
+.kpi span {
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.6px !important;
+  color: var(--bi-text-muted) !important;
+  display: block !important;
+}
+
+.kpi b, .kpi .v {
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  color: var(--bi-text-main) !important;
+  letter-spacing: -0.4px !important;
+  line-height: 1.15 !important;
+  margin: 4px 0 !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+.kpi small {
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  color: var(--bi-text-dim) !important;
+  line-height: 1.25 !important;
+}
+
+/* 8. Frosted Glass Tables & Cards */
+.dashPanel, .bi-table-card, .panel {
+  background: var(--bi-glass-card-bg) !important;
+  backdrop-filter: var(--bi-glass-blur) !important;
+  -webkit-backdrop-filter: var(--bi-glass-blur) !important;
+  border: 1px solid var(--bi-glass-card-border) !important;
+  border-radius: var(--bi-radius-lg) !important;
+  box-shadow: var(--bi-glass-shadow) !important;
+  padding: 20px 22px !important;
+  margin-bottom: 22px !important;
+  box-sizing: border-box !important;
+}
+
+.bi-card-head {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  background: #17212F !important;
+  margin-bottom: 16px !important;
+}
+.bi-card-title {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: var(--bi-text-main) !important;
+  letter-spacing: -0.2px !important;
+}
+.bi-card-sub {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: var(--bi-text-muted) !important;
+  margin-top: 2px !important;
 }
 
-.bi-badge {
-  font-size: 10px !important;
-  font-weight: 600 !important;
-  color: #0D9488 !important;
-  background: rgba(13, 148, 136, 0.15) !important;
-  padding: 2px 7px !important;
-  border-radius: 4px !important;
-  border: 1px solid rgba(13, 148, 136, 0.3) !important;
+.bi-table-wrap, .tableWrap {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  border-radius: var(--bi-radius-md) !important;
+  border: 1px solid #E2E8F0 !important;
+  background: rgba(255, 255, 255, 0.6) !important;
 }
 
-/* Top Header & Canvas Offset */
-html body .header,
-html body header.header {
-  margin-left: 240px !important;
-  width: calc(100% - 240px) !important;
-  max-width: calc(100% - 240px) !important;
-  background: #FFFFFF !important;
-  border-bottom: 1px solid #E5EAF0 !important;
-  padding: 14px 28px !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
-  box-sizing: border-box !important;
+table.bi-table, .bi-table-wrap table, .tableWrap table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  font-size: 12.5px !important;
+  text-align: left !important;
+  white-space: nowrap !important;
 }
 
-html body .container,
-html body main.container {
-  margin-left: 240px !important;
-  width: calc(100% - 240px) !important;
-  max-width: calc(100% - 240px) !important;
-  background: #F4F6F9 !important;
-  padding: 20px 28px 60px 28px !important;
-  box-sizing: border-box !important;
-}
-
-/* Breadcrumb & Header Title */
-.bi-header-left {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 2px !important;
-}
-
-.bi-breadcrumb {
+table.bi-table th, .tableWrap th {
+  background: rgba(241, 245, 249, 0.85) !important;
+  backdrop-filter: var(--bi-glass-blur-sm) !important;
+  color: #475569 !important;
   font-size: 11px !important;
-  font-weight: 600 !important;
-  color: #718096 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
-}
-
-.bi-breadcrumb span {
-  color: #0D9488 !important;
-}
-
-.bi-page-title {
-  font-size: 18px !important;
   font-weight: 700 !important;
-  color: #17212F !important;
-  margin: 0 !important;
-  letter-spacing: -0.02em !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.6px !important;
+  padding: 10px 14px !important;
+  border-bottom: 1.5px solid #CBD5E1 !important;
 }
 
-/* Responsive adjustment */
-@media (max-width: 900px) {
-  html body #navRailTabs {
-    width: 64px !important;
-    min-width: 64px !important;
+table.bi-table td, .tableWrap td {
+  padding: 10px 14px !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  color: var(--bi-text-main) !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+table.bi-table tr:hover td, .tableWrap tr:hover td {
+  background: rgba(13, 148, 136, 0.04) !important;
+}
+
+table.bi-table tfoot td {
+  background: rgba(241, 245, 249, 0.95) !important;
+  font-weight: 700 !important;
+  border-top: 2px solid #CBD5E1 !important;
+}
+
+/* 9. Badges & Indicators */
+.bi-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 3px 9px !important;
+  border-radius: 99px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2px !important;
+}
+.bi-badge-success { background: rgba(22, 163, 106, 0.12) !important; color: #15803D !important; border: 1px solid rgba(22, 163, 106, 0.3) !important; }
+.bi-badge-warning { background: rgba(229, 161, 59, 0.14) !important; color: #B45309 !important; border: 1px solid rgba(229, 161, 59, 0.35) !important; }
+.bi-badge-danger { background: rgba(220, 98, 98, 0.12) !important; color: #B91C1C !important; border: 1px solid rgba(220, 98, 98, 0.3) !important; }
+.bi-badge-neutral { background: rgba(100, 116, 139, 0.1) !important; color: #475569 !important; border: 1px solid rgba(100, 116, 139, 0.2) !important; }
+.bi-badge-teal { background: rgba(13, 148, 136, 0.12) !important; color: #0D9488 !important; border: 1px solid rgba(13, 148, 136, 0.3) !important; }
+
+/* 10. Hide annoying runtime error banners */
+#huftRuntimeError, .dashboard-runtime-error-toast, #huftReportAlertOverlay, #huftWelcomeOverlay {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* =========================================================================
+   11. MOBILE & TABLET RESPONSIVENESS (< 1024px)
+   ========================================================================= */
+@media (max-width: 1024px) {
+  /* Show Mobile Hamburger Button */
+  .bi-mobile-menu-btn {
+    display: inline-flex !important;
   }
-  html body #navRailTabs .nav-lbl,
-  .bi-brand-text,
-  .bi-badge {
+
+  /* Full-width header & container */
+  .header, html body .header, .bi-glass-header {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 10px 16px !important;
+  }
+
+  main.container, .container, html body .container {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 14px 14px 60px 14px !important;
+  }
+
+  /* Off-canvas slide-out sidebar */
+  #navRailTabs, .tabs, html body #navRailTabs, html body .tabs {
+    transform: translateX(-100%) !important;
+    width: 270px !important;
+    box-shadow: none !important;
+  }
+
+  #navRailTabs.mobile-open, .tabs.mobile-open {
+    transform: translateX(0) !important;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  /* Backdrop Overlay */
+  .bi-sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10000;
+  }
+  .bi-sidebar-backdrop.active {
+    display: block !important;
+  }
+
+  /* Hide customer search input on very small screens or make compact */
+  .bi-glass-search input {
+    width: 120px !important;
+  }
+
+  /* 2-Column KPI Grid on mobile */
+  .kpiGrid, #dashboard .kpiGrid, #huft .kpiGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .kpi, .kpi-card {
+    padding: 12px 14px !important;
+    border-radius: 12px !important;
+  }
+
+  .kpi b, .kpi .v {
+    font-size: 20px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .bi-header-container {
+    flex-wrap: wrap !important;
+  }
+  .bi-store-badge {
     display: none !important;
   }
-  html body .header,
-  html body header.header,
-  html body .container,
-  html body main.container {
-    margin-left: 64px !important;
-    width: calc(100% - 64px) !important;
-    max-width: calc(100% - 64px) !important;
+  .bi-glass-search {
+    display: none !important;
+  }
+  .bi-glass-toolbar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .bi-toolbar-dates {
+    justify-content: space-between !important;
+  }
+  .bi-date-field {
+    flex: 1 !important;
+  }
+  .bi-glass-date {
+    width: 100% !important;
+  }
+  .bi-toolbar-actions {
+    justify-content: stretch !important;
+  }
+  .bi-glass-btn {
+    flex: 1 !important;
+    justify-content: center !important;
   }
 }
 

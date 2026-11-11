@@ -8458,493 +8458,7 @@ window.addEventListener('huft-cloud-report-ready', function() {
 
 
 
-<style id="si-enterprise-responsive-layout">
-/* =========================================================================
-   STORE INTELLIGENCE - ENTERPRISE RESPONSIVE DESIGN SYSTEM
-   Professional layout, 5-column balanced KPI grid, strict navigation separation
-   ========================================================================= */
-
-*, *::before, *::after {
-  box-sizing: border-box !important;
-}
-
-html, body {
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow-x: hidden !important;
-  width: 100vw !important;
-  max-width: 100vw !important;
-  background: #F8FAFC !important;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-  color: #0F172A !important;
-}
-
-/* Ensure no blocking overlay or blur */
-#huftBootLoader {
-  display: none !important;
-}
-body.huft-boot-loading > :not(#huftBootLoader) {
-  filter: none !important;
-  pointer-events: auto !important;
-  user-select: auto !important;
-}
-
-/* -------------------------------------------------------------------------
-   DESKTOP VIEWPORTS (>= 1200px)
-   ------------------------------------------------------------------------- */
-@media (min-width: 1200px) {
-  /* Show only left sidebar rail */
-  #navRailTabs, .tabs {
-    display: flex !important;
-    visibility: visible !important;
-    position: fixed !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 80px !important;
-    z-index: 9900 !important;
-    background: #FFFFFF !important;
-    border-right: 1px solid #E2E8F0 !important;
-    box-shadow: 1px 0 3px rgba(15, 23, 42, 0.04) !important;
-  }
-
-  /* Completely hide mobile bottom navigation & mobile hero cards on desktop */
-  #mobileBottomNav, 
-  #mobileMoreDrawer, 
-  #mobileHeroSalesOverview, 
-  #mobileSecondaryCard {
-    display: none !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    height: 0 !important;
-    width: 0 !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Aligned Header beside 80px sidebar - NO horizontal overflow! */
-  html body .header {
-    margin: 0 0 0 80px !important;
-    width: calc(100% - 80px) !important;
-    max-width: calc(100% - 80px) !important;
-    box-sizing: border-box !important;
-    padding: 12px 28px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 16px !important;
-    background: #FFFFFF !important;
-    border-bottom: 1px solid #E2E8F0 !important;
-    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 1000 !important;
-  }
-
-  /* Main Container exactly beside 80px sidebar */
-  html body .container,
-  html body body > .page,
-  html body .page {
-    margin: 0 0 0 80px !important;
-    width: calc(100% - 80px) !important;
-    max-width: calc(100% - 80px) !important;
-    box-sizing: border-box !important;
-    padding: 20px 28px 60px 28px !important;
-    background: #F8FAFC !important;
-    overflow-x: hidden !important;
-  }
-  html body .page:not(.active) {
-    display: none !important;
-  }
-  html body .page.active {
-    display: block !important;
-  }
-
-  /* 5-Column Balanced KPI Grid for 15 Metrics on Desktop (3 rows of 5) */
-  html body #dashboard > .kpiGrid:not(#comparison .kpiGrid),
-  html body #dashboard > .kpiGrid,
-  html body .kpiGrid:not(#comparison .kpiGrid) {
-    display: grid !important;
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-    gap: 14px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-bottom: 24px !important;
-    box-sizing: border-box !important;
-  }
-}
-
-/* -------------------------------------------------------------------------
-   TABLET & MEDIUM VIEWPORTS (769px to 1199px)
-   ------------------------------------------------------------------------- */
-@media (min-width: 769px) and (max-width: 1199px) {
-  #navRailTabs, .tabs {
-    display: flex !important;
-    visibility: visible !important;
-    position: fixed !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 80px !important;
-    z-index: 9900 !important;
-    background: #FFFFFF !important;
-    border-right: 1px solid #E2E8F0 !important;
-  }
-
-  #mobileBottomNav, 
-  #mobileMoreDrawer, 
-  #mobileHeroSalesOverview, 
-  #mobileSecondaryCard {
-    display: none !important;
-  }
-
-  html body .header {
-    margin: 0 0 0 80px !important;
-    width: calc(100% - 80px) !important;
-    max-width: calc(100% - 80px) !important;
-    padding: 12px 20px !important;
-  }
-
-  html body .container,
-  html body body > .page,
-  html body .page {
-    margin: 0 0 0 80px !important;
-    width: calc(100% - 80px) !important;
-    max-width: calc(100% - 80px) !important;
-    padding: 18px 20px 60px 20px !important;
-  }
-  html body .page:not(.active) {
-    display: none !important;
-  }
-  html body .page.active {
-    display: block !important;
-  }
-
-  /* 3-Column Grid on Tablet */
-  html body #dashboard > .kpiGrid:not(#comparison .kpiGrid),
-  html body #dashboard > .kpiGrid,
-  html body .kpiGrid:not(#comparison .kpiGrid) {
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 12px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-bottom: 20px !important;
-  }
-}
-
-/* -------------------------------------------------------------------------
-   MOBILE VIEWPORTS (<= 768px)
-   ------------------------------------------------------------------------- */
-@media (max-width: 768px) {
-  /* Completely hide desktop sidebar */
-  #navRailTabs, .tabs {
-    display: none !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    width: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
-  }
-
-  /* Display pinned bottom navigation */
-  #mobileBottomNav {
-    display: grid !important;
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-    visibility: visible !important;
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
-    height: 64px !important;
-    background: #FFFFFF !important;
-    border-top: 1px solid #E2E8F0 !important;
-    z-index: 999999 !important;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12) !important;
-    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
-  }
-
-  /* Show mobile hero & companion cards */
-  #mobileHeroSalesOverview, #mobileSecondaryCard {
-    display: block !important;
-    visibility: visible !important;
-  }
-
-  html body .header {
-    margin: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 12px 16px !important;
-    box-sizing: border-box !important;
-  }
-
-  html body .container,
-  html body .page {
-    margin: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 12px 14px 85px 14px !important;
-    box-sizing: border-box !important;
-  }
-  html body .page:not(.active) {
-    display: none !important;
-  }
-  html body .page.active {
-    display: block !important;
-  }
-
-  /* 2-Column KPI Grid on Mobile */
-  html body #dashboard > .kpiGrid:not(#comparison .kpiGrid),
-  html body #dashboard > .kpiGrid,
-  html body .kpiGrid:not(#comparison .kpiGrid) {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-}
-
-@media (max-width: 359px) {
-  html body #dashboard > .kpiGrid:not(#comparison .kpiGrid),
-  html body #dashboard > .kpiGrid,
-  html body .kpiGrid:not(#comparison .kpiGrid) {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* -------------------------------------------------------------------------
-   PROFESSIONAL KPI CARD INTERIOR STYLING (NO TEXT TRUNCATION)
-   ------------------------------------------------------------------------- */
-html body .kpiGrid .kpi,
-html body #dashboard > .kpiGrid > .kpi {
-  background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 12px !important;
-  padding: 14px 16px !important;
-  height: auto !important;
-  min-height: 104px !important;
-  max-height: none !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: space-between !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease !important;
-  box-sizing: border-box !important;
-  transform: none !important;
-}
-
-html body .kpiGrid .kpi:hover {
-  border-color: #CBD5E1 !important;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
-}
-
-/* FULL METRIC NAME - READABLE, NO ELLIPSIS */
-html body .kpiGrid .kpi span,
-html body #dashboard > .kpiGrid > .kpi > span {
-  font-size: 11.5px !important;
-  font-weight: 700 !important;
-  color: #64748B !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.35px !important;
-  white-space: normal !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
-  line-height: 1.35 !important;
-  display: block !important;
-}
-
-/* METRIC VALUE - LARGE, BOLD, TABULAR */
-html body .kpiGrid .kpi b,
-html body #dashboard > .kpiGrid > .kpi > b {
-  font-size: 21px !important;
-  font-weight: 800 !important;
-  color: #0F172A !important;
-  margin: 6px 0 4px 0 !important;
-  letter-spacing: -0.3px !important;
-  line-height: 1.2 !important;
-  display: block !important;
-  font-variant-numeric: tabular-nums !important;
-}
-
-/* SUPPORTING DESCRIPTION */
-html body .kpiGrid .kpi small,
-html body #dashboard > .kpiGrid > .kpi > small {
-  font-size: 11px !important;
-  color: #94A3B8 !important;
-  line-height: 1.35 !important;
-  white-space: normal !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
-  display: block !important;
-  margin-top: auto !important;
-}
-
-/* -------------------------------------------------------------------------
-   TOOLBAR & QUICK DATE FILTERS
-   ------------------------------------------------------------------------- */
-html body .toolbar {
-  background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 12px !important;
-  padding: 14px 18px !important;
-  display: flex !important;
-  align-items: center !important;
-  flex-wrap: wrap !important;
-  gap: 12px !important;
-  margin-bottom: 12px !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
-  box-sizing: border-box !important;
-}
-
-html body .toolbar .field {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 8px !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  color: #475569 !important;
-}
-
-html body .toolbar input[type="date"] {
-  height: 38px !important;
-  padding: 6px 12px !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 8px !important;
-  font-size: 13px !important;
-  color: #0F172A !important;
-  background: #FFFFFF !important;
-}
-
-html body .toolbar button.primary,
-html body #huftRefreshLatestPOS {
-  height: 38px !important;
-  padding: 0 18px !important;
-  background: #EA580C !important;
-  color: #FFFFFF !important;
-  border: none !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-  font-size: 13px !important;
-  cursor: pointer !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-shadow: 0 1px 2px rgba(234, 88, 12, 0.2) !important;
-}
-
-html body #huftWaterUploadButton {
-  height: 38px !important;
-  padding: 0 18px !important;
-  background: #FFFFFF !important;
-  color: #0F172A !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-  font-size: 13px !important;
-  cursor: pointer !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-}
-
-html body .quickDates,
-html body .quick-range-container {
-  display: flex !important;
-  align-items: center !important;
-  flex-wrap: wrap !important;
-  gap: 8px !important;
-  margin-bottom: 20px !important;
-}
-
-html body .quickDates button,
-html body .quick-range-container button {
-  height: 32px !important;
-  padding: 0 14px !important;
-  background: #FFFFFF !important;
-  color: #475569 !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 99px !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  transition: all 0.15s ease !important;
-}
-
-html body .quickDates button:hover,
-html body .quick-range-container button:hover {
-  background: #F1F5F9 !important;
-  color: #0F172A !important;
-  border-color: #CBD5E1 !important;
-}
-
-/* -------------------------------------------------------------------------
-   DASHBOARD HEADING & ACTION ALIGNMENT
-   ------------------------------------------------------------------------- */
-html body .dashTop {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  margin-bottom: 16px !important;
-  gap: 12px !important;
-}
-
-html body .dashTitle {
-  font-size: 22px !important;
-  font-weight: 800 !important;
-  color: #0F172A !important;
-  letter-spacing: -0.3px !important;
-  margin: 0 !important;
-}
-
-html body .dashSub {
-  font-size: 12px !important;
-  color: #64748B !important;
-  margin-top: 2px !important;
-}
-
-html body .dashActions button {
-  height: 36px !important;
-  padding: 0 16px !important;
-  background: #EA580C !important;
-  color: #FFFFFF !important;
-  border: none !important;
-  border-radius: 8px !important;
-  font-size: 12.5px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  box-shadow: 0 1px 2px rgba(234, 88, 12, 0.2) !important;
-}
-
-/* -------------------------------------------------------------------------
-   ALL DETAIL & ANALYTICS PANELS (UNIFIED CONTAINER & ALIGNMENT)
-   ------------------------------------------------------------------------- */
-html body .dashPanel,
-html body .panel,
-html body .chart-card {
-  background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 14px !important;
-  padding: 18px 20px !important;
-  margin-bottom: 20px !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
-  box-sizing: border-box !important;
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-html body .tableWrap {
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 8px !important;
-}
-</style>
+<!-- si-enterprise-responsive-layout superseded by dark tech bi -->
 
 
 
@@ -9785,760 +9299,7 @@ html body .tableWrap {
 
 </script>
 
-<style id="enterprise-bi-design-system-d">
-
-/* =========================================================================
-   HUFT ENTERPRISE BI — SUPREME FROSTED GLASS & RESPONSIVE DESIGN SYSTEM
-   Standard: Ultra-Premium Glassmorphism (Apple macOS / Vercel / Linear BI)
-   Features:
-     - Multi-layer Frosted Glass with backdrop-filter blur
-     - Responsive Desktop (Fixed Sidebar) & Mobile (Slide-out Glass Drawer)
-     - Ambient Depth Gradient Canvas
-     - Precision Color-Coded KPI Stat Cards
-     - Touch-Optimized Tables & Controls
-   ========================================================================= */
-
-:root {
-  --bi-glass-bg: rgba(255, 255, 255, 0.78);
-  --bi-glass-bg-hover: rgba(255, 255, 255, 0.9);
-  --bi-glass-card-bg: rgba(255, 255, 255, 0.82);
-  --bi-glass-card-border: rgba(255, 255, 255, 0.95);
-  --bi-glass-blur: blur(20px) saturate(180%);
-  --bi-glass-blur-sm: blur(12px) saturate(160%);
-  --bi-glass-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 0 0 1px rgba(226, 232, 240, 0.6);
-  --bi-glass-shadow-hover: 0 18px 40px -6px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(13, 148, 136, 0.35);
-
-  --bi-sidebar-glass: rgba(15, 23, 42, 0.94);
-  --bi-sidebar-blur: blur(28px) saturate(190%);
-  --bi-sidebar-width: 250px;
-
-  --bi-teal: #0D9488;
-  --bi-teal-light: #14B8A6;
-  --bi-teal-glow: rgba(13, 148, 136, 0.18);
-  --bi-teal-glass: rgba(13, 148, 136, 0.1);
-
-  --bi-text-main: #0F172A;
-  --bi-text-muted: #64748B;
-  --bi-text-dim: #94A3B8;
-
-  --bi-success: #16A36A;
-  --bi-warning: #E5A13B;
-  --bi-danger: #DC6262;
-  --bi-info: #2563EB;
-
-  --bi-radius-sm: 8px;
-  --bi-radius-md: 12px;
-  --bi-radius-lg: 16px;
-  --bi-radius-xl: 20px;
-}
-
-/* 1. Global Page Canvas with Ambient Lighting */
-html, body, html body {
-  background: radial-gradient(circle at 10% 15%, rgba(13, 148, 136, 0.08) 0%, transparent 40%),
-              radial-gradient(circle at 88% 20%, rgba(37, 99, 235, 0.07) 0%, transparent 45%),
-              radial-gradient(circle at 50% 85%, rgba(124, 58, 237, 0.05) 0%, transparent 50%),
-              #F8FAFC !important;
-  background-color: #F8FAFC !important;
-  background-attachment: fixed !important;
-  color: var(--bi-text-main) !important;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-  -webkit-font-smoothing: antialiased !important;
-  -moz-osx-font-smoothing: grayscale !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  min-height: 100vh !important;
-  overflow-x: hidden !important;
-}
-
-/* Remove any legacy black background or display hacks */
-@media (max-width: 900px) {
-  html, body, html body {
-    background: radial-gradient(circle at 10% 15%, rgba(13, 148, 136, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 88% 20%, rgba(37, 99, 235, 0.07) 0%, transparent 45%),
-                #F8FAFC !important;
-    background-color: #F8FAFC !important;
-    color: var(--bi-text-main) !important;
-  }
-}
-
-/* 2. Frosted Glass Top Header */
-.header, html body .header, .bi-glass-header {
-  position: sticky !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 1000 !important;
-  background: rgba(255, 255, 255, 0.84) !important;
-  backdrop-filter: var(--bi-glass-blur) !important;
-  -webkit-backdrop-filter: var(--bi-glass-blur) !important;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.03) !important;
-  padding: 12px 28px !important;
-  margin: 0 !important;
-  margin-left: var(--bi-sidebar-width) !important;
-  width: calc(100% - var(--bi-sidebar-width)) !important;
-  box-sizing: border-box !important;
-  transition: margin-left 0.3s ease, width 0.3s ease !important;
-}
-
-.bi-header-container {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 16px !important;
-  width: 100% !important;
-}
-
-.bi-header-left {
-  display: flex !important;
-  align-items: center !important;
-  gap: 16px !important;
-}
-
-.bi-mobile-menu-btn {
-  display: none;
-  background: rgba(255, 255, 255, 0.8) !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 8px !important;
-  color: #334155 !important;
-  padding: 6px 8px !important;
-  cursor: pointer !important;
-  align-items: center !important;
-  justify-content: center !important;
-  transition: all 0.2s ease !important;
-}
-.bi-mobile-menu-btn:hover {
-  background: #FFFFFF !important;
-  border-color: var(--bi-teal) !important;
-  color: var(--bi-teal) !important;
-}
-
-.bi-header-titles {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 2px !important;
-}
-
-.bi-breadcrumb {
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.8px !important;
-  color: var(--bi-teal) !important;
-}
-
-.bi-page-title {
-  font-size: 20px !important;
-  font-weight: 800 !important;
-  color: var(--bi-text-main) !important;
-  margin: 0 !important;
-  line-height: 1.2 !important;
-  letter-spacing: -0.3px !important;
-}
-
-.bi-store-badge {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  padding: 4px 10px !important;
-  background: rgba(13, 148, 136, 0.08) !important;
-  border: 1px solid rgba(13, 148, 136, 0.25) !important;
-  border-radius: 99px !important;
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  color: var(--bi-teal) !important;
-}
-.bi-store-dot {
-  width: 7px !important;
-  height: 7px !important;
-  border-radius: 50% !important;
-  background: #10B981 !important;
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6) !important;
-}
-
-.bi-header-right {
-  display: flex !important;
-  align-items: center !important;
-  gap: 14px !important;
-}
-
-.bi-glass-search {
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  background: rgba(255, 255, 255, 0.75) !important;
-  backdrop-filter: var(--bi-glass-blur-sm) !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 99px !important;
-  padding: 4px 12px !important;
-  transition: all 0.2s ease !important;
-}
-.bi-glass-search:focus-within {
-  border-color: var(--bi-teal) !important;
-  box-shadow: 0 0 0 3px var(--bi-teal-glow) !important;
-  background: #FFFFFF !important;
-}
-.bi-glass-search input {
-  border: none !important;
-  outline: none !important;
-  background: transparent !important;
-  font-size: 12px !important;
-  color: var(--bi-text-main) !important;
-  width: 170px !important;
-}
-.bi-glass-search button {
-  background: var(--bi-teal) !important;
-  color: #FFFFFF !important;
-  border: none !important;
-  border-radius: 99px !important;
-  padding: 4px 10px !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-}
-
-.bi-cloud-sync-pill {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  padding: 5px 12px !important;
-  background: rgba(16, 185, 129, 0.1) !important;
-  border: 1px solid rgba(16, 185, 129, 0.3) !important;
-  border-radius: 99px !important;
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  color: #059669 !important;
-}
-.bi-sync-indicator {
-  width: 7px !important;
-  height: 7px !important;
-  border-radius: 50% !important;
-  background: #10B981 !important;
-  animation: biPulseGlow 2s infinite !important;
-}
-@keyframes biPulseGlow {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
-}
-
-/* 3. Master Frosted Charcoal Sidebar (#navRailTabs) */
-#navRailTabs, .tabs, html body #navRailTabs, html body .tabs {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  bottom: 0 !important;
-  width: var(--bi-sidebar-width) !important;
-  background: var(--bi-sidebar-glass) !important;
-  backdrop-filter: var(--bi-sidebar-blur) !important;
-  -webkit-backdrop-filter: var(--bi-sidebar-blur) !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15) !important;
-  z-index: 10001 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  padding: 16px 12px 14px 12px !important;
-  box-sizing: border-box !important;
-  overflow-y: auto !important;
-  scrollbar-width: thin !important;
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent !important;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-.bi-sidebar-brand {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  padding: 8px 10px 18px 10px !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-  margin-bottom: 12px !important;
-}
-.bi-paw-icon {
-  font-size: 24px !important;
-  filter: drop-shadow(0 2px 8px rgba(13, 148, 136, 0.4)) !important;
-}
-.bi-brand-title {
-  font-size: 14.5px !important;
-  font-weight: 800 !important;
-  color: #FFFFFF !important;
-  display: block !important;
-  letter-spacing: -0.2px !important;
-}
-.bi-brand-subtitle {
-  font-size: 10.5px !important;
-  font-weight: 600 !important;
-  color: #2DD4BF !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.8px !important;
-  display: block !important;
-  margin-top: 1px !important;
-}
-
-.bi-nav-list {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 4px !important;
-  flex: 1 !important;
-}
-
-.tabs button.tab, #navRailTabs button.tab {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  width: 100% !important;
-  padding: 10px 12px !important;
-  background: transparent !important;
-  border: none !important;
-  border-radius: var(--bi-radius-md) !important;
-  color: #94A3B8 !important;
-  font-size: 12.5px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  text-align: left !important;
-  transition: all 0.18s ease !important;
-  box-sizing: border-box !important;
-  border-left: 3px solid transparent !important;
-}
-
-.tabs button.tab:hover, #navRailTabs button.tab:hover {
-  background: rgba(255, 255, 255, 0.06) !important;
-  color: #F8FAFC !important;
-  transform: translateX(2px) !important;
-}
-
-.tabs button.tab.active, #navRailTabs button.tab.active {
-  background: rgba(13, 148, 136, 0.16) !important;
-  color: #2DD4BF !important;
-  border-left: 3px solid var(--bi-teal) !important;
-  font-weight: 700 !important;
-  box-shadow: inset 0 0 16px rgba(13, 148, 136, 0.08) !important;
-}
-
-.tabs button.tab .nav-ico, #navRailTabs button.tab .nav-ico {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 18px !important;
-  height: 18px !important;
-  color: inherit !important;
-}
-.tabs button.tab .nav-ico svg, #navRailTabs button.tab .nav-ico svg {
-  width: 18px !important;
-  height: 18px !important;
-  stroke: currentColor !important;
-  stroke-width: 1.9 !important;
-}
-
-.tabs button.tab .nav-lbl, #navRailTabs button.tab .nav-lbl {
-  font-size: 12.5px !important;
-  line-height: 1.2 !important;
-  white-space: nowrap !important;
-}
-
-.bi-sidebar-footer {
-  padding-top: 12px !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 8px !important;
-}
-
-/* 4. Main Content Canvas (.container) */
-main.container, .container, html body .container {
-  margin: 0 !important;
-  margin-left: var(--bi-sidebar-width) !important;
-  width: calc(100% - var(--bi-sidebar-width)) !important;
-  max-width: calc(100% - var(--bi-sidebar-width)) !important;
-  padding: 22px 28px 60px 28px !important;
-  box-sizing: border-box !important;
-  transition: margin-left 0.3s ease, width 0.3s ease !important;
-}
-
-/* 5. Frosted Glass Toolbar & Actions */
-.bi-glass-toolbar, .toolbar {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 14px !important;
-  padding: 12px 18px !important;
-  background: var(--bi-glass-card-bg) !important;
-  backdrop-filter: var(--bi-glass-blur) !important;
-  -webkit-backdrop-filter: var(--bi-glass-blur) !important;
-  border: 1px solid var(--bi-glass-card-border) !important;
-  border-radius: var(--bi-radius-lg) !important;
-  box-shadow: var(--bi-glass-shadow) !important;
-  margin-bottom: 16px !important;
-}
-
-.bi-toolbar-dates {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-}
-
-.bi-date-field {
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  background: rgba(255, 255, 255, 0.8) !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: var(--bi-radius-md) !important;
-  padding: 4px 10px !important;
-}
-
-.bi-date-label {
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-  color: var(--bi-text-muted) !important;
-}
-
-.bi-glass-date, input.date3d {
-  border: none !important;
-  outline: none !important;
-  background: transparent !important;
-  font-family: inherit !important;
-  font-size: 12.5px !important;
-  font-weight: 600 !important;
-  color: var(--bi-text-main) !important;
-  cursor: pointer !important;
-}
-
-.bi-toolbar-actions {
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-}
-
-.bi-glass-btn {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  padding: 8px 18px !important;
-  border-radius: 99px !important;
-  font-size: 12.5px !important;
-  font-weight: 700 !important;
-  cursor: pointer !important;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  box-sizing: border-box !important;
-}
-
-.bi-btn-refresh, #huftRefreshLatestPOS {
-  background: rgba(255, 255, 255, 0.9) !important;
-  border: 1px solid #CBD5E1 !important;
-  color: #334155 !important;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
-}
-.bi-btn-refresh:hover, #huftRefreshLatestPOS:hover {
-  background: #FFFFFF !important;
-  border-color: var(--bi-teal) !important;
-  color: var(--bi-teal) !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 6px 16px rgba(13, 148, 136, 0.15) !important;
-}
-
-.bi-btn-upload, #huftWaterUploadButton {
-  background: linear-gradient(135deg, #0D9488 0%, #0F766E 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.28) !important;
-}
-.bi-btn-upload:hover, #huftWaterUploadButton:hover {
-  background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%) !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 8px 20px rgba(13, 148, 136, 0.38) !important;
-}
-
-/* 6. Quick Range Pills */
-.quickRanges, [class*="quick-range"], [id*="quickRange"] {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
-  gap: 8px !important;
-  margin-bottom: 20px !important;
-}
-.quickRangeBtn, .quickDateBtn {
-  background: rgba(255, 255, 255, 0.72) !important;
-  backdrop-filter: var(--bi-glass-blur-sm) !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 99px !important;
-  padding: 6px 14px !important;
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  color: #475569 !important;
-  cursor: pointer !important;
-  transition: all 0.18s ease !important;
-}
-.quickRangeBtn:hover, .quickDateBtn:hover {
-  background: #FFFFFF !important;
-  border-color: var(--bi-teal) !important;
-  color: var(--bi-teal) !important;
-  transform: translateY(-1px) !important;
-}
-.quickRangeBtn.active, .quickDateBtn.active {
-  background: rgba(13, 148, 136, 0.14) !important;
-  color: var(--bi-teal) !important;
-  border-color: var(--bi-teal) !important;
-  font-weight: 700 !important;
-}
-
-/* 7. Frosted Glass KPI Cards */
-.kpiGrid, #dashboard .kpiGrid, #huft .kpiGrid {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
-  gap: 14px !important;
-  margin-bottom: 24px !important;
-}
-
-.kpi, .kpi-card {
-  background: var(--bi-glass-card-bg) !important;
-  backdrop-filter: var(--bi-glass-blur) !important;
-  -webkit-backdrop-filter: var(--bi-glass-blur) !important;
-  border: 1px solid var(--bi-glass-card-border) !important;
-  border-radius: var(--bi-radius-lg) !important;
-  box-shadow: var(--bi-glass-shadow) !important;
-  padding: 16px 18px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: space-between !important;
-  gap: 6px !important;
-  box-sizing: border-box !important;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease !important;
-}
-.kpi:hover, .kpi-card:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: var(--bi-glass-shadow-hover) !important;
-}
-
-.kpi span {
-  font-size: 11.5px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.6px !important;
-  color: var(--bi-text-muted) !important;
-  display: block !important;
-}
-
-.kpi b, .kpi .v {
-  font-size: 24px !important;
-  font-weight: 800 !important;
-  color: var(--bi-text-main) !important;
-  letter-spacing: -0.4px !important;
-  line-height: 1.15 !important;
-  margin: 4px 0 !important;
-  font-variant-numeric: tabular-nums !important;
-}
-
-.kpi small {
-  font-size: 11px !important;
-  font-weight: 500 !important;
-  color: var(--bi-text-dim) !important;
-  line-height: 1.25 !important;
-}
-
-/* 8. Frosted Glass Tables & Cards */
-.dashPanel, .bi-table-card, .panel {
-  background: var(--bi-glass-card-bg) !important;
-  backdrop-filter: var(--bi-glass-blur) !important;
-  -webkit-backdrop-filter: var(--bi-glass-blur) !important;
-  border: 1px solid var(--bi-glass-card-border) !important;
-  border-radius: var(--bi-radius-lg) !important;
-  box-shadow: var(--bi-glass-shadow) !important;
-  padding: 20px 22px !important;
-  margin-bottom: 22px !important;
-  box-sizing: border-box !important;
-}
-
-.bi-card-head {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  margin-bottom: 16px !important;
-}
-.bi-card-title {
-  font-size: 16px !important;
-  font-weight: 800 !important;
-  color: var(--bi-text-main) !important;
-  letter-spacing: -0.2px !important;
-}
-.bi-card-sub {
-  font-size: 12px !important;
-  font-weight: 500 !important;
-  color: var(--bi-text-muted) !important;
-  margin-top: 2px !important;
-}
-
-.bi-table-wrap, .tableWrap {
-  overflow-x: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-  border-radius: var(--bi-radius-md) !important;
-  border: 1px solid #E2E8F0 !important;
-  background: rgba(255, 255, 255, 0.6) !important;
-}
-
-table.bi-table, .bi-table-wrap table, .tableWrap table {
-  width: 100% !important;
-  border-collapse: collapse !important;
-  font-size: 12.5px !important;
-  text-align: left !important;
-  white-space: nowrap !important;
-}
-
-table.bi-table th, .tableWrap th {
-  background: rgba(241, 245, 249, 0.85) !important;
-  backdrop-filter: var(--bi-glass-blur-sm) !important;
-  color: #475569 !important;
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.6px !important;
-  padding: 10px 14px !important;
-  border-bottom: 1.5px solid #CBD5E1 !important;
-}
-
-table.bi-table td, .tableWrap td {
-  padding: 10px 14px !important;
-  border-bottom: 1px solid #E2E8F0 !important;
-  color: var(--bi-text-main) !important;
-  font-variant-numeric: tabular-nums !important;
-}
-
-table.bi-table tr:hover td, .tableWrap tr:hover td {
-  background: rgba(13, 148, 136, 0.04) !important;
-}
-
-table.bi-table tfoot td {
-  background: rgba(241, 245, 249, 0.95) !important;
-  font-weight: 700 !important;
-  border-top: 2px solid #CBD5E1 !important;
-}
-
-/* 9. Badges & Indicators */
-.bi-badge {
-  display: inline-flex !important;
-  align-items: center !important;
-  padding: 3px 9px !important;
-  border-radius: 99px !important;
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.2px !important;
-}
-.bi-badge-success { background: rgba(22, 163, 106, 0.12) !important; color: #15803D !important; border: 1px solid rgba(22, 163, 106, 0.3) !important; }
-.bi-badge-warning { background: rgba(229, 161, 59, 0.14) !important; color: #B45309 !important; border: 1px solid rgba(229, 161, 59, 0.35) !important; }
-.bi-badge-danger { background: rgba(220, 98, 98, 0.12) !important; color: #B91C1C !important; border: 1px solid rgba(220, 98, 98, 0.3) !important; }
-.bi-badge-neutral { background: rgba(100, 116, 139, 0.1) !important; color: #475569 !important; border: 1px solid rgba(100, 116, 139, 0.2) !important; }
-.bi-badge-teal { background: rgba(13, 148, 136, 0.12) !important; color: #0D9488 !important; border: 1px solid rgba(13, 148, 136, 0.3) !important; }
-
-/* 10. Hide annoying runtime error banners */
-#huftRuntimeError, .dashboard-runtime-error-toast, #huftReportAlertOverlay, #huftWelcomeOverlay {
-  display: none !important;
-  visibility: hidden !important;
-}
-
-/* =========================================================================
-   11. MOBILE & TABLET RESPONSIVENESS (< 1024px)
-   ========================================================================= */
-@media (max-width: 1024px) {
-  /* Show Mobile Hamburger Button */
-  .bi-mobile-menu-btn {
-    display: inline-flex !important;
-  }
-
-  /* Full-width header & container */
-  .header, html body .header, .bi-glass-header {
-    margin-left: 0 !important;
-    width: 100% !important;
-    padding: 10px 16px !important;
-  }
-
-  main.container, .container, html body .container {
-    margin-left: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 14px 14px 60px 14px !important;
-  }
-
-  /* Off-canvas slide-out sidebar */
-  #navRailTabs, .tabs, html body #navRailTabs, html body .tabs {
-    transform: translateX(-100%) !important;
-    width: 270px !important;
-    box-shadow: none !important;
-  }
-
-  #navRailTabs.mobile-open, .tabs.mobile-open {
-    transform: translateX(0) !important;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5) !important;
-  }
-
-  /* Backdrop Overlay */
-  .bi-sidebar-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.5);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 10000;
-  }
-  .bi-sidebar-backdrop.active {
-    display: block !important;
-  }
-
-  /* Hide customer search input on very small screens or make compact */
-  .bi-glass-search input {
-    width: 120px !important;
-  }
-
-  /* 2-Column KPI Grid on mobile */
-  .kpiGrid, #dashboard .kpiGrid, #huft .kpiGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-  }
-
-  .kpi, .kpi-card {
-    padding: 12px 14px !important;
-    border-radius: 12px !important;
-  }
-
-  .kpi b, .kpi .v {
-    font-size: 20px !important;
-  }
-}
-
-@media (max-width: 640px) {
-  .bi-header-container {
-    flex-wrap: wrap !important;
-  }
-  .bi-store-badge {
-    display: none !important;
-  }
-  .bi-glass-search {
-    display: none !important;
-  }
-  .bi-glass-toolbar {
-    flex-direction: column !important;
-    align-items: stretch !important;
-  }
-  .bi-toolbar-dates {
-    justify-content: space-between !important;
-  }
-  .bi-date-field {
-    flex: 1 !important;
-  }
-  .bi-glass-date {
-    width: 100% !important;
-  }
-  .bi-toolbar-actions {
-    justify-content: stretch !important;
-  }
-  .bi-glass-btn {
-    flex: 1 !important;
-    justify-content: center !important;
-  }
-}
-
-</style>
+<!-- enterprise-bi-design-system-d superseded by dark tech bi -->
 
 <!-- HUFT STORE & STAFF PROFILE MASTER MODAL -->
 <div id="huftStoreProfileModal" class="bi-profile-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="storeProfileTitle" style="display:none;">
@@ -10901,764 +9662,1070 @@ window.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
-<style id="huft-master-centered-and-profile-css">
+
+
+<style id="huft-master-dark-tech-bi-css">
 /* =========================================================================
-   HUFT ENTERPRISE BI — SLIM RAIL, CENTERED SUMMARY & STORE PROFILE MASTER
-   Matches User Reference & Screenshots 100%
+   HUFT ENTERPRISE BI — MODERN EXECUTIVE DARK / TECH BI DESIGN SYSTEM
+   Standard: Linear & Vercel Inspired Premium Dark Analytics
+   Theme: Deep Obsidian (#080C14), Frosted Glass Cards (rgba(17, 24, 39, 0.85)),
+          Electric Indigo (#6366F1), Tech Cyan (#06B6D4), Glowing Emerald (#10B981),
+          Pure White Typography (#F8FAFC), Muted Slate (#94A3B8)
    ========================================================================= */
 
-/* --- Clean Canvas & Page Background --- */
-html, body {
-  background: #F4F6F9 !important;
-  color: #0F172A !important;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+:root {
+  --bi-dark-canvas: #080C14;
+  --bi-dark-surface: rgba(17, 24, 39, 0.85);
+  --bi-dark-card: rgba(17, 24, 39, 0.9);
+  --bi-dark-border: rgba(255, 255, 255, 0.08);
+  --bi-dark-border-hover: rgba(99, 102, 241, 0.5);
+  --bi-dark-text-primary: #F8FAFC;
+  --bi-dark-text-secondary: #94A3B8;
+  --bi-dark-text-muted: #64748B;
+  --bi-indigo: #6366F1;
+  --bi-cyan: #06B6D4;
+  --bi-emerald: #10B981;
+  
+  /* Hard override residual theme variables */
+  --app-bg: #080C14 !important;
+  --card-bg: rgba(17, 24, 39, 0.85) !important;
+  --surface: rgba(17, 24, 39, 0.85) !important;
+  --surface-raised: rgba(22, 30, 49, 0.9) !important;
+  --border: rgba(255, 255, 255, 0.08) !important;
+  --text-main: #F8FAFC !important;
+  --text-muted: #94A3B8 !important;
+  --ink: #F8FAFC !important;
+  --paper: #080C14 !important;
+  --navy: #F8FAFC !important;
+  --glass-text: #F8FAFC !important;
+  --text-primary: #F8FAFC !important;
 }
 
-/* --- Slim Modern Icon Navigation Rail (Image 1) --- */
-@media (min-width: 851px) {
-  #navRailTabs, .tabs, html body #navRailTabs, html body .tabs {
-    position: fixed !important;
-    left: 14px !important;
-    top: 14px !important;
-    bottom: 14px !important;
-    width: 66px !important;
-    min-width: 66px !important;
-    max-width: 66px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    padding: 12px 6px !important;
-    background: rgba(255, 255, 255, 0.96) !important;
-    backdrop-filter: blur(24px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
-    border: 1px solid rgba(226, 232, 240, 0.95) !important;
-    border-radius: 18px !important;
-    box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.07) !important;
-    z-index: 1000 !important;
-    box-sizing: border-box !important;
-  }
-
-  .container, html body .container {
-    margin-left: 92px !important;
-    margin-right: 18px !important;
-    max-width: calc(100% - 110px) !important;
-    width: calc(100% - 110px) !important;
-    padding-top: 14px !important;
-    box-sizing: border-box !important;
-  }
-
-  .header, html body .header {
-    padding-left: 92px !important;
-  }
-
-  #navRailTabs .bi-sidebar-brand {
-    display: none !important;
-  }
-
-  #navRailTabs .bi-nav-list {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 7px !important;
-    width: 100% !important;
-    flex: 1 1 auto !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    padding-bottom: 6px !important;
-  }
-
-  #navRailTabs .tab, html body .tabs .tab {
-    width: 44px !important;
-    height: 44px !important;
-    min-width: 44px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border-radius: 12px !important;
-    background: transparent !important;
-    border: 1px solid transparent !important;
-    color: #64748B !important;
-    cursor: pointer !important;
-    position: relative !important;
-    transition: all 0.18s ease !important;
-  }
-
-  #navRailTabs .tab:hover, html body .tabs .tab:hover {
-    background: #F1F5F9 !important;
-    color: #0F172A !important;
-    border-color: #E2E8F0 !important;
-  }
-
-  #navRailTabs .tab.active, html body .tabs .tab.active {
-    background: #FFF7ED !important;
-    color: #EA580C !important;
-    border-color: #FED7AA !important;
-    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.18) !important;
-  }
-
-  #navRailTabs .tab.active .nav-ico svg {
-    stroke: #EA580C !important;
-  }
-
-  #navRailTabs .tab .nav-lbl {
-    position: absolute !important;
-    left: 56px !important;
-    top: 50% !important;
-    transform: translateY(-50%) translateX(-4px) !important;
-    background: #0F172A !important;
-    color: #FFFFFF !important;
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    padding: 5px 10px !important;
-    border-radius: 6px !important;
-    white-space: nowrap !important;
-    pointer-events: none !important;
-    opacity: 0 !important;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2) !important;
-    transition: opacity 0.15s ease, transform 0.15s ease !important;
-    z-index: 1050 !important;
-  }
-
-  #navRailTabs .tab:hover .nav-lbl {
-    opacity: 1 !important;
-    transform: translateY(-50%) translateX(0) !important;
-  }
-
-  #navRailTabs .bi-sidebar-footer {
-    margin-top: auto !important;
-    padding-top: 10px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 8px !important;
-    width: 100% !important;
-    border-top: 1px solid #E2E8F0 !important;
-  }
-
-  #navRailTabs #huftReleaseBadge {
-    display: none !important;
-  }
-}
-
-/* Orange Square Profile Avatar */
-.bi-store-avatar-sq {
-  width: 42px !important;
-  height: 42px !important;
-  border-radius: 12px !important;
-  background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
-  color: #FFFFFF !important;
-  font-size: 19px !important;
-  font-weight: 800 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35) !important;
-  transition: transform 0.18s ease, box-shadow 0.18s ease !important;
-  cursor: pointer !important;
-}
-
-.bi-store-avatar-sq:hover {
-  transform: scale(1.08) !important;
-  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5) !important;
-}
-
-/* --- Mobile Responsiveness (<= 850px) --- */
-@media (max-width: 850px) {
-  #navRailTabs, .tabs, html body #navRailTabs, html body .tabs {
-    position: fixed !important;
-    left: 0 !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    width: 260px !important;
-    transform: translateX(-100%) !important;
-    border-radius: 0 !important;
-    padding: 16px 12px !important;
-    background: rgba(255, 255, 255, 0.98) !important;
-    box-shadow: none !important;
-    transition: transform 0.28s ease !important;
-    z-index: 99999 !important;
-  }
-
-  #navRailTabs.mobile-open, .tabs.mobile-open {
-    transform: translateX(0) !important;
-    box-shadow: 0 0 60px rgba(0, 0, 0, 0.45) !important;
-  }
-
-  #navRailTabs .bi-sidebar-brand {
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    padding: 6px 12px 14px !important;
-    border-bottom: 1px solid #E2E8F0 !important;
-    margin-bottom: 12px !important;
-  }
-
-  #navRailTabs .bi-brand-text {
-    display: flex !important;
-    flex-direction: column !important;
-  }
-
-  #navRailTabs .bi-nav-list {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 4px !important;
-  }
-
-  #navRailTabs .tab {
-    width: 100% !important;
-    height: 42px !important;
-    padding: 8px 12px !important;
-    justify-content: flex-start !important;
-    gap: 12px !important;
-    border-radius: 8px !important;
-  }
-
-  #navRailTabs .tab .nav-lbl {
-    position: static !important;
-    transform: none !important;
-    background: transparent !important;
-    color: inherit !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    padding: 0 !important;
-    opacity: 1 !important;
-    box-shadow: none !important;
-  }
-
-  .container {
-    margin-left: 10px !important;
-    margin-right: 10px !important;
-    max-width: calc(100% - 20px) !important;
-    padding-top: 54px !important;
-  }
-}
-
-/* --- Centered Summary Modal (#huftInvoiceDrillModal) (Image 2) --- */
-#huftInvoiceDrillModal {
-  display: none !important;
-}
-
-#huftInvoiceDrillModal.open {
-  display: flex !important;
-  position: fixed !important;
-  inset: 0 !important;
-  z-index: 2147483600 !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 16px !important;
+/* --- Base Body & Ambient Glow Canvas --- */
+html, body, html body {
+  background: #080C14 !important;
+  background-color: #080C14 !important;
+  background-image: radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.08) 0%, transparent 45%),
+                    radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.06) 0%, transparent 40%),
+                    radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%) !important;
+  background-attachment: fixed !important;
+  color: #F8FAFC !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  min-height: 100vh !important;
   margin: 0 !important;
-  background: rgba(15, 23, 42, 0.42) !important;
-  backdrop-filter: blur(10px) saturate(120%) !important;
-  -webkit-backdrop-filter: blur(10px) saturate(120%) !important;
-  animation: hidFadeIn 0.18s ease both !important;
+  padding: 0 !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
 }
 
-#huftInvoiceDrillModal.open .hid-panel {
-  position: relative !important;
-  width: min(1040px, 95vw) !important;
-  max-width: 95vw !important;
-  height: auto !important;
-  max-height: min(88vh, 900px) !important;
-  min-height: 0 !important;
-  margin: 0 auto !important;
-  display: flex !important;
-  flex-direction: column !important;
-  overflow: hidden !important;
-  background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 14px !important;
-  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.22) !important;
-  animation: hidPopIn 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both !important;
-}
-
-#huftInvoiceDrillModal.open .hid-head {
-  flex: 0 0 auto !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  flex-wrap: wrap !important;
-  gap: 12px !important;
-  padding: 16px 20px !important;
-  background: #FFFFFF !important;
-  border-bottom: 1px solid #EEF2F6 !important;
-}
-
-#huftInvoiceDrillModal.open .hid-title {
-  color: #0F172A !important;
-  font-size: 18px !important;
-  font-weight: 800 !important;
-  margin: 0 !important;
-}
-
-#huftInvoiceDrillModal.open .hid-sub {
-  color: #64748B !important;
-  font-size: 11px !important;
-  margin-top: 3px !important;
-}
-
-#huftInvoiceDrillModal.open .hid-body {
-  flex: 1 1 auto !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  padding: 16px 20px 22px !important;
-}
-
-#huftInvoiceDrillModal.open .hid-metrics {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)) !important;
-  gap: 10px 12px !important;
-  margin-bottom: 16px !important;
-  padding-bottom: 14px !important;
-  border-bottom: 1px solid #E5E7EB !important;
-}
-
-#huftInvoiceDrillModal.open .hid-metric {
-  background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 8px !important;
-  padding: 10px 12px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 2px !important;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03) !important;
-}
-
-#huftInvoiceDrillModal.open .hid-metric span {
-  font-size: 11px !important;
-  color: #64748B !important;
-  font-weight: 600 !important;
-}
-
-#huftInvoiceDrillModal.open .hid-metric b {
-  font-size: 16px !important;
-  color: #0F172A !important;
-  font-weight: 800 !important;
-}
-
-#huftInvoiceDrillModal.open .hid-metric small {
-  font-size: 10px !important;
-  color: #94A3B8 !important;
-}
-
-#huftInvoiceDrillModal .hid-search-btn {
-  background: #EA580C !important;
-  color: #FFFFFF !important;
+/* Neutralize all outer page wrappers so obsidian background shines through */
+html body main.container,
+html body .container,
+html body section.page,
+html body .page,
+html body #dashboard,
+html body #whatsapp,
+html body .wrap,
+html body #mainContentWrap {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
   border: none !important;
-  border-radius: 6px !important;
-  font-weight: 700 !important;
-  padding: 7px 16px !important;
-  cursor: pointer !important;
-  transition: background 0.15s ease !important;
 }
 
-#huftInvoiceDrillModal .hid-search-btn:hover {
-  background: #C2410C !important;
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
 }
-
-#huftInvoiceDrillModal .hid-close {
-  background: #FFFFFF !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 6px !important;
-  color: #334155 !important;
-  padding: 7px 14px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
+::-webkit-scrollbar-track {
+  background: rgba(8, 12, 20, 0.9) !important;
 }
-
-/* --- Store Profile Modal (#huftStoreProfileModal) --- */
-.bi-profile-modal-overlay {
-  display: none !important;
-  position: fixed !important;
-  inset: 0 !important;
-  z-index: 2147483620 !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 18px !important;
-}
-
-.bi-profile-modal-overlay.open {
-  display: flex !important;
-  animation: hidFadeIn 0.18s ease both !important;
-}
-
-.bi-profile-backdrop {
-  position: absolute !important;
-  inset: 0 !important;
-  background: rgba(15, 23, 42, 0.45) !important;
-  backdrop-filter: blur(12px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
-}
-
-.bi-profile-card {
-  position: relative !important;
-  width: min(840px, 95vw) !important;
-  max-width: 95vw !important;
-  max-height: min(88vh, 880px) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 16px !important;
-  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.25) !important;
-  overflow: hidden !important;
-  animation: hidPopIn 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both !important;
-}
-
-.bi-profile-header {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  padding: 16px 20px !important;
-  border-bottom: 1px solid #EEF2F6 !important;
-  background: #FFFFFF !important;
-}
-
-.bi-profile-header-left {
-  display: flex !important;
-  align-items: center !important;
-  gap: 14px !important;
-}
-
-.bi-profile-avatar-large {
-  width: 48px !important;
-  height: 48px !important;
-  border-radius: 14px !important;
-  background: linear-gradient(135deg, #EA580C, #C2410C) !important;
-  color: #FFFFFF !important;
-  font-size: 22px !important;
-  font-weight: 800 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35) !important;
-}
-
-.bi-profile-badge-row {
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  flex-wrap: wrap !important;
-}
-
-.bi-profile-name {
-  font-size: 18px !important;
-  font-weight: 800 !important;
-  color: #0F172A !important;
-  margin: 0 !important;
-}
-
-.bi-profile-active-tag {
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  color: #065F46 !important;
-  background: #D1FAE5 !important;
-  padding: 2px 8px !important;
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15) !important;
   border-radius: 999px !important;
 }
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5) !important;
+}
 
-.bi-profile-sub {
-  font-size: 11.5px !important;
-  color: #64748B !important;
+/* --- Master Top Header --- */
+.header, html body .header, .bi-glass-header, .bi-top-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+  background: rgba(11, 15, 25, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 12px 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5) !important;
+}
+
+.bi-header-container, html body .bi-header-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}
+
+.brand, html body .brand, .bi-page-title {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #F8FAFC !important;
+  letter-spacing: -0.3px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin: 0 !important;
+}
+
+.bi-breadcrumb {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #06B6D4 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  margin-bottom: 2px !important;
+}
+
+.sub, html body .sub, .dashSub {
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  color: #94A3B8 !important;
+  letter-spacing: 0.5px !important;
   margin-top: 2px !important;
 }
 
-.bi-modal-close-btn {
-  background: #F1F5F9 !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 8px !important;
-  color: #334155 !important;
+.store-badge, html body .store-badge, .storeNameBadge, .bi-store-badge {
+  background: rgba(6, 182, 212, 0.1) !important;
+  color: #38BDF8 !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
   font-size: 12px !important;
   font-weight: 600 !important;
-  padding: 6px 12px !important;
-  cursor: pointer !important;
-  transition: all 0.15s ease !important;
-}
-
-.bi-modal-close-btn:hover {
-  background: #E2E8F0 !important;
-  color: #0F172A !important;
-}
-
-.bi-profile-tabs {
-  display: flex !important;
+  display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  padding: 10px 20px !important;
-  background: #F8FAFC !important;
-  border-bottom: 1px solid #E2E8F0 !important;
-  overflow-x: auto !important;
+}
+
+.store-badge::before, .storeNameBadge::before, .bi-store-dot {
+  content: "" !important;
+  width: 6px !important;
+  height: 6px !important;
+  background: #10B981 !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 8px #10B981 !important;
+  display: inline-block !important;
+}
+
+/* Header search form & input: strictly neutralize any white backgrounds */
+#huftPhoneSearchForm,
+html body #huftPhoneSearchForm,
+form.huft-ps-form,
+html body form.huft-ps-form,
+.huft-ps-form {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.topSearchWrap, html body .topSearchWrap, .huft-ps-box, html body .huft-ps-box, .bi-glass-search {
+  background: rgba(17, 24, 39, 0.8) !important;
+  background-color: rgba(17, 24, 39, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 999px !important;
+  padding: 4px 6px 4px 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+.topSearchWrap input, html body .topSearchWrap input, .huft-ps-box input, html body #huftPhoneSearchInput {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  color: #F8FAFC !important;
+  font-size: 12px !important;
+  outline: none !important;
+}
+
+.topSearchWrap input::placeholder, .huft-ps-box input::placeholder, #huftPhoneSearchInput::placeholder {
+  color: #64748B !important;
+}
+
+.topSearchWrap button, html body .topSearchWrap button, .huft-ps-btn, html body .huft-ps-btn, #huftPhoneSearchGo, html body #huftPhoneSearchGo {
+  background: linear-gradient(135deg, #6366F1 0%, #06B6D4 100%) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 999px !important;
+  padding: 6px 14px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+.topSearchWrap button:hover, .huft-ps-btn:hover, #huftPhoneSearchGo:hover {
+  box-shadow: 0 0 14px rgba(6, 182, 212, 0.5) !important;
+}
+
+/* Hide desktop mobile toggle buttons */
+@media (min-width: 901px) {
+  #biMobileMenuBtn,
+  html body #biMobileMenuBtn,
+  .bi-mobile-menu-btn,
+  html body .bi-mobile-menu-btn,
+  .bi-mobile-menu-toggle,
+  #biMobileMenuToggle,
+  button.bi-mobile-menu-toggle,
+  html body .bi-mobile-menu-toggle,
+  html body #biMobileMenuToggle,
+  button.bi-sidebar-toggle-btn {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    opacity: 0 !important;
+  }
+}
+
+@media (max-width: 900px) {
+  #biMobileMenuBtn,
+  html body #biMobileMenuBtn,
+  .bi-mobile-menu-btn,
+  html body .bi-mobile-menu-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(17, 24, 39, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #F8FAFC !important;
+    border-radius: 8px !important;
+    padding: 8px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  }
+}
+
+/* --- Floating Slim Obsidian Navigation Rail (Desktop) --- */
+#navRailTabs, .tabs, html body #navRailTabs, html body .tabs {
+  position: fixed !important;
+  left: 14px !important;
+  top: 14px !important;
+  bottom: 14px !important;
+  width: 60px !important;
+  background: rgba(11, 15, 25, 0.94) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  padding: 12px 6px !important;
+  z-index: 1000 !important;
+  box-sizing: border-box !important;
+  gap: 6px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+#huftNavToggle, html body #huftNavToggle, .nav-toggle, html body .nav-toggle {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #94A3B8 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  width: 44px !important;
+  height: 44px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+#huftNavToggle:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #F8FAFC !important;
+}
+
+/* Hide brand text in slim rail */
+.bi-sidebar-brand, html body .bi-sidebar-brand {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin-bottom: 8px !important;
+}
+.bi-brand-text, html body .bi-brand-text {
+  display: none !important;
+}
+.bi-paw-icon, html body .bi-paw-icon {
+  font-size: 20px !important;
+  line-height: 1 !important;
+}
+
+.tab, html body .tab {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 12px !important;
+  color: #94A3B8 !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  font-size: 18px !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  position: relative !important;
+  text-decoration: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.tab:hover, html body .tab:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #F8FAFC !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.tab.active, html body .tab.active {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(6, 182, 212, 0.15) 100%) !important;
+  color: #38BDF8 !important;
+  border: 1px solid rgba(6, 182, 212, 0.45) !important;
+  box-shadow: 0 0 16px rgba(6, 182, 212, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
+.tab.active::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 2px !important;
+  top: 12px !important;
+  bottom: 12px !important;
+  width: 3px !important;
+  border-radius: 3px !important;
+  background: #06B6D4 !important;
+  box-shadow: 0 0 8px #06B6D4 !important;
+}
+
+/* Rail bottom profile button */
+.bi-rail-profile-btn, html body .bi-rail-profile-btn {
+  margin-top: auto !important;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #6366F1 0%, #06B6D4 100%) !important;
+  color: #FFFFFF !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  cursor: pointer !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 0 18px rgba(99, 102, 241, 0.4) !important;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+.bi-rail-profile-btn:hover {
+  transform: scale(1.08) !important;
+  box-shadow: 0 0 24px rgba(6, 182, 212, 0.6) !important;
+  border-color: #38BDF8 !important;
+}
+
+/* Desktop layout spacing */
+@media (min-width: 901px) {
+  .wrap, html body .wrap, body > .page, #mainContentWrap, html body .container {
+    margin-left: 88px !important;
+    padding: 20px 28px !important;
+    max-width: calc(100vw - 110px) !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* --- Control Toolbar & Date Filter Bar --- */
+.toolbar, html body .toolbar {
+  background: rgba(17, 24, 39, 0.85) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  padding: 12px 18px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 12px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35) !important;
+  margin-bottom: 16px !important;
+}
+
+.toolbar label, html body .toolbar label {
+  color: #94A3B8 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.field input[type="date"], html body input[type="date"], #from, #to {
+  background: rgba(10, 15, 28, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 8px !important;
+  color: #F8FAFC !important;
+  padding: 7px 12px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  outline: none !important;
+  transition: border-color 0.2s !important;
+  color-scheme: dark !important;
+}
+
+.field input[type="date"]:focus, #from:focus, #to:focus {
+  border-color: #6366F1 !important;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2) !important;
+}
+
+button.primary, html body button.primary, #refreshBtn, .toolbar button.primary, .refresh-btn {
+  background: linear-gradient(135deg, #6366F1 0%, #06B6D4 100%) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  color: #FFFFFF !important;
+  padding: 8px 18px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35) !important;
+}
+
+button.primary:hover, #refreshBtn:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5) !important;
+}
+
+.huft-water-upload, html body .huft-water-upload, #huftWaterUploadButton {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 8px !important;
+  color: #F8FAFC !important;
+  padding: 8px 16px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.huft-water-upload:hover, #huftWaterUploadButton:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Quick range buttons (#huftV26Presets and generic) */
+#huftV26Presets, html body #huftV26Presets,
+.dateQuickRange, html body .dateQuickRange,
+.quickDates, html body .quickDates,
+.quick-range-container {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  align-items: center !important;
+  margin-bottom: 16px !important;
+  background: transparent !important;
+}
+
+#huftV26Presets b {
+  color: #94A3B8 !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+#huftV26Presets button, html body #huftV26Presets button,
+.dateQuickRange button, html body .dateQuickRange button, .qrBtn, html body .quickDates button, html body .quick-range-container button {
+  background: rgba(17, 24, 39, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #94A3B8 !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+
+#huftV26Presets button:hover, html body #huftV26Presets button:hover,
+.dateQuickRange button:hover, html body .quickDates button:hover, .qrBtn:hover {
+  background: rgba(99, 102, 241, 0.2) !important;
+  color: #38BDF8 !important;
+  border-color: rgba(6, 182, 212, 0.4) !important;
+}
+
+#huftV26Presets button#huftV26Privacy, html body #huftV26Presets #huftV26Privacy,
+.phone-mask-pill, html body .phone-mask-pill, #huftMaskStatusPill {
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #34D399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+  padding: 4px 10px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+/* Dashboard Top Header & Refresh Button */
+.dashTop, html body .dashTop {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 16px !important;
+  background: transparent !important;
+}
+.dashTitle, html body .dashTitle {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: #F8FAFC !important;
+  letter-spacing: -0.3px !important;
+}
+
+.dashActions button, html body .dashActions button, #refreshDashboardBtn, html body #refreshDashboardBtn {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(6, 182, 212, 0.15) 100%) !important;
+  color: #38BDF8 !important;
+  border: 1px solid rgba(6, 182, 212, 0.35) !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+.dashActions button:hover, #refreshDashboardBtn:hover {
+  background: rgba(6, 182, 212, 0.25) !important;
+  box-shadow: 0 0 14px rgba(6, 182, 212, 0.4) !important;
+}
+
+/* =========================================================================
+   15 KPI CARDS — MODERN HIGH-DENSITY FROSTED DARK GLASS (ALL TABS)
+   ========================================================================= */
+.kpiGrid, html body .kpiGrid, .summary, html body .summary {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  margin-bottom: 20px !important;
+}
+
+@media (max-width: 1400px) {
+  .kpiGrid, html body .kpiGrid, .summary, html body .summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+@media (max-width: 768px) {
+  .kpiGrid, html body .kpiGrid, .summary, html body .summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+.kpi, html body .kpi, html body #dashboard .kpiGrid .kpi, html body .summary .kpi,
+.monthKpiTile, html body .monthKpiTile, .kpi-card, html body .kpi-card {
+  background: rgba(17, 24, 39, 0.85) !important;
+  background-color: rgba(17, 24, 39, 0.85) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  padding: 14px 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  min-height: 84px !important;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  cursor: pointer !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.kpi::before, .monthKpiTile::before, .kpi-card::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 2px !important;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent) !important;
+  opacity: 0 !important;
+  transition: opacity 0.2s ease !important;
+}
+
+.kpi:hover, .monthKpiTile:hover, .kpi-card:hover {
+  background: rgba(22, 30, 49, 0.95) !important;
+  border-color: rgba(99, 102, 241, 0.45) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(99, 102, 241, 0.2) !important;
+}
+
+.kpi:hover::before, .monthKpiTile:hover::before {
+  opacity: 1 !important;
+}
+
+/* Force Crisp High-Contrast Typography inside all KPI cards */
+.kpi span, html body .kpi span, html body .kpiGrid .kpi span, html body .summary .kpi span,
+.kpi label, html body .kpi label, .monthKpiTile span {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  color: #94A3B8 !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+}
+
+.kpi b, html body .kpi b, html body .kpiGrid .kpi b, html body #dashboard .kpiGrid .kpi b, html body .summary .kpi b,
+.kpi strong, html body .kpi strong, .kpi .val, html body .kpi .val, .monthKpiTile b, .monthKpiTile strong {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #F8FAFC !important;
+  letter-spacing: -0.5px !important;
+  line-height: 1.15 !important;
+  display: block !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+.kpi small, html body .kpi small, html body .kpiGrid .kpi small, html body .summary .kpi small, .monthKpiTile small {
+  font-size: 11px !important;
+  color: #64748B !important;
+  margin-top: 6px !important;
+  display: block !important;
+  line-height: 1.3 !important;
+}
+
+/* Dynamic Accent Highlights */
+#dashboard .kpi:nth-child(1) b, #kTotal { color: #38BDF8 !important; } /* Total Sales: Cyan */
+#dashboard .kpi:nth-child(2) b, #kRetail { color: #818CF8 !important; } /* Retail Sales: Indigo */
+#dashboard .kpi:nth-child(3) b, #kSpa { color: #34D399 !important; } /* SPA Sales: Emerald */
+#dashboard .kpi:nth-child(4) b, #kPkg { color: #FBBF24 !important; } /* Package Sales: Amber */
+
+/* --- Content Panels, Cards & Charts --- */
+.dashPanel, html body .dashPanel, .card, html body .card, .chartCard, html body .chartCard,
+#storeAiPanel, #dayTrendPanel, #dtrChartWrap, #aiTrendWarnings, .dashDetails,
+.employee-panel, .employee-chart-card, .tableWrap, #comparison, .detailTableWrap {
+  background: rgba(17, 24, 39, 0.85) !important;
+  background-color: rgba(17, 24, 39, 0.85) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  color: #F8FAFC !important;
+  padding: 16px 20px !important;
+  margin-bottom: 18px !important;
+}
+
+h2, h3, h4, .dashPanel h2, .dashPanel h3 {
+  color: #F8FAFC !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.3px !important;
+}
+
+/* --- Precision Data Tables --- */
+table, html body table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  font-size: 12px !important;
+  background: transparent !important;
+}
+
+th, html body th {
+  background: rgba(30, 41, 59, 0.7) !important;
+  color: #94A3B8 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  padding: 10px 12px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-top: none !important;
+  text-align: left !important;
+}
+
+td, html body td {
+  padding: 10px 12px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  color: #E2E8F0 !important;
+  background: transparent !important;
+}
+
+tr:hover td, html body tr:hover td {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* =========================================================================
+   CENTERED MODALS — OBSIDIAN TECH BI FROSTED GLASS
+   ========================================================================= */
+
+/* Backdrop overlay */
+.bi-profile-modal-overlay, #huftInvoiceDrillModal, html body #huftInvoiceDrillModal {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(5, 8, 15, 0.85) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  z-index: 99999 !important;
+  display: none;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 24px !important;
+  box-sizing: border-box !important;
+}
+
+.bi-profile-modal-overlay.open, #huftInvoiceDrillModal.open {
+  display: flex !important;
+}
+
+/* Modal Window Card */
+.bi-profile-card, #huftInvoiceDrillModal .hid-panel, html body #huftInvoiceDrillModal .hid-panel {
+  background: rgba(15, 21, 37, 0.98) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(99, 102, 241, 0.15) !important;
+  width: 100% !important;
+  max-width: 960px !important;
+  max-height: 88vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  color: #F8FAFC !important;
+  animation: huftDarkModalPop 0.24s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-sizing: border-box !important;
+}
+
+@keyframes huftDarkModalPop {
+  0% { transform: scale(0.96) translateY(8px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* Modal Headers */
+.bi-profile-header, #huftInvoiceDrillModal .hid-head, html body #huftInvoiceDrillModal .hid-head {
+  padding: 18px 24px !important;
+  background: rgba(22, 30, 49, 0.85) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.bi-profile-name, #huftInvoiceDrillModal .hid-title, html body #huftInvoiceDrillModal .hid-title {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #F8FAFC !important;
+  margin: 0 !important;
+}
+
+.bi-modal-close-btn, #huftInvoiceDrillModal .hid-close, html body #huftInvoiceDrillModal .hid-close {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  color: #94A3B8 !important;
+  padding: 6px 14px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+
+.bi-modal-close-btn:hover, #huftInvoiceDrillModal .hid-close:hover {
+  background: rgba(220, 38, 38, 0.2) !important;
+  color: #FCA5A5 !important;
+  border-color: rgba(220, 38, 38, 0.4) !important;
+}
+
+/* Monthly Summary 8 KPI Grid */
+#huftInvoiceDrillModal .hid-body, html body #huftInvoiceDrillModal .hid-body {
+  background: rgba(15, 21, 37, 0.98) !important;
+  color: #F8FAFC !important;
+  padding: 20px 24px !important;
+  overflow-y: auto !important;
+}
+
+#huftInvoiceDrillModal .hid-metrics-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 10px !important;
+  margin-bottom: 18px !important;
+}
+
+#huftInvoiceDrillModal .hid-metric {
+  background: rgba(22, 30, 49, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  padding: 12px 14px !important;
+}
+
+#huftInvoiceDrillModal .hid-metric-label {
+  font-size: 11px !important;
+  color: #94A3B8 !important;
+  text-transform: uppercase !important;
+  font-weight: 600 !important;
+}
+
+#huftInvoiceDrillModal .hid-metric-val {
+  font-size: 20px !important;
+  color: #F8FAFC !important;
+  font-weight: 700 !important;
+  margin-top: 4px !important;
+}
+
+#huftInvoiceDrillModal .hid-metric-sub {
+  font-size: 11px !important;
+  color: #64748B !important;
+  margin-top: 4px !important;
+}
+
+#huftInvoiceDrillModal .hid-search-box, html body #huftInvoiceDrillModal .hid-search-box {
+  background: rgba(22, 30, 49, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 999px !important;
+  padding: 4px 6px 4px 14px !important;
+}
+
+#huftInvoiceDrillModal .hid-search-input, html body #huftInvoiceDrillModal .hid-search-input {
+  background: transparent !important;
+  border: none !important;
+  color: #F8FAFC !important;
+  font-size: 12px !important;
+  outline: none !important;
+}
+
+#huftInvoiceDrillModal .hid-search-btn, html body #huftInvoiceDrillModal .hid-search-btn {
+  background: #6366F1 !important;
+  border: none !important;
+  color: #FFFFFF !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  cursor: pointer !important;
+}
+
+/* Store Profile Tabs & Content */
+.bi-profile-tabs {
+  display: flex !important;
+  background: rgba(11, 15, 25, 0.7) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 0 16px !important;
+  gap: 8px !important;
 }
 
 .bi-p-tab {
   background: transparent !important;
-  border: 1px solid transparent !important;
-  border-radius: 8px !important;
-  padding: 7px 12px !important;
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+  color: #94A3B8 !important;
+  padding: 12px 16px !important;
   font-size: 12px !important;
   font-weight: 600 !important;
-  color: #64748B !important;
   cursor: pointer !important;
-  white-space: nowrap !important;
-  transition: all 0.15s ease !important;
-}
-
-.bi-p-tab:hover {
-  background: #FFFFFF !important;
-  color: #0F172A !important;
-  border-color: #CBD5E1 !important;
+  transition: all 0.2s !important;
 }
 
 .bi-p-tab.active {
-  background: #FFFFFF !important;
-  color: #EA580C !important;
-  border-color: #FED7AA !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  color: #38BDF8 !important;
+  border-bottom-color: #38BDF8 !important;
 }
 
-.bi-profile-pane {
-  display: none !important;
-  padding: 20px !important;
-  overflow-y: auto !important;
+.bi-info-item, .bi-target-field, .bi-team-card {
+  background: rgba(22, 30, 49, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
 }
 
-.bi-profile-pane.active {
-  display: block !important;
-}
-
-.bi-info-grid {
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 14px 18px !important;
-}
-
-.bi-info-wide {
-  grid-column: span 2 !important;
-}
-
-.bi-info-item {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 4px !important;
-  padding: 12px 14px !important;
-  background: #F8FAFC !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 10px !important;
-}
-
-.bi-info-label {
+.bi-info-label, .bi-target-field label {
+  color: #94A3B8 !important;
   font-size: 11px !important;
   font-weight: 600 !important;
-  color: #64748B !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.4px !important;
 }
 
-.bi-info-val {
-  font-size: 13.5px !important;
-  font-weight: 700 !important;
-  color: #0F172A !important;
-}
-
-.bi-team-desc {
-  font-size: 12px !important;
-  color: #64748B !important;
-  margin-bottom: 14px !important;
-}
-
-.bi-team-list {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 10px !important;
-  max-height: 52vh !important;
-  overflow-y: auto !important;
-}
-
-.bi-team-card {
-  padding: 12px 14px !important;
-  border: 1px solid #E2E8F0 !important;
-  border-radius: 10px !important;
-  background: #FFFFFF !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03) !important;
-}
-
-.bi-team-card-head {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-}
-
-.bi-team-avatar {
-  width: 36px !important;
-  height: 36px !important;
-  border-radius: 10px !important;
-  background: #EEF2F6 !important;
-  color: #334155 !important;
-  font-weight: 800 !important;
-  font-size: 14px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.bi-team-meta {
-  flex: 1 1 auto !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.bi-team-name {
-  font-size: 13.5px !important;
-  font-weight: 700 !important;
-  color: #0F172A !important;
-}
-
-.bi-team-role {
-  font-size: 11px !important;
-  color: #64748B !important;
-}
-
-.bi-team-total {
-  text-align: right !important;
-}
-
-.bi-tt-label {
-  font-size: 10px !important;
-  color: #94A3B8 !important;
-  display: block !important;
-}
-
-.bi-tt-val {
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  color: #EA580C !important;
-}
-
-.bi-team-stats-row {
-  display: flex !important;
-  align-items: center !important;
-  gap: 14px !important;
-  margin-top: 10px !important;
-  padding-top: 8px !important;
-  border-top: 1px dashed #E2E8F0 !important;
-  font-size: 11.5px !important;
-  flex-wrap: wrap !important;
-}
-
-.bi-ts-item span {
-  color: #64748B !important;
-}
-
-.bi-ts-item b {
-  color: #0F172A !important;
-  font-weight: 700 !important;
-}
-
-.bi-target-edit-grid {
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 14px !important;
-}
-
-.bi-target-field {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 6px !important;
-}
-
-.bi-target-field label {
-  font-size: 11.5px !important;
-  font-weight: 700 !important;
-  color: #334155 !important;
+.bi-info-val, .bi-team-name {
+  color: #F8FAFC !important;
+  font-weight: 600 !important;
 }
 
 .bi-target-field input {
+  background: rgba(11, 15, 25, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 8px !important;
+  color: #F8FAFC !important;
   padding: 8px 12px !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 8px !important;
   font-size: 13px !important;
-  color: #0F172A !important;
-  background: #FFFFFF !important;
-  outline: none !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
-.bi-target-field input:focus {
-  border-color: #EA580C !important;
-  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15) !important;
+/* =========================================================================
+   MOBILE HERO, SECONDARY CARD & DOCK — SLEEK DARK TECH OBSIDIAN
+   ========================================================================= */
+.mobile-sales-overview-card, html body .mobile-sales-overview-card,
+#mobileHeroSalesOverview, html body #mobileHeroSalesOverview,
+#mobileSecondaryCard, html body #mobileSecondaryCard,
+.mobile-secondary-summary-card, html body .mobile-secondary-summary-card {
+  background: rgba(15, 21, 37, 0.94) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px !important;
+  color: #F8FAFC !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+  padding: 18px 16px !important;
+  margin-bottom: 16px !important;
 }
 
-.bi-target-actions {
-  margin-top: 18px !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
+#mobileSecondaryCard *, html body #mobileSecondaryCard * {
+  color: #F8FAFC !important;
 }
 
-.bi-btn-save-profile {
-  background: #EA580C !important;
-  color: #FFFFFF !important;
-  border: none !important;
-  border-radius: 8px !important;
-  font-size: 13px !important;
+.mso-title {
+  color: #F8FAFC !important;
+  font-size: 18px !important;
   font-weight: 700 !important;
-  padding: 10px 18px !important;
-  cursor: pointer !important;
-  transition: background 0.15s ease !important;
 }
-
-.bi-btn-save-profile:hover {
-  background: #C2410C !important;
-}
-
-.bi-save-notice {
+.mso-period {
+  color: #94A3B8 !important;
   font-size: 12px !important;
-  color: #059669 !important;
-  font-weight: 700 !important;
 }
 
-.bi-cloud-info-box {
-  background: #F8FAFC !important;
-  border: 1px solid #E2E8F0 !important;
+.mso-kpi-box, html body .mso-kpi-box, .mso-stat-box, html body .mso-stat-box,
+#mobileSecondaryCard .mso-stat-box, html body #mobileSecondaryCard .mso-stat-box,
+#mobileSecondaryCard > div > div {
+  background: rgba(22, 30, 49, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  padding: 12px 14px !important;
+}
+
+.mso-kpi-label, html body .mso-kpi-label, .mso-stat-label, html body .mso-stat-label {
+  color: #94A3B8 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+}
+.mso-kpi-val, html body .mso-kpi-val, .mso-stat-val, html body .mso-stat-val {
+  color: #F8FAFC !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+}
+.mso-perf-section, html body .mso-perf-section {
+  color: #F8FAFC !important;
+}
+.mso-perf-title {
+  color: #F8FAFC !important;
+}
+.mso-store-pill {
+  background: rgba(6, 182, 212, 0.1) !important;
+  color: #38BDF8 !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+}
+
+/* Mobile Bottom Navigation Dock */
+#mobileBottomNav, html body #mobileBottomNav, .mobile-dock, html body .mobile-dock {
+  background: rgba(11, 15, 25, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6) !important;
+}
+#mobileBottomNav a, #mobileBottomNav button, .mobile-dock a, .mobile-dock button {
+  color: #94A3B8 !important;
+}
+#mobileBottomNav a.active, #mobileBottomNav button.active, .mobile-dock a.active, .mobile-dock button.active {
+  color: #38BDF8 !important;
+}
+#mobileBottomNav svg, .mobile-dock svg {
+  stroke: currentColor !important;
+}
+
+@media (max-width: 900px) {
+  #navRailTabs {
+    display: none !important;
+  }
+  
+  .wrap, html body .wrap, body > .page, #mainContentWrap, html body .container {
+    margin-left: 0 !important;
+    padding: 12px 14px 80px !important;
+    max-width: 100vw !important;
+  }
+  
+  .kpiGrid, html body .kpiGrid, .summary, html body .summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+}
+
+/* --- Details Accordion Polish --- */
+#huftV26Insights, html body #huftV26Insights,
+details#huftV26Insights, html body details#huftV26Insights {
+  background: rgba(17, 24, 39, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-radius: 10px !important;
-  padding: 16px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 10px !important;
+  color: #94A3B8 !important;
+  padding: 8px 14px !important;
+  margin-top: 14px !important;
+  margin-bottom: 16px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+}
+#huftV26Insights summary {
+  color: #94A3B8 !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+}
+#huftV26Insights * {
+  color: #F8FAFC !important;
 }
 
-.bi-cloud-row {
-  display: flex !important;
-  justify-content: space-between !important;
-  font-size: 12.5px !important;
-  padding-bottom: 8px !important;
-  border-bottom: 1px solid #EEF2F6 !important;
+/* --- Mobile Lower Card Buttons & Pills Polish --- */
+#mobileSecondaryCard button,
+html body #mobileSecondaryCard button,
+.mobile-secondary-summary-card button {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #F8FAFC !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 10px !important;
 }
-
-.bi-cloud-row:last-child {
-  border-bottom: none !important;
-  padding-bottom: 0 !important;
-}
-
-.bi-cloud-row span {
-  color: #64748B !important;
-}
-
-.bi-cloud-row strong {
-  color: #0F172A !important;
-}
-
-.bi-btn-cloud-sync {
-  background: #0F172A !important;
+#mobileSecondaryCard button:first-of-type {
+  background: linear-gradient(135deg, #6366F1 0%, #06B6D4 100%) !important;
   color: #FFFFFF !important;
   border: none !important;
-  border-radius: 8px !important;
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  padding: 9px 16px !important;
-  cursor: pointer !important;
 }
+#mobileSecondaryCard span,
+#mobileSecondaryCard [class*="sync"],
+#mobileSecondaryCard [class*="pill"] {
+  background: rgba(6, 182, 212, 0.15) !important;
+  color: #38BDF8 !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+}
+
 </style>
+
+
 
 </body>
 </html>

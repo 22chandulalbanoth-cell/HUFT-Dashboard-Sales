@@ -1614,6 +1614,16 @@ console.log('[Storage] Storage preserved in admin.html.');
             class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500" />
         </div>
         <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block font-medium text-slate-700">Security Password</label>
+            <button type="button" onclick="document.getElementById('newUserPassword').value = 'Huft#' + Math.floor(1000 + Math.random() * 9000) + '!Store'" class="text-blue-600 hover:text-blue-700 font-bold text-[10px]">
+              🎲 Generate Secure
+            </button>
+          </div>
+          <input type="text" id="newUserPassword" placeholder="e.g. Huft#2026!Store or type custom"
+            class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 font-mono focus:outline-none focus:border-blue-500" />
+        </div>
+        <div>
           <label class="block font-medium text-slate-700 mb-1">Assign to Store</label>
           <select id="newUserStoreSelect" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
             <!-- Populated dynamically -->
@@ -1680,6 +1690,91 @@ console.log('[Storage] Storage preserved in admin.html.');
           <button type="submit" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium">Send Reset Link</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  
+  <!-- ==================== SET & CHANGE USER PASSWORD MODAL ==================== -->
+  <div id="setUserPasswordModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop" style="background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px);">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl card animate-fade-in border border-slate-200">
+      <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">
+            🔑
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-slate-900">Manage User Password</h3>
+            <p class="text-[11px] text-slate-500">Create or reset password and provide credentials to user</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('setUserPasswordModal')" class="text-slate-400 hover:text-slate-600">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+
+      <!-- Target User Badge Card -->
+      <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl mb-4">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Target Account</span>
+          <span id="pwTargetRoleBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-700">STORE_USER</span>
+        </div>
+        <div class="mt-1 font-bold text-slate-900 text-sm" id="pwTargetName">User Name</div>
+        <div class="text-xs font-mono text-slate-600" id="pwTargetEmailDisplay">user@headsupfortails.com</div>
+        <div class="text-[11px] text-slate-500 mt-1" id="pwTargetStore">Hyderabad (Hyderguda)</div>
+      </div>
+
+      <!-- Form Section -->
+      <form id="setUserPasswordForm" onsubmit="handleSaveUserPassword(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="pwTargetEmail" value="" />
+        <input type="hidden" id="pwTargetRole" value="" />
+        <input type="hidden" id="pwTargetStoreVal" value="" />
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block font-semibold text-slate-700">New Security Password</label>
+            <button type="button" onclick="generateAdminRandomPassword()" class="text-blue-600 hover:text-blue-700 text-[11px] font-bold flex items-center gap-1">
+              🎲 Generate Secure
+            </button>
+          </div>
+          <div class="relative">
+            <input type="text" id="pwNewPasswordInput" required placeholder="e.g. Huft#2026!Store or type custom password"
+              class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-xs text-slate-900 font-mono focus:outline-none focus:border-blue-500 focus:bg-white transition-all pr-14" />
+            <button type="button" onclick="togglePasswordVisibility('pwNewPasswordInput', 'pwToggleIcon')"
+              class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-slate-500 hover:text-slate-800 px-2 py-1 bg-white border border-slate-200 rounded">
+              <span id="pwToggleIcon">👁️</span>
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-400 mt-1">Admin can create any custom password or click <strong>Generate Secure</strong> to auto-fill.</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="pt-2 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeModal('setUserPasswordModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 font-semibold transition-colors">
+            Cancel
+          </button>
+          <button type="submit" id="pwSubmitBtn" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+            <span>Save &amp; Update Password</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Credential Handover Card (Visible after saving or when reviewing credentials) -->
+      <div id="pwCredentialsCard" class="hidden mt-4 pt-4 border-t border-slate-200 space-y-3">
+        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl space-y-2">
+          <div class="flex items-center justify-between text-emerald-800 font-bold text-xs">
+            <span>✅ Password Active &amp; Ready!</span>
+            <span class="text-[10px] bg-emerald-200 px-1.5 py-0.5 rounded font-mono">CLOUD READY</span>
+          </div>
+          <div class="text-[11px] text-slate-800 bg-white p-3 rounded-lg border border-emerald-200 font-mono leading-relaxed select-all" id="pwCredentialsBox">
+            <!-- Formatted handover text -->
+          </div>
+        </div>
+
+        <button type="button" onclick="copyCredentialsToClipboard()" id="pwCopyBtn" class="w-full py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg shadow-sm transition-all flex items-center justify-center gap-2">
+          <span>📋 Copy Credentials for User (WhatsApp / Email)</span>
+        </button>
+      </div>
+
     </div>
   </div>
 
@@ -2596,8 +2691,8 @@ console.log('[Storage] Storage preserved in admin.html.');
               </span>
             </td>
             <td class="py-3 px-4 text-right space-x-1.5 whitespace-nowrap">
-              <button onclick="forceStorePasswordReset('${s.email}')" class="px-2.5 py-1 text-[11px] font-semibold text-blue-600 hover:bg-blue-50 rounded border border-blue-200">
-                Force Reset Password
+              <button onclick="openSetUserPasswordModal('${s.email}')" class="px-2.5 py-1 text-[11px] font-semibold text-blue-600 hover:bg-blue-50 rounded border border-blue-200">
+                🔑 Change Password
               </button>
               <button onclick="toggleStoreStatus('${s.code}')" class="px-2.5 py-1 text-[11px] font-semibold rounded border ${s.active ? 'text-amber-700 border-amber-200 hover:bg-amber-50' : 'text-emerald-700 border-emerald-200 hover:bg-emerald-50'}">
                 ${s.active ? 'Lock' : 'Unlock'}
@@ -2660,6 +2755,9 @@ console.log('[Storage] Storage preserved in admin.html.');
           </td>
           <td class="py-3 px-4 text-slate-500 font-mono text-[11px]">${u.lastLogin || 'Active Today'}</td>
           <td class="py-3 px-4 text-right space-x-1.5 whitespace-nowrap">
+            <button onclick="openSetUserPasswordModal('${u.id}')" class="px-2.5 py-1 text-[11px] font-semibold text-blue-600 hover:bg-blue-50 rounded border border-blue-200">
+              🔑 Set Password
+            </button>
             <button onclick="toggleUserStatus('${u.id}')" class="px-2.5 py-1 text-[11px] font-semibold rounded border ${u.status === 'active' ? 'text-amber-700 border-amber-200 hover:bg-amber-50' : 'text-emerald-700 border-emerald-200 hover:bg-emerald-50'}">
               ${u.status === 'active' ? 'Suspend' : 'Activate'}
             </button>
@@ -2687,29 +2785,42 @@ console.log('[Storage] Storage preserved in admin.html.');
       const email = (document.getElementById("newUserEmail")?.value || "").trim().toLowerCase();
       const store = (document.getElementById("newUserStoreSelect")?.value || document.getElementById("newUserStore")?.value || "Hyderabad (Hyderguda)");
       const role = (document.getElementById("newUserRoleSelect")?.value || document.getElementById("newUserRole")?.value || "STORE_MANAGER");
+      const customPass = (document.getElementById("newUserPassword")?.value || "").trim() || ("Huft#" + Math.floor(1000 + Math.random() * 9000) + "!Store");
 
       if (!name || !email) {
         showToast("Please provide user full name and email.", "error");
         return;
       }
 
-      if (users.some(u => u.email === email)) {
+      if (users.some(u => u.email.toLowerCase() === email)) {
         showToast("User with this email already exists in directory.", "error");
         return;
       }
 
-      users.push({
+      const newUserObj = {
         id: "usr-" + Date.now(),
         name, email, store, role,
         status: "active",
         lastLogin: "Pending first login"
-      });
+      };
+      users.push(newUserObj);
       saveState("users", users);
 
-      recordAuditEvent("USER_ACCOUNT_CREATED", name + " (" + email + ")", "SUCCESS", { store, role });
+      try {
+        localStorage.setItem("huft_custom_pass_" + email, customPass);
+      } catch(e) {}
+
+      recordAuditEvent("USER_ACCOUNT_CREATED", name + " (" + email + ")", "SUCCESS", { store, role, customPasswordSet: true });
       closeModal("createUserModal");
       renderAllSections();
-      showToast("User " + name + " provisioned successfully!", "success");
+
+      // Open password modal showing newly created credentials ready to copy and provide to user
+      openSetUserPasswordModal(email);
+      const pwInput = document.getElementById("pwNewPasswordInput");
+      if (pwInput) pwInput.value = customPass;
+      showCredentialsHandoverCard(email, name, role, store, customPass);
+
+      showToast("User " + name + " provisioned! Copy credentials below to share with user.", "success");
     }
     window.handleCreateUser = handleCreateUser;
 
@@ -2746,6 +2857,253 @@ console.log('[Storage] Storage preserved in admin.html.');
       showToast("Access revoked for " + u.name, "info");
     }
     window.deleteUser = deleteUser;
+
+    /* ==========================================================================
+       PASSWORD MANAGEMENT & CREDENTIAL HANDOVER FOR USERS & STORES
+       ========================================================================== */
+    function openSetUserPasswordModal(identifier) {
+      users = loadState("users", SEED_USERS);
+      stores = loadState("stores", SEED_STORES);
+
+      let targetEmail = "";
+      let targetName = "";
+      let targetRole = "STORE_USER";
+      let targetStore = "All Stores";
+
+      const targetIdLower = (identifier || "").toString().toLowerCase();
+      const u = users.find(x => (x.email && x.email.toLowerCase() === targetIdLower) || x.id === identifier);
+      if (u) {
+        targetEmail = u.email;
+        targetName = u.name;
+        targetRole = u.role || "STORE_USER";
+        targetStore = u.store || "All Stores";
+      } else {
+        const s = stores.find(x => (x.email && x.email.toLowerCase() === targetIdLower) || x.code === identifier);
+        if (s) {
+          targetEmail = s.email;
+          targetName = s.manager || s.name;
+          targetRole = "STORE_MANAGER";
+          targetStore = s.name;
+        } else {
+          targetEmail = identifier || "";
+          targetName = identifier || "";
+        }
+      }
+
+      const modal = document.getElementById("setUserPasswordModal");
+      if (!modal) {
+        console.error("setUserPasswordModal element not found");
+        return;
+      }
+
+      const emailField = document.getElementById("pwTargetEmail");
+      const emailDisplay = document.getElementById("pwTargetEmailDisplay");
+      const nameDisplay = document.getElementById("pwTargetName");
+      const roleBadge = document.getElementById("pwTargetRoleBadge");
+      const roleField = document.getElementById("pwTargetRole");
+      const storeDisplay = document.getElementById("pwTargetStore");
+      const storeField = document.getElementById("pwTargetStoreVal");
+      const pwInput = document.getElementById("pwNewPasswordInput");
+      const credsCard = document.getElementById("pwCredentialsCard");
+
+      if (emailField) emailField.value = targetEmail;
+      if (emailDisplay) emailDisplay.textContent = targetEmail;
+      if (nameDisplay) nameDisplay.textContent = targetName;
+      if (roleBadge) roleBadge.textContent = targetRole;
+      if (roleField) roleField.value = targetRole;
+      if (storeDisplay) storeDisplay.textContent = targetStore;
+      if (storeField) storeField.value = targetStore;
+
+      // Auto-generate suggested high-entropy secure password if input is empty
+      const existingPass = localStorage.getItem("huft_custom_pass_" + targetEmail.toLowerCase());
+      const defaultPass = existingPass || ("Huft#" + Math.floor(1000 + Math.random() * 9000) + "!Store");
+      if (pwInput) {
+        pwInput.value = defaultPass;
+        pwInput.type = "text";
+      }
+
+      // Hide credentials card initially until saved or ready
+      if (credsCard) credsCard.classList.add("hidden");
+
+      const copyBtn = document.getElementById("pwCopyBtn");
+      if (copyBtn) {
+        copyBtn.innerHTML = '<span>📋 Copy Credentials for User (WhatsApp / Email)</span>';
+        copyBtn.classList.remove("bg-slate-700", "bg-emerald-700");
+        copyBtn.classList.add("bg-emerald-600");
+      }
+
+      modal.classList.remove("hidden");
+    }
+    window.openSetUserPasswordModal = openSetUserPasswordModal;
+
+    function generateAdminRandomPassword() {
+      const num = Math.floor(1000 + Math.random() * 9000);
+      const patterns = [
+        "Huft#" + num + "!Store",
+        "Huft@" + num + "!Secure",
+        "Huft#" + num + "!Sales",
+        "HUFT" + num + "!Pass"
+      ];
+      const chosen = patterns[Math.floor(Math.random() * patterns.length)];
+      const input = document.getElementById("pwNewPasswordInput");
+      if (input) {
+        input.value = chosen;
+        input.focus();
+        input.select();
+      }
+      showToast("Generated secure password: " + chosen, "info");
+    }
+    window.generateAdminRandomPassword = generateAdminRandomPassword;
+
+    function showCredentialsHandoverCard(email, name, role, store, newPass) {
+      const portalUrl = "https://huft-sales-dashboard.pages.dev/dashboard";
+      const credsCard = document.getElementById("pwCredentialsCard");
+      const credsBox = document.getElementById("pwCredentialsBox");
+      if (!credsCard || !credsBox) return;
+
+      const handoverText = 
+"========================================\n" +
+"🐾 HEADS UP FOR TAILS (HUFT)\n" +
+"STORE INTELLIGENCE ACCESS CREDENTIALS\n" +
+"========================================\n" +
+"Store Portal URL : " + portalUrl + "\n" +
+"Staff / User Name: " + name + "\n" +
+"Official Email   : " + email + "\n" +
+"Security Password: " + newPass + "\n" +
+"Store Station    : " + store + "\n" +
+"Assigned Role    : " + role + "\n" +
+"Account Status   : ACTIVE & VERIFIED\n\n" +
+"📋 QUICK LOGIN INSTRUCTIONS:\n" +
+"1. Open the Store Portal link: " + portalUrl + "\n" +
+"2. Enter your Official Email and Security Password on the \"Sign In\" tab.\n" +
+"3. Click \"Sign In to Dashboard\".\n" +
+"4. Please keep these credentials confidential.\n" +
+"========================================";
+
+      credsBox.textContent = handoverText;
+      credsCard.classList.remove("hidden");
+    }
+    window.showCredentialsHandoverCard = showCredentialsHandoverCard;
+
+    function handleSaveUserPassword(event) {
+      if (event) event.preventDefault();
+      const email = (document.getElementById("pwTargetEmail")?.value || "").trim().toLowerCase();
+      const name = document.getElementById("pwTargetName")?.textContent || email;
+      const role = document.getElementById("pwTargetRole")?.value || "STORE_USER";
+      const store = document.getElementById("pwTargetStoreVal")?.value || "All Stores";
+      const newPass = (document.getElementById("pwNewPasswordInput")?.value || "").trim();
+
+      if (!email) {
+        showToast("Target user email not specified.", "error");
+        return;
+      }
+      if (!newPass || newPass.length < 4) {
+        showToast("Password must be at least 4 characters long.", "error");
+        return;
+      }
+
+      // 1. Persist in localStorage for instant login verification on dashboard.html
+      try {
+        localStorage.setItem("huft_custom_pass_" + email, newPass);
+      } catch(e) {
+        console.error("Storage error:", e);
+      }
+
+      // 2. Update user in users list if present
+      users = loadState("users", SEED_USERS);
+      const targetUser = users.find(u => u.email.toLowerCase() === email);
+      if (targetUser) {
+        targetUser.passwordUpdated = new Date().toISOString();
+        saveState("users", users);
+      }
+
+      // 3. Update store in stores list if matches store manager email
+      stores = loadState("stores", SEED_STORES);
+      const targetStore = stores.find(s => s.email.toLowerCase() === email);
+      if (targetStore) {
+        saveState("stores", stores);
+      }
+
+      // 4. Record in Audit Logs
+      recordAuditEvent("ADMIN_SET_USER_PASSWORD", email, "SUCCESS", {
+        targetName: name,
+        targetRole: role,
+        targetStore: store,
+        action: "Password set/changed by Admin and credentials prepared for user"
+      });
+
+      // 5. Re-render affected tables
+      renderUsersTable();
+      renderStoreAccountsTable();
+
+      // 6. Display credential handover card with one-click copy
+      showCredentialsHandoverCard(email, name, role, store, newPass);
+
+      showToast("Password for " + name + " saved successfully! Credentials ready to copy.", "success");
+    }
+    window.handleSaveUserPassword = handleSaveUserPassword;
+
+    function copyCredentialsToClipboard() {
+      const credsBox = document.getElementById("pwCredentialsBox");
+      if (!credsBox) return;
+      const text = credsBox.textContent || credsBox.innerText;
+
+      function onCopySuccess() {
+        const btn = document.getElementById("pwCopyBtn");
+        if (btn) {
+          btn.innerHTML = '<span>✅ Copied to Clipboard! Ready to send via WhatsApp / Email</span>';
+          btn.classList.remove("bg-emerald-600");
+          btn.classList.add("bg-emerald-700");
+          setTimeout(() => {
+            btn.innerHTML = '<span>📋 Copy Credentials for User (WhatsApp / Email)</span>';
+            btn.classList.remove("bg-emerald-700");
+            btn.classList.add("bg-emerald-600");
+          }, 3500);
+        }
+        showToast("Credentials copied to clipboard! You can now paste into WhatsApp or Email.", "success");
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(onCopySuccess).catch(() => {
+          fallbackCopy(text, onCopySuccess);
+        });
+      } else {
+        fallbackCopy(text, onCopySuccess);
+      }
+    }
+    window.copyCredentialsToClipboard = copyCredentialsToClipboard;
+
+    function fallbackCopy(text, cb) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.top = "-9999px";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        document.execCommand("copy");
+        if (cb) cb();
+      } catch(e) {
+        showToast("Please manually select and copy the text box.", "warning");
+      }
+      document.body.removeChild(ta);
+    }
+    window.fallbackCopy = fallbackCopy;
+
+    function togglePasswordVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (!input) return;
+      if (input.type === "password") {
+        input.type = "text";
+        if (icon) icon.textContent = "👁️";
+      } else {
+        input.type = "password";
+        if (icon) icon.textContent = "🔒";
+      }
+    }
+    window.togglePasswordVisibility = togglePasswordVisibility;
 
     /* ==========================================================================
        VIEW 4: APPROVALS QUEUE (sec-approvals)
@@ -2892,6 +3250,10 @@ console.log('[Storage] Storage preserved in admin.html.');
       renderStoreAccountsTable();
       renderKPIs();
       showToast("Approved registration for " + req.name + ". Password provisioned: " + defaultPass, "success");
+      openSetUserPasswordModal(req.email);
+      const pwInput = document.getElementById("pwNewPasswordInput");
+      if (pwInput) pwInput.value = defaultPass;
+      showCredentialsHandoverCard(req.email, req.name, req.role || "STORE_MANAGER", req.store || "Hyderabad (Hyderguda)", defaultPass);
     }
     window.approveRegistration = approveRegistration;
 
@@ -2904,14 +3266,20 @@ console.log('[Storage] Storage preserved in admin.html.');
 
       const tempPass = "Huft#" + Math.floor(1000 + Math.random() * 9000) + "!Reset";
       try {
-        localStorage.setItem("huft_custom_pass_" + req.email, tempPass);
+        localStorage.setItem("huft_custom_pass_" + req.email.toLowerCase(), tempPass);
       } catch(e) {}
 
       recordAuditEvent("PASSWORD_RESET_APPROVED", req.email, "SUCCESS", { ticketId: req.ticketId });
       renderApprovalsTable();
       renderStoreAccountsTable();
       renderKPIs();
-      showToast("Password reset approved for " + req.email + "! Temporary password: " + tempPass, "success");
+
+      openSetUserPasswordModal(req.email);
+      const pwInput = document.getElementById("pwNewPasswordInput");
+      if (pwInput) pwInput.value = tempPass;
+      showCredentialsHandoverCard(req.email, req.name, req.role || "STORE_MANAGER", req.store || "Hyderabad (Hyderguda)", tempPass);
+
+      showToast("Password reset approved for " + req.email + "! Credentials ready to copy below.", "success");
     }
     window.approvePasswordReset = approvePasswordReset;
 

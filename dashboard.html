@@ -836,119 +836,168 @@ html body #huftLoginOverlay {
 /* ==========================================================================
    RIGHT-HAND PORTAL CARD (#171C2A Dark Glassmorphism)
    ========================================================================== */
+/* ==========================================================================
+   LIGHT-MODE RIGHT-HAND AUTHENTICATION CARD & UNDERLINE TABS
+   ========================================================================== */
+
+/* Autofill override: pure white input background */
+#huftLoginOverlay input:-webkit-autofill,
+#huftLoginOverlay input:-webkit-autofill:hover, 
+#huftLoginOverlay input:-webkit-autofill:focus, 
+#huftLoginOverlay input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #FFFFFF inset !important;
+  -webkit-text-fill-color: #0F172A !important;
+  caret-color: #0F172A !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Right-Hand Light Card Surface */
 #huftLoginOverlay .login-panel {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 460px;
-  padding: clamp(26px, 3.2vw, 38px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 24px;
-  background: linear-gradient(155deg, rgba(28, 35, 52, 0.94) 0%, rgba(23, 28, 42, 0.96) 60%, rgba(18, 22, 34, 0.98) 100%);
-  backdrop-filter: blur(24px) saturate(140%);
-  -webkit-backdrop-filter: blur(24px) saturate(140%);
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-  margin: 0 auto;
+  position: relative !important;
+  z-index: 2 !important;
+  width: 100% !important;
+  max-width: 440px !important;
+  padding: 32px 30px !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 16px !important;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.42), 0 0 1px 1px rgba(0, 0, 0, 0.05) !important;
+  margin: 0 auto !important;
+  color: #0F172A !important;
+  box-sizing: border-box !important;
 }
 
 #huftLoginOverlay .panel-head {
-  margin-bottom: 18px;
+  margin-bottom: 18px !important;
+  text-align: left !important;
 }
 #huftLoginOverlay .mini-brand {
-  font-weight: 800;
-  color: #ffaa82;
-  letter-spacing: 0.14em;
-  font-size: 11px;
-  text-transform: uppercase;
+  font-weight: 700 !important;
+  color: #4F46E5 !important;
+  letter-spacing: 0.12em !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  margin-bottom: 6px !important;
+  display: block !important;
 }
 #huftLoginOverlay .portal-dynamic-title {
-  font-size: 25px;
-  letter-spacing: -0.03em;
-  margin: 8px 0 5px;
-  font-weight: 800;
-  color: #ffffff;
-  transition: all 0.2s ease;
+  font-size: 24px !important;
+  letter-spacing: -0.025em !important;
+  margin: 0 0 6px 0 !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  line-height: 1.25 !important;
+  transition: color 0.2s ease !important;
 }
 #huftLoginOverlay .portal-dynamic-sub {
-  font-size: 13px;
-  color: #94a3b8;
-  margin: 0;
-  line-height: 1.45;
-  transition: all 0.2s ease;
+  font-size: 13px !important;
+  color: #64748B !important;
+  margin: 0 !important;
+  line-height: 1.5 !important;
+  transition: color 0.2s ease !important;
 }
 
 /* --------------------------------------------------------------------------
-   TOP 3-TAB SWITCHER (role="tablist")
+   UNDERLINE TAB BAR (role="tablist")
    -------------------------------------------------------------------------- */
 #huftLoginOverlay .portal-tab-bar {
-  display: flex;
-  gap: 4px;
-  background: rgba(11, 15, 25, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: 12px;
-  padding: 4px;
-  margin-bottom: 20px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35);
+  display: flex !important;
+  gap: 0 !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 20px 0 22px 0 !important;
+  box-shadow: none !important;
+  width: 100% !important;
 }
 #huftLoginOverlay .portal-tab-btn {
   flex: 1 !important;
-  padding: 9px 8px !important;
-  font-size: 12.5px !important;
+  padding: 10px 8px !important;
+  font-size: 13px !important;
   font-weight: 600 !important;
-  border-radius: 8px !important;
+  border-radius: 0 !important;
   border: none !important;
+  border-bottom: 2px solid transparent !important;
   background: transparent !important;
   background-color: transparent !important;
-  color: #94a3b8 !important;
+  color: #64748B !important;
   cursor: pointer !important;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: all 0.18s ease !important;
   text-align: center !important;
   outline: none !important;
   white-space: nowrap !important;
   box-shadow: none !important;
+  margin-bottom: -1px !important;
   height: auto !important;
   min-height: 0 !important;
   transform: none !important;
 }
 #huftLoginOverlay .portal-tab-btn:hover:not(.active) {
-  color: #ffffff !important;
-  background: rgba(255, 255, 255, 0.08) !important;
+  color: #0F172A !important;
+  border-bottom-color: #CBD5E1 !important;
+  background: transparent !important;
   box-shadow: none !important;
 }
 #huftLoginOverlay .portal-tab-btn.active {
-  background: linear-gradient(135deg, #E06324 0%, #C85017 100%) !important;
-  background-color: #E06324 !important;
-  color: #ffffff !important;
+  color: #4F46E5 !important;
+  border-bottom: 2px solid #4F46E5 !important;
+  background: transparent !important;
+  background-color: transparent !important;
   font-weight: 700 !important;
-  box-shadow: 0 4px 14px rgba(224, 99, 36, 0.42) !important;
+  box-shadow: none !important;
+  margin-bottom: -1px !important;
 }
 
 /* --------------------------------------------------------------------------
-   FORM FIELDS & INPUTS
+   ALERTS & FEEDBACK
+   -------------------------------------------------------------------------- */
+#huftLoginOverlay .huft-login-alert {
+  background: #FEF2F2 !important;
+  border: 1px solid #FECACA !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+  margin-bottom: 16px !important;
+  color: #991B1B !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  display: none;
+  align-items: center !important;
+  gap: 8px !important;
+}
+#huftLoginOverlay .huft-login-alert.shake {
+  animation: huftShake 0.4s ease-in-out;
+}
+
+/* --------------------------------------------------------------------------
+   INPUT FIELDS & CONTROLS
    -------------------------------------------------------------------------- */
 #huftLoginOverlay .portal-field {
-  position: relative;
-  margin-bottom: 14px;
+  margin-bottom: 16px !important;
+  text-align: left !important;
 }
 #huftLoginOverlay .portal-label {
-  display: block;
-  font-size: 12.5px;
-  font-weight: 700;
-  color: #f1f5f9;
-  margin-bottom: 6px;
+  display: block !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  margin-bottom: 6px !important;
+  letter-spacing: 0.01em !important;
 }
 #huftLoginOverlay .portal-input-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
 }
 #huftLoginOverlay .portal-input-icon {
-  position: absolute;
-  left: 13px;
-  font-size: 15px;
-  pointer-events: none;
-  opacity: 0.8;
-  z-index: 1;
+  position: absolute !important;
+  left: 13px !important;
+  font-size: 14px !important;
+  pointer-events: none !important;
+  color: #94A3B8 !important;
+  opacity: 0.9 !important;
+  z-index: 1 !important;
 }
 #huftLoginOverlay .portal-input,
 #huftLoginOverlay .portal-select,
@@ -957,33 +1006,33 @@ html body #huftLoginOverlay {
 #huftLoginOverlay select.portal-select,
 #huftLoginOverlay textarea.portal-textarea {
   width: 100% !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.16) !important;
-  border-radius: 12px !important;
-  background: rgba(11, 15, 25, 0.85) !important;
-  background-color: rgba(11, 15, 25, 0.85) !important;
-  color: #ffffff !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 10px !important;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
   font-family: inherit !important;
   font-size: 13.5px !important;
   outline: none !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.45) !important;
-  transition: all 0.2s ease !important;
+  box-shadow: none !important;
+  transition: all 0.18s ease !important;
+  box-sizing: border-box !important;
 }
 #huftLoginOverlay .portal-input,
 #huftLoginOverlay .portal-select {
-  height: 48px !important;
-  line-height: 48px !important;
-}
-#huftLoginOverlay .portal-textarea {
-  min-height: 70px !important;
-  height: 70px !important;
-  padding: 10px 14px !important;
-  resize: vertical !important;
+  height: 44px !important;
+  line-height: 44px !important;
 }
 #huftLoginOverlay .portal-input.has-icon {
-  padding: 0 16px 0 42px !important;
+  padding: 0 14px 0 38px !important;
 }
 #huftLoginOverlay .portal-input.has-toggle {
-  padding: 0 76px 0 42px !important;
+  padding: 0 76px 0 38px !important;
+}
+#huftLoginOverlay .portal-input::placeholder,
+#huftLoginOverlay .portal-textarea::placeholder {
+  color: #94A3B8 !important;
+  opacity: 1 !important;
 }
 #huftLoginOverlay .portal-select {
   padding: 0 14px !important;
@@ -991,68 +1040,77 @@ html body #huftLoginOverlay {
   appearance: auto !important;
 }
 #huftLoginOverlay .portal-select option {
-  background: #111827 !important;
-  color: #ffffff !important;
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+}
+#huftLoginOverlay .portal-textarea {
+  min-height: 64px !important;
+  height: 64px !important;
+  padding: 10px 14px !important;
+  resize: vertical !important;
 }
 #huftLoginOverlay .portal-input:focus,
 #huftLoginOverlay .portal-select:focus,
 #huftLoginOverlay .portal-textarea:focus {
-  border-color: #E06324 !important;
-  box-shadow: 0 0 0 3px rgba(224, 99, 36, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.45) !important;
-  background: rgba(11, 15, 25, 0.95) !important;
-  background-color: rgba(11, 15, 25, 0.95) !important;
-}
-#huftLoginOverlay .portal-input::placeholder,
-#huftLoginOverlay .portal-textarea::placeholder {
-  color: #64748b;
+  border-color: #4F46E5 !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.14) !important;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
 }
 
-/* Integrated Terracotta Show/Hide Toggle Pill */
+/* Password Toggle Pill */
 #huftLoginOverlay .portal-pw-toggle-pill {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(224, 99, 36, 0.18);
-  border: 1px solid rgba(224, 99, 36, 0.40);
-  color: #ffaa82;
-  border-radius: 8px;
-  padding: 5px 12px;
-  font-size: 11.5px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 2;
+  position: absolute !important;
+  right: 8px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: #F8FAFC !important;
+  background-color: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  color: #4F46E5 !important;
+  padding: 4px 10px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: uppercase !important;
+  border-radius: 999px !important;
+  cursor: pointer !important;
+  transition: all 0.18s ease !important;
+  height: auto !important;
+  min-height: 0 !important;
+  box-shadow: none !important;
 }
 #huftLoginOverlay .portal-pw-toggle-pill:hover {
-  background: rgba(224, 99, 36, 0.32);
-  color: #ffffff;
-  border-color: #E06324;
+  background: #EEF2FF !important;
+  background-color: #EEF2FF !important;
+  border-color: #C7D2FE !important;
+  color: #4338CA !important;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.15) !important;
 }
 
-/* Utility Row (Keep me signed in + Forgot trigger) */
+/* Utility Row: Checkbox + Forgot Password Link */
 #huftLoginOverlay .portal-utility-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 12px 0 18px;
-  font-size: 12.5px;
-  color: #adb8ca;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin: 16px 0 20px 0 !important;
 }
 #huftLoginOverlay .portal-checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  color: #cbd5e1;
-  font-size: 12.5px;
-  user-select: none;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+  color: #475569 !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  user-select: none !important;
 }
 #huftLoginOverlay .portal-checkbox {
-  accent-color: #E06324;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
+  width: 15px !important;
+  height: 15px !important;
+  accent-color: #4F46E5 !important;
+  cursor: pointer !important;
+  margin: 0 !important;
 }
 #huftLoginOverlay .portal-link-btn,
 #huftLoginOverlay button.portal-link-btn,
@@ -1062,8 +1120,8 @@ html body #huftLoginOverlay {
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
-  color: #E06324 !important;
-  font-weight: 700 !important;
+  color: #4F46E5 !important;
+  font-weight: 600 !important;
   font-size: 12.5px !important;
   cursor: pointer !important;
   padding: 0 !important;
@@ -1074,283 +1132,231 @@ html body #huftLoginOverlay {
   height: auto !important;
   min-height: 0 !important;
   transform: none !important;
+  transition: color 0.18s ease !important;
 }
 #huftLoginOverlay .portal-link-btn:hover,
 #huftLoginOverlay button.portal-link-btn:hover,
 #huftLoginOverlay a.portal-link-btn:hover {
   background: transparent !important;
-  color: #ffaa82 !important;
+  color: #4338CA !important;
   text-decoration: underline !important;
   box-shadow: none !important;
 }
 
-/* Primary CTA Button (Terracotta Gradient #E06324 to #C85017) */
+/* Primary CTA Button (Indigo #4F46E5) */
 #huftLoginOverlay .portal-primary-btn {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 50px;
-  border: 1px solid rgba(255, 177, 139, 0.45);
-  border-radius: 12px;
-  background: linear-gradient(100deg, #C85017 0%, #E06324 54%, #B84711 100%);
-  color: #ffffff;
-  font-family: inherit;
-  font-weight: 800;
-  font-size: 14.5px;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  box-shadow: 0 10px 25px rgba(200, 80, 23, 0.35);
-  transition: transform 0.18s, filter 0.18s, box-shadow 0.18s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-#huftLoginOverlay .portal-primary-btn:after {
-  content: "";
-  position: absolute;
-  top: -30%;
-  left: -60%;
-  height: 160%;
-  width: 35%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-  transform: skewX(-20deg);
-  animation: huftShine 5s ease-in-out infinite;
-}
-@keyframes huftShine {
-  0%, 70%, 100% { left: -60%; }
-  85% { left: 140%; }
+  position: relative !important;
+  overflow: hidden !important;
+  width: 100% !important;
+  height: 46px !important;
+  border: 1px solid #4338CA !important;
+  border-radius: 10px !important;
+  background: #4F46E5 !important;
+  background-color: #4F46E5 !important;
+  color: #FFFFFF !important;
+  font-family: inherit !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  letter-spacing: 0.01em !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3) !important;
+  transition: all 0.18s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
 }
 #huftLoginOverlay .portal-primary-btn:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-  box-shadow: 0 14px 30px rgba(200, 80, 23, 0.48);
+  background: #4338CA !important;
+  background-color: #4338CA !important;
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4) !important;
+  transform: translateY(-1px) !important;
 }
 #huftLoginOverlay .portal-primary-btn:active {
-  transform: translateY(1px);
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25) !important;
 }
 #huftLoginOverlay .portal-primary-btn:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-  transform: none;
+  opacity: 0.7 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
 }
 
-/* Soft Terracotta Shield Notice Banner */
+/* Notice Banner */
 #huftLoginOverlay .portal-notice-banner {
-  background: rgba(224, 99, 36, 0.09);
-  border: 1px solid rgba(224, 99, 36, 0.24);
-  color: #ffcaa8;
-  font-size: 11.5px;
-  border-radius: 10px;
-  padding: 8px 12px;
-  margin-top: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  line-height: 1.4;
+  margin-top: 18px !important;
+  padding: 10px 12px !important;
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 10px !important;
+  font-size: 12px !important;
+  color: #475569 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  line-height: 1.4 !important;
+  text-align: left !important;
 }
-#huftLoginOverlay .portal-security-note {
-  background: rgba(245, 158, 11, 0.10);
-  border: 1px solid rgba(245, 158, 11, 0.28);
-  color: #fde68a;
-  font-size: 12px;
-  border-radius: 10px;
-  padding: 10px 12px;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  line-height: 1.45;
+#huftLoginOverlay .notice-icon {
+  font-size: 14px !important;
+  flex: 0 0 auto !important;
 }
 
-/* Trust Indicators Row */
+/* Card Footer Trust Strip */
 #huftLoginOverlay .portal-trust-row {
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 11px;
-  color: #8995a9;
+  margin-top: 20px !important;
+  padding-top: 14px !important;
+  border-top: 1px solid #F1F5F9 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  font-size: 11px !important;
+  color: #64748B !important;
 }
 #huftLoginOverlay .trust-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  font-weight: 600 !important;
+  font-size: 11px !important;
 }
-#huftLoginOverlay .trust-green { color: #10b981; }
-#huftLoginOverlay .trust-blue { color: #60a5fa; }
-#huftLoginOverlay .trust-purple { color: #c084fc; }
-
-/* Alert Message */
-#huftLoginOverlay .huft-login-alert {
-  background: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.35);
-  color: #fca5a5;
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-size: 12.5px;
-  margin-bottom: 16px;
-  display: none;
-  align-items: center;
-  gap: 8px;
+#huftLoginOverlay .trust-item.trust-green {
+  color: #16A34A !important;
 }
-#huftLoginOverlay .huft-login-alert.shake {
-  animation: huftShake 0.4s ease-in-out;
+#huftLoginOverlay .trust-item.trust-blue {
+  color: #2563EB !important;
 }
-@keyframes huftShake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-6px); }
-  40%, 80% { transform: translateX(6px); }
+#huftLoginOverlay .trust-item.trust-indigo {
+  color: #4F46E5 !important;
 }
 
-/* Inline Confirmation Cards (Sign Up & Forgot Password) */
+/* Inline Confirmation Card */
 #huftLoginOverlay .portal-confirmation-card {
-  padding: 24px 18px;
-  background: rgba(11, 15, 25, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  text-align: center;
-  animation: huftConfirmFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-@keyframes huftConfirmFade {
-  from { opacity: 0; transform: translateY(10px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 12px !important;
+  padding: 24px 18px !important;
+  text-align: center !important;
+  animation: huftFadeIn 0.3s ease-out !important;
 }
 #huftLoginOverlay .confirm-icon-wrap {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  margin: 0 auto 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto 12px !important;
+  font-size: 20px !important;
+  font-weight: 900 !important;
 }
 #huftLoginOverlay .confirm-icon-wrap.success {
-  background: rgba(16, 185, 129, 0.18);
-  border: 1.5px solid rgba(16, 185, 129, 0.45);
-  color: #34d399;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+  background: #DCFCE7 !important;
+  color: #16A34A !important;
 }
 #huftLoginOverlay .confirm-icon-wrap.shield {
-  background: rgba(224, 99, 36, 0.18);
-  border: 1.5px solid rgba(224, 99, 36, 0.45);
-  color: #ffaa82;
-  box-shadow: 0 0 20px rgba(224, 99, 36, 0.25);
+  background: #EEF2FF !important;
+  color: #4F46E5 !important;
 }
 #huftLoginOverlay .confirm-title {
-  font-size: 19px;
-  font-weight: 800;
-  color: #ffffff;
-  margin: 0 0 8px;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  margin: 0 0 6px 0 !important;
 }
 #huftLoginOverlay .ticket-badge {
-  display: inline-block;
-  background: rgba(224, 99, 36, 0.18);
-  border: 1px solid rgba(224, 99, 36, 0.45);
-  color: #ffcaa8;
-  font-family: monospace;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 20px;
-  margin-bottom: 12px;
-  letter-spacing: 0.05em;
+  display: inline-block !important;
+  background: #EEF2FF !important;
+  color: #4F46E5 !important;
+  border: 1px solid #C7D2FE !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  border-radius: 999px !important;
+  padding: 3px 12px !important;
+  margin-bottom: 12px !important;
 }
 #huftLoginOverlay .confirm-msg {
-  font-size: 13px;
-  color: #cbd5e1;
-  line-height: 1.55;
-  margin: 0 0 16px;
+  font-size: 12px !important;
+  color: #64748B !important;
+  line-height: 1.45 !important;
+  margin: 0 0 16px 0 !important;
 }
 #huftLoginOverlay .confirm-details-box {
-  background: rgba(23, 28, 42, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  padding: 10px 14px;
-  margin-bottom: 18px;
-  text-align: left;
-  font-size: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 8px !important;
+  padding: 10px 12px !important;
+  margin-bottom: 16px !important;
+  text-align: left !important;
 }
 #huftLoginOverlay .confirm-detail-row {
-  display: flex;
-  justify-content: space-between;
-  color: #94a3b8;
+  display: flex !important;
+  justify-content: space-between !important;
+  font-size: 12px !important;
+  padding: 3px 0 !important;
+  color: #475569 !important;
 }
 #huftLoginOverlay .confirm-detail-row strong {
-  color: #f1f5f9;
+  color: #0F172A !important;
 }
 #huftLoginOverlay .portal-return-btn {
-  width: 100%;
-  height: 44px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  color: #ffffff;
-  border-radius: 10px;
-  font-size: 13.5px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 40px !important;
+  border: 1px solid #4338CA !important;
+  border-radius: 8px !important;
+  background: #4F46E5 !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  transition: all 0.18s ease !important;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25) !important;
 }
 #huftLoginOverlay .portal-return-btn:hover {
-  background: rgba(224, 99, 36, 0.25);
-  border-color: #E06324;
-  color: #ffcaa8;
+  background: #4338CA !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35) !important;
 }
 
-/* Responsive */
+/* Security Note (Tab 3) */
+#huftLoginOverlay .portal-security-note {
+  background: #FEF3C7 !important;
+  border: 1px solid #FDE68A !important;
+  border-radius: 8px !important;
+  color: #92400E !important;
+  padding: 10px 12px !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  display: flex !important;
+  gap: 8px !important;
+  align-items: flex-start !important;
+  margin-bottom: 14px !important;
+  text-align: left !important;
+}
+
+/* Responsive adjustments */
 @media (max-width: 960px) {
-  #huftLoginOverlay .layout {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding-top: 24px;
-    padding-bottom: 32px;
-  }
-  #huftLoginOverlay .intro {
-    text-align: center;
-    max-width: 520px;
-    margin: 0 auto;
-  }
-  #huftLoginOverlay .eyebrow {
-    justify-content: center;
-  }
-  #huftLoginOverlay .lead {
-    margin: 0 auto;
-  }
-  #huftLoginOverlay .scene {
-    height: 260px;
-    margin: 16px auto 10px;
-    transform: scale(0.85);
-    transform-origin: center center;
-  }
-  #huftLoginOverlay .assurance {
-    justify-content: center;
+  #huftLoginOverlay .login-panel {
+    max-width: 440px !important;
+    padding: 26px 20px !important;
   }
 }
 @media (max-width: 480px) {
-  #huftLoginOverlay .wordmark {
-    font-size: 30px;
-  }
-  #huftLoginOverlay .lead {
-    font-size: 14px;
-  }
-  #huftLoginOverlay .scene {
-    height: 210px;
-    transform: scale(0.72);
-  }
   #huftLoginOverlay .login-panel {
-    padding: 22px 18px;
-    border-radius: 20px;
+    padding: 22px 16px !important;
+    border-radius: 14px !important;
+  }
+  #huftLoginOverlay .portal-tab-btn {
+    padding: 9px 4px !important;
+    font-size: 12px !important;
   }
   #huftLoginOverlay .portal-trust-row {
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    justify-content: center !important;
   }
 }
 
@@ -1750,14 +1756,14 @@ html body #huftLoginOverlay {
     </section>
 
     <!-- Right side portal card (#171C2A Dark Glassmorphism) -->
-    <section class="login-panel" id="loginPanel" aria-labelledby="portalHeading">
+        <section class="login-panel" id="loginPanel" aria-labelledby="portalHeading">
       <div class="panel-head">
-        <div class="mini-brand">STORE INTELLIGENCE</div>
+        <span class="mini-brand">STORE INTELLIGENCE</span>
         <h1 id="portalHeading" class="portal-dynamic-title">Store Login Portal</h1>
         <p id="portalSubheading" class="portal-dynamic-sub">Sales Analytics &amp; Store Management</p>
       </div>
 
-      <!-- Top 3-Tab Switcher -->
+      <!-- Underline 3-Tab Switcher -->
       <div class="portal-tab-bar" role="tablist" aria-label="Portal access modes">
         <button type="button" role="tab" id="tabBtnSignIn" class="portal-tab-btn active" aria-selected="true" onclick="switchLoginFlowTab('signin')">
           Sign In
@@ -1782,7 +1788,7 @@ html body #huftLoginOverlay {
             <label for="huftLoginEmail" class="portal-label">Official Store Email</label>
             <div class="portal-input-wrap">
               <span class="portal-input-icon">✉️</span>
-              <input type="email" id="huftLoginEmail" class="portal-input has-icon" placeholder="e.g. hyderguda@headsupfortails.com" required autocomplete="username">
+              <input type="email" id="huftLoginEmail" class="portal-input has-icon" placeholder="Enter official store email" required autocomplete="username">
             </div>
           </div>
 
@@ -1808,13 +1814,13 @@ html body #huftLoginOverlay {
             <span class="btn-text">Sign In to Dashboard →</span>
           </button>
 
-          <!-- Soft Terracotta Shield Notice -->
+          <!-- Soft Slate Info Banner -->
           <div class="portal-notice-banner">
             <span class="notice-icon">🛡️</span>
             <span>Your request will be sent to the admin team for approval and password reset.</span>
           </div>
 
-          <!-- Bottom Trust Row -->
+          <!-- Bottom Trust Strip -->
           <div class="portal-trust-row">
             <span class="trust-item trust-green">
               <svg width="13" height="13" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
@@ -1824,9 +1830,9 @@ html body #huftLoginOverlay {
               <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
               256-bit TLS
             </span>
-            <span class="trust-item trust-purple">
+            <span class="trust-item trust-indigo">
               <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-              Multi-Store RLS
+              Role-Based Access
             </span>
           </div>
         </form>
@@ -1839,7 +1845,7 @@ html body #huftLoginOverlay {
             <label for="suFullName" class="portal-label">Full Name</label>
             <div class="portal-input-wrap">
               <span class="portal-input-icon">👤</span>
-              <input type="text" id="suFullName" class="portal-input has-icon" placeholder="e.g. Chandulal Banoth" required minlength="2">
+              <input type="text" id="suFullName" class="portal-input has-icon" placeholder="Enter full name" required minlength="2">
             </div>
           </div>
 
@@ -1847,7 +1853,7 @@ html body #huftLoginOverlay {
             <label for="suEmail" class="portal-label">Official Store Email</label>
             <div class="portal-input-wrap">
               <span class="portal-input-icon">✉️</span>
-              <input type="email" id="suEmail" class="portal-input has-icon" placeholder="e.g. hyderguda@headsupfortails.com" required>
+              <input type="email" id="suEmail" class="portal-input has-icon" placeholder="Enter official store email" required>
             </div>
           </div>
 
@@ -1863,8 +1869,8 @@ html body #huftLoginOverlay {
           </div>
 
           <div class="portal-field">
-            <label for="suNote" class="portal-label">Employee / Note <span style="font-size:11px; color:#94a3b8; font-weight:400;">(Optional)</span></label>
-            <textarea id="suNote" class="portal-textarea" placeholder="e.g. Employee ID #104 or store location notes"></textarea>
+            <label for="suNote" class="portal-label">Employee / Note <span style="font-size:11px; color:#64748B; font-weight:400;">(Optional)</span></label>
+            <textarea id="suNote" class="portal-textarea" placeholder="Employee ID or location notes (optional)"></textarea>
           </div>
 
           <button type="submit" id="suSubmitBtn" class="portal-primary-btn" style="margin-top:6px;">
@@ -1883,7 +1889,7 @@ html body #huftLoginOverlay {
             <div class="confirm-detail-row"><span>Name:</span><strong id="suConfName">--</strong></div>
             <div class="confirm-detail-row"><span>Email:</span><strong id="suConfEmail">--</strong></div>
             <div class="confirm-detail-row"><span>Role:</span><strong id="suConfRole">--</strong></div>
-            <div class="confirm-detail-row"><span>Status:</span><strong style="color:#34d399;">Pending Admin Review</strong></div>
+            <div class="confirm-detail-row"><span>Status:</span><strong style="color:#16A34A;">Pending Admin Review</strong></div>
           </div>
           <button type="button" class="portal-return-btn" id="suReturnBtn" onclick="switchLoginFlowTab('signin')">← Return to Sign In</button>
         </div>
@@ -1901,7 +1907,7 @@ html body #huftLoginOverlay {
             <label for="fpEmail" class="portal-label">Registered Store Email</label>
             <div class="portal-input-wrap">
               <span class="portal-input-icon">✉️</span>
-              <input type="email" id="fpEmail" class="portal-input has-icon" placeholder="e.g. hyderguda@headsupfortails.com" required>
+              <input type="email" id="fpEmail" class="portal-input has-icon" placeholder="Enter registered store email" required>
             </div>
           </div>
 
@@ -1919,7 +1925,7 @@ html body #huftLoginOverlay {
           <p class="confirm-msg">Your password reset request has been routed to the Central Administrator team. An admin will verify your identity and dispatch temporary reset credentials.</p>
           <div class="confirm-details-box">
             <div class="confirm-detail-row"><span>Target Email:</span><strong id="fpConfEmail">--</strong></div>
-            <div class="confirm-detail-row"><span>Admin Dispatch:</span><strong style="color:#ffaa82;">Enqueued</strong></div>
+            <div class="confirm-detail-row"><span>Admin Dispatch:</span><strong style="color:#4F46E5;">Enqueued</strong></div>
             <div class="confirm-detail-row"><span>Security SLA:</span><strong>Within 15 mins</strong></div>
           </div>
           <button type="button" class="portal-return-btn" id="fpReturnBtn" onclick="switchLoginFlowTab('signin')">← Return to Sign In</button>

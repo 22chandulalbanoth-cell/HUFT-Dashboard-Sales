@@ -3826,7 +3826,7 @@ const STORE_CREDENTIALS = {
       if (suForm) suForm.style.display = 'none';
       if (suCard) suCard.style.display = 'block';
 
-      // Log request in localStorage for admin audit
+      // Log request in central store & local access requests for admin approval
       try {
         const existing = JSON.parse(localStorage.getItem('huft_access_requests') || '[]');
         existing.push({
@@ -3837,6 +3837,24 @@ const STORE_CREDENTIALS = {
           createdAt: new Date().toISOString()
         });
         localStorage.setItem('huft_access_requests', JSON.stringify(existing));
+
+        const existingApprs = JSON.parse(localStorage.getItem('central_control_approvals') || localStorage.getItem('huft_central_approvals') || '[]');
+        existingApprs.unshift({
+          id: 'appr-' + Date.now(),
+          ticketId: ticketId,
+          type: 'SIGN_UP',
+          name: name,
+          email: email,
+          role: role,
+          store: 'Hyderabad (Hyderguda)',
+          status: 'PENDING',
+          requestedAt: new Date().toISOString(),
+          date: new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'}),
+          notes: 'New store personnel registration request'
+        });
+        const jAppr = JSON.stringify(existingApprs);
+        localStorage.setItem('central_control_approvals', jAppr);
+        localStorage.setItem('huft_central_approvals', jAppr);
       } catch(err) {}
     }, 450);
   };
@@ -3876,7 +3894,7 @@ const STORE_CREDENTIALS = {
       if (fpForm) fpForm.style.display = 'none';
       if (fpCard) fpCard.style.display = 'block';
 
-      // Log reset request in localStorage for admin audit
+      // Log reset request in central store & local reset requests for admin approval
       try {
         const existing = JSON.parse(localStorage.getItem('huft_reset_requests') || '[]');
         existing.push({
@@ -3885,6 +3903,24 @@ const STORE_CREDENTIALS = {
           createdAt: new Date().toISOString()
         });
         localStorage.setItem('huft_reset_requests', JSON.stringify(existing));
+
+        const existingApprs = JSON.parse(localStorage.getItem('central_control_approvals') || localStorage.getItem('huft_central_approvals') || '[]');
+        existingApprs.unshift({
+          id: 'appr-' + Date.now(),
+          ticketId: ticketId,
+          type: 'PASSWORD_RESET',
+          name: email.split('@')[0],
+          email: email,
+          role: 'Store Manager',
+          store: 'Hyderabad (Hyderguda)',
+          status: 'PENDING',
+          requestedAt: new Date().toISOString(),
+          date: new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'}),
+          notes: 'Emergency security password reset requested'
+        });
+        const jAppr = JSON.stringify(existingApprs);
+        localStorage.setItem('central_control_approvals', jAppr);
+        localStorage.setItem('huft_central_approvals', jAppr);
       } catch(err) {}
     }, 450);
   };
@@ -3950,6 +3986,24 @@ const STORE_CREDENTIALS = {
       matchedUser = STORE_CREDENTIALS["admin@headsupfortails.com"];
     }
 
+    // Dynamic Central Users lookup for approved new registrations
+    if (!matchedUser) {
+      try {
+        const centralUsers = JSON.parse(localStorage.getItem('central_control_users') || localStorage.getItem('huft_central_users') || '[]');
+        const cu = centralUsers.find(u => u.email === email && u.status === 'active');
+        if (cu) {
+          matchedUser = {
+            password: "Huft#2026!Store",
+            storeName: cu.store || "Hyderabad (Hyderguda)",
+            storeCode: "HYD-STORE",
+            role: cu.role || "Store User",
+            short: cu.name ? cu.name.slice(0, 3).toUpperCase() : "USR",
+            manager: cu.name || "Store User"
+          };
+        }
+      } catch(e) {}
+    }
+
     const isValid = matchedUser && (
       matchedUser.password === pass || 
       (customPass && pass === customPass) || 
@@ -3980,6 +4034,46 @@ const STORE_CREDENTIALS = {
           } else {
             localStorage.removeItem('huft_active_session');
           }
+
+          // Record login in Central Store
+          const existingLogins = JSON.parse(localStorage.getItem('central_control_logins') || localStorage.getItem('huft_central_logins') || '[]');
+          existingLogins.unshift({
+            id: 'log-' + Date.now(),
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+            date: new Date().toISOString(),
+            user: email,
+            store: session.storeName,
+            ip: '106.51.78.14',
+            device: navigator.userAgent.includes('Mobile') ? 'Mobile Terminal (Chrome)' : 'Store POS PC (Windows 11)',
+            status: 'SUCCESS'
+          });
+          if (existingLogins.length > 100) existingLogins.pop();
+          const jLog = JSON.stringify(existingLogins);
+          localStorage.setItem('central_control_logins', jLog);
+          localStorage.setItem('huft_central_logins', jLog);
+
+          // Register device session in Central Store
+          const existingDevs = JSON.parse(localStorage.getItem('central_control_devices') || localStorage.getItem('huft_central_devices') || '[]');
+          const devName = session.storeName + ' Station (' + (navigator.userAgent.includes('Mobile') ? 'Mobile' : 'Windows 11') + ')';
+          const matchDev = existingDevs.find(d => d.user === email || d.name === devName);
+          if (matchDev) {
+            matchDev.last_seen = 'Active Now';
+            matchDev.trust = 'TRUSTED';
+          } else {
+            existingDevs.unshift({
+              id: 'dev-' + Date.now(),
+              name: devName,
+              user: email,
+              store: session.storeName,
+              os: navigator.platform || 'Windows 11',
+              browser: 'Chrome 130',
+              trust: 'TRUSTED',
+              last_seen: 'Active Now'
+            });
+          }
+          const jDev = JSON.stringify(existingDevs);
+          localStorage.setItem('central_control_devices', jDev);
+          localStorage.setItem('huft_central_devices', jDev);
         } catch(e) {}
 
         const overlay = document.getElementById('huftLoginOverlay');

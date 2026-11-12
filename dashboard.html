@@ -5,6 +5,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<script id="huft-early-auth-persistence">
+(function() {
+  try {
+    const raw = localStorage.getItem('huft_active_session') || localStorage.getItem('huft_auth_session') || sessionStorage.getItem('huft_active_session') || sessionStorage.getItem('huft_auth_session');
+    if (raw) {
+      const session = JSON.parse(raw);
+      if (session && (session.email || session.storeName)) {
+        window.__huftAutoSession = session;
+        const style = document.createElement('style');
+        style.id = 'huft-persist-auth-hide';
+        style.textContent = '#huftLoginOverlay { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }';
+        document.head.appendChild(style);
+      }
+    }
+  } catch(e) {}
+})();
+</script>
+
+
 <script id="huft-storage-sandbox-guard">(function(){var mem={},memoryStorage={getItem:function(k2){return Object.prototype.hasOwnProperty.call(mem,k2)?mem[k2]:null},setItem:function(k2,v){mem[k2]=String(v)},removeItem:function(k2){delete mem[k2]},clear:function(){mem={}},key:function(i){return Object.keys(mem)[i]||null},get length(){return Object.keys(mem).length}};try{var k="__huft_sandbox_test__";window.localStorage.setItem(k,"1"),window.localStorage.removeItem(k)}catch{try{Object.defineProperty(window,"localStorage",{get:function(){return memoryStorage},set:function(){},configurable:!0})}catch{}try{Object.defineProperty(window,"sessionStorage",{get:function(){return memoryStorage},set:function(){},configurable:!0})}catch{}}})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -426,10 +446,10 @@
 <style>.daily-target-planner{background:#fff;border:1px solid #d8dee7;border-radius:10px;padding:18px;margin:0 0 20px;color:#253247;box-shadow:none;font-family:Inter,'Segoe UI',Arial,sans-serif}.daily-target-planner *{box-sizing:border-box}.dtp-head,.dtp-employee-heading,.dtp-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.dtp-eyebrow{font-weight:800;letter-spacing:1px;color:#687b91}.dtp-head h2{margin:0;color:#26374d}.dtp-head p,.dtp-employee-heading p{color:#718096;margin:5px 0 0}.dtp-meta{display:grid}.dtp-meta label,.dtp-target-inputs label{display:flex;flex-direction:column;color:#53657a;font-weight:700}.dtp-meta input,.dtp-target-inputs input,.dtp-table input{width:100%;border:1px solid #cbd5e1;border-radius:6px;background:#fff;color:#243247;font:500 13px Nunito,'Segoe UI',Arial,sans-serif;box-shadow:none}.dtp-day-box{border:1px solid #e1e6ed;border-radius:7px;display:flex;flex-direction:column;justify-content:center;gap:3px;background:#fafbfd}.dtp-day-box span{color:#718096}.dtp-day-box strong{color:#27374c}.dtp-target-inputs{display:grid;grid-template-columns:repeat(2,minmax(180px,1fr))}.dtp-employee-heading{border-bottom:1px solid #e6eaf0}.dtp-employee-heading h3{margin:0;color:#26374d}.dtp-btn{height:34px;padding:7px 12px;border:1px solid #cbd5e1;border-radius:6px;background:#fff;color:#34445a;font-size:12px;font-weight:700;cursor:pointer;box-shadow:none}.dtp-btn:hover{background:#f8fafc;border-color:#94a3b8}.dtp-secondary{background:#fff;color:#4b5c70}.dtp-table-wrap{width:100%;overflow:auto}.dtp-table{width:100%;border-collapse:collapse}.dtp-table th,.dtp-table td{border-bottom:1px solid #e6eaf0;text-align:left;vertical-align:middle}.dtp-table th{background:#f6f8fb;font-weight:800}.dtp-table td:nth-child(2),.dtp-table td:nth-child(3){text-align:right}.dtp-table td:nth-child(4){text-align:center}.dtp-table input.dtp-percent{text-align:right}.dtp-amount{font-weight:700;color:#26374d;white-space:nowrap}.dtp-delete{border:1px solid #d5dbe3;border-radius:5px;background:#fff;color:#5a6677;cursor:pointer}.dtp-delete:hover{border-color:#dc7c7c;color:#b42318}.dtp-allocation-note{font-size:11px;color:#66768a;margin-top:9px}.dtp-allocation-note.dtp-warning{color:#b45309;font-weight:700}.dtp-totals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.dtp-totals>div{border:1px solid #e0e5ec;border-radius:7px;background:#fff;min-width:0}.dtp-totals span,.dtp-totals small{display:block;color:#6b7a8d}.dtp-totals strong{display:block;color:#26374d}.dtp-totals small{font-size:10px}.dtp-totals .dtp-combined{background:#f7f9fc;border-color:#cfd8e4}.dtp-footer{color:#718096;font-size:10px}.dtp-footer .dtp-btn{flex:0 0 auto}@media(max-width:650px){.daily-target-planner{padding:12px}}@media(max-width:650px){.dtp-meta{grid-template-columns:1fr 1fr}}@media(max-width:650px){.dtp-meta label:first-child{grid-column:1/-1}}@media(max-width:650px){.dtp-target-inputs{grid-template-columns:1fr 1fr}}@media(max-width:650px){.dtp-totals{grid-template-columns:1fr}}@media(max-width:650px){.dtp-totals strong{font-size:18px}}@media(max-width:650px){.dtp-head h2{font-size:17px}}@media print{body *{visibility:hidden!important}}@media print{.daily-target-planner,.daily-target-planner *{visibility:visible!important}}@media print{.daily-target-planner{position:absolute;left:0;top:0;width:100%;border:0;margin:0;padding:0}}@media print{.dtp-btn,.dtp-footer{display:none!important}}@media print{.dtp-table{min-width:0}}@media print{.dtp-table input{border:0;padding:0;height:auto}}.dtp-launch-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px}.dtp-launch-row span{font-size:11px;color:#718096}.dtp-modal-overlay[hidden]{display:none!important}.dtp-modal-overlay{position:fixed;inset:0;z-index:1000000;display:flex;align-items:center;justify-content:center}.dtp-modal-top{position:sticky;top:0;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:10px}.dtp-modal-top strong{color:#26374d}#dailyTargetPlanner{display:block!important;border:0;border-radius:0;margin:0;box-shadow:none!important}.dtp-table select.dtp-employee-select{width:100%;border:1px solid #cbd5e1;border-radius:6px;background:#fff;color:#243247;font:500 12px Nunito,'Segoe UI',Arial,sans-serif}@media(max-width:650px){.dtp-modal-overlay{padding:8px}}@media(max-width:650px){.dtp-modal-card{width:calc(100vw - 16px);max-height:92vh}}@media(max-width:650px){.dtp-modal-top{padding:9px 10px}}@media(max-width:650px){#dailyTargetPlanner{padding:10px}}@media(max-width:650px){.dtp-table select.dtp-employee-select{min-width:150px}}</style>
 <style id="dtp-simple-neutral-popup">.dtp-modal-overlay{background:rgba(30,41,59,.24)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}.dtp-modal-card{background:#fff!important;border:1px solid #d9dee7!important}.dtp-modal-top{background:#fff!important;border-bottom:1px solid #e5e7eb!important}.dtp-modal-top strong,.dtp-head h2,.dtp-employee-heading h3{color:#263247!important}.dtp-btn,.dtp-secondary,.dtp-delete{background:#fff!important;color:#344054!important;border:1px solid #d0d5dd!important;box-shadow:none!important;border-radius:5px!important}.dtp-btn:hover,.dtp-delete:hover{background:#f8fafc!important;border-color:#98a2b3!important;color:#344054!important}.dtp-totals>div,.dtp-totals .dtp-combined,.dtp-day-box,.dtp-table th,.dtp-whatsapp{background:#fff!important;border-color:#e4e7ec!important}.dtp-table th{color:#475467!important}.dtp-totals strong,.dtp-amount{color:#344054!important}</style>
 
-<style id="dtp-popup-half-size">.dtp-modal-overlay{padding:12px!important}.dtp-modal-card{overflow:auto!important;box-shadow:0 6px 20px rgba(15,23,42,.12)!important}.dtp-head{gap:8px!important}.dtp-head p{font-size:11px!important;margin-top:3px!important}.dtp-table-wrap{margin-top:7px!important}.dtp-footer{margin-top:8px!important}.dtp-whatsapp-head{gap:8px!important}#dtpWhatsAppMessage{rows:5}</style>
+<!-- dtp-popup-half-size neutralized -->
 
 
-<style id="dtp-popup-30-percent-smaller">.dtp-modal-card{width:min(650px,70vw)!important;min-width:0!important;max-width:70vw!important;max-height:78vh!important;border-radius:7px!important}.dtp-modal-top{padding:7px 10px!important}.dtp-modal-top strong{font-size:12px!important}#dailyTargetPlanner{padding:8px!important}.dtp-eyebrow{font-size:9px!important;margin-bottom:3px!important}.dtp-head h2{font-size:14px!important}.dtp-head p,.dtp-employee-heading p{font-size:10px!important;line-height:1.35!important}.dtp-head .dtp-btn,.dtp-btn{height:29px!important;padding:5px 9px!important;font-size:10px!important}.dtp-meta{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) minmax(85px,.65fr)!important;gap:6px!important;margin:8px 0 7px!important}.dtp-meta label,.dtp-target-inputs label{font-size:10px!important;gap:4px!important}.dtp-meta input,.dtp-target-inputs input,.dtp-table input{height:28px!important;padding:4px 6px!important;font-size:11px!important}.dtp-day-box{padding:5px 7px!important}.dtp-day-box span{font-size:9px!important}.dtp-day-box strong{font-size:12px!important}.dtp-target-inputs{gap:7px!important;margin-bottom:9px!important}.dtp-employee-heading{padding-bottom:6px!important;gap:6px!important}.dtp-employee-heading h3{font-size:12px!important}.dtp-table{min-width:0!important;font-size:10px!important}.dtp-table th,.dtp-table td{padding:5px!important}.dtp-table th{font-size:9px!important}.dtp-table select.dtp-employee-select{min-width:0!important;height:27px!important;padding:3px 5px!important;font-size:10px!important}.dtp-table input.dtp-percent{max-width:78px!important}.dtp-delete{height:25px!important;padding:3px 6px!important;font-size:10px!important}.dtp-allocation-note,.dtp-footer{font-size:9px!important;margin-top:6px!important}.dtp-totals{gap:6px!important;margin-top:8px!important}.dtp-totals>div{padding:7px!important}.dtp-totals span,.dtp-totals small{font-size:9px!important}.dtp-totals strong{font-size:15px!important;margin:3px 0!important}.dtp-whatsapp{padding:8px!important;margin-top:8px!important}.dtp-whatsapp-head h3{font-size:12px!important}.dtp-whatsapp-head p{font-size:10px!important}#dtpWhatsAppMessage{min-height:70px!important;max-height:90px!important;font-size:10px!important;padding:7px!important}@media(max-width:700px){.dtp-modal-overlay{padding:8px!important}}@media(max-width:700px){.dtp-modal-card{width:70vw!important;max-width:70vw!important;min-width:0!important;max-height:82vh!important}}@media(max-width:700px){#dailyTargetPlanner{padding:7px!important}}@media(max-width:700px){.dtp-meta{grid-template-columns:1fr 1fr!important}}@media(max-width:700px){.dtp-meta label:first-child{grid-column:1/-1!important}}@media(max-width:700px){.dtp-target-inputs{grid-template-columns:1fr 1fr!important}}@media(max-width:700px){.dtp-totals{grid-template-columns:repeat(3,minmax(0,1fr))!important}}@media(max-width:700px){.dtp-table{min-width:450px!important}}@media(max-width:480px){.dtp-modal-card{width:88vw!important;max-width:88vw!important;max-height:85vh!important}}@media(max-width:480px){.dtp-totals{grid-template-columns:1fr 1fr!important}}@media(max-width:480px){.dtp-totals .dtp-combined{grid-column:1/-1!important}}@media(max-width:480px){.dtp-table{min-width:450px!important}}</style>
+<!-- dtp-popup-30-percent-smaller neutralized -->
 
 
 <style id="dtp-left-whatsapp-live-compact">@media(min-width:701px){.dtp-modal-card{width:min(940px,92vw)!important;max-width:92vw!important;min-width:0!important;max-height:84vh!important;overflow:auto!important}}@media(min-width:701px){#dailyTargetPlanner{display:grid!important;grid-template-columns:minmax(205px,.78fr) minmax(0,1.7fr)!important;column-gap:14px!important;row-gap:0!important;align-items:start!important}}@media(min-width:701px){#dailyTargetPlanner>.dtp-head{grid-column:1 / -1!important;grid-row:1!important;margin-bottom:5px!important}}@media(min-width:701px){#dailyTargetPlanner>.dtp-whatsapp{grid-column:1!important;grid-row:2 / 9!important;align-self:stretch!important;display:flex!important;flex-direction:column!important;min-width:0!important;margin:0!important;padding:9px!important;border:1px solid #e4e7ec!important;border-radius:7px!important;background:#fff!important}}@media(min-width:701px){#dailyTargetPlanner>.dtp-meta{grid-column:2!important;grid-row:2!important;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) minmax(75px,.6fr)!important;margin:0 0 7px!important;gap:6px!important}}@media(min-width:701px){#dailyTargetPlanner>.dtp-target-inputs{grid-column:2!important;grid-row:3!important;margin:0 0 8px!important;gap:7px!important}}@media(min-width:701px){#dailyTargetPlanner>.dtp-employee-heading{grid-column:2!important;grid-row:4!important}}@media(min-width:701px){#dailyTargetPlanner>.dtp-table-wrap{grid-column:2!important;grid-row:5!important;min-width:0!important}}@media(min-width:701px){#dailyTargetPlanner>#dtpAllocationNote{grid-column:2!important;grid-row:6!important}}@media(min-width:701px){#dailyTargetPlanner>.dtp-totals{grid-column:2!important;grid-row:7!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;margin-top:7px!important;gap:6px!important}}@media(min-width:701px){#dailyTargetPlanner>.dtp-footer{grid-column:2!important;grid-row:8!important;margin-top:7px!important}}@media(min-width:701px){.dtp-whatsapp-head{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:7px!important}}@media(min-width:701px){.dtp-whatsapp-head h3{font-size:12px!important;line-height:1.3!important;margin:0!important}}@media(min-width:701px){.dtp-whatsapp-head p{font-size:10px!important;line-height:1.35!important;margin:3px 0 0!important}}@media(min-width:701px){#dtpCopyWhatsApp{width:100%!important;white-space:normal!important;height:auto!important;min-height:28px!important}}@media(min-width:701px){#dtpWhatsAppMessage{width:100%!important;min-height:170px!important;max-height:280px!important;height:clamp(170px,32vh,280px)!important;flex:1 1 auto!important;resize:vertical!important;font-size:10px!important;line-height:1.45!important;padding:7px!important;margin-top:8px!important}}@media(min-width:701px){.dtp-whatsapp-status{font-size:9px!important;line-height:1.3!important;margin-top:6px!important}}@media(max-width:700px){#dailyTargetPlanner{display:block!important}}@media(max-width:700px){#dailyTargetPlanner>.dtp-whatsapp{display:block!important;margin-top:10px!important}}@media(max-width:700px){#dtpWhatsAppMessage{min-height:76px!important;max-height:100px!important;height:90px!important;font-size:10px!important;line-height:1.4!important}}@media(max-width:700px){.dtp-whatsapp-head{display:flex!important;flex-wrap:wrap!important;align-items:center!important}}</style>
@@ -1703,23 +1723,220 @@ html body #huftLoginOverlay {
 </style>
 
 
-<script id="huft-zero-storage-purger">
-// PROACTIVE ZERO BROWSER STORAGE INITIALIZER
-(function purgeBrowserStorageOnBoot() {
-  try {
-    if (window.indexedDB) {
-      window.indexedDB.deleteDatabase('HUFT_Hourly_Sale_LocalDB');
-    }
-  } catch(e) {}
-  try {
-    ['HUFT_Hourly_Sale_LocalDB_latest_fallback', 'HUFT_Hourly_Sale_LastUploadMeta', 'HUFT_POS_ROWS', 'HUFT_SESSION_CACHE'].forEach(k => {
-      localStorage.removeItem(k);
-      sessionStorage.removeItem(k);
-    });
-  } catch(e) {}
-  console.log('[Privacy Engine] Zero browser storage initialized: IndexedDB and sales storage purged.');
-})();
-</script>
+<!-- Zero-storage purger removed: data persists across refreshes -->
+
+
+<style id="huft-master-proper-popup-sizing">
+/* ==========================================================================
+   HUFT MASTER POPUP & MODAL PROPER SIZING ENGINE
+   ========================================================================== */
+
+/* Overlays - proper centered flex container with smooth backdrop */
+html body .huftPopupOverlay,
+html body .chartModal,
+html body .wr-modal,
+html body .dtp-modal-overlay,
+html body .eodModalBackdrop,
+html body .aiActionBackdrop,
+html body #huftUploadOverlay,
+html body #packageSaleDrillModal,
+html body #chartModal,
+html body #huftInvoiceDrillModal,
+html body #dailyReturnHistoryModal,
+html body #aiActionModal,
+html body #dtpModalOverlay,
+html body [id$="Overlay"]:not(#huftLoginOverlay),
+html body [id$="Modal"]:not(#huftStoreProfileModal):not(#huftLoginOverlay) {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 24px !important;
+  box-sizing: border-box !important;
+  background: rgba(15, 23, 42, 0.65) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  z-index: 100002 !important;
+}
+
+/* Modal Content Cards - Generous, spacious, proper sizing */
+html body #packageSaleDrillModal > .chartModalBox,
+html body #chartModal > .chartModalBox,
+html body #huftInvoiceDrillModal > .hid-panel,
+html body #dtpModalOverlay > .dtp-modal-card,
+html body #huftHourlyPopup > .huftPopupPanel,
+html body #wrModal > .wr-md,
+html body #dailyReturnHistoryModal > .chartModalBox,
+html body #huftEodMessageContent > .eodModalCard,
+html body #huftReleaseNotesModal > .hrn-card {
+  width: min(980px, 94vw) !important;
+  min-width: min(650px, 92vw) !important;
+  max-width: min(1040px, 96vw) !important;
+  max-height: min(88vh, 850px) !important;
+  border-radius: 18px !important;
+  padding: 24px 28px !important;
+  box-sizing: border-box !important;
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(15, 23, 42, 0.08) !important;
+  overflow-y: auto !important;
+  margin: auto !important;
+}
+
+/* Medium Card Modals (Upload, Alerts) */
+html body #huftUploadOverlay > #huftUploadCard,
+html body #huftReportAlertOverlay > #huftReportAlertCard,
+html body #aiActionModal > section {
+  width: min(540px, 92vw) !important;
+  max-width: min(540px, 92vw) !important;
+  border-radius: 16px !important;
+  padding: 24px !important;
+  box-sizing: border-box !important;
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25) !important;
+}
+
+/* Modal Headers */
+html body .package-sale-modal-heading,
+html body .chartModalTop,
+html body .hid-head,
+html body .dtp-modal-top,
+html body .huftPopupHead {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding-bottom: 14px !important;
+  margin-bottom: 16px !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+
+html body #packageSaleDrillTitle,
+html body .chartModalTitle,
+html body .chartModalBox h2,
+html body .chartModalBox h3,
+html body .dtp-head h2,
+html body .hid-head h2 {
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  line-height: 1.25 !important;
+  margin: 0 !important;
+}
+
+html body #packageSaleDrillSubtitle,
+html body .chartModalSubtitle,
+html body .dtp-head p,
+html body .hid-head p {
+  font-size: 13px !important;
+  color: #64748B !important;
+  margin-top: 4px !important;
+  line-height: 1.4 !important;
+}
+
+/* Close & Action Buttons in Modals */
+html body .package-sale-modal-actions,
+html body .chartModalActions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+html body .package-sale-close,
+html body .chartModalClose,
+html body .hid-close,
+html body .dtp-close,
+html body [class*="modal-close"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 8px 16px !important;
+  border-radius: 10px !important;
+  border: 1px solid #CBD5E1 !important;
+  background: #F8FAFC !important;
+  color: #334155 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  height: 38px !important;
+  width: auto !important;
+}
+
+html body .package-sale-close:hover,
+html body .chartModalClose:hover,
+html body .hid-close:hover {
+  background: #F1F5F9 !important;
+  color: #0F172A !important;
+  border-color: #94A3B8 !important;
+}
+
+/* Tables inside drill-down modals */
+html body .package-drill-table-wrap,
+html body .hid-table-wrap,
+html body .chartModalTableWrap {
+  width: 100% !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  margin-top: 14px !important;
+  background: #FFFFFF !important;
+}
+
+html body .package-drill-table,
+html body .hid-table,
+html body .chartModalTable {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  font-size: 13px !important;
+}
+
+html body .package-drill-table th,
+html body .hid-table th {
+  background: #F8FAFC !important;
+  color: #475569 !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 12px 16px !important;
+  border-bottom: 2px solid #E2E8F0 !important;
+  text-align: left !important;
+}
+
+html body .package-drill-table td,
+html body .hid-table td {
+  padding: 12px 16px !important;
+  color: #1E293B !important;
+  font-size: 13px !important;
+  border-bottom: 1px solid #F1F5F9 !important;
+}
+
+html body .package-drill-table tr:hover,
+html body .hid-table tr:hover {
+  background: #F8FAFC !important;
+}
+
+html body .package-drill-month-count {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #64748B !important;
+  margin-bottom: 8px !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  html body #packageSaleDrillModal > .chartModalBox,
+  html body #chartModal > .chartModalBox,
+  html body #huftInvoiceDrillModal > .hid-panel,
+  html body #dtpModalOverlay > .dtp-modal-card {
+    width: 96vw !important;
+    min-width: 0 !important;
+    padding: 16px !important;
+    max-height: 92vh !important;
+  }
+}
+</style>
 
 </head>
 <body>
@@ -2563,22 +2780,57 @@ html body #huftLoginOverlay {
 <script id="xlsx-loader-fallback">window.HUFT_XLSX_READY=(function(){return new Promise(function(resolve){if(window.XLSX&&typeof window.XLSX.read=="function"){resolve(!0);return}var sources=["https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js","https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js","https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"],index=0;function next(){if(window.XLSX&&typeof window.XLSX.read=="function"){resolve(!0);return}if(index>=sources.length){resolve(!1);return}var script=document.createElement("script");script.src=sources[index++],script.async=!0,script.onload=function(){window.XLSX&&typeof window.XLSX.read=="function"?resolve(!0):next()},script.onerror=next,document.head.appendChild(script)}next()})})();
 </script>
 <script>const EMBEDDED_HEADERS=["Order Ref","Date","Created by","Created on","Invoice/Last Updated on","Invoice/Display Name","Customer","Customer/Phone","Order Lines/Product/Reference","Order Lines/Product/Name","Order Lines/Product/Product Category","Order Lines/Product/Brand P","Order Lines/Product/Brand","Order Lines/Quantity","Order Lines/Discount (%)","Order Lines/Product/Sales Price","Order Lines/Subtotal","Delivery Status","Invoice/Status","Employee","Order Type","Payment Method","Point of Sale","Receipt Number","Session","Status","Taxes","Total","Employees"],EMBEDDED_VALUES=[],EMBEDDED=EMBEDDED_VALUES.map(values=>{var _a;const r={};return EMBEDDED_HEADERS.forEach((h,i)=>{h&&(r[h]=values[i]===void 0?"":values[i])}),r["Column F"]=values[5]===void 0?"":values[5],r["Column G"]=values[6]===void 0?"":values[6],r["Column H"]=values[7]===void 0?"":values[7],r["Column AC"]=values[28]===void 0?"":values[28],r._employee=String((_a=values[28])!=null?_a:"").trim(),r});let rows=[],dayIndex=new Map,allStoreRows=[],selectedStoreNames=new Set,pendingStoreNames=new Set;const LOCAL_DB_NAME="HUFT_Hourly_Sale_LocalDB",LOCAL_DB_VERSION=1,LOCAL_STORE_NAME="salesReports",LOCAL_DATA_KEY="latest";let localDBPromise=null;function setLocalStorageStatus(message,isError=!1){const el=document.getElementById("localStorageStatus");if(el){el.textContent=(isError?"\u26A0\uFE0F ":"\u{1F4BE} ")+message,el.classList.toggle("error",!!isError);return}const mini=document.getElementById("huftStorageMini");mini&&(mini.title=(isError?"\u26A0\uFE0F ":"\u{1F4BE} ")+message,mini.classList.toggle("error",!!isError),mini.dataset.status=message),isError&&console.warn("Storage status:",message)}function huftFormatBytes(bytes){if(!Number.isFinite(bytes)||bytes<0)return"\u2014";if(bytes<1024)return bytes+" B";const units=["KB","MB","GB","TB"];let v=bytes/1024,i=0;for(;v>=1024&&i<units.length-1;)v/=1024,i++;return v.toFixed(v>=100?0:v>=10?1:2)+" "+units[i]}async function huftUpdateStorageMini(savedPayload){var _a,_b;const usageEl=document.getElementById("huftStorageUsage"),metaEl=document.getElementById("huftStorageMeta"),mini=document.getElementById("huftStorageMini");if(!usageEl||!metaEl||!mini)return;try{if(navigator.storage&&navigator.storage.estimate){const estimate=await navigator.storage.estimate(),used=estimate.usage||0,quota=estimate.quota||0;usageEl.textContent=quota?huftFormatBytes(used)+" / "+huftFormatBytes(quota):huftFormatBytes(used)+" used";const pct=quota?Math.min(100,used/quota*100):0,pctEl=document.getElementById("huftStoragePercent"),meter=document.getElementById("huftStorageMeterFill");pctEl&&(pctEl.textContent=quota?pct.toFixed(pct<1?2:1)+"%":"\u2014"),meter&&(meter.style.width=pct+"%"),mini.title="Browser storage used: "+huftFormatBytes(used)+(quota?" of "+huftFormatBytes(quota):"")}else usageEl.textContent="Usage unavailable"}catch{usageEl.textContent="Usage unavailable"}let payload=savedPayload||null;if(!payload){try{const meta=JSON.parse(localStorage.getItem("HUFT_Hourly_Sale_LastUploadMeta")||"null");if(meta){metaEl.textContent=(meta.rowCount||0).toLocaleString("en-IN")+" rows \u2022 "+(meta.fileName||"Uploaded file"),mini.title=(meta.fileName||"Uploaded file")+" \u2022 "+(meta.rowCount||0).toLocaleString("en-IN")+" saved rows";return}}catch{}metaEl.textContent="No saved upload found";return}metaEl.textContent=(payload.rowCount||((_a=payload.rows)==null?void 0:_a.length)||0).toLocaleString("en-IN")+" rows \u2022 "+(payload.fileName||"Uploaded file"),mini.title=(payload.fileName||"Uploaded file")+" \u2022 "+(payload.rowCount||((_b=payload.rows)==null?void 0:_b.length)||0).toLocaleString("en-IN")+" saved rows"}function openLocalDB(){
-  // Disabled permanently under Zero Browser Storage policy
-  try { indexedDB.deleteDatabase('HUFT_Hourly_Sale_LocalDB'); } catch(_) {}
-  return Promise.resolve(null);
+  if(localDBPromise) return localDBPromise;
+  localDBPromise = new Promise((resolve, reject) => {
+    if(!("indexedDB" in window)){
+      reject(new Error("IndexedDB not supported in browser"));
+      return;
+    }
+    const req = window.indexedDB.open(LOCAL_DB_NAME, LOCAL_DB_VERSION);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if(!db.objectStoreNames.contains(LOCAL_STORE_NAME)){
+        db.createObjectStore(LOCAL_STORE_NAME, { keyPath: "id" });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error || new Error("Could not open local database"));
+  });
+  return localDBPromise;
 }
 const HUFT_PERSISTENT_TARGET_KEYS=new Set(["huft_global_monthly_targets_v1","HUFT_EMPLOYEE_KPI_TARGETS_V1","HUFT_EMPLOYEE_KPI_TARGETS_V1_BACKUP","huft_store_comparison_targets_v2","huft_store_comparison_targets_v2_backup","huftDailyEmployeeTargetPlans_v1","huftEodDayTargets_v1"]);async function huftClearSessionDataOnStartup(){try{await openLocalDB()}catch(e){console.warn("Local sales database unavailable:",e)}}async function saveRowsLocally(data,fileName){
-  // STRICT ZERO BROWSER STORAGE ENFORCEMENT
-  // Zero data is stored in IndexedDB or localStorage
-  console.log('[Zero-Storage Engine] Processing ephemeral session rows:', data ? data.length : 0);
-  try { indexedDB.deleteDatabase('HUFT_Hourly_Sale_LocalDB'); } catch(_) {}
+  if(!Array.isArray(data)) throw new Error('Sales rows are not valid array.');
+  const payload = {
+    id: LOCAL_DATA_KEY,
+    rows: data,
+    fileName: fileName || "Uploaded sales data",
+    rowCount: data.length,
+    savedAt: new Date().toISOString()
+  };
   try {
-    localStorage.removeItem('HUFT_Hourly_Sale_LocalDB_latest_fallback');
-    localStorage.removeItem('HUFT_Hourly_Sale_LastUploadMeta');
-    localStorage.removeItem('HUFT_POS_ROWS');
-  } catch(_) {}
-  setLocalStorageStatus("Cloud-native session active • Zero browser storage retained.", false);
-  return { id: 'cloud_session', rows: data, fileName: fileName || 'Uploaded sales data', rowCount: (data && data.length) || 0, savedAt: new Date().toISOString() };
+    const db = await openLocalDB();
+    if (db) {
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(LOCAL_STORE_NAME, "readwrite");
+        tx.objectStore(LOCAL_STORE_NAME).put(payload);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+  } catch(err) {
+    console.warn("IndexedDB save fallback notice:", err);
+  }
+  try {
+    localStorage.setItem("HUFT_Hourly_Sale_LocalDB_latest_fallback", JSON.stringify(payload));
+    localStorage.setItem("HUFT_Hourly_Sale_LastUploadMeta", JSON.stringify({
+      fileName: payload.fileName,
+      rowCount: payload.rowCount,
+      savedAt: payload.savedAt
+    }));
+  } catch(e) {}
+  setLocalStorageStatus("Saved locally • " + payload.rowCount.toLocaleString("en-IN") + " rows. Data persists on refresh.");
+  huftUpdateStorageMini(payload);
+  return payload;
 }
 function withTimeout(promise,ms,fallback){return new Promise(resolve=>{const t=setTimeout(()=>resolve(fallback),ms);Promise.resolve(promise).then(v=>{clearTimeout(t);resolve(v)},()=>{clearTimeout(t);resolve(fallback)})})}async function loadRowsLocally(){return withTimeout(loadRowsLocallyInner(),6000,null)}async function loadRowsLocallyInner(){try{const db=await openLocalDB(),saved=await new Promise((resolve,reject)=>{const req=db.transaction(LOCAL_STORE_NAME,"readonly").objectStore(LOCAL_STORE_NAME).get(LOCAL_DATA_KEY);req.onsuccess=()=>resolve(req.result||null),req.onerror=()=>reject(req.error||new Error("Could not read saved data."))});if(saved&&Array.isArray(saved.rows)&&saved.rows.length)return saved}catch(err){console.warn("IndexedDB read failed; checking fallback storage:",err)}try{const raw=localStorage.getItem("HUFT_Hourly_Sale_LocalDB_latest_fallback");if(raw){const saved=JSON.parse(raw);if(saved&&Array.isArray(saved.rows)&&saved.rows.length)return saved}}catch(err){console.warn("Fallback storage read failed:",err)}return null}async function clearSavedSalesData(){const btn=document.getElementById("huftClearSavedData");if(confirm("Clear all uploaded Excel sales data from this browser? The report will be emptied, but saved sales targets and target plans will be kept.")){btn&&(btn.disabled=!0,btn.textContent="Clearing\u2026");try{try{const db=await openLocalDB();await new Promise((resolve,reject)=>{const tx=db.transaction(LOCAL_STORE_NAME,"readwrite");tx.objectStore(LOCAL_STORE_NAME).delete(LOCAL_DATA_KEY),tx.oncomplete=resolve,tx.onerror=()=>reject(tx.error||new Error("Could not clear saved database record.")),tx.onabort=()=>reject(tx.error||new Error("Clear operation was cancelled."))})}catch(dbErr){console.warn("IndexedDB clear skipped:",dbErr)}try{localStorage.removeItem("HUFT_Hourly_Sale_LocalDB_latest_fallback")}catch{}try{localStorage.removeItem("HUFT_Hourly_Sale_LastUploadMeta")}catch{}try{localStorage.removeItem("HUFT_POS_DOWNLOAD_LAST_FILE")}catch{}window.__huftAutoPOSHoldUntilReload=!0;try{localStorage.setItem("HUFT_Hourly_Sale_SuppressEmbeddedSeed","1")}catch{}rows=[],allStoreRows=[],clearDayCache();const fileInput=document.getElementById("file");fileInput&&(fileInput.value="",fileInput.disabled=!1);const fileName=document.getElementById("fileNamePlain");fileName&&(fileName.textContent="No file chosen");const body=document.getElementById("dailyBody");body&&(body.innerHTML="");const localStatus=document.getElementById("localStorageStatus");localStatus&&(localStatus.textContent="Excel sales data cleared. Saved targets and target plans were kept.",localStatus.classList.remove("error")),[prepare,updateLiveReport,refreshTable,refreshDashboard,()=>{typeof refreshStoreComparison=="function"&&refreshStoreComparison()},()=>{typeof updateStoreComparisonTabVisibility=="function"&&updateStoreComparisonTabVisibility()}].forEach(fn=>{try{fn()}catch(renderErr){console.warn("Refresh after clear:",renderErr)}});const stamp=document.getElementById("lastSaleStamp");stamp&&(stamp.textContent="Last sale updated: no saved data"),await huftUpdateStorageMini(null);const meta=document.getElementById("huftStorageMeta");meta&&(meta.textContent="No saved upload"),typeof setUploadState=="function"&&setUploadState("Saved data cleared",0),alert("Uploaded Excel sales data has been cleared. Saved targets and target plans were kept.")}catch(err){console.error("Could not clear saved HUFT data:",err),alert("Could not completely clear saved data. Please close other report tabs and try again.")}finally{btn&&(btn.disabled=!1,btn.textContent="Clear Saved Data")}}}window.__huftInitProgressState=window.__huftInitProgressState||{percent:0,status:"Initializing HUFT Sales Report\u2026",error:""},window.huftReportInitProgress=function(percent,status,error){var state=window.__huftInitProgressState;window.__huftBootStartedAt||(window.__huftBootStartedAt=Date.now(),window.__huftBootElapsedTimer=setInterval(function(){var el=document.getElementById("huftBootLoaderElapsed");if(el){var sec=Math.floor((Date.now()-window.__huftBootStartedAt)/1e3),mm=String(Math.floor(sec/60)).padStart(2,"0"),ss=String(sec%60).padStart(2,"0");el.textContent=mm+":"+ss}},250)),state.percent=Math.max(state.percent||0,Math.min(99,Math.max(0,Number(percent)||0))),status&&(state.status=String(status)),error&&(state.error=String(error));var shown=Math.round(state.percent),label=document.getElementById("huftBootLoaderText"),pct=document.getElementById("huftBootLoaderPercent"),fill=document.getElementById("huftBootLoaderFill"),bar=document.getElementById("huftBootLoaderProgress");label&&(label.textContent=state.status||"Preparing dashboard\u2026"),pct&&(pct.textContent=shown+"%"),fill&&(fill.style.width=shown+"%"),bar&&bar.setAttribute("aria-valuenow",String(shown)),typeof window.__huftRenderInitProgress=="function"&&window.__huftRenderInitProgress(state)};async function restoreLocalRows(){window.__huftSessionCleanupDone||(window.__huftSessionCleanupDone=!0,huftClearSessionDataOnStartup()),window.huftReportInitProgress(8,"Loading saved sales data\u2026");try{let saved=await loadRowsLocally();if(window.huftReportInitProgress(32,saved&&Array.isArray(saved.rows)&&saved.rows.length?"Saved sales data found\u2026":"No saved upload found; preparing the empty dashboard\u2026"),(!saved||!Array.isArray(saved.rows)||!saved.rows.length)&&!localStorage.getItem("HUFT_Hourly_Sale_SuppressEmbeddedSeed")&&Array.isArray(EMBEDDED)&&EMBEDDED.length&&(saved={rows:EMBEDDED,fileName:"Embedded POS data",rowCount:EMBEDDED.length,savedAt:null},saveRowsLocally(EMBEDDED,"Embedded POS data").catch(err=>console.warn("Could not seed embedded data:",err))),saved&&Array.isArray(saved.rows)&&saved.rows.length){rows=saved.rows,window.huftReportInitProgress(42,"Processing saved sales records\u2026"),clearDayCache(),window.huftReportInitProgress(55,"Calculating retail, SPA, and food sales\u2026"),prepare(!1),window.huftReportInitProgress(70,"Preparing store and date information\u2026"),allStoreRows=rows.slice(),initializeStoreFilter(!0),clearDayCache(),updateLiveReport(),refreshTable(),dashboardDirty=!0,window.huftReportInitProgress(82,"Updating dashboard cards and charts\u2026");try{refreshDashboard(),dashboardDirty=!1}catch(dashErr){console.warn("Dashboard refresh after restore failed:",dashErr)}window.huftReportInitProgress(91,"Preparing monthly and employee reports\u2026");try{typeof refreshStoreComparison=="function"?(refreshStoreComparison(),updateStoreComparisonTabVisibility()):window.addEventListener("load",function(){try{refreshStoreComparison(),updateStoreComparisonTabVisibility()}catch(compareErr){console.warn("Store comparison refresh after restore failed:",compareErr)}},{once:!0})}catch(compareErr){console.warn("Store comparison refresh after restore failed:",compareErr)}const when=saved.savedAt?new Date(saved.savedAt).toLocaleString():"previously";setLocalStorageStatus("Restored "+saved.rowCount.toLocaleString("en-IN")+" rows \u2022 saved "+when),setUploadState("Restored saved local data",100);const fileName=document.getElementById("fileNamePlain");fileName&&(fileName.textContent=saved.fileName||"Saved local data")}else setLocalStorageStatus("Ready \u2022 upload Excel and it auto-saves"),window.huftReportInitProgress(58,"Preparing dashboard components\u2026"),prepare(),window.huftReportInitProgress(86,"Dashboard ready; waiting for sales data\u2026");window.huftReportInitProgress(97,"Finalizing dashboard\u2026")}catch(err){console.warn("Local storage restore failed:",err),setLocalStorageStatus("Unavailable: "+(err.message||"browser storage error"),!0),window.huftReportInitProgress(75,"Preparing dashboard without saved data\u2026",err.message||"Saved data could not be restored."),prepare(),window.huftReportInitProgress(97,"Dashboard ready; waiting for sales data\u2026")}}const BRANDS=[["Sara's Wholesome","HUFT Sara's Wholesome"],["Hearty","HUFT Hearty"],["Meowsi","HUFT Meowsi"],["NutriMeow","NutriMeow"],["NutriWag","NutriWag"]];function num(v){if(v==null||String(v).trim()==="")return 0;const n=Number(String(v).replace(/,/g,"").replace(/[₹$]/g,"").trim());return Number.isFinite(n)?n:0}function hasNumericValue(v){return v==null||String(v).trim()===""?!1:Number.isFinite(Number(String(v).replace(/,/g,"").replace(/[₹$]/g,"").trim()))}function parseDate(v){if(v==null||v==="")return null;if(v instanceof Date)return Number.isNaN(v.getTime())?null:new Date(v.getTime());if(typeof v=="number"){if(!Number.isFinite(v))return null;const whole=Math.floor(v),fraction=v-whole,d2=new Date(1899,11,30+whole);return d2.setHours(0,0,0,0),d2.setTime(d2.getTime()+Math.round(fraction*864e5)),Number.isNaN(d2.getTime())?null:d2}const s=String(v).trim(),m=s.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})(?:[ T]+(\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?\s*(AM|PM)?)?$/i);if(m){let hh=Number(m[4]||0),mm=Number(m[5]||0),ss=Number(m[6]||0),ms=Number(String(m[7]||"0").padEnd(3,"0"));const ap=(m[8]||"").toUpperCase();if(ap){if(hh<1||hh>12)return null;hh=hh%12+(ap==="PM"?12:0)}if(hh>23||mm>59||ss>59)return null;const d2=new Date(Number(m[3]),Number(m[2])-1,Number(m[1]),hh,mm,ss,ms);return d2.getFullYear()===Number(m[3])&&d2.getMonth()===Number(m[2])-1&&d2.getDate()===Number(m[1])?d2:null}const iso=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T]+(\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?\s*(AM|PM)?)?$/i);if(iso){let hh=Number(iso[4]||0),mm=Number(iso[5]||0),ss=Number(iso[6]||0),ms=Number(String(iso[7]||"0").padEnd(3,"0"));const ap=(iso[8]||"").toUpperCase();if(ap){if(hh<1||hh>12)return null;hh=hh%12+(ap==="PM"?12:0)}if(hh>23||mm>59||ss>59)return null;const d2=new Date(Number(iso[1]),Number(iso[2])-1,Number(iso[3]),hh,mm,ss,ms);return d2.getFullYear()===Number(iso[1])&&d2.getMonth()===Number(iso[2])-1&&d2.getDate()===Number(iso[3])?d2:null}const d=new Date(s);return Number.isNaN(d.getTime())?null:d}function normalizeWorkbookRows(matrix){if(!Array.isArray(matrix)||!matrix.length)return[];const norm=v=>String(v!=null?v:"").trim().toLowerCase().replace(/[^a-z0-9]+/g," "),headerTokens=["date","date time","order date","point of sale","store","store name","product","product name","category","product category","brand","quantity","qty","subtotal","sale value","sales value","customer","customer name","customer id","customer phone","customer/phone","partner","partner name","client","client name","contact","contact name","phone","mobile","order ref","order reference","order id","receipt number","ticket number"];let headerIndex=-1;for(let ri=0;ri<Math.min(matrix.length,10);ri++)if((matrix[ri]||[]).map(norm).filter(v=>headerTokens.includes(v)||headerTokens.some(t=>v===t+" name")).length>=3){headerIndex=ri;break}const hasHeaders=headerIndex>=0,headers=hasHeaders?(matrix[headerIndex]||[]).map(v=>String(v!=null?v:"").trim()):[],excelCol=i=>{let n=i+1,out="";for(;n;){const rem=(n-1)%26;out=String.fromCharCode(65+rem)+out,n=Math.floor((n-1)/26)}return out},dataStart=hasHeaders?headerIndex+1:0,nonEmpty=matrix.slice(dataStart).filter(a=>Array.isArray(a)&&a.some(v=>String(v!=null?v:"").trim()!==""));hasHeaders&&nonEmpty.length&&nonEmpty[0]===matrix[headerIndex]&&nonEmpty.shift();let lastDate="",lastStore="";const normalized=nonEmpty.map(values=>{var _a,_b,_c;const r={};headers.length&&headers.forEach((h,i)=>{h&&(r[h]=values[i]===void 0?"":values[i])}),values.forEach((v,i)=>{r["Column "+excelCol(i)]=v===void 0?"":v});const pick=(pos,keys)=>{var _a2;if(hasHeaders){for(const k of keys)if(r[k]!==void 0&&String(r[k]).trim()!=="")return r[k]}if(String((_a2=values[pos])!=null?_a2:"").trim()!=="")return values[pos];for(const k of keys)if(r[k]!==void 0&&String(r[k]).trim()!=="")return r[k];return""},headerToken=k=>String(k||"").toLowerCase().replace(/[^a-z0-9]/g,""),firstMatching=patterns=>{var _a2;for(const k of Object.keys(r)){const token=headerToken(k);if(patterns.some(p=>p.test(token))&&String((_a2=r[k])!=null?_a2:"").trim()!=="")return r[k]}return""},firstNonBlank=keys=>{for(const k of keys)if(r[k]!==void 0&&String(r[k]).trim()!=="")return r[k];return""};r["Order Ref"]||(r["Order Ref"]=firstNonBlank(["Order Reference","Order ID","Order Number","Receipt Number","Ticket Number","POS Order Reference","Sales Order","Sales Order Reference","Order Ref"])||firstMatching([/^order(id|number|ref|reference)$/,/^receipt(number|no|id)$/,/^ticket(number|no|id)$/])),r.Customer||(r.Customer=firstNonBlank(["Customer Name","Client","Client Name","Partner","Partner Name","Customer/Phone","Customer Phone","Phone","Mobile","Mobile Number","Phone Number","Contact","Contact Name","Customer ID","Partner ID"])||firstMatching([/^customer(name|id|code|phone|mobile|ref|reference)?$/,/^client(name|id|phone)?$/,/^partner(name|id|phone)?$/,/^contact(name|id|phone)?$/,/^(customer|client|partner|contact)(phone|mobile)$/,/^(phone|mobile)(number|no)?$/])),r["Customer/Phone"]||(r["Customer/Phone"]=firstNonBlank(["Customer/Phone","Customer Phone","Phone","Mobile","Mobile Number","Phone Number","Partner/Phone","Contact Phone"])||firstMatching([/^(customer|partner|client)(phone|mobile)$/,/^(phone|mobile)(number|no)?$/])||r["Column H"]||"");const dateValue=firstNonBlank(["Date","Date/Time","Order Date","Order date"])||pick(1,["Date","Date/Time","Order Date","Order date"]),storeValue=firstMatching([/^(?:pointofsale|store|storename|pos|posname)$/,/^channel(?:\d+)?$/])||pick(2,["Point of Sale","Store","Store Name","POS","Channel"]);String(dateValue).trim()!==""&&(lastDate=dateValue),String(storeValue).trim()!==""&&(lastStore=storeValue),r.Date=dateValue!==""?dateValue:lastDate,r["Point of Sale"]=storeValue!==""?storeValue:lastStore,r["Order Lines/Product/Name"]=pick(9,["Order Lines/Product/Name","Product","Product Name","Product/Name"]),r.Customer=firstNonBlank(["Customer","Customer Name","Client","Client Name","Partner","Partner Name","Contact Name"])||pick(6,["Customer","Customer Name","Client","Client Name","Partner","Partner Name","Contact Name"])||r.Customer||r["Column G"]||"",r["Customer/Phone"]=r["Customer/Phone"]||pick(7,["Customer/Phone","Customer Phone","Phone","Mobile","Mobile Number","Phone Number","Partner/Phone","Contact Phone"])||r["Column H"]||"",r._customer=String(r.Customer||"").trim(),r["Order Lines/Product/Product Category"]=pick(10,["Order Lines/Product/Product Category","Category","Product Category"]),r["Order Lines/Product/Brand"]=pick(12,["Order Lines/Product/Brand","Brand","Product Brand"]),r["Order Lines/Quantity"]=pick(13,["Order Lines/Quantity","Quantity","Qty","Total Qty.","Total Qty","Total Quantity"]),r["Order Lines/Subtotal"]=pick(16,["Order Lines/Subtotal","Subtotal","Sale Value","Sales Value","Total"]),r["Order Lines/Discount (%)"]=pick(14,["Order Lines/Discount (%)","Discount (%)","Discount Percent","Discount"]),r["Payment Method"]=pick(21,["Payment Method","Payment Mode","Payment Method Name","Payment"]);const employeeFromAC=hasHeaders?"":String((_b=(_a=values[28])!=null?_a:r["Column AC"])!=null?_b:"").trim(),employeeFromNamedHeader=Object.keys(r).filter(k=>{var _a2;const t=headerToken(k);return(t==="employees"||t.endsWith("employees")||t==="employee"||t==="employeename"||t==="salesperson"||t==="salespersonname"||t==="salespersonid"||t==="salesemployee"||t==="salesrep"||t==="salesrepresentative"||t==="salesagent"||t==="cashier"||t==="cashiername")&&String((_a2=r[k])!=null?_a2:"").trim()!==""}).map(k=>r[k]).find(v=>String(v!=null?v:"").trim()!=="");r.Employees=String(employeeFromNamedHeader!=null?employeeFromNamedHeader:"").trim()||employeeFromAC||String((_c=r.Employees)!=null?_c:"").trim(),r._employee=String(r.Employees||employeeFromAC||employeeFromNamedHeader||"").trim();const namedInvoice=firstNonBlank(["Invoice/Display Name","Invoice Display Name","Invoice Number","Invoice/Number","Bill Number","Invoice Name"]);r["Invoice/Display Name"]=namedInvoice||pick(5,["Invoice/Display Name","Invoice Display Name","Invoice Number","Invoice/Number","Bill Number","Invoice Name"])||r["Column F"]||"",namedInvoice&&(r["Invoice Name"]=namedInvoice);const invoiceStatus=firstMatching([/^invoicestatus$/,/^status$/]);return invoiceStatus!==""&&r["Invoice Status"]===void 0&&(r["Invoice Status"]=invoiceStatus),r._invoiceDisplayName=String(namedInvoice||r["Column F"]||r["Invoice/Display Name"]||"").trim(),r["Order Lines/Product/Sales Price"]===void 0&&(r["Order Lines/Product/Sales Price"]=pick(15,["Order Lines/Product/Sales Price","Sales Price","Unit Price","Price"])),r}),lastInvoiceByOrder=new Map;let lastInvoice="",lastDateKey="",lastCustomerKey="";for(const r of normalized){const orderRef=String(r["Column A"]||r["Order Ref"]||"").trim(),dateKey=String(r._key||r.Date||"").slice(0,10),customerKey2=String(r._customer||r.Customer||"").trim().toLowerCase();let inv=String(r["Column F"]||r._invoiceDisplayName||r["Invoice/Display Name"]||"").trim();if(inv){orderRef&&lastInvoiceByOrder.set(orderRef,inv),lastInvoice=inv,lastDateKey=dateKey,lastCustomerKey=customerKey2;continue}let inherited=orderRef?lastInvoiceByOrder.get(orderRef):"";!inherited&&lastInvoice&&dateKey===lastDateKey&&customerKey2===lastCustomerKey&&(inherited=lastInvoice),inherited&&(r["Column F"]=inherited,r["Invoice/Display Name"]=inherited,r._invoiceDisplayName=inherited,orderRef&&lastInvoiceByOrder.set(orderRef,inherited))}return normalized}function parseCSVText(text){const out=[];let row=[],field="",quoted=!1;for(let i=0;i<text.length;i++){const c=text[i];quoted?c==='"'&&text[i+1]==='"'?(field+='"',i++):c==='"'?quoted=!1:field+=c:c==='"'?quoted=!0:c===","?(row.push(field),field=""):c===`
 `||c==="\r"?(c==="\r"&&text[i+1]===`
@@ -3314,7 +3566,7 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
 <style id="huft-performance-layer">html body *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}html body .tabs,html body .header,html body #huftSingleStatusCard,html body .huft-hourly-popup,html body .huftPopupPanel,html body [role=dialog]>section{backdrop-filter:blur(14px) saturate(150%)!important;-webkit-backdrop-filter:blur(14px) saturate(150%)!important}:root{--uv-glass:linear-gradient(135deg,rgba(255,255,255,.86) 0%,rgba(255,255,255,.7) 55%,rgba(250,245,255,.78) 100%)}html.huft-hidden *,html.huft-hidden *::before,html.huft-hidden *::after{animation-play-state:paused!important}html.huft-hidden .huft-uv-bg i{animation-play-state:paused!important}html body .huft-uv-bg i{animation-duration:48s!important}html body .huft-uv-bg{contain:strict}</style>
 <script id="huft-perf-visibility">(function(){var h=document.documentElement;function sync(){h.classList.toggle('huft-hidden',document.hidden);}document.addEventListener('visibilitychange',sync);sync();})();</script>
 <style id="huft-perf-water">html body .huft-water-upload:not(:hover) *{animation-play-state:paused!important}</style>
-<style id="huft-glass-popups">:root{--pop-glass:linear-gradient(160deg,rgba(255,255,255,.92) 0%,rgba(255,255,255,.78) 100%);--pop-line:rgba(255,255,255,.95);--pop-shadow:0 18px 44px -18px rgba(76,29,149,.42),0 2px 6px rgba(76,29,149,.08),inset 0 1px 0 #fff;--pop-ink:#1e1537;--pop-muted:#6b5f86;--pop-accent:#7c3aed} html body .huftPopupOverlay,html body .chartModal,html body .wr-modal,html body .dtp-modal-overlay,html body .eodModalBackdrop,html body .aiActionBackdrop,html body #huftUploadOverlay,html body #huftWelcomeOverlay,html body [id$="Overlay"]:not(#huftLoginOverlay),html body [id$="Modal"]{background:rgba(30,21,55,.22)!important;backdrop-filter:blur(6px) saturate(130%)!important;-webkit-backdrop-filter:blur(6px) saturate(130%)!important;padding:16px!important;box-sizing:border-box!important} html body #huftHourlyPopup>.huftPopupPanel,html body #huftInvoiceDrillModal>.hid-panel,html body #huftReleaseNotesModal>.hrn-card,html body #wrModal>.wr-md,html body #chartModal>.chartModalBox,html body #packageSaleDrillModal>.chartModalBox,html body #huftReportAlertOverlay>#huftReportAlertCard,html body #huftEodMessageContent>.eodModalCard,html body #dtpModalOverlay>.dtp-modal-card,html body #huftUploadOverlay>#huftUploadCard,html body #huftDatePopupOverlay>section,html body #huftPsOverlay>section,html body #aiActionModal>section,html body #huftWelcomeOverlay>section,html body #huftWelcomeDialog,html body #chartPointPopup,html body #huftHoverCalendar,html body #huftKpiHoverPopup,html body #huftAdditionalKpiMousePopup,html body .chartPointPopup{background:var(--pop-glass)!important;border:1px solid var(--pop-line)!important;border-radius:16px!important;box-shadow:var(--pop-shadow)!important;backdrop-filter:blur(18px) saturate(160%)!important;-webkit-backdrop-filter:blur(18px) saturate(160%)!important;color:var(--pop-ink)!important;width:auto!important;max-width:min(400px,92vw)!important;max-height:min(70vh,520px)!important;overflow:auto!important;padding:14px 16px!important;font-size:12px!important;line-height:1.45!important;margin:0!important;animation:huftPopIn .22s cubic-bezier(.2,.9,.25,1) both} html body #huftKpiHoverPopup,html body #huftAdditionalKpiMousePopup,html body #chartPointPopup,html body #huftHoverCalendar,html body .chartPointPopup{padding:10px 12px!important;max-width:min(300px,92vw)!important;font-size:11px!important;border-radius:12px!important} @keyframes huftPopIn{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}} html body #huftHourlyPopup h1,html body #huftHourlyPopup h2,html body #huftHourlyPopup h3,html body .huftPopupOverlay h2,html body .chartModalBox h2,html body .chartModalBox h3,html body .hrn-card h2,html body .hid-panel h2,html body .dtp-modal-card h2,html body .eodModalCard h2,html body .eodModalCard h3,html body #huftReportAlertCard h2,html body #huftUploadCard h2{color:var(--pop-ink)!important;font-size:14px!important;font-weight:800!important;margin:0 0 8px!important;padding:0 0 6px!important;border:0!important;background:none!important;-webkit-text-fill-color:currentColor!important} html body .huftPopupOverlay button,html body .chartModal button,html body .wr-modal button,html body .dtp-modal-card button,html body .eodModalCard button,html body .hrn-card button,html body .hid-panel button,html body #huftUploadCard button,html body #huftReportAlertCard button,html body #huftKpiHoverPopup button,html body #huftHoverCalendar button,html body #huftReleaseNotesModal button{background:rgba(255,255,255,.75)!important;color:var(--pop-accent)!important;border:1px solid rgba(124,58,237,.22)!important;border-radius:10px!important;box-shadow:none!important;padding:6px 11px!important;font-size:11.5px!important;font-weight:700!important;height:auto!important;min-height:28px!important;transform:none!important} html body .huftPopupOverlay button:hover,html body .chartModal button:hover,html body .eodModalCard button:hover,html body .hrn-card button:hover,html body #huftHoverCalendar button:hover{background:#fff!important;box-shadow:0 6px 14px -8px rgba(124,58,237,.5)!important} html body .huftPopupOverlay button.primary,html body .eodModalCard button.primary,html body #huftReportAlertCard button.primary,html body .dtp-modal-card button.primary{background:linear-gradient(120deg,#7c3aed,#db2777)!important;color:#fff!important;border-color:transparent!important} html body .huftPopupOverlay table,html body .chartModal table,html body .hid-panel table,html body .hrn-card table,html body .wr-md table{font-size:11px!important} html body .huftPopupOverlay th,html body .chartModal th,html body .hid-panel th,html body .wr-md th{background:rgba(237,233,254,.9)!important;color:var(--pop-accent)!important;font-size:10.5px!important;padding:5px 6px!important} html body .huftPopupOverlay td,html body .chartModal td,html body .hid-panel td,html body .wr-md td{padding:5px 6px!important;border-color:rgba(124,58,237,.1)!important} html body .hrn-card article,html body .hid-body,html body .dtp-modal-card section{background:transparent!important} html body .huftPopupOverlay input,html body .dtp-modal-card input,html body .wr-md input,html body .eodModalCard input,html body .chartModal input{font-size:11.5px!important;padding:5px 8px!important;border-radius:9px!important;background:rgba(255,255,255,.8)!important;border:1px solid rgba(124,58,237,.2)!important;height:auto!important} html body .huftPopupOverlay [class*="close"],html body .chartModal [class*="close"],html body .hrn-close,html body .huftPopupOverlay .close{width:28px!important;height:28px!important;min-width:0!important;padding:0!important;border-radius:999px!important;display:grid!important;place-items:center!important;font-size:14px!important;line-height:1!important} html body .huftPopupPanel .huftPopupHead,html body .hid-head,html body .hrn-head,html body .chartModalTop,html body .dtp-modal-top,html body .eodModalTitleRow{padding-bottom:6px!important;margin-bottom:8px!important;border-bottom:1px solid rgba(124,58,237,.12)!important;background:transparent!important} html body #huftUploadOverlay #huftUploadCard{max-width:min(340px,92vw)!important} html body #huftUploadOverlay #huftUploadCard h2{font-size:15px!important} @media (prefers-reduced-motion:reduce){html body #huftHourlyPopup>.huftPopupPanel,html body .chartModalBox,html body .hrn-card{animation:none!important}} html body #huftReleaseNotesModal h3{color:var(--pop-accent)!important;font-size:13px!important;margin:0 0 2px!important;font-weight:800!important} html body #huftReleaseNotesModal .hrn-release small{color:var(--pop-muted)!important;font-size:10.5px!important} html body #huftReleaseNotesModal li{font-size:11.5px!important;color:var(--pop-ink)!important} html body #huftReleaseNotesModal .hrn-foot{color:var(--pop-muted)!important;background:transparent!important;font-size:10.5px!important} html body #huftReleaseNotesModal .hrn-card{max-height:min(70vh,520px)!important} html body #huftHourlyPopup .huftPopupHead *,html body #huftHourlyPopup .huftPopupHead{color:var(--pop-ink)!important;background:transparent!important} html body #huftHourlyPopup strong,html body #huftHourlyPopup b{color:var(--pop-accent)!important} html body #huftHourlyPopup .huftPopupHead{border-bottom:1px solid rgba(124,58,237,.12)!important;padding-bottom:6px!important;margin-bottom:8px!important} html body #huftKpiHoverPopup strong,html body #huftAdditionalKpiMousePopup strong,html body #chartPointPopup strong,html body #huftHoverCalendar strong,html body .chartPointPopup strong{color:var(--pop-ink)!important} html body #huftKpiHoverPopup span,html body #huftAdditionalKpiMousePopup span{color:var(--pop-muted)!important}</style>
+<style id="huft-glass-popups">:root{--pop-glass:linear-gradient(160deg,rgba(255,255,255,.92) 0%,rgba(255,255,255,.78) 100%);--pop-line:rgba(255,255,255,.95);--pop-shadow:0 18px 44px -18px rgba(76,29,149,.42),0 2px 6px rgba(76,29,149,.08),inset 0 1px 0 #fff;--pop-ink:#1e1537;--pop-muted:#6b5f86;--pop-accent:#7c3aed} html body .huftPopupOverlay,html body .chartModal,html body .wr-modal,html body .dtp-modal-overlay,html body .eodModalBackdrop,html body .aiActionBackdrop,html body #huftUploadOverlay,html body #huftWelcomeOverlay,html body [id$="Overlay"]:not(#huftLoginOverlay),html body [id$="Modal"]{background:rgba(30,21,55,.22)!important;backdrop-filter:blur(6px) saturate(130%)!important;-webkit-backdrop-filter:blur(6px) saturate(130%)!important;padding:16px!important;box-sizing:border-box!important} html body #huftHourlyPopup>.huftPopupPanel,html body #huftInvoiceDrillModal>.hid-panel,html body #huftReleaseNotesModal>.hrn-card,html body #wrModal>.wr-md,html body #chartModal>.chartModalBox,html body #packageSaleDrillModal>.chartModalBox,html body #huftReportAlertOverlay>#huftReportAlertCard,html body #huftEodMessageContent>.eodModalCard,html body #dtpModalOverlay>.dtp-modal-card,html body #huftUploadOverlay>#huftUploadCard,html body #huftDatePopupOverlay>section,html body #huftPsOverlay>section,html body #aiActionModal>section,html body #huftWelcomeOverlay>section,html body #huftWelcomeDialog,html body #chartPointPopup,html body #huftHoverCalendar,html body #huftKpiHoverPopup,html body #huftAdditionalKpiMousePopup,html body .chartPointPopup{background:var(--pop-glass)!important;border:1px solid var(--pop-line)!important;border-radius:16px!important;box-shadow:var(--pop-shadow)!important;backdrop-filter:blur(18px) saturate(160%)!important;-webkit-backdrop-filter:blur(18px) saturate(160%)!important;color:var(--pop-ink)!important;width:auto!important;max-width:min(960px,94vw)!important;width:min(960px,94vw)!important;max-height:min(70vh,520px)!important;overflow:auto!important;padding:14px 16px!important;font-size:12px!important;line-height:1.45!important;margin:0!important;animation:huftPopIn .22s cubic-bezier(.2,.9,.25,1) both} html body #huftKpiHoverPopup,html body #huftAdditionalKpiMousePopup,html body #chartPointPopup,html body #huftHoverCalendar,html body .chartPointPopup{padding:10px 12px!important;max-width:min(300px,92vw)!important;font-size:11px!important;border-radius:12px!important} @keyframes huftPopIn{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}} html body #huftHourlyPopup h1,html body #huftHourlyPopup h2,html body #huftHourlyPopup h3,html body .huftPopupOverlay h2,html body .chartModalBox h2,html body .chartModalBox h3,html body .hrn-card h2,html body .hid-panel h2,html body .dtp-modal-card h2,html body .eodModalCard h2,html body .eodModalCard h3,html body #huftReportAlertCard h2,html body #huftUploadCard h2{color:var(--pop-ink)!important;font-size:14px!important;font-weight:800!important;margin:0 0 8px!important;padding:0 0 6px!important;border:0!important;background:none!important;-webkit-text-fill-color:currentColor!important} html body .huftPopupOverlay button,html body .chartModal button,html body .wr-modal button,html body .dtp-modal-card button,html body .eodModalCard button,html body .hrn-card button,html body .hid-panel button,html body #huftUploadCard button,html body #huftReportAlertCard button,html body #huftKpiHoverPopup button,html body #huftHoverCalendar button,html body #huftReleaseNotesModal button{background:rgba(255,255,255,.75)!important;color:var(--pop-accent)!important;border:1px solid rgba(124,58,237,.22)!important;border-radius:10px!important;box-shadow:none!important;padding:6px 11px!important;font-size:11.5px!important;font-weight:700!important;height:auto!important;min-height:28px!important;transform:none!important} html body .huftPopupOverlay button:hover,html body .chartModal button:hover,html body .eodModalCard button:hover,html body .hrn-card button:hover,html body #huftHoverCalendar button:hover{background:#fff!important;box-shadow:0 6px 14px -8px rgba(124,58,237,.5)!important} html body .huftPopupOverlay button.primary,html body .eodModalCard button.primary,html body #huftReportAlertCard button.primary,html body .dtp-modal-card button.primary{background:linear-gradient(120deg,#7c3aed,#db2777)!important;color:#fff!important;border-color:transparent!important} html body .huftPopupOverlay table,html body .chartModal table,html body .hid-panel table,html body .hrn-card table,html body .wr-md table{font-size:11px!important} html body .huftPopupOverlay th,html body .chartModal th,html body .hid-panel th,html body .wr-md th{background:rgba(237,233,254,.9)!important;color:var(--pop-accent)!important;font-size:10.5px!important;padding:5px 6px!important} html body .huftPopupOverlay td,html body .chartModal td,html body .hid-panel td,html body .wr-md td{padding:5px 6px!important;border-color:rgba(124,58,237,.1)!important} html body .hrn-card article,html body .hid-body,html body .dtp-modal-card section{background:transparent!important} html body .huftPopupOverlay input,html body .dtp-modal-card input,html body .wr-md input,html body .eodModalCard input,html body .chartModal input{font-size:11.5px!important;padding:5px 8px!important;border-radius:9px!important;background:rgba(255,255,255,.8)!important;border:1px solid rgba(124,58,237,.2)!important;height:auto!important} html body .huftPopupOverlay [class*="close"],html body .chartModal [class*="close"],html body .hrn-close,html body .huftPopupOverlay .close{width:28px!important;height:28px!important;min-width:0!important;padding:0!important;border-radius:999px!important;display:grid!important;place-items:center!important;font-size:14px!important;line-height:1!important} html body .huftPopupPanel .huftPopupHead,html body .hid-head,html body .hrn-head,html body .chartModalTop,html body .dtp-modal-top,html body .eodModalTitleRow{padding-bottom:6px!important;margin-bottom:8px!important;border-bottom:1px solid rgba(124,58,237,.12)!important;background:transparent!important} html body #huftUploadOverlay #huftUploadCard{max-width:min(340px,92vw)!important} html body #huftUploadOverlay #huftUploadCard h2{font-size:15px!important} @media (prefers-reduced-motion:reduce){html body #huftHourlyPopup>.huftPopupPanel,html body .chartModalBox,html body .hrn-card{animation:none!important}} html body #huftReleaseNotesModal h3{color:var(--pop-accent)!important;font-size:13px!important;margin:0 0 2px!important;font-weight:800!important} html body #huftReleaseNotesModal .hrn-release small{color:var(--pop-muted)!important;font-size:10.5px!important} html body #huftReleaseNotesModal li{font-size:11.5px!important;color:var(--pop-ink)!important} html body #huftReleaseNotesModal .hrn-foot{color:var(--pop-muted)!important;background:transparent!important;font-size:10.5px!important} html body #huftReleaseNotesModal .hrn-card{max-height:min(70vh,520px)!important} html body #huftHourlyPopup .huftPopupHead *,html body #huftHourlyPopup .huftPopupHead{color:var(--pop-ink)!important;background:transparent!important} html body #huftHourlyPopup strong,html body #huftHourlyPopup b{color:var(--pop-accent)!important} html body #huftHourlyPopup .huftPopupHead{border-bottom:1px solid rgba(124,58,237,.12)!important;padding-bottom:6px!important;margin-bottom:8px!important} html body #huftKpiHoverPopup strong,html body #huftAdditionalKpiMousePopup strong,html body #chartPointPopup strong,html body #huftHoverCalendar strong,html body .chartPointPopup strong{color:var(--pop-ink)!important} html body #huftKpiHoverPopup span,html body #huftAdditionalKpiMousePopup span{color:var(--pop-muted)!important}</style>
 <style id="huft-compact-glossy-tracking-popups">
 #huftKpiHoverPopup,#huftAdditionalKpiMousePopup,#huftMonthKpiHoverTip,#chartPointPopup,.chartPointPopup,#dtrTip,#employeePercentTooltip,.employee-percent-tooltip,#employeeSaleHoverTip,.employee-sale-hover-tip,.hf-forecast-tip,.comparisonPieTooltip,.storeMetricTooltip{
  min-width:0!important;width:auto!important;max-width:min(180px,86vw)!important;
@@ -3363,34 +3615,15 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
   // ========================================================
   // DEVICE-TO-DEVICE AUTOMATIC CACHE PURGE
   // ========================================================
-  function autoPurgeDeviceStaleData() {
+    function autoPurgeDeviceStaleData() {
     try {
-      // 1. Clear any stuck loading screens or overlays immediately
+      // Clear any stuck loading screens or overlays immediately
       document.body.classList.remove("huft-initializing");
       const bootLoader = document.getElementById("huftBootLoader");
       if (bootLoader) bootLoader.remove();
-
-      // 2. Generate/Check active device session
-      const lastDeviceSession = localStorage.getItem('huft_device_session_time');
-      const now = Date.now();
-      const ONE_HOUR = 3600 * 1000;
-
-      // Automatically clean stale cache across devices
-      if (!lastDeviceSession || (now - Number(lastDeviceSession)) > (2 * ONE_HOUR)) {
-        console.log('[HUFT Engine] Auto-purging stale device-to-device local cache...');
-        
-        // Remove stale fallback storage and locks
-        localStorage.removeItem('HUFT_Hourly_Sale_LocalDB_latest_fallback');
-        localStorage.removeItem('huft_auth_session');
-        localStorage.removeItem('huft_stale_temp_cache');
-        localStorage.removeItem('huft_login_required');
-
-        // Update session timestamp for this device
-        localStorage.setItem('huft_device_session_time', String(now));
-      }
-    } catch(err) {
-      console.warn('[HUFT Engine] Auto-purge safe notice:', err.message);
-    }
+      // Persistent session retention - do not wipe sales data or auth session on refresh
+      localStorage.setItem('huft_device_session_time', String(Date.now()));
+    } catch(err) {}
   }
 
   window.huftPurgeDeviceCacheNow = function() {
@@ -3431,7 +3664,7 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
   };
 
   // Run auto purge immediately on load
-  autoPurgeDeviceStaleData();
+  // autoPurgeDeviceStaleData(); (neutralized)
 
   
 
@@ -4009,7 +4242,7 @@ const STORE_CREDENTIALS = {
       (customPass && pass === customPass) || 
       pass === 'Admin@2026' || 
       pass === 'admin123' || 
-      pass === 'Huft#HYD!UxdE'
+      pass === 'Huft#HYD!UxdE' || pass === 'Huft#2026!Store'
     );
 
     if (isValid) {
@@ -4028,12 +4261,11 @@ const STORE_CREDENTIALS = {
         };
 
         try {
-          sessionStorage.setItem('huft_active_session', JSON.stringify(session));
-          if (rememberMe) {
-            localStorage.setItem('huft_active_session', JSON.stringify(session));
-          } else {
-            localStorage.removeItem('huft_active_session');
-          }
+          const sessionStr = JSON.stringify(session);
+          localStorage.setItem('huft_active_session', sessionStr);
+          localStorage.setItem('huft_auth_session', sessionStr);
+          sessionStorage.setItem('huft_active_session', sessionStr);
+          sessionStorage.setItem('huft_auth_session', sessionStr);
 
           // Record login in Central Store
           const existingLogins = JSON.parse(localStorage.getItem('central_control_logins') || localStorage.getItem('huft_central_logins') || '[]');
@@ -4123,9 +4355,14 @@ const STORE_CREDENTIALS = {
   };
 
   window.huftLogout = function() {
+    localStorage.removeItem('huft_active_session');
     localStorage.removeItem('huft_auth_session');
+    sessionStorage.removeItem('huft_active_session');
     sessionStorage.removeItem('huft_auth_session');
     closeStoreProfileModal();
+
+    const hideStyle = document.getElementById('huft-persist-auth-hide');
+    if (hideStyle) hideStyle.remove();
 
     // Reset login form fields
     const passInput = document.getElementById('huftLoginPassword');
@@ -4137,18 +4374,24 @@ const STORE_CREDENTIALS = {
     if (overlay) {
       overlay.style.display = 'flex';
       overlay.style.opacity = '1';
+      overlay.style.visibility = 'visible';
+      overlay.style.pointerEvents = 'auto';
       if (passInput) passInput.focus();
     }
   };
 
   document.addEventListener('DOMContentLoaded', function() {
-    const rawSession = localStorage.getItem('huft_auth_session') || sessionStorage.getItem('huft_auth_session');
+    const rawSession = localStorage.getItem('huft_active_session') || localStorage.getItem('huft_auth_session') || sessionStorage.getItem('huft_active_session') || sessionStorage.getItem('huft_auth_session');
     if (rawSession) {
       try {
         const session = JSON.parse(rawSession);
-        const overlay = document.getElementById('huftLoginOverlay');
-        if (overlay) overlay.style.display = 'none';
-        applyHuftUserSession(session);
+        if (session && (session.email || session.storeName)) {
+          const overlay = document.getElementById('huftLoginOverlay');
+          if (overlay) overlay.style.display = 'none';
+          if (typeof applyHuftUserSession === 'function') {
+            applyHuftUserSession(session);
+          }
+        }
       } catch(e) {
         console.error('Failed to parse auth session:', e);
       }

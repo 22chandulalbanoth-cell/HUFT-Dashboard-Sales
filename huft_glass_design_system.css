@@ -1,0 +1,842 @@
+/* ==========================================================================
+   HUFT STORE INTELLIGENCE — LIGHT-ORANGE FROSTED GLASSMORHPISM DESIGN SYSTEM
+   Editorial Serif (Fraunces) + Humanist Sans-Serif (Plus Jakarta Sans)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600..700;1,9..144,600..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Canvas & Glass Surfaces */
+  --bg-canvas: #FFFBF7;
+  --glass-nav: rgba(255, 255, 255, 0.78);
+  --glass-card: rgba(255, 255, 255, 0.72);
+  --glass-subcard: rgba(255, 251, 247, 0.65);
+  --glass-hover: rgba(255, 255, 255, 0.92);
+  --glass-modal: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(251, 146, 60, 0.16);
+  --glass-border-crisp: rgba(251, 146, 60, 0.25);
+  --glass-inner-light: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  --glass-shadow: 0 8px 24px -6px rgba(194, 65, 12, 0.06), 0 2px 6px -2px rgba(194, 65, 12, 0.03);
+  --glass-shadow-hover: 0 14px 32px -6px rgba(194, 65, 12, 0.10), 0 4px 10px -2px rgba(194, 65, 12, 0.05);
+
+  /* Brand Accents */
+  --primary-accent: #EA580C;
+  --primary-hover: #C2410C;
+  --primary-focus: 0 0 0 3px rgba(234, 88, 12, 0.14);
+  --secondary-bg: #FFF3E6;
+  --secondary-bg-hover: #FFEDD5;
+  --secondary-text: #9A3412;
+
+  /* Text Hierarchy */
+  --text-primary: #1C1917;
+  --text-muted: #78716C;
+  --text-placeholder: #A8A29E;
+  --text-terracotta: #9A3412;
+
+  /* Semantic Status Colors */
+  --success-text: #15803D;
+  --success-bg: #F0FDF4;
+  --success-border: rgba(22, 163, 74, 0.22);
+
+  --error-text: #B91C1C;
+  --error-bg: #FEF2F2;
+  --error-border: rgba(220, 38, 38, 0.22);
+
+  --warning-text: #B45309;
+  --warning-bg: #FFFBEB;
+  --warning-border: rgba(217, 119, 6, 0.22);
+
+  /* Typography */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ==========================================================================
+   GLOBAL BASE & AMBIENT CANVAS
+   ========================================================================== */
+html, body {
+  background-color: var(--bg-canvas) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-sans) !important;
+  font-variant-numeric: tabular-nums !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* 3-4 Fixed Blurred Ambient Radial Peach/Apricot Orbs */
+.huft-ambient-canvas,
+.huft-uv-bg {
+  position: fixed !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  overflow: hidden !important;
+}
+
+.huft-orb,
+.huft-uv-bg i {
+  position: absolute !important;
+  border-radius: 50% !important;
+  filter: blur(80px) !important;
+  -webkit-filter: blur(80px) !important;
+  pointer-events: none !important;
+  will-change: transform;
+}
+
+.huft-orb-1,
+.huft-uv-bg i:nth-child(1) {
+  width: 540px !important;
+  height: 540px !important;
+  top: -100px !important;
+  right: 4% !important;
+  background: radial-gradient(circle, rgba(253, 186, 116, 0.22) 0%, rgba(255, 237, 213, 0.52) 65%, transparent 75%) !important;
+}
+
+.huft-orb-2,
+.huft-uv-bg i:nth-child(2) {
+  width: 500px !important;
+  height: 500px !important;
+  bottom: 5% !important;
+  left: -80px !important;
+  background: radial-gradient(circle, rgba(254, 215, 170, 0.26) 0%, rgba(255, 237, 213, 0.52) 60%, transparent 75%) !important;
+}
+
+.huft-orb-3,
+.huft-uv-bg i:nth-child(3) {
+  width: 440px !important;
+  height: 440px !important;
+  top: 38% !important;
+  right: 20% !important;
+  background: radial-gradient(circle, rgba(253, 186, 116, 0.18) 0%, rgba(254, 243, 199, 0.38) 60%, transparent 75%) !important;
+}
+
+.huft-orb-4,
+.huft-uv-bg i:nth-child(4) {
+  width: 400px !important;
+  height: 400px !important;
+  top: 12% !important;
+  left: 20% !important;
+  background: radial-gradient(circle, rgba(255, 237, 213, 0.45) 0%, rgba(254, 215, 170, 0.18) 65%, transparent 75%) !important;
+}
+
+/* Ensure UI layers sit above the ambient background */
+header, nav, aside, main, section, .page, .header, .tabs, .login-container, #adminApp, #loginView, .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   EDITORIAL TYPOGRAPHY HIERARCHY
+   ========================================================================== */
+
+/* Fraunces Editorial Display: Page Titles, Headings, Big Metric Digits */
+h1, h2, h3, h4,
+.dashTitle,
+.pageTitle,
+.modalTitle,
+.chartModalTitle,
+.chartHead b,
+.chartHead strong,
+.cardHead b,
+.cardHead strong,
+.section-title,
+.kpiVal,
+.metric-value,
+.stat-value,
+.hero-number,
+.statVal,
+.loginHeading,
+.login-title,
+.eodModalCard h3,
+.hid-title,
+.confirm-title,
+.wordmark,
+.panelTitle,
+.panelHead h2,
+.card h2,
+.employee-kpi-title,
+.employee-summary-card b,
+.employee-day-card b,
+.kpi b,
+.stat b,
+.huft-brand-title {
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  font-variation-settings: "SOFT" 45, "WONK" 0 !important;
+  letter-spacing: -0.022em !important;
+  color: var(--text-primary) !important;
+}
+
+h1, .dashTitle, .wordmark {
+  font-size: 24px !important;
+  line-height: 1.25 !important;
+}
+
+h2, .modalTitle, .chartModalTitle, .employee-kpi-title {
+  font-size: 19px !important;
+  line-height: 1.3 !important;
+}
+
+h3, .chartHead b, .chartHead strong, .panelHead h2 {
+  font-size: 14.5px !important;
+  line-height: 1.35 !important;
+}
+
+/* Brand display heading */
+.brand {
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  font-variation-settings: "SOFT" 45, "WONK" 0 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--text-primary) !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+}
+
+/* Body Text, Labels, Controls & Tables — Plus Jakarta Sans */
+body, p, span, div, a, label, input, button, select, textarea, td, th {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Card & Table Column Headers: 10.5px uppercase */
+th,
+.colHeader,
+.tableHead th,
+.table-header,
+.grid-header,
+.sub,
+.kpiSub,
+.chartSub,
+.tableSub,
+.field-label,
+.employee-kpi-table th,
+.tableWrap th,
+.miniTable th,
+.detailTable th,
+.admin-table th {
+  font-family: var(--font-sans) !important;
+  font-size: 10.5px !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  color: var(--text-muted) !important;
+}
+
+/* Currency & Unit Prefixes (₹, $, %): 0.72em in warm terracotta (#9A3412) */
+.curr,
+.currency,
+.kpiVal::before,
+.kpiVal span.curr,
+.metric-value::before,
+.metric-value span.curr,
+.kpi b .curr,
+.stat b .curr {
+  font-family: var(--font-sans) !important;
+  font-size: 0.72em !important;
+  font-weight: 600 !important;
+  color: var(--text-terracotta) !important;
+  margin-right: 2px !important;
+  display: inline-block !important;
+  vertical-align: baseline !important;
+}
+
+/* Secondary copy */
+.sub, .dashSub, .chartHead span, .text-muted, .text-secondary, .hint, .lastSaleStamp {
+  color: var(--text-muted) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* ==========================================================================
+   LAYERED FROSTED GLASS SURFACES
+   ========================================================================== */
+
+/* Top Navbar & Left Sidebar: Translucent warm white (rgba(255, 255, 255, 0.78)) */
+header,
+.header,
+#header,
+aside,
+.sidebar,
+#sidebarNav,
+.tabs,
+#navRailTabs,
+.bi-top-nav {
+  background: var(--glass-nav) !important;
+  backdrop-filter: blur(16px) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(130%) !important;
+  border-color: var(--glass-border) !important;
+}
+
+.header, header {
+  border-bottom: 1px solid var(--glass-border) !important;
+  box-shadow: 0 4px 16px -4px rgba(194, 65, 12, 0.04) !important;
+}
+
+.tabs, #navRailTabs, aside, .sidebar {
+  border-right: 1px solid var(--glass-border) !important;
+  box-shadow: 4px 0 20px -6px rgba(194, 65, 12, 0.03) !important;
+}
+
+/* Navigation items */
+.tab, .nav-btn, .sidebar-link {
+  color: var(--text-muted) !important;
+  border-radius: 10px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.tab:hover, .nav-btn:hover, .sidebar-link:hover {
+  background: var(--secondary-bg) !important;
+  color: var(--secondary-text) !important;
+}
+
+.tab.active, .nav-btn.active, .sidebar-link.active {
+  background: var(--primary-accent) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.28) !important;
+}
+
+.tab.active svg, .nav-btn.active svg {
+  stroke: #ffffff !important;
+  color: #ffffff !important;
+}
+
+.tab-switch-glass {
+  background: linear-gradient(120deg, #EA580C 0%, #C2410C 100%) !important;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.28) !important;
+}
+
+/* Main Cards, Containers, Drawers & Panels */
+.dashPanel,
+.kpi,
+.card,
+.panel,
+.reportCard,
+.chartCard,
+.storeTargetPanel,
+.miniTableWrap,
+.foodComparePanel,
+.employee-chart-card,
+.employee-summary-card,
+.employee-panel,
+.admin-card,
+.stat-card,
+.table-card,
+.detailTableWrap,
+#monthKpiComparePanel,
+#storeAiPanel,
+#aiTrendWarnings,
+#dayTrendPanel,
+#dtrChartWrap,
+#huftProfilePanel,
+#employeeDailySalesPanel,
+#packageReturnDrillCard,
+.portal-card,
+.login-panel,
+.login-card {
+  background: var(--glass-card) !important;
+  backdrop-filter: blur(14px) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(130%) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow), var(--glass-inner-light) !important;
+  border-radius: 14px !important;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease, border-color 0.22s ease !important;
+}
+
+/* Interactive card hover lift */
+.dashPanel:hover,
+.kpi:hover,
+.card:hover,
+.reportCard:hover,
+.stat-card:hover,
+.employee-chart-card:hover,
+.employee-summary-card:hover {
+  background: var(--glass-hover) !important;
+  border-color: var(--glass-border-crisp) !important;
+  box-shadow: var(--glass-shadow-hover), var(--glass-inner-light) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Nested Sub-Cards & Inputs: Subtle frosted tint (rgba(255, 251, 247, 0.65)) */
+.sub-card,
+.dashTop,
+.filterBar,
+.timingDayFilter,
+.peakFilter,
+.control-group,
+.detailScroll,
+.input-group,
+.search-box,
+.toolbar,
+.employee-kpi-controls,
+.employee-native-date-range,
+.employee-name-filter {
+  background: var(--glass-subcard) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 12px !important;
+}
+
+/* Inputs, Textareas & Selects */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="date"],
+input[type="number"],
+select,
+textarea,
+.inp,
+.filterInput,
+.admin-input,
+.portal-input,
+.portal-select,
+.portal-textarea {
+  background: var(--glass-subcard) !important;
+  border: 1px solid var(--glass-border-crisp) !important;
+  border-radius: 10px !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  padding: 8px 12px !important;
+  transition: all 0.16s ease !important;
+  box-shadow: inset 0 1px 2px rgba(194, 65, 12, 0.03) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.inp:focus,
+.filterInput:focus,
+.admin-input:focus,
+.portal-input:focus,
+.portal-select:focus,
+.portal-textarea:focus {
+  background: #ffffff !important;
+  border-color: var(--primary-accent) !important;
+  outline: none !important;
+  box-shadow: var(--primary-focus) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-placeholder) !important;
+}
+
+/* Primary CTA Buttons */
+.btn-primary,
+.primaryBtn,
+button.primary,
+.primary,
+#huftLoginBtn,
+#adminLoginBtn,
+#loginSubmitBtn,
+.login-submit-btn,
+button[type="submit"],
+.save-btn,
+.action-primary,
+#huftRefreshLatestPOS,
+#huftPhoneSearchGo,
+#huftWaterUploadButton,
+.portal-primary-btn,
+.portal-submit-btn,
+#saveTargetsButton,
+.dashActions button,
+#huftEodTargetsSave,
+.employee-action:not(.secondary) {
+  background: var(--primary-accent) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-family: var(--font-sans) !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  padding: 9px 18px !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.28) !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.btn-primary:hover,
+.primaryBtn:hover,
+button.primary:hover,
+.primary:hover,
+#huftLoginBtn:hover,
+#adminLoginBtn:hover,
+#loginSubmitBtn:hover,
+.login-submit-btn:hover,
+button[type="submit"]:hover,
+.portal-primary-btn:hover,
+#huftRefreshLatestPOS:hover,
+#huftPhoneSearchGo:hover {
+  background: var(--primary-hover) !important;
+  box-shadow: 0 6px 18px rgba(234, 88, 12, 0.36) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Soft Secondary Accents & Filter Pills */
+.timingDayFilterBtn,
+.peakFilterBtn,
+.peakDayFilterBtn,
+.tab-pill,
+.filter-pill,
+.btn-secondary,
+.employee-action.secondary,
+#compareFilterReset {
+  background: var(--secondary-bg) !important;
+  color: var(--secondary-text) !important;
+  border: 1px solid rgba(251, 146, 60, 0.20) !important;
+  border-radius: 9999px !important;
+  font-family: var(--font-sans) !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  padding: 5px 12px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.timingDayFilterBtn:hover,
+.peakFilterBtn:hover,
+.peakDayFilterBtn:hover,
+.tab-pill:hover,
+.btn-secondary:hover,
+#compareFilterReset:hover {
+  background: var(--secondary-bg-hover) !important;
+  border-color: rgba(251, 146, 60, 0.35) !important;
+}
+
+.timingDayFilterBtn.active,
+.peakFilterBtn.active,
+.peakDayFilterBtn.active,
+.tab-pill.active {
+  background: var(--primary-accent) !important;
+  color: #ffffff !important;
+  border-color: var(--primary-accent) !important;
+  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.24) !important;
+}
+
+/* ==========================================================================
+   DATA TABLES & LISTS
+   ========================================================================== */
+.table-wrapper,
+.detailScroll,
+.miniTableWrap,
+.data-table-container,
+.tableWrap,
+.employee-table-scroll {
+  background: var(--glass-card) !important;
+  backdrop-filter: blur(14px) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(130%) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--glass-shadow), var(--glass-inner-light) !important;
+  overflow: auto !important;
+}
+
+table,
+.detailTable,
+.miniTable,
+.admin-table,
+.employee-kpi-table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  font-family: var(--font-sans) !important;
+  font-size: 12px !important;
+}
+
+/* Sticky Translucent Header */
+thead,
+.table-header,
+th,
+.employee-kpi-table th {
+  background: rgba(255, 243, 230, 0.65) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border-bottom: 1px solid rgba(251, 146, 60, 0.16) !important;
+  padding: 10px 14px !important;
+  color: var(--text-muted) !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+}
+
+/* Table Rows & Hairline Dividers */
+tbody tr,
+.table-row {
+  background: rgba(255, 251, 247, 0.65) !important;
+  border-bottom: 1px solid rgba(251, 146, 60, 0.12) !important;
+  transition: background-color 0.14s ease !important;
+}
+
+tbody tr:last-child {
+  border-bottom: none !important;
+}
+
+/* Subtle Peach Row Hover Highlight */
+tbody tr:hover,
+.table-row:hover,
+.employee-kpi-table tbody tr:hover td {
+  background: rgba(255, 243, 230, 0.85) !important;
+}
+
+td,
+.employee-kpi-table td {
+  padding: 9px 14px !important;
+  color: var(--text-primary) !important;
+  font-variant-numeric: tabular-nums !important;
+  border-bottom: 1px solid rgba(251, 146, 60, 0.12) !important;
+  border-right: 1px solid rgba(251, 146, 60, 0.08) !important;
+}
+
+/* ==========================================================================
+   SEMANTIC STATUS BADGES
+   ========================================================================== */
+.badge-success,
+.status-active,
+.trendUp,
+.badge-growth,
+.growthUp,
+.pos,
+.positive {
+  background: var(--success-bg) !important;
+  color: var(--success-text) !important;
+  border: 1px solid var(--success-border) !important;
+  border-radius: 9999px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 2px 8px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+.badge-error,
+.status-danger,
+.trendDown,
+.badge-degrowth,
+.growthDown,
+.neg,
+.negative {
+  background: var(--error-bg) !important;
+  color: var(--error-text) !important;
+  border: 1px solid var(--error-border) !important;
+  border-radius: 9999px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 2px 8px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+.badge-warning,
+.status-pending,
+.badge-caution,
+.growthSame {
+  background: var(--warning-bg) !important;
+  color: var(--warning-text) !important;
+  border: 1px solid var(--warning-border) !important;
+  border-radius: 9999px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 2px 8px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+.badge-info,
+.huftLivePill,
+.tag-info,
+#huftReleaseBadge {
+  background: var(--secondary-bg) !important;
+  color: var(--secondary-text) !important;
+  border: 1px solid rgba(251, 146, 60, 0.22) !important;
+  border-radius: 9999px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 2px 8px !important;
+}
+
+/* ==========================================================================
+   FORMS, MODALS & TOASTS
+   ========================================================================== */
+
+/* Frosted Glass Backdrop Overlay */
+.modal-overlay,
+.chartModal,
+.wr-modal,
+.dtp-modal-overlay,
+.eodModalBackdrop,
+.aiActionBackdrop,
+#huftUploadOverlay,
+#huftWelcomeOverlay,
+#huftInvoiceDrillModal,
+#chartModal,
+#huftStoreProfileModal,
+.modal-backdrop,
+.bi-profile-backdrop {
+  background: rgba(28, 25, 23, 0.20) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+}
+
+/* Elevated Frosted Modal Card */
+.modal-card,
+.chartModalBox,
+.hrn-card,
+.eodModalCard,
+.dtp-modal-card,
+.hid-panel,
+#huftWelcomeDialog,
+#huftUploadCard,
+#huftReportAlertCard,
+.huftPopupPanel,
+.huft-simple-profile-card,
+.huft-profile-panel {
+  background: var(--glass-modal) !important;
+  backdrop-filter: blur(16px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+  border: 1px solid var(--glass-border-crisp) !important;
+  box-shadow: 0 24px 64px -12px rgba(194, 65, 12, 0.16), 0 4px 16px -2px rgba(194, 65, 12, 0.06), var(--glass-inner-light) !important;
+  border-radius: 16px !important;
+  color: var(--text-primary) !important;
+}
+
+/* Floating Glass Notification Toasts */
+#huftSingleStatusCard,
+.huft-single-status-card,
+.toast,
+.toast-notification {
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(14px) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(130%) !important;
+  border: 1px solid var(--glass-border-crisp) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 32px -4px rgba(194, 65, 12, 0.12), var(--glass-inner-light) !important;
+  color: var(--text-primary) !important;
+}
+
+#huftSingleStatusCard .hsc-icon {
+  background: var(--primary-accent) !important;
+}
+
+/* Lightweight Tooltips */
+#huftKpiHoverPopup,
+#huftAdditionalKpiMousePopup,
+#huftMonthKpiHoverTip,
+#chartPointPopup,
+.chartPointPopup,
+#dtrTip,
+#employeePercentTooltip,
+.employee-percent-tooltip,
+#employeeSaleHoverTip,
+.employee-sale-hover-tip {
+  background: rgba(255, 255, 255, 0.94) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--glass-border-crisp) !important;
+  box-shadow: 0 8px 24px -4px rgba(194, 65, 12, 0.15) !important;
+  border-radius: 10px !important;
+  color: var(--text-primary) !important;
+}
+
+/* Empty & Loading States */
+#huftBootLoader,
+.loading-overlay,
+.empty-state {
+  background: var(--bg-canvas) !important;
+  color: var(--text-primary) !important;
+}
+
+.spinner-terracotta {
+  border-color: rgba(234, 88, 12, 0.2) !important;
+  border-top-color: var(--primary-accent) !important;
+}
+
+/* ==========================================================================
+   ENTERPRISE ADMIN CONSOLE OVERRIDES (admin.html)
+   ========================================================================== */
+#loginView {
+  background: transparent !important;
+}
+
+#loginView .login-container {
+  background: var(--glass-modal) !important;
+  backdrop-filter: blur(18px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(140%) !important;
+  border: 1px solid var(--glass-border-crisp) !important;
+  box-shadow: 0 24px 64px -12px rgba(194, 65, 12, 0.14), var(--glass-inner-light) !important;
+  border-radius: 20px !important;
+  padding: 32px !important;
+}
+
+#adminApp aside {
+  background: var(--glass-nav) !important;
+  backdrop-filter: blur(16px) saturate(130%) !important;
+  border-right: 1px solid var(--glass-border) !important;
+}
+
+#adminApp header {
+  background: var(--glass-nav) !important;
+  backdrop-filter: blur(16px) saturate(130%) !important;
+  border-bottom: 1px solid var(--glass-border) !important;
+}
+
+#adminApp main {
+  background: transparent !important;
+}
+
+#adminApp .bg-white,
+#adminApp .bg-slate-50,
+#adminApp .bg-navy-900,
+#adminApp .bg-navy-800 {
+  background: var(--glass-card) !important;
+  border-color: var(--glass-border) !important;
+}
+
+#adminApp aside .text-slate-400,
+#adminApp aside .text-slate-300 {
+  color: var(--text-muted) !important;
+}
+
+/* ==========================================================================
+   PORTAL / LOGIN SPLIT-SCREEN (index.html & dashboard.html)
+   ========================================================================== */
+#huftLoginOverlay,
+body.portal-body {
+  background-color: var(--bg-canvas) !important;
+}
+
+.portal-card,
+.login-panel {
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(18px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(140%) !important;
+  border: 1px solid var(--glass-border-crisp) !important;
+  box-shadow: 0 20px 50px -10px rgba(194, 65, 12, 0.12), var(--glass-inner-light) !important;
+  border-radius: 18px !important;
+}
+
+.portal-input,
+.field input {
+  background: #ffffff !important;
+  border: 1px solid var(--glass-border-crisp) !important;
+  color: var(--text-primary) !important;
+}
+
+.portal-input:focus,
+.field input:focus {
+  border-color: var(--primary-accent) !important;
+  box-shadow: var(--primary-focus) !important;
+}

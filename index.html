@@ -48,8 +48,105 @@ console.log('[Storage] Storage preserved in index.html.');
   @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.scene{transform:none!important}.submit:after{display:none}}
   </style>
   <style id="portal-shell">body.portal-dashboard{overflow:hidden}body.portal-dashboard>.ambient,body.portal-dashboard>.layout{display:none!important}#dashboardApp{position:fixed;inset:0;z-index:20;background:#fff}#dashboardFrame{display:block;width:100%;height:100%;border:0;background:#fff}</style>
+  <link rel="stylesheet" href="huft_glass_design_system.css">
+
+<style id="portal-glass-overrides">
+body {
+  background: #FFFBF7 !important;
+  color: #1C1917 !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+body:before { display: none !important; }
+.wordmark {
+  font-family: 'Fraunces', Georgia, serif !important;
+  font-weight: 700 !important;
+  color: #1C1917 !important;
+  font-variation-settings: "SOFT" 45, "WONK" 0 !important;
+  letter-spacing: -0.025em !important;
+}
+.wordmark span {
+  color: #EA580C !important;
+}
+.eyebrow {
+  color: #EA580C !important;
+}
+.eyebrow:before {
+  background: #EA580C !important;
+}
+.lead {
+  color: #78716C !important;
+}
+.login-panel, .portal-card {
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(18px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(140%) !important;
+  border: 1px solid rgba(251, 146, 60, 0.22) !important;
+  box-shadow: 0 20px 50px -10px rgba(194, 65, 12, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  border-radius: 20px !important;
+  color: #1C1917 !important;
+}
+.panel-head h1, .login-title, .portal-title {
+  font-family: 'Fraunces', Georgia, serif !important;
+  font-weight: 700 !important;
+  color: #1C1917 !important;
+}
+.panel-head p, .portal-subtitle {
+  color: #78716C !important;
+}
+label, .portal-label {
+  color: #78716C !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+.field input, .portal-input, .portal-select, .portal-textarea {
+  background: #ffffff !important;
+  border: 1px solid rgba(251, 146, 60, 0.25) !important;
+  color: #1C1917 !important;
+  border-radius: 10px !important;
+}
+.field input:focus, .portal-input:focus {
+  border-color: #EA580C !important;
+  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.14) !important;
+}
+.submit, .portal-primary-btn {
+  background: #EA580C !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.28) !important;
+}
+.submit:hover, .portal-primary-btn:hover {
+  background: #C2410C !important;
+  box-shadow: 0 6px 18px rgba(234, 88, 12, 0.36) !important;
+}
+.float-card {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(251, 146, 60, 0.2) !important;
+  box-shadow: 0 10px 30px rgba(194, 65, 12, 0.08), inset 0 1px 0 #fff !important;
+  color: #1C1917 !important;
+}
+.float-card strong {
+  color: #1C1917 !important;
+  font-family: 'Fraunces', serif !important;
+}
+.float-card small {
+  color: #78716C !important;
+}
+.assurance {
+  color: #78716C !important;
+}
+</style>
+
 </head>
 <body>
+
+  <div class="huft-ambient-canvas" aria-hidden="true">
+    <div class="huft-orb huft-orb-1"></div>
+    <div class="huft-orb huft-orb-2"></div>
+    <div class="huft-orb huft-orb-3"></div>
+    <div class="huft-orb huft-orb-4"></div>
+  </div>
   <div class="ambient a" aria-hidden="true"></div><div class="ambient b" aria-hidden="true"></div>
   <main class="layout">
     <section class="intro" aria-label="Store Intelligence">
@@ -85,7 +182,7 @@ console.log('[Storage] Storage preserved in index.html.');
       </div>
 
       <!-- Compact 3D Flip Tabs Navigation -->
-      <div class="portal-tabs-nav" id="portalTabsNav" style="display:flex; gap:6px; margin-bottom:16px; background:rgba(11,17,30,0.65); padding:4px; border-radius:12px; border:1px solid rgba(255,255,255,0.12); box-shadow:inset 0 1px 3px rgba(0,0,0,0.35);">
+      <div class="portal-tabs-nav" id="portalTabsNav" style="display:flex; gap:6px; margin-bottom:16px; background:rgba(255, 243, 230, 0.85); padding:4px; border-radius:12px; border:1px solid rgba(251, 146, 60, 0.22); box-shadow:inset 0 1px 2px rgba(194,65,12,0.04);">
         <button type="button" id="tabBtnSignIn" class="tab-pill active" onclick="switchPortalTab('signin')">
           <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right:2px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
           Sign In

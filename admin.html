@@ -146,7 +146,7 @@ console.log('[Storage] Storage preserved in admin.html.');
       inset: 0 !important;
       width: 100vw !important;
       height: 100vh !important;
-      background-color: #0d1522 !important;
+      background-color: transparent !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
@@ -286,11 +286,19 @@ console.log('[Storage] Storage preserved in admin.html.');
       border-color: rgba(59, 130, 246, 0.4) !important;
     }
   </style>
+  <link rel="stylesheet" href="huft_glass_design_system.css">
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen">
 
+  <div class="huft-ambient-canvas" aria-hidden="true">
+    <div class="huft-orb huft-orb-1"></div>
+    <div class="huft-orb huft-orb-2"></div>
+    <div class="huft-orb huft-orb-3"></div>
+    <div class="huft-orb huft-orb-4"></div>
+  </div>
+
   <!-- AUTHENTICATION / LOGIN VIEW -->
-  <div id="loginView" style="position: fixed; inset: 0; width: 100vw; height: 100vh; background-color: #0d1522; display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 16px; overflow-y: auto; box-sizing: border-box;">
+  <div id="loginView" style="position: fixed; inset: 0; width: 100vw; height: 100vh; background-color: transparent; display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 16px; overflow-y: auto; box-sizing: border-box;">
     <div style="width: 100%; max-width: 440px; margin: auto;" class="login-container">
       <!-- Brand Emblem & Titles -->
       <div style="text-align: center; margin-bottom: 24px;">
@@ -299,8 +307,8 @@ console.log('[Storage] Storage preserved in admin.html.');
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
           </svg>
         </div>
-        <h1 style="font-size: 22px; font-weight: 800; letter-spacing: 0.05em; color: #ffffff; text-transform: uppercase; margin: 0;">CENTRAL CONTROL</h1>
-        <p style="font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px;">Enterprise Administration &amp; Security Console</p>
+        <h1 style="font-size: 22px; font-weight: 800; letter-spacing: 0.05em; color: #1C1917; text-transform: uppercase; margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 700;">CENTRAL CONTROL</h1>
+        <p style="font-size: 11px; font-weight: 600; color: #78716C; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; font-family: Plus Jakarta Sans, sans-serif; font-weight: 600;">Enterprise Administration &amp; Security Console</p>
       </div>
 
       <!-- Login Card -->
@@ -2221,7 +2229,7 @@ console.log('[Storage] Storage preserved in admin.html.');
         currentAdminSession = null;
         if (loginView) {
           loginView.classList.remove("hidden");
-          loginView.setAttribute("style", "position: fixed !important; inset: 0 !important; width: 100vw !important; height: 100vh !important; background-color: #0d1522 !important; display: flex !important; align-items: center !important; justify-content: center !important; z-index: 9999 !important; padding: 16px !important; overflow-y: auto !important; box-sizing: border-box !important;");
+          loginView.setAttribute("style", "position: fixed !important; inset: 0 !important; width: 100vw !important; height: 100vh !important; background-color: transparent !important; display: flex !important; align-items: center !important; justify-content: center !important; z-index: 9999 !important; padding: 16px !important; overflow-y: auto !important; box-sizing: border-box !important;");
         }
         if (adminApp) {
           adminApp.classList.add("hidden");

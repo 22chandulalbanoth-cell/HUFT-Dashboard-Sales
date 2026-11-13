@@ -1790,7 +1790,6 @@ html body #packageSaleDrillModal > .chartModalBox,
 html body #chartModal > .chartModalBox,
 html body #huftInvoiceDrillModal > .hid-panel,
 html body #dtpModalOverlay > .dtp-modal-card,
-html body #huftHourlyPopup > .huftPopupPanel,
 html body #wrModal > .wr-md,
 html body #dailyReturnHistoryModal > .chartModalBox,
 html body #huftEodMessageContent > .eodModalCard,
@@ -1963,6 +1962,121 @@ html body .package-drill-month-count {
     max-height: 92vh !important;
   }
 }
+
+/* ==========================================================================
+   HUFT HOURLY POPUP CARD — COMPACT, BEAUTIFULLY FITTED POPUP SIZING
+   ========================================================================== */
+html body #huftHourlyPopup.huft-audit-open,
+html body #huftHourlyPopup.show,
+html body #huftHourlyPopup.open,
+html body #huftHourlyPopup[style*="display: flex"],
+html body #huftHourlyPopup[style*="display:flex"],
+html body #huftHourlyPopup[style*="display: block"],
+html body #huftHourlyPopup[style*="display:block"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
+  box-sizing: border-box !important;
+  background: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  z-index: 2147483646 !important;
+}
+
+html body #huftHourlyPopup .huftPopupPanel,
+html body #huftHourlyPopup > .huftPopupPanel {
+  width: min(450px, calc(100vw - 28px)) !important;
+  min-width: 0 !important;
+  max-width: min(450px, calc(100vw - 28px)) !important;
+  max-height: min(88vh, 700px) !important;
+  border-radius: 16px !important;
+  padding: 20px 22px !important;
+  box-sizing: border-box !important;
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  box-shadow: 0 24px 60px -12px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(15, 23, 42, 0.08) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  margin: auto !important;
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+}
+
+html body #huftHourlyPopup .huftPopupHead {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding-bottom: 12px !important;
+  margin-bottom: 14px !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+
+html body #huftHourlyPopup .huftPopupHead h3 {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  margin: 0 !important;
+}
+
+html body #huftHourlyPopup #huftPopupMessageMount,
+html body #huftHourlyPopup #messageBox {
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  color: #1E293B !important;
+  word-break: break-word !important;
+}
+
+html body #huftHourlyPopup .huftPopupActionButtons {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-top: 14px !important;
+}
+
+html body #huftHourlyPopup .huftPopupActions .copy,
+html body #huftHourlyPopup .huftPopupActionButtons button {
+  flex: 1 1 auto !important;
+  padding: 9px 14px !important;
+  border-radius: 10px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  border: 1px solid #CBD5E1 !important;
+  background: #F8FAFC !important;
+  color: #0F172A !important;
+  transition: all 0.15s ease !important;
+  text-align: center !important;
+}
+
+html body #huftHourlyPopup .huftPopupActions .copy:hover,
+html body #huftHourlyPopup .huftPopupActionButtons button:hover {
+  background: #F1F5F9 !important;
+  border-color: #94A3B8 !important;
+}
+
+html body #huftHourlyPopup .huftPopupActions .copy#copyHuftPopupMessage {
+  background: #E06324 !important;
+  color: #FFFFFF !important;
+  border-color: #E06324 !important;
+}
+
+html body #huftHourlyPopup .huftPopupActions .copy#copyHuftPopupMessage:hover {
+  background: #C85017 !important;
+  border-color: #C85017 !important;
+}
+
+html body #huftHourlyPopup #huftPopupRefreshStatus {
+  font-size: 11px !important;
+  color: #64748B !important;
+  margin-top: 8px !important;
+  text-align: center !important;
+}
+
 </style>
 
 </head>
@@ -3324,7 +3438,7 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
 
 
 <style id="huft-final-audited-popup-css">#huftHourlyPopup[hidden]{display:none!important}#huftHourlyPopup{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;margin:0!important;padding:0!important;background:transparent!important;pointer-events:none!important;z-index:2147483646!important;display:none}#huftHourlyPopup.huft-audit-open{display:block!important}#huftHourlyPopup .huftPopupPanel{position:fixed!important;left:12px;top:12px;width:min(370px,calc(100vw - 24px))!important;max-width:calc(100vw - 24px)!important;max-height:calc(100vh - 24px)!important;overflow:auto!important;box-sizing:border-box!important;pointer-events:auto!important;background:rgba(255,252,248,.98)!important;border:1px solid #f3c9a9!important;border-radius:13px!important;box-shadow:0 8px 24px rgba(82,48,26,.16)!important;color:#334155!important}#huftHourlyPopup .huftPopupPanel *{box-sizing:border-box}#huftHourlyPopup .huftPopupPanel .msgLine{display:block!important;margin:0!important;padding:0!important}#huftHourlyPopup .huftPopupPanel .msgSectionHeading{font-size:12px!important;font-weight:800!important;color:#9a3412!important;margin-top:7px!important;margin-bottom:2px!important}@media(max-width:600px){#huftHourlyPopup .huftPopupPanel{width:min(340px,calc(100vw - 20px))!important;max-width:calc(100vw - 20px)!important;max-height:calc(100vh - 20px)!important}}</style>
-<script id="huft-final-audited-popup-controller">(function(){if(window.__HUFT_AUDITED_POPUP__)return;window.__HUFT_AUDITED_POPUP__=!0;const oldPopup=document.getElementById("huftHourlyPopup"),oldTrigger=document.getElementById("huftSingleStatusCard");if(!oldPopup||!oldTrigger)return;const popup=oldPopup.cloneNode(!0);oldPopup.replaceWith(popup);const panel=popup.querySelector(".huftPopupPanel"),closeBtn=popup.querySelector("#closeHuftHourlyPopup"),copyBtn=popup.querySelector("#copyHuftPopupMessage"),refreshBtn=popup.querySelector("#refreshHuftPopupReport"),mount=popup.querySelector("#huftPopupMessageMount"),message=document.getElementById("messageBox");message&&mount&&message.parentElement!==mount&&mount.appendChild(message),message&&(message.hidden=!1),popup.parentElement!==document.body&&document.body.appendChild(popup);let open=!1,timer=0,raf=0,x=0,y=0;const touch=()=>window.matchMedia("(hover:none),(pointer:coarse)").matches,money=n=>huftCompactINR(n,0),parseDate=t=>{const m=String(t||"").trim().match(/(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);return m?{key:`${m[3]}-${String(m[2]).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`,date:new Date(+m[3],+m[2]-1,+m[1])}:null};function getReport(){var _a;const body2=document.getElementById("dailyBody");if(!body2)return null;const candidates=[...body2.querySelectorAll("tr")].filter(tr=>!tr.classList.contains("totalRow")&&tr.cells.length>=16).map(tr=>({tr,date:parseDate(tr.cells[0].textContent)})).filter(r=>r.date&&Number.isFinite(r.date.date.getTime())),now=new Date,todayKey=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`,to=document.getElementById("to"),toKey=to&&/^\d{4}-\d{2}-\d{2}$/.test(to.value)?to.value:null;candidates.sort((a,b)=>b.date.key.localeCompare(a.date.key));const targetDay=typeof getHuftReportDay=="function"?getHuftReportDay():todayKey,chosen=candidates.find(r=>r.date.key===todayKey)||candidates.find(r=>r.date.key===targetDay)||candidates[0]||null,cell=i=>{var _a2;return chosen&&Number(String(((_a2=chosen.tr.cells[i])==null?void 0:_a2.textContent)||"0").replace(/[^0-9.-]/g,""))||0},brands=[{name:"Sara's Wholesome",q:3,a:4},{name:"Hearty",q:5,a:6},{name:"Meowsi",q:7,a:8},{name:"NutriMeow",q:9,a:10},{name:"NutriWag",q:11,a:12}].map(b=>({...b,qty:cell(b.q),sale:cell(b.a)}));return{chosen,brands,retail:cell(1),spa:cell(2),packages:cell(14),food:brands.reduce((sum,b)=>sum+b.sale,0),store:(((_a=document.getElementById("storeName"))==null?void 0:_a.textContent)||"All Stores").trim(),todayKey,toKey}}function render(){const d=getReport();if(!d)return;const dateText=new Date().toLocaleDateString("en-IN",{day:"2-digit",month:"long",year:"numeric"}),set=(id,v)=>{const el=popup.querySelector("#"+id);el&&(el.textContent=v)};set("reportTitle","HUFT Hourly Sale Message"),set("reportDate","Date: "+dateText),set("reportStore","Store: "+d.store),set("reportTime","\u{1F4C5} HUFT Food Sale Update \u2013 "+(new Date().getHours()>=20?"10 PM":"6 PM")),set("reportRetail","\u2022 Retail Sale: "+money(d.retail)+"/-"),set("reportSpa","\u2022 SPA Sale: "+money(d.spa)+"/-"),set("reportPackages","\u2022 SPA Packages Redeemed: "+d.packages.toLocaleString("en-IN")),set("reportSalesTotal","\u2022 Total Sale: "+money(d.retail+d.spa)+"/-");const needles=["HUFT Sara's Wholesome","HUFT Hearty","HUFT Meowsi","HUFT NutriMeow","HUFT NutriWag"];d.brands.forEach((b,i)=>{let samples=0;try{typeof sampleQtyForDay=="function"&&(samples=sampleQtyForDay(d.todayKey,needles[i]))}catch{}set(["reportSara","reportHearty","reportMeowsi","reportNutriMeow","reportNutriWag"][i],"\u2022 "+b.name+": "+b.qty.toLocaleString("en-IN")+" Qty"+(samples>0?" (Sample: "+samples.toLocaleString("en-IN")+" Qty)":"")+" | "+money(b.sale)+"/-")});try{const sg=getSarasGravyMetrics(d.todayKey);set("reportSarasGravy","\u2022 Sara's Gravy: "+sg.qty.toLocaleString("en-IN")+" Qty"+(sg.sample>0?" (Sample: "+sg.sample.toLocaleString("en-IN")+" Qty)":"")+" | "+money(sg.amount)+"/-")}catch{}set("reportTotal","\u2022 Total HUFT Food Sale: "+money(d.food)+"/-");const status=popup.querySelector("#huftPopupRefreshStatus");if(status){const label=d.chosen?"Current-day sales":"No current-day sales rows \u2022 showing \u20B90";status.textContent=label+" \u2022 "+dateText+(d.chosen?" \u2022 refreshed just now":"")}}function place(){if(!open)return;const vw=document.documentElement.clientWidth||innerWidth,vh=document.documentElement.clientHeight||innerHeight,edge=10,gap=14,r=panel.getBoundingClientRect(),w=r.width||Math.min(370,vw-20),h=r.height||Math.min(360,vh-20);let left=x+gap,top=y+gap;left+w>vw-edge&&(left=x-w-gap),top+h>vh-edge&&(top=y-h-gap),left=Math.max(edge,Math.min(left,vw-w-edge)),top=Math.max(edge,Math.min(top,vh-h-edge)),panel.style.setProperty("left",Math.round(left)+"px","important"),panel.style.setProperty("top",Math.round(top)+"px","important")}function cancel(){timer&&(clearTimeout(timer),timer=0)}function schedule(){cancel(),timer=setTimeout(()=>{timer=0,!oldTrigger.matches(":hover")&&!panel.matches(":hover")&&close()},300)}function show(e){if(cancel(),e&&Number.isFinite(e.clientX))x=e.clientX,y=e.clientY;else{const r=oldTrigger.getBoundingClientRect();x=r.left+r.width/2,y=r.top+r.height/2}open=!0,popup.hidden=!1,popup.classList.add("huft-audit-open"),render(),raf&&cancelAnimationFrame(raf),raf=requestAnimationFrame(()=>{raf=0,place()})}function close(){cancel(),open=!1,raf&&cancelAnimationFrame(raf),raf=0,popup.hidden=!0,popup.classList.remove("huft-audit-open"),popup.style.display="none"}document.querySelectorAll("#huft .huftHourlyLauncherCard .messageBox,#huft .huftHourlyLauncherCard #messageBox,#huft .huftHourlyLauncherCard .messageText3D").forEach(el=>{el!==message&&el.style.setProperty("display","none","important")}),popup.hidden=!0,popup.style.display="none",oldTrigger.addEventListener("pointerenter",e=>{e.pointerType!=="touch"&&show(e)}),oldTrigger.addEventListener("pointerleave",e=>{e.pointerType!=="touch"&&schedule()}),panel.addEventListener("pointerenter",cancel),panel.addEventListener("pointerleave",e=>{e.pointerType!=="touch"&&schedule()}),document.addEventListener("pointermove",e=>{!open||e.pointerType==="touch"||(oldTrigger.matches(":hover")||panel.matches(":hover"))&&cancel()},{passive:!0}),oldTrigger.addEventListener("click",e=>{touch()&&(e.preventDefault(),show(e))},!0),closeBtn&&closeBtn.addEventListener("click",e=>{e.preventDefault(),e.stopPropagation(),close()}),document.addEventListener("keydown",e=>{e.key==="Escape"&&open&&close()},!0),window.addEventListener("resize",place,{passive:!0}),copyBtn&&copyBtn.addEventListener("click",async()=>{const text=window.buildWhatsApp?window.buildWhatsApp():(mount==null?void 0:mount.innerText)||"";try{await navigator.clipboard.writeText(text)}catch{const ta=document.createElement("textarea");ta.value=text,ta.style.position="fixed",ta.style.opacity="0",document.body.appendChild(ta),ta.select();try{document.execCommand("copy")}catch{}ta.remove()}const prev=copyBtn.textContent;copyBtn.textContent="\u2713 Copied WhatsApp Message",setTimeout(()=>{copyBtn.isConnected&&(copyBtn.textContent=prev)},1200)}),refreshBtn&&refreshBtn.addEventListener("click",async()=>{try{typeof restoreLocalRows=="function"&&await restoreLocalRows(),typeof clearDayCache=="function"&&clearDayCache(),typeof updateLiveReport=="function"&&updateLiveReport()}catch{}render()});const body=document.getElementById("dailyBody");body&&new MutationObserver(()=>{open&&render()}).observe(body,{childList:!0,subtree:!0,characterData:!0}),close()})();
+<script id="huft-final-audited-popup-controller">(function(){if(window.__HUFT_AUDITED_POPUP__)return;window.__HUFT_AUDITED_POPUP__=!0;const oldPopup=document.getElementById("huftHourlyPopup"),oldTrigger=document.getElementById("huftSingleStatusCard");if(!oldPopup||!oldTrigger)return;const popup=oldPopup.cloneNode(!0);oldPopup.replaceWith(popup);const panel=popup.querySelector(".huftPopupPanel"),closeBtn=popup.querySelector("#closeHuftHourlyPopup"),copyBtn=popup.querySelector("#copyHuftPopupMessage"),refreshBtn=popup.querySelector("#refreshHuftPopupReport"),mount=popup.querySelector("#huftPopupMessageMount"),message=document.getElementById("messageBox");message&&mount&&message.parentElement!==mount&&mount.appendChild(message),message&&(message.hidden=!1),popup.parentElement!==document.body&&document.body.appendChild(popup);let open=!1,timer=0,raf=0,x=0,y=0;const touch=()=>window.matchMedia("(hover:none),(pointer:coarse)").matches,money=n=>huftCompactINR(n,0),parseDate=t=>{const m=String(t||"").trim().match(/(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);return m?{key:`${m[3]}-${String(m[2]).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`,date:new Date(+m[3],+m[2]-1,+m[1])}:null};function getReport(){var _a;const body2=document.getElementById("dailyBody");if(!body2)return null;const candidates=[...body2.querySelectorAll("tr")].filter(tr=>!tr.classList.contains("totalRow")&&tr.cells.length>=16).map(tr=>({tr,date:parseDate(tr.cells[0].textContent)})).filter(r=>r.date&&Number.isFinite(r.date.date.getTime())),now=new Date,todayKey=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`,to=document.getElementById("to"),toKey=to&&/^\d{4}-\d{2}-\d{2}$/.test(to.value)?to.value:null;candidates.sort((a,b)=>b.date.key.localeCompare(a.date.key));const targetDay=typeof getHuftReportDay=="function"?getHuftReportDay():todayKey,chosen=candidates.find(r=>r.date.key===todayKey)||candidates.find(r=>r.date.key===targetDay)||candidates[0]||null,cell=i=>{var _a2;return chosen&&Number(String(((_a2=chosen.tr.cells[i])==null?void 0:_a2.textContent)||"0").replace(/[^0-9.-]/g,""))||0},brands=[{name:"Sara's Wholesome",q:3,a:4},{name:"Hearty",q:5,a:6},{name:"Meowsi",q:7,a:8},{name:"NutriMeow",q:9,a:10},{name:"NutriWag",q:11,a:12}].map(b=>({...b,qty:cell(b.q),sale:cell(b.a)}));return{chosen,brands,retail:cell(1),spa:cell(2),packages:cell(14),food:brands.reduce((sum,b)=>sum+b.sale,0),store:(((_a=document.getElementById("storeName"))==null?void 0:_a.textContent)||"All Stores").trim(),todayKey,toKey}}function render(){const d=getReport();if(!d)return;const dateText=new Date().toLocaleDateString("en-IN",{day:"2-digit",month:"long",year:"numeric"}),set=(id,v)=>{const el=popup.querySelector("#"+id);el&&(el.textContent=v)};set("reportTitle","HUFT Hourly Sale Message"),set("reportDate","Date: "+dateText),set("reportStore","Store: "+d.store),set("reportTime","\u{1F4C5} HUFT Food Sale Update \u2013 "+(new Date().getHours()>=20?"10 PM":"6 PM")),set("reportRetail","\u2022 Retail Sale: "+money(d.retail)+"/-"),set("reportSpa","\u2022 SPA Sale: "+money(d.spa)+"/-"),set("reportPackages","\u2022 SPA Packages Redeemed: "+d.packages.toLocaleString("en-IN")),set("reportSalesTotal","\u2022 Total Sale: "+money(d.retail+d.spa)+"/-");const needles=["HUFT Sara's Wholesome","HUFT Hearty","HUFT Meowsi","HUFT NutriMeow","HUFT NutriWag"];d.brands.forEach((b,i)=>{let samples=0;try{typeof sampleQtyForDay=="function"&&(samples=sampleQtyForDay(d.todayKey,needles[i]))}catch{}set(["reportSara","reportHearty","reportMeowsi","reportNutriMeow","reportNutriWag"][i],"\u2022 "+b.name+": "+b.qty.toLocaleString("en-IN")+" Qty"+(samples>0?" (Sample: "+samples.toLocaleString("en-IN")+" Qty)":"")+" | "+money(b.sale)+"/-")});try{const sg=getSarasGravyMetrics(d.todayKey);set("reportSarasGravy","\u2022 Sara's Gravy: "+sg.qty.toLocaleString("en-IN")+" Qty"+(sg.sample>0?" (Sample: "+sg.sample.toLocaleString("en-IN")+" Qty)":"")+" | "+money(sg.amount)+"/-")}catch{}set("reportTotal","\u2022 Total HUFT Food Sale: "+money(d.food)+"/-");const status=popup.querySelector("#huftPopupRefreshStatus");if(status){const label=d.chosen?"Current-day sales":"No current-day sales rows \u2022 showing \u20B90";status.textContent=label+" \u2022 "+dateText+(d.chosen?" \u2022 refreshed just now":"")}}function place(){if(!open)return;const vw=document.documentElement.clientWidth||innerWidth,vh=document.documentElement.clientHeight||innerHeight,edge=10,gap=14,r=panel.getBoundingClientRect(),w=r.width||Math.min(370,vw-20),h=r.height||Math.min(360,vh-20);let left=x+gap,top=y+gap;left+w>vw-edge&&(left=x-w-gap),top+h>vh-edge&&(top=y-h-gap),left=Math.max(edge,Math.min(left,vw-w-edge)),top=Math.max(edge,Math.min(top,vh-h-edge)),panel.style.setProperty("left",Math.round(left)+"px","important"),panel.style.setProperty("top",Math.round(top)+"px","important")}function cancel(){timer&&(clearTimeout(timer),timer=0)}function schedule(){cancel(),timer=setTimeout(()=>{timer=0,!oldTrigger.matches(":hover")&&!panel.matches(":hover")&&close()},300)}function show(e){if(cancel(),e&&Number.isFinite(e.clientX))x=e.clientX,y=e.clientY;else{const r=oldTrigger.getBoundingClientRect();x=r.left+r.width/2,y=r.top+r.height/2}open=!0,popup.hidden=!1,popup.classList.add("huft-audit-open"),render(),raf&&cancelAnimationFrame(raf),raf=requestAnimationFrame(()=>{raf=0,place()})}function close(){cancel(),open=!1,raf&&cancelAnimationFrame(raf),raf=0,popup.hidden=!0,popup.classList.remove("huft-audit-open"),popup.style.display="none"}document.querySelectorAll("#huft .huftHourlyLauncherCard .messageBox,#huft .huftHourlyLauncherCard #messageBox,#huft .huftHourlyLauncherCard .messageText3D").forEach(el=>{el!==message&&el.style.setProperty("display","none","important")}),popup.hidden=!0,popup.style.display="none",oldTrigger.addEventListener("pointerenter",e=>{e.pointerType!=="touch"&&show(e)}),oldTrigger.addEventListener("pointerleave",e=>{e.pointerType!=="touch"&&schedule()}),panel.addEventListener("pointerenter",cancel),panel.addEventListener("pointerleave",e=>{e.pointerType!=="touch"&&schedule()}),document.addEventListener("pointermove",e=>{!open||e.pointerType==="touch"||(oldTrigger.matches(":hover")||panel.matches(":hover"))&&cancel()},{passive:!0}),oldTrigger.addEventListener("click",e=>{e.preventDefault();open?close():show(e);},!0),closeBtn&&closeBtn.addEventListener("click",e=>{e.preventDefault(),e.stopPropagation(),close()}),document.addEventListener("keydown",e=>{e.key==="Escape"&&open&&close()},!0),window.addEventListener("resize",place,{passive:!0}),copyBtn&&copyBtn.addEventListener("click",async()=>{const text=window.buildWhatsApp?window.buildWhatsApp():(mount==null?void 0:mount.innerText)||"";try{await navigator.clipboard.writeText(text)}catch{const ta=document.createElement("textarea");ta.value=text,ta.style.position="fixed",ta.style.opacity="0",document.body.appendChild(ta),ta.select();try{document.execCommand("copy")}catch{}ta.remove()}const prev=copyBtn.textContent;copyBtn.textContent="\u2713 Copied WhatsApp Message",setTimeout(()=>{copyBtn.isConnected&&(copyBtn.textContent=prev)},1200)}),refreshBtn&&refreshBtn.addEventListener("click",async()=>{try{typeof restoreLocalRows=="function"&&await restoreLocalRows(),typeof clearDayCache=="function"&&clearDayCache(),typeof updateLiveReport=="function"&&updateLiveReport()}catch{}render()});const body=document.getElementById("dailyBody");body&&new MutationObserver(()=>{open&&render()}).observe(body,{childList:!0,subtree:!0,characterData:!0}),close()})();
 </script>
 
 
@@ -3593,7 +3707,83 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
 <style id="huft-performance-layer">html body *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}html body .tabs,html body .header,html body #huftSingleStatusCard,html body .huft-hourly-popup,html body .huftPopupPanel,html body [role=dialog]>section{backdrop-filter:blur(14px) saturate(150%)!important;-webkit-backdrop-filter:blur(14px) saturate(150%)!important}:root{--uv-glass:linear-gradient(135deg,rgba(255,255,255,.86) 0%,rgba(255,255,255,.7) 55%,rgba(250,245,255,.78) 100%)}html.huft-hidden *,html.huft-hidden *::before,html.huft-hidden *::after{animation-play-state:paused!important}html.huft-hidden .huft-uv-bg i{animation-play-state:paused!important}html body .huft-uv-bg i{animation-duration:48s!important}html body .huft-uv-bg{contain:strict}</style>
 <script id="huft-perf-visibility">(function(){var h=document.documentElement;function sync(){h.classList.toggle('huft-hidden',document.hidden);}document.addEventListener('visibilitychange',sync);sync();})();</script>
 <style id="huft-perf-water">html body .huft-water-upload:not(:hover) *{animation-play-state:paused!important}</style>
-<style id="huft-glass-popups">:root{--pop-glass:linear-gradient(160deg,rgba(255,255,255,.92) 0%,rgba(255,255,255,.78) 100%);--pop-line:rgba(255,255,255,.95);--pop-shadow:0 18px 44px -18px rgba(76,29,149,.42),0 2px 6px rgba(76,29,149,.08),inset 0 1px 0 #fff;--pop-ink:#1e1537;--pop-muted:#6b5f86;--pop-accent:#7c3aed} html body .huftPopupOverlay,html body .chartModal,html body .wr-modal,html body .dtp-modal-overlay,html body .eodModalBackdrop,html body .aiActionBackdrop,html body #huftUploadOverlay,html body #huftWelcomeOverlay,html body [id$="Overlay"]:not(#huftLoginOverlay),html body [id$="Modal"]{background:rgba(30,21,55,.22)!important;backdrop-filter:blur(6px) saturate(130%)!important;-webkit-backdrop-filter:blur(6px) saturate(130%)!important;padding:16px!important;box-sizing:border-box!important} html body #huftHourlyPopup>.huftPopupPanel,html body #huftInvoiceDrillModal>.hid-panel,html body #huftReleaseNotesModal>.hrn-card,html body #wrModal>.wr-md,html body #chartModal>.chartModalBox,html body #packageSaleDrillModal>.chartModalBox,html body #huftReportAlertOverlay>#huftReportAlertCard,html body #huftEodMessageContent>.eodModalCard,html body #dtpModalOverlay>.dtp-modal-card,html body #huftUploadOverlay>#huftUploadCard,html body #huftDatePopupOverlay>section,html body #huftPsOverlay>section,html body #aiActionModal>section,html body #huftWelcomeOverlay>section,html body #huftWelcomeDialog,html body #chartPointPopup,html body #huftHoverCalendar,html body #huftKpiHoverPopup,html body #huftAdditionalKpiMousePopup,html body .chartPointPopup{background:var(--pop-glass)!important;border:1px solid var(--pop-line)!important;border-radius:16px!important;box-shadow:var(--pop-shadow)!important;backdrop-filter:blur(18px) saturate(160%)!important;-webkit-backdrop-filter:blur(18px) saturate(160%)!important;color:var(--pop-ink)!important;width:auto!important;max-width:min(960px,94vw)!important;width:min(960px,94vw)!important;max-height:min(70vh,520px)!important;overflow:auto!important;padding:14px 16px!important;font-size:12px!important;line-height:1.45!important;margin:0!important;animation:huftPopIn .22s cubic-bezier(.2,.9,.25,1) both} html body #huftKpiHoverPopup,html body #huftAdditionalKpiMousePopup,html body #chartPointPopup,html body #huftHoverCalendar,html body .chartPointPopup{padding:10px 12px!important;max-width:min(300px,92vw)!important;font-size:11px!important;border-radius:12px!important} @keyframes huftPopIn{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}} html body #huftHourlyPopup h1,html body #huftHourlyPopup h2,html body #huftHourlyPopup h3,html body .huftPopupOverlay h2,html body .chartModalBox h2,html body .chartModalBox h3,html body .hrn-card h2,html body .hid-panel h2,html body .dtp-modal-card h2,html body .eodModalCard h2,html body .eodModalCard h3,html body #huftReportAlertCard h2,html body #huftUploadCard h2{color:var(--pop-ink)!important;font-size:14px!important;font-weight:800!important;margin:0 0 8px!important;padding:0 0 6px!important;border:0!important;background:none!important;-webkit-text-fill-color:currentColor!important} html body .huftPopupOverlay button,html body .chartModal button,html body .wr-modal button,html body .dtp-modal-card button,html body .eodModalCard button,html body .hrn-card button,html body .hid-panel button,html body #huftUploadCard button,html body #huftReportAlertCard button,html body #huftKpiHoverPopup button,html body #huftHoverCalendar button,html body #huftReleaseNotesModal button{background:rgba(255,255,255,.75)!important;color:var(--pop-accent)!important;border:1px solid rgba(124,58,237,.22)!important;border-radius:10px!important;box-shadow:none!important;padding:6px 11px!important;font-size:11.5px!important;font-weight:700!important;height:auto!important;min-height:28px!important;transform:none!important} html body .huftPopupOverlay button:hover,html body .chartModal button:hover,html body .eodModalCard button:hover,html body .hrn-card button:hover,html body #huftHoverCalendar button:hover{background:#fff!important;box-shadow:0 6px 14px -8px rgba(124,58,237,.5)!important} html body .huftPopupOverlay button.primary,html body .eodModalCard button.primary,html body #huftReportAlertCard button.primary,html body .dtp-modal-card button.primary{background:linear-gradient(120deg,#7c3aed,#db2777)!important;color:#fff!important;border-color:transparent!important} html body .huftPopupOverlay table,html body .chartModal table,html body .hid-panel table,html body .hrn-card table,html body .wr-md table{font-size:11px!important} html body .huftPopupOverlay th,html body .chartModal th,html body .hid-panel th,html body .wr-md th{background:rgba(237,233,254,.9)!important;color:var(--pop-accent)!important;font-size:10.5px!important;padding:5px 6px!important} html body .huftPopupOverlay td,html body .chartModal td,html body .hid-panel td,html body .wr-md td{padding:5px 6px!important;border-color:rgba(124,58,237,.1)!important} html body .hrn-card article,html body .hid-body,html body .dtp-modal-card section{background:transparent!important} html body .huftPopupOverlay input,html body .dtp-modal-card input,html body .wr-md input,html body .eodModalCard input,html body .chartModal input{font-size:11.5px!important;padding:5px 8px!important;border-radius:9px!important;background:rgba(255,255,255,.8)!important;border:1px solid rgba(124,58,237,.2)!important;height:auto!important} html body .huftPopupOverlay [class*="close"],html body .chartModal [class*="close"],html body .hrn-close,html body .huftPopupOverlay .close{width:28px!important;height:28px!important;min-width:0!important;padding:0!important;border-radius:999px!important;display:grid!important;place-items:center!important;font-size:14px!important;line-height:1!important} html body .huftPopupPanel .huftPopupHead,html body .hid-head,html body .hrn-head,html body .chartModalTop,html body .dtp-modal-top,html body .eodModalTitleRow{padding-bottom:6px!important;margin-bottom:8px!important;border-bottom:1px solid rgba(124,58,237,.12)!important;background:transparent!important} html body #huftUploadOverlay #huftUploadCard{max-width:min(340px,92vw)!important} html body #huftUploadOverlay #huftUploadCard h2{font-size:15px!important} @media (prefers-reduced-motion:reduce){html body #huftHourlyPopup>.huftPopupPanel,html body .chartModalBox,html body .hrn-card{animation:none!important}} html body #huftReleaseNotesModal h3{color:var(--pop-accent)!important;font-size:13px!important;margin:0 0 2px!important;font-weight:800!important} html body #huftReleaseNotesModal .hrn-release small{color:var(--pop-muted)!important;font-size:10.5px!important} html body #huftReleaseNotesModal li{font-size:11.5px!important;color:var(--pop-ink)!important} html body #huftReleaseNotesModal .hrn-foot{color:var(--pop-muted)!important;background:transparent!important;font-size:10.5px!important} html body #huftReleaseNotesModal .hrn-card{max-height:min(70vh,520px)!important} html body #huftHourlyPopup .huftPopupHead *,html body #huftHourlyPopup .huftPopupHead{color:var(--pop-ink)!important;background:transparent!important} html body #huftHourlyPopup strong,html body #huftHourlyPopup b{color:var(--pop-accent)!important} html body #huftHourlyPopup .huftPopupHead{border-bottom:1px solid rgba(124,58,237,.12)!important;padding-bottom:6px!important;margin-bottom:8px!important} html body #huftKpiHoverPopup strong,html body #huftAdditionalKpiMousePopup strong,html body #chartPointPopup strong,html body #huftHoverCalendar strong,html body .chartPointPopup strong{color:var(--pop-ink)!important} html body #huftKpiHoverPopup span,html body #huftAdditionalKpiMousePopup span{color:var(--pop-muted)!important}</style>
+<style id="huft-glass-popups">:root{--pop-glass:linear-gradient(160deg,rgba(255,255,255,.92) 0%,rgba(255,255,255,.78) 100%);--pop-line:rgba(255,255,255,.95);--pop-shadow:0 18px 44px -18px rgba(76,29,149,.42),0 2px 6px rgba(76,29,149,.08),inset 0 1px 0 #fff;--pop-ink:#1e1537;--pop-muted:#6b5f86;--pop-accent:#7c3aed} html body .huftPopupOverlay,html body .chartModal,html body .wr-modal,html body .dtp-modal-overlay,html body .eodModalBackdrop,html body .aiActionBackdrop,html body #huftUploadOverlay,html body #huftWelcomeOverlay,html body [id$="Overlay"]:not(#huftLoginOverlay),html body [id$="Modal"]{background:rgba(30,21,55,.22)!important;backdrop-filter:blur(6px) saturate(130%)!important;-webkit-backdrop-filter:blur(6px) saturate(130%)!important;padding:16px!important;box-sizing:border-box!important} html body #huftInvoiceDrillModal>.hid-panel,html body #huftReleaseNotesModal>.hrn-card,html body #wrModal>.wr-md,html body #chartModal>.chartModalBox,html body #packageSaleDrillModal>.chartModalBox,html body #huftReportAlertOverlay>#huftReportAlertCard,html body #huftEodMessageContent>.eodModalCard,html body #dtpModalOverlay>.dtp-modal-card,html body #huftUploadOverlay>#huftUploadCard,html body #huftDatePopupOverlay>section,html body #huftPsOverlay>section,html body #aiActionModal>section,html body #huftWelcomeOverlay>section,html body #huftWelcomeDialog,html body #chartPointPopup,html body #huftHoverCalendar,html body #huftKpiHoverPopup,html body #huftAdditionalKpiMousePopup,html body .chartPointPopup{background:var(--pop-glass)!important;border:1px solid var(--pop-line)!important;border-radius:16px!important;box-shadow:var(--pop-shadow)!important;backdrop-filter:blur(18px) saturate(160%)!important;-webkit-backdrop-filter:blur(18px) saturate(160%)!important;color:var(--pop-ink)!important;width:auto!important;max-width:min(960px,94vw)!important;width:min(960px,94vw)!important;max-height:min(70vh,520px)!important;overflow:auto!important;padding:14px 16px!important;font-size:12px!important;line-height:1.45!important;margin:0!important;animation:huftPopIn .22s cubic-bezier(.2,.9,.25,1) both} html body #huftKpiHoverPopup,html body #huftAdditionalKpiMousePopup,html body #chartPointPopup,html body #huftHoverCalendar,html body .chartPointPopup{padding:10px 12px!important;max-width:min(300px,92vw)!important;font-size:11px!important;border-radius:12px!important} @keyframes huftPopIn{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}} html body #huftHourlyPopup h1,html body #huftHourlyPopup h2,html body #huftHourlyPopup h3,html body .huftPopupOverlay h2,html body .chartModalBox h2,html body .chartModalBox h3,html body .hrn-card h2,html body .hid-panel h2,html body .dtp-modal-card h2,html body .eodModalCard h2,html body .eodModalCard h3,html body #huftReportAlertCard h2,html body #huftUploadCard h2{color:var(--pop-ink)!important;font-size:14px!important;font-weight:800!important;margin:0 0 8px!important;padding:0 0 6px!important;border:0!important;background:none!important;-webkit-text-fill-color:currentColor!important} html body .huftPopupOverlay button,html body .chartModal button,html body .wr-modal button,html body .dtp-modal-card button,html body .eodModalCard button,html body .hrn-card button,html body .hid-panel button,html body #huftUploadCard button,html body #huftReportAlertCard button,html body #huftKpiHoverPopup button,html body #huftHoverCalendar button,html body #huftReleaseNotesModal button{background:rgba(255,255,255,.75)!important;color:var(--pop-accent)!important;border:1px solid rgba(124,58,237,.22)!important;border-radius:10px!important;box-shadow:none!important;padding:6px 11px!important;font-size:11.5px!important;font-weight:700!important;height:auto!important;min-height:28px!important;transform:none!important} html body .huftPopupOverlay button:hover,html body .chartModal button:hover,html body .eodModalCard button:hover,html body .hrn-card button:hover,html body #huftHoverCalendar button:hover{background:#fff!important;box-shadow:0 6px 14px -8px rgba(124,58,237,.5)!important} html body .huftPopupOverlay button.primary,html body .eodModalCard button.primary,html body #huftReportAlertCard button.primary,html body .dtp-modal-card button.primary{background:linear-gradient(120deg,#7c3aed,#db2777)!important;color:#fff!important;border-color:transparent!important} html body .huftPopupOverlay table,html body .chartModal table,html body .hid-panel table,html body .hrn-card table,html body .wr-md table{font-size:11px!important} html body .huftPopupOverlay th,html body .chartModal th,html body .hid-panel th,html body .wr-md th{background:rgba(237,233,254,.9)!important;color:var(--pop-accent)!important;font-size:10.5px!important;padding:5px 6px!important} html body .huftPopupOverlay td,html body .chartModal td,html body .hid-panel td,html body .wr-md td{padding:5px 6px!important;border-color:rgba(124,58,237,.1)!important} html body .hrn-card article,html body .hid-body,html body .dtp-modal-card section{background:transparent!important} html body .huftPopupOverlay input,html body .dtp-modal-card input,html body .wr-md input,html body .eodModalCard input,html body .chartModal input{font-size:11.5px!important;padding:5px 8px!important;border-radius:9px!important;background:rgba(255,255,255,.8)!important;border:1px solid rgba(124,58,237,.2)!important;height:auto!important} html body .huftPopupOverlay [class*="close"],html body .chartModal [class*="close"],html body .hrn-close,html body .huftPopupOverlay .close{width:28px!important;height:28px!important;min-width:0!important;padding:0!important;border-radius:999px!important;display:grid!important;place-items:center!important;font-size:14px!important;line-height:1!important} html body .huftPopupPanel .huftPopupHead,html body .hid-head,html body .hrn-head,html body .chartModalTop,html body .dtp-modal-top,html body .eodModalTitleRow{padding-bottom:6px!important;margin-bottom:8px!important;border-bottom:1px solid rgba(124,58,237,.12)!important;background:transparent!important} html body #huftUploadOverlay #huftUploadCard{max-width:min(340px,92vw)!important} html body #huftUploadOverlay #huftUploadCard h2{font-size:15px!important} @media (prefers-reduced-motion:reduce){html body #huftHourlyPopup>.huftPopupPanel,html body .chartModalBox,html body .hrn-card{animation:none!important}} html body #huftReleaseNotesModal h3{color:var(--pop-accent)!important;font-size:13px!important;margin:0 0 2px!important;font-weight:800!important} html body #huftReleaseNotesModal .hrn-release small{color:var(--pop-muted)!important;font-size:10.5px!important} html body #huftReleaseNotesModal li{font-size:11.5px!important;color:var(--pop-ink)!important} html body #huftReleaseNotesModal .hrn-foot{color:var(--pop-muted)!important;background:transparent!important;font-size:10.5px!important} html body #huftReleaseNotesModal .hrn-card{max-height:min(70vh,520px)!important} html body #huftHourlyPopup .huftPopupHead *,html body #huftHourlyPopup .huftPopupHead{color:var(--pop-ink)!important;background:transparent!important} html body #huftHourlyPopup strong,html body #huftHourlyPopup b{color:var(--pop-accent)!important} html body #huftHourlyPopup .huftPopupHead{border-bottom:1px solid rgba(124,58,237,.12)!important;padding-bottom:6px!important;margin-bottom:8px!important} html body #huftKpiHoverPopup strong,html body #huftAdditionalKpiMousePopup strong,html body #chartPointPopup strong,html body #huftHoverCalendar strong,html body .chartPointPopup strong{color:var(--pop-ink)!important} html body #huftKpiHoverPopup span,html body #huftAdditionalKpiMousePopup span{color:var(--pop-muted)!important}
+/* ==========================================================================
+   HUFT HOURLY POPUP CARD — COMPACT, BEAUTIFULLY FITTED POPUP SIZING
+   ========================================================================== */
+html body #huftHourlyPopup,
+html body #huftHourlyPopup.huft-audit-open,
+html body #huftHourlyPopup.show,
+html body #huftHourlyPopup.open,
+html body #huftHourlyPopup[style*="display: flex"],
+html body #huftHourlyPopup[style*="display:flex"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+html body #huftHourlyPopup .huftPopupPanel,
+html body #huftHourlyPopup > .huftPopupPanel {
+  width: min(440px, calc(100vw - 24px)) !important;
+  max-width: min(440px, calc(100vw - 24px)) !important;
+  min-width: 0 !important;
+  max-height: min(88vh, 680px) !important;
+  height: auto !important;
+  padding: 16px 18px !important;
+  box-sizing: border-box !important;
+  border-radius: 16px !important;
+  background: var(--pop-glass, #ffffff) !important;
+  border: 1px solid var(--pop-line, rgba(255, 255, 255, 0.95)) !important;
+  box-shadow: 0 20px 48px -10px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(15, 23, 42, 0.08) !important;
+  backdrop-filter: blur(18px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+html body #huftHourlyPopup .huftPopupActionButtons {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-top: 14px !important;
+  width: 100% !important;
+}
+
+html body #huftHourlyPopup .huftPopupActionButtons button,
+html body #huftHourlyPopup .huftPopupActions .copy {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  padding: 9px 12px !important;
+  border-radius: 10px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+}
+
+@media (max-width: 440px) {
+  html body #huftHourlyPopup .huftPopupPanel,
+  html body #huftHourlyPopup > .huftPopupPanel {
+    width: calc(100vw - 20px) !important;
+    max-width: calc(100vw - 20px) !important;
+    padding: 14px 15px !important;
+    margin: 10px auto !important;
+  }
+  html body #huftHourlyPopup .huftPopupActionButtons {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+  html body #huftHourlyPopup .huftPopupActionButtons button,
+  html body #huftHourlyPopup .huftPopupActions .copy {
+    width: 100% !important;
+    flex: none !important;
+    padding: 10px 14px !important;
+    font-size: 12px !important;
+  }
+}
+</style>
 <style id="huft-compact-glossy-tracking-popups">
 #huftKpiHoverPopup,#huftAdditionalKpiMousePopup,#huftMonthKpiHoverTip,#chartPointPopup,.chartPointPopup,#dtrTip,#employeePercentTooltip,.employee-percent-tooltip,#employeeSaleHoverTip,.employee-sale-hover-tip,.hf-forecast-tip,.comparisonPieTooltip,.storeMetricTooltip{
  min-width:0!important;width:auto!important;max-width:min(180px,86vw)!important;

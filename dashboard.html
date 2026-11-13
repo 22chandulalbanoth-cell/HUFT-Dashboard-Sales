@@ -1731,22 +1731,49 @@ html body #huftLoginOverlay {
    HUFT MASTER POPUP & MODAL PROPER SIZING ENGINE
    ========================================================================== */
 
-/* Overlays - proper centered flex container with smooth backdrop */
-html body .huftPopupOverlay,
-html body .chartModal,
-html body .wr-modal,
-html body .dtp-modal-overlay,
-html body .eodModalBackdrop,
-html body .aiActionBackdrop,
-html body #huftUploadOverlay,
-html body #packageSaleDrillModal,
-html body #chartModal,
-html body #huftInvoiceDrillModal,
-html body #dailyReturnHistoryModal,
-html body #aiActionModal,
-html body #dtpModalOverlay,
-html body [id$="Overlay"]:not(#huftLoginOverlay),
-html body [id$="Modal"]:not(#huftStoreProfileModal):not(#huftLoginOverlay) {
+/* All overlays and modals are STRICTLY hidden by default until activated */
+html body [hidden],
+html body #huftInvoiceDrillModal:not(.open):not(.show),
+html body #packageSaleDrillModal:not(.show):not(.open),
+html body #chartModal:not(.show):not(.open),
+html body #dailyReturnHistoryModal:not(.show):not(.open),
+html body #aiActionModal[hidden],
+html body #dtpModalOverlay[hidden],
+html body #huftUploadOverlay[hidden],
+html body .chartModal:not(.show):not(.open),
+html body .huftPopupOverlay:not(.show):not(.open),
+html body .wr-modal:not(.show):not(.open):not([style*="display: flex"]):not([style*="display:flex"]),
+html body .dtp-modal-overlay[hidden],
+html body .eodModalBackdrop:not(.show):not(.open),
+html body .aiActionBackdrop:not(.show):not(.open) {
+  display: none !important;
+}
+
+/* Overlays - proper centered flex container ONLY when explicitly active */
+html body .huftPopupOverlay.show,
+html body .huftPopupOverlay.open,
+html body .chartModal.show,
+html body .chartModal.open,
+html body .wr-modal.show,
+html body .wr-modal.open,
+html body .wr-modal[style*="display: flex"],
+html body .wr-modal[style*="display:flex"],
+html body .dtp-modal-overlay:not([hidden]),
+html body .eodModalBackdrop.show,
+html body .eodModalBackdrop.open,
+html body .aiActionBackdrop.show,
+html body .aiActionBackdrop.open,
+html body #huftUploadOverlay:not([hidden]),
+html body #packageSaleDrillModal.show,
+html body #packageSaleDrillModal.open,
+html body #chartModal.show,
+html body #chartModal.open,
+html body #huftInvoiceDrillModal.open,
+html body #huftInvoiceDrillModal.show,
+html body #dailyReturnHistoryModal.open,
+html body #dailyReturnHistoryModal.show,
+html body #aiActionModal:not([hidden]),
+html body #dtpModalOverlay:not([hidden]) {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -3359,7 +3386,7 @@ Compared with ${R.ps} \u2192 ${R.pe}`,{x:.8,y:3.4,w:10,h:.9,fontSize:18,color:"C
 
 <style id="huft-kpi-invoice-drilldown-styles">#huftInvoiceDrillModal{position:fixed;inset:0;z-index:2147483600;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(15,23,42,.48);backdrop-filter:blur(5px);font-family:Inter,Arial,sans-serif}#huftInvoiceDrillModal.open{display:flex}#huftInvoiceDrillModal .hid-panel{width:min(980px,96vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;background:#fffdf9;border:1px solid #fdba74;border-radius:15px;box-shadow:0 24px 70px rgba(15,23,42,.3)}#huftInvoiceDrillModal .hid-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:17px 20px;border-bottom:1px solid #f3dfce;background:linear-gradient(120deg,#fff7ed,#fff)}#huftInvoiceDrillModal .hid-title{font-size:18px;font-weight:800;color:#9a3412;margin:0}#huftInvoiceDrillModal .hid-sub{font-size:11px;color:#64748b;margin-top:5px}#huftInvoiceDrillModal .hid-close{flex:0 0 auto;border:1px solid #fed7aa;border-radius:8px;background:#fff7ed;color:#9a3412;padding:7px 11px;font-weight:800;cursor:pointer}#huftInvoiceDrillModal .hid-body{padding:14px 18px 18px;overflow:auto}#huftInvoiceDrillModal .hid-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}#huftInvoiceDrillModal .hid-back{display:none;border:1px solid #cbd5e1;border-radius:7px;background:#f8fafc;color:#334155;padding:7px 10px;font-weight:700;cursor:pointer}#huftInvoiceDrillModal .hid-summary{font-size:12px;color:#475569;font-weight:700;margin-left:auto}#huftInvoiceDrillModal .hid-metrics{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:12px;align-items:start;margin:0 0 13px;padding:4px 0 10px;border-bottom:1px solid #e5e7eb}#huftInvoiceDrillModal .hid-metric{min-width:0;border:0!important;border-radius:0!important;background:transparent!important;padding:0!important;box-shadow:none!important}#huftInvoiceDrillModal .hid-metric span{display:block;font-size:10px;font-weight:600;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#huftInvoiceDrillModal .hid-metric b{display:block;margin-top:4px;font-size:14px;line-height:1.2;color:#334155;overflow-wrap:anywhere}#huftInvoiceDrillModal .hid-metric small{display:block;margin-top:3px;font-size:9px;color:#64748b;line-height:1.2}#huftInvoiceDrillModal .hid-metric.target-ahead b,#huftInvoiceDrillModal .hid-metric.target-ahead small{color:#15803d}#huftInvoiceDrillModal .hid-metric.target-behind b,#huftInvoiceDrillModal .hid-metric.target-behind small{color:#dc2626}#huftInvoiceDrillModal .hid-table-wrap{overflow:auto;border:1px solid #e2e8f0;border-radius:9px;max-height:62vh}#huftInvoiceDrillModal table{width:100%;min-width:610px;border-collapse:collapse;font-size:12px}#huftInvoiceDrillModal th{position:sticky;top:0;background:#fff0df;color:#7c2d12;text-align:left;padding:10px;border-bottom:1px solid #fed7aa;z-index:1}#huftInvoiceDrillModal td{padding:9px 10px;border-bottom:1px solid #edf0f4;color:#334155;text-align:left;white-space:nowrap}#huftInvoiceDrillModal td.num,#huftInvoiceDrillModal th.num{text-align:right}#huftInvoiceDrillModal tbody tr.hid-invoice-row{cursor:pointer}#huftInvoiceDrillModal tbody tr.hid-invoice-row:hover td{background:#fff7ed}#huftInvoiceDrillModal .hid-invoice-link{color:#9a3412;font-weight:800;text-decoration:underline;text-decoration-color:#fdba74;text-underline-offset:3px}#huftInvoiceDrillModal .hid-empty{padding:26px;text-align:center;color:#64748b}#dashboard>.kpiGrid>.kpi{cursor:default!important}#dashboard>.kpiGrid>.kpi:has(#kTotal),#dashboard>.kpiGrid>.kpi:has(#kRetail),#dashboard>.kpiGrid>.kpi:has(#kSpa),#dashboard>.kpiGrid>.kpi:has(#kSpaPackages),#dashboard>.kpiGrid>.kpi:has(#kSpaPackageCustomers),#dashboard>.kpiGrid>.kpi:has(#kFood),#dashboard>.kpiGrid>.kpi:has(#kOrders),#dashboard>.kpiGrid>.kpi:has(#kCustomers),#dashboard>.kpiGrid>.kpi:has(#kATV),#dashboard>.kpiGrid>.kpi:has(#kQty){cursor:pointer!important}@media(max-width:850px){#huftInvoiceDrillModal .hid-metrics{grid-template-columns:repeat(8,minmax(92px,1fr));overflow-x:auto}}@media(max-width:600px){#huftInvoiceDrillModal .hid-metrics{grid-template-columns:repeat(8,minmax(88px,1fr));overflow-x:auto}}@media(max-width:600px){#huftInvoiceDrillModal .hid-metric b{font-size:13px}}@media(max-width:600px){#huftInvoiceDrillModal{padding:7px}}@media(max-width:600px){#huftInvoiceDrillModal .hid-panel{width:100%;max-height:94vh;border-radius:11px}}@media(max-width:600px){#huftInvoiceDrillModal .hid-head{padding:13px}}@media(max-width:600px){#huftInvoiceDrillModal .hid-body{padding:10px}}@media(max-width:600px){#huftInvoiceDrillModal .hid-title{font-size:16px}}#dailyTargetPlanner input[type="number"],#dailyTargetPlanner .dtp-percent{-moz-appearance:textfield !important;appearance:textfield !important}#dailyTargetPlanner input[type="number"]::-webkit-inner-spin-button,#dailyTargetPlanner input[type="number"]::-webkit-outer-spin-button,#dailyTargetPlanner .dtp-percent::-webkit-inner-spin-button,#dailyTargetPlanner .dtp-percent::-webkit-outer-spin-button{-webkit-appearance:none !important;margin:0 !important}#huftInvoiceDrillModal .hid-customer-history{margin:0 0 12px;padding:10px 0 12px;border-bottom:1px solid #e5e7eb}#huftInvoiceDrillModal .hid-customer-history[hidden]{display:none!important}#huftInvoiceDrillModal .hid-customer-history-title{font-size:12px;font-weight:800;color:#334155;margin:0 0 9px}#huftInvoiceDrillModal .hid-customer-history-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px;align-items:start}#huftInvoiceDrillModal .hid-customer-history-item{min-width:0}#huftInvoiceDrillModal .hid-customer-history-item span{display:block;color:#64748b;font-size:10px;line-height:1.3}#huftInvoiceDrillModal .hid-customer-history-item b{display:block;margin-top:4px;color:#334155;font-size:13px;line-height:1.25;overflow-wrap:anywhere}#huftInvoiceDrillModal .hid-customer-history-item small{display:block;margin-top:3px;color:#64748b;font-size:9px;line-height:1.25}#huftInvoiceDrillModal .hid-history-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 9px;flex-wrap:wrap}#huftInvoiceDrillModal .hid-history-btn{border:1px solid #cbd5e1;background:#fff;color:#334155;border-radius:6px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer}#huftInvoiceDrillModal .hid-history-btn:hover{background:#f8fafc}#huftInvoiceDrillModal .hid-history-detail{margin-top:10px;max-height:230px;overflow:auto;border:1px solid #e2e8f0;border-radius:7px}#huftInvoiceDrillModal .hid-history-detail table{min-width:540px;font-size:11px}#huftInvoiceDrillModal .hid-history-detail th,#huftInvoiceDrillModal .hid-history-detail td{padding:7px 8px}#huftInvoiceDrillModal .hid-history-date{cursor:pointer;color:#9a3412;font-weight:700;text-decoration:underline;text-underline-offset:2px}#huftInvoiceDrillModal .hid-history-detail tr:hover td{background:#fff7ed}@media(max-width:850px){#huftInvoiceDrillModal .hid-customer-history-grid{grid-template-columns:repeat(4,minmax(0,1fr));row-gap:10px}}@media(max-width:600px){#huftInvoiceDrillModal .hid-customer-history-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}</style>
 <style id="employee-history-badge-style">.employee-history-badge{display:inline-flex;align-items:center;max-width:220px;padding:3px 8px;border:1px solid #fed7aa;border-radius:999px;background:#fff7ed;color:#9a3412;font-size:10px;font-weight:700;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:middle}.hid-invoice-row td{vertical-align:middle}</style>
-<div id="huftInvoiceDrillModal" role="dialog" aria-modal="true" aria-labelledby="huftInvoiceDrillTitle">
+<div id="huftInvoiceDrillModal" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="huftInvoiceDrillTitle">
  <div class="hid-panel"><div class="hid-head"><div><h2 class="hid-title" id="huftInvoiceDrillTitle">Invoice Details</h2><div class="hid-sub" id="huftInvoiceDrillSub">Selected report period</div></div><form class="huft-ps-form huft-ps-in-modal" role="search" autocomplete="off" onsubmit="return false"><label class="huft-ps-box"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><input class="huft-ps-input" type="tel" inputmode="numeric" placeholder="Quick search by mobile no." aria-label="Search customer history by mobile number" maxlength="20"><button type="submit">Search</button></label></form><button type="button" class="hid-close" id="huftInvoiceDrillClose">✕ Close</button></div>
  <div class="hid-body"><div id="huftHistoryLoadingBar" class="huft-history-loading" role="progressbar" aria-label="Loading uploaded history" aria-valuetext="Loading" hidden><span></span></div><div class="hid-metrics" id="huftInvoiceDrillMetrics" aria-live="polite"></div><section id="huftCustomerLifetimePanel" class="hid-customer-history" hidden aria-live="polite"></section><div class="hid-toolbar"><button type="button" class="hid-back" id="huftInvoiceDrillBack">← Back to invoices</button><div class="hid-summary" id="huftInvoiceDrillSummary"></div></div><div class="hid-table-wrap" id="huftInvoiceDrillContent"></div></div></div>
 </div>

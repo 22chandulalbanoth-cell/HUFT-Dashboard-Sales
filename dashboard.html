@@ -2419,7 +2419,7 @@ html body #huftHourlyPopup:not(.show):not(.open):not(.huft-audit-open) {
 </div>
 
 <div class="huft-uv-bg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-<div id="huftSingleStatusCard" hidden role="button" tabindex="0" aria-label="Open hourly sales message" title="Open hourly WhatsApp sale report"><span class="hsc-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 .8A15 15 0 0 0 3.1 23.5L1.2 31l7.7-2A15.1 15.1 0 1 0 16 .8Z"/></svg></span><span class="hsc-body"><span class="count">Next report: --</span><span class="watermark">Created by Chandulal Banoth, HYD · Let’s work smart together</span><span class="huft-report-time-track" aria-hidden="true"><span class="huft-report-time-fill"></span></span></span></div>
+<div id="huftSingleStatusCard" role="button" tabindex="0" aria-label="Open hourly sales message" title="Open hourly WhatsApp sale report"><span class="hsc-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 .8A15 15 0 0 0 3.1 23.5L1.2 31l7.7-2A15.1 15.1 0 1 0 16 .8Z"/></svg></span><span class="hsc-body"><span class="count">Next report: --</span><span class="watermark">Created by Chandulal Banoth, HYD · Let’s work smart together</span><span class="huft-report-time-track" aria-hidden="true"><span class="huft-report-time-fill"></span></span></span></div>
 
 
 
@@ -3353,7 +3353,7 @@ Total Food Sale: ${money(brands.reduce((sum,b)=>sum+cell(b[2]),0)+(typeof getSar
 <script id="weekend-weekday-chart-tab-logic">(function(){window.__huftTimingDayTabsBound||(window.__huftTimingDayTabsBound=!0,document.addEventListener("click",function(e){const btn=e.target.closest("[data-timing-day]");if(!btn)return;const mode=btn.getAttribute("data-timing-day");window.__huftTimingDayFilter=mode,document.querySelectorAll("[data-timing-day]").forEach(b=>b.classList.toggle("active",b.getAttribute("data-timing-day")===mode)),typeof window.refreshDashboard=="function"&&window.refreshDashboard()}))})();
 </script>
 
-<script id="huft-whatsapp-single-store-only">(function(){function getUploadedStoreCount(){try{let source=[];if(Array.isArray(window.allStoreRows)&&window.allStoreRows.length?source=window.allStoreRows:Array.isArray(window.rows)&&window.rows.length?source=window.rows:typeof allStoreRows!="undefined"&&Array.isArray(allStoreRows)&&allStoreRows.length?source=allStoreRows:typeof rows!="undefined"&&Array.isArray(rows)&&(source=rows),!source.length)return 0;const names=new Set;return source.forEach(r=>{let name="";try{name=typeof storeLabelForRow=="function"?storeLabelForRow(r):""}catch{}name=String(name||"").trim().replace(/\\s+/g," "),name&&!/^(?:OdooBot|Public user|All Stores|Lead|HUFT STORE)$/i.test(name)&&names.add(name.toLowerCase())}),names.size}catch{return 0}}function applyVisibility(){const show=getUploadedStoreCount()===1;["huftGlobalStatusDock","huftSingleStatusCard"].forEach(id=>{const el=document.getElementById(id);el&&(el.hidden=!show,el.style.setProperty("display",show?"flex":"none","important"),el.setAttribute("aria-hidden",show?"false":"true"),show?el.removeAttribute("inert"):el.setAttribute("inert",""))})}document.addEventListener("change",e=>{e.target&&(e.target.id==="file"||e.target.matches('[type="file"]'))&&setTimeout(applyVisibility,250)}),document.addEventListener("click",e=>{e.target&&e.target.closest("#uploadExcel,#refreshDashboard,#refreshHuftPopupReport")&&setTimeout(applyVisibility,400)});const body=document.getElementById("dailyBody");body&&window.MutationObserver&&new MutationObserver(()=>setTimeout(applyVisibility,80)).observe(body,{childList:!0,subtree:!0});const root=document.documentElement;root&&window.MutationObserver&&new MutationObserver(()=>{if(window.__visT)return;window.__visT=setTimeout(()=>{window.__visT=0;applyVisibility()},250)}).observe(root,{childList:!0,subtree:!0}),applyVisibility(),setInterval(applyVisibility,5000)})();
+<script id="huft-whatsapp-single-store-only">(function(){function getUploadedStoreCount(){try{let source=[];if(Array.isArray(window.allStoreRows)&&window.allStoreRows.length?source=window.allStoreRows:Array.isArray(window.rows)&&window.rows.length?source=window.rows:typeof allStoreRows!="undefined"&&Array.isArray(allStoreRows)&&allStoreRows.length?source=allStoreRows:typeof rows!="undefined"&&Array.isArray(rows)&&(source=rows),!source.length)return 0;const names=new Set;return source.forEach(r=>{let name="";try{name=typeof storeLabelForRow=="function"?storeLabelForRow(r):""}catch{}name=String(name||"").trim().replace(/\\s+/g," "),name&&!/^(?:OdooBot|Public user|All Stores|Lead|HUFT STORE)$/i.test(name)&&names.add(name.toLowerCase())}),names.size}catch{return 0}}function applyVisibility(){const show=getUploadedStoreCount()===1;const dock=document.getElementById("huftGlobalStatusDock");dock&&(dock.hidden=!show,dock.style.setProperty("display",show?"flex":"none","important"),dock.setAttribute("aria-hidden",show?"false":"true"),show?dock.removeAttribute("inert"):dock.setAttribute("inert",""));const card=document.getElementById("huftSingleStatusCard");if(card){const onDash=!document.getElementById("dashboard")||document.getElementById("dashboard").classList.contains("active");card.hidden=!onDash;card.style.setProperty("display",onDash?"flex":"none","important");card.setAttribute("aria-hidden",onDash?"false":"true");if(onDash){card.removeAttribute("inert");}else{card.setAttribute("inert","");}}}document.addEventListener("change",e=>{e.target&&(e.target.id==="file"||e.target.matches('[type="file"]'))&&setTimeout(applyVisibility,250)}),document.addEventListener("click",e=>{e.target&&e.target.closest("#uploadExcel,#refreshDashboard,#refreshHuftPopupReport")&&setTimeout(applyVisibility,400)});const body=document.getElementById("dailyBody");body&&window.MutationObserver&&new MutationObserver(()=>setTimeout(applyVisibility,80)).observe(body,{childList:!0,subtree:!0});const root=document.documentElement;root&&window.MutationObserver&&new MutationObserver(()=>{if(window.__visT)return;window.__visT=setTimeout(()=>{window.__visT=0;applyVisibility()},250)}).observe(root,{childList:!0,subtree:!0}),applyVisibility(),setInterval(applyVisibility,5000);window.huftApplyStatusCardVisibility=applyVisibility;})();
 </script>
 
 <style id="comparison-page-scroll-fix">#comparison .miniTableWrap,#comparison .tableDash .miniTableWrap{max-height:none !important;min-height:0 !important;height:auto !important;overflow-x:auto !important;overflow-y:visible !important;overscroll-behavior:auto !important;scroll-behavior:auto !important}#comparison .tableDash{overflow:visible !important;max-height:none !important}#comparison .miniTable thead th{position:static !important}html,body{overflow-y:auto !important;overscroll-behavior-y:auto !important}</style>
@@ -3681,7 +3681,7 @@ html body .employee-day-card b {
 
 
 
-<style id="huft-whatsapp-stable-orange-fix">#huftSingleStatusCard{position:fixed!important;right:18px!important;bottom:18px!important;left:auto!important;top:auto!important;z-index:2147483000!important;background:#fffaf5!important;border:1px solid #f4c49b!important;border-radius:18px!important;box-shadow:0 5px 18px rgba(124,65,25,.13)!important;animation:none!important;transition:none!important;filter:none!important}#huftSingleStatusCard *,#huftSingleStatusCard *::before,#huftSingleStatusCard *::after{animation:none!important;transition:none!important;filter:none!important;caret-color:auto!important}#huftSingleStatusCard button{background:transparent!important;border:0!important;box-shadow:none!important;color:#16a34a!important;animation:none!important;transform:none!important}#huftSingleStatusCard button svg{animation:none!important;transform:none!important;opacity:1!important;fill:currentColor!important}#huftSingleStatusCard .huft-report-time-track,#huftSingleStatusCard .huft-report-time-fill{animation:none!important;transition:none!important;filter:none!important}#huftSingleStatusCard .huft-report-copy-checkpoints,.huft-report-copy-checkpoints{display:none!important;visibility:hidden!important;pointer-events:none!important}#huftGlobalStatusDock{display:none!important;visibility:hidden!important;pointer-events:none!important}@media(prefers-reduced-motion:reduce){#huftSingleStatusCard,#huftSingleStatusCard *{animation:none!important;transition:none!important}}</style>
+<style id="huft-whatsapp-stable-orange-fix">#huftSingleStatusCard{position:fixed!important;left:var(--huft-card-x, calc(100vw - 370px))!important;top:var(--huft-card-y, calc(100vh - 96px))!important;right:auto!important;bottom:auto!important;z-index:2147483000!important;background:#fffaf5!important;border:1px solid #f4c49b!important;border-radius:18px!important;box-shadow:0 8px 24px rgba(124,65,25,.16)!important;animation:none!important;filter:none!important;pointer-events:auto!important;cursor:pointer!important;user-select:none!important;will-change:left,top!important;display:flex!important}#huftSingleStatusCard *,#huftSingleStatusCard *::before,#huftSingleStatusCard *::after{animation:none!important;filter:none!important;caret-color:auto!important}#huftSingleStatusCard button{background:transparent!important;border:0!important;box-shadow:none!important;color:#16a34a!important;animation:none!important;transform:none!important}#huftSingleStatusCard button svg{animation:none!important;transform:none!important;opacity:1!important;fill:currentColor!important}#huftSingleStatusCard .huft-report-time-track,#huftSingleStatusCard .huft-report-time-fill{animation:none!important;filter:none!important}#huftSingleStatusCard .huft-report-copy-checkpoints,.huft-report-copy-checkpoints{display:none!important;visibility:hidden!important;pointer-events:none!important}#huftGlobalStatusDock{display:none!important;visibility:hidden!important;pointer-events:none!important}@media(max-width:640px),(hover:none){#huftSingleStatusCard{left:auto!important;right:12px!important;bottom:12px!important;top:auto!important}}@media(prefers-reduced-motion:reduce){#huftSingleStatusCard,#huftSingleStatusCard *{animation:none!important;transition:none!important}}</style>
 
 
 
@@ -3859,17 +3859,16 @@ html body .employee-day-card b {
     };
     var last='';
     var tick=function(){
-      if(card.hidden)return;
       var now=new Date(), hr=now.getHours();
       var next=hr<18?18:hr<22?22:18;
       var target=new Date(now); target.setHours(next,0,0,0);
       if(target<=now)target.setDate(target.getDate()+1);
       var text='Next report: '+(next===18?'6 PM':'10 PM')+' \u2022 '+until(target);
-      if(text!==last){countEl.textContent=text;last=text;}
+      if(text!==last){if(countEl)countEl.textContent=text;last=text;}
       var start=new Date(target); start.setHours(start.getHours()-(next===22?4:20));
       var total=Math.max(1,target-start), done=Math.max(0,Math.min(total,now-start));
       var pct=(done/total*100).toFixed(2);
-      fill.style.width=pct+'%';
+      if(fill)fill.style.width=pct+'%';
     };
     var open=function(){
       var btn=document.getElementById('openHuftHourlyPopup');
@@ -3879,6 +3878,99 @@ html body .employee-day-card b {
     card.addEventListener('click',open);
     card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
     tick(); setInterval(tick,1000);
+
+    // Mouse Tracking for huftSingleStatusCard
+    (function(){
+      var isTouch = window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches;
+      if (isTouch) return;
+      var targetX = null, targetY = null, curX = null, curY = null, rafId = 0, isHovered = false;
+      var setCardCoords = function(x, y) {
+        card.style.setProperty('--huft-card-x', Math.round(x) + 'px');
+        card.style.setProperty('--huft-card-y', Math.round(y) + 'px');
+        card.style.setProperty('left', Math.round(x) + 'px', 'important');
+        card.style.setProperty('top', Math.round(y) + 'px', 'important');
+        card.style.setProperty('right', 'auto', 'important');
+        card.style.setProperty('bottom', 'auto', 'important');
+      };
+      
+      var initX = Math.max(12, window.innerWidth - 370);
+      var initY = Math.max(12, window.innerHeight - 96);
+      curX = initX; curY = initY; targetX = initX; targetY = initY;
+      setCardCoords(initX, initY);
+
+      var animateTrack = function() {
+        rafId = 0;
+        if (targetX === null || targetY === null || isHovered) return;
+        if (curX === null || curY === null) {
+          curX = targetX; curY = targetY;
+        } else {
+          curX += (targetX - curX) * 0.16;
+          curY += (targetY - curY) * 0.16;
+          if (Math.abs(targetX - curX) < 0.6 && Math.abs(targetY - curY) < 0.6) {
+            curX = targetX; curY = targetY;
+          }
+        }
+        setCardCoords(curX, curY);
+        if (curX !== targetX || curY !== targetY) {
+          rafId = requestAnimationFrame(animateTrack);
+        }
+      };
+
+      var onPointerMove = function(e) {
+        if (e.pointerType === 'touch') return;
+        var dash = document.getElementById('dashboard');
+        if (dash && !dash.classList.contains('active')) return;
+        if (card.contains(e.target) || card === e.target) {
+          isHovered = true;
+          return;
+        }
+        isHovered = false;
+
+        var cardW = card.offsetWidth || 340;
+        var cardH = card.offsetHeight || 68;
+        var vw = window.innerWidth;
+        var vh = window.innerHeight;
+        var offset = 18;
+
+        var tx = e.clientX + offset;
+        var ty = e.clientY + offset;
+
+        if (tx + cardW > vw - 12) {
+          tx = e.clientX - cardW - offset;
+        }
+        if (tx < 12) {
+          tx = Math.max(12, Math.min(e.clientX + offset, vw - cardW - 12));
+        }
+
+        if (ty + cardH > vh - 12) {
+          ty = e.clientY - cardH - offset;
+        }
+        if (ty < 12) {
+          ty = Math.max(12, Math.min(e.clientY + offset, vh - cardH - 12));
+        }
+
+        targetX = Math.round(tx);
+        targetY = Math.round(ty);
+
+        if (!rafId) {
+          rafId = requestAnimationFrame(animateTrack);
+        }
+      };
+
+      document.addEventListener('pointermove', onPointerMove, { passive: true });
+      card.addEventListener('pointerenter', function() { isHovered = true; });
+      card.addEventListener('pointerleave', function() { isHovered = false; });
+      window.addEventListener('resize', function() {
+        if (curX !== null && curY !== null) {
+          var vw = window.innerWidth, vh = window.innerHeight;
+          var cardW = card.offsetWidth || 340, cardH = card.offsetHeight || 68;
+          curX = Math.max(12, Math.min(curX, vw - cardW - 12));
+          curY = Math.max(12, Math.min(curY, vh - cardH - 12));
+          targetX = curX; targetY = curY;
+          setCardCoords(curX, curY);
+        }
+      }, { passive: true });
+    })();
   }
 })();
 </script>

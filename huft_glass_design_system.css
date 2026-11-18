@@ -528,18 +528,18 @@ body > #weeklyReview.page {
 #huftSingleStatusCard,
 .huft-single-status-card {
   position: fixed !important;
-  right: 20px !important;
-  bottom: 20px !important;
-  left: auto !important;
-  top: auto !important;
-  z-index: 9999 !important;
+  left: var(--huft-card-x, calc(100vw - 370px)) !important;
+  top: var(--huft-card-y, calc(100vh - 96px)) !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: 2147483000 !important;
   display: flex !important;
   align-items: center !important;
   gap: 12px !important;
   width: auto !important;
   max-width: 380px !important;
   padding: 10px 16px !important;
-  border-radius: 10px !important;
+  border-radius: 18px !important;
   background: #FFFFFF !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;

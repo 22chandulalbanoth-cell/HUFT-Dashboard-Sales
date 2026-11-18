@@ -528,10 +528,10 @@ body > #weeklyReview.page {
 #huftSingleStatusCard,
 .huft-single-status-card {
   position: fixed !important;
-  left: var(--huft-card-x, calc(100vw - 370px)) !important;
-  top: var(--huft-card-y, calc(100vh - 96px)) !important;
-  right: auto !important;
-  bottom: auto !important;
+  right: 18px !important;
+  bottom: 18px !important;
+  left: auto !important;
+  top: auto !important;
   z-index: 2147483000 !important;
   display: flex !important;
   align-items: center !important;

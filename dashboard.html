@@ -2415,7 +2415,26 @@ html body #huftHourlyPopup:not(.show):not(.open):not(.huft-audit-open) {
         </div>
       </div>
     </section>
-  </main>
+  
+
+<!-- PAGE FOOTER (Requirement 5) -->
+<footer class="page-footer">
+  <div class="footer-left">
+    <span>Build v26 • v1.0.3</span>
+    <span class="footer-dot">•</span>
+    <span id="footerMaskStatus">Phones masked</span>
+    <span class="footer-dot">•</span>
+    <span id="footerSyncStatus">Cloud Sync: Active</span>
+  </div>
+  <div class="footer-links">
+    <a href="javascript:void(0)" onclick="switchStoreTab('dashboard')">Dashboard</a>
+    <a href="javascript:void(0)" onclick="switchStoreTab('huft')">Food Sale</a>
+    <a href="javascript:void(0)" onclick="switchStoreTab('weeklyReview')">Weekly Review</a>
+    <a href="javascript:void(0)" onclick="openStoreProfilePanel()">Profile</a>
+  </div>
+</footer>
+
+</main>
 </div>
 
 <div class="huft-uv-bg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -3019,11 +3038,62 @@ html body #huftHourlyPopup:not(.show):not(.open):not(.huft-audit-open) {
       <button type="submit" id="huftPhoneSearchGo">Search</button>
     </label>
   </form>
-  <div class="headerDateInfo">
-    <div class="sub" id="rangeText"></div>
-    <div class="lastSaleStamp" id="lastSaleStamp">Last sale updated: waiting for sales data</div>
+  <div class="headerRightGroup">
+    <div class="headerDateInfo">
+      <div class="sub" id="rangeText"></div>
+      <div class="lastSaleStamp" id="lastSaleStamp">
+        <span class="live-dot" aria-hidden="true"></span>
+        <span class="sr-only">Status: Live. </span>
+        Last sale updated: waiting for sales data
+      </div>
     </div>
+    <button type="button" class="profile-header-btn" id="openProfilePanelBtn" aria-label="Open Hyderguda Store Profile" title="Store Profile & Settings">
+      <div class="profile-avatar-circle" aria-hidden="true">H</div>
+      <div class="profile-header-meta">
+        <span class="profile-header-name">Hyderguda Store</span>
+        <span class="profile-header-role">Store Manager</span>
+      </div>
+    </button>
+  </div>
 </header>
+
+<!-- SINGLE HORIZONTAL NAVIGATION SYSTEM (48px) -->
+<nav class="single-tab-bar-wrap" aria-label="Main Store Navigation">
+  <div class="single-tab-bar-inner">
+    <div class="single-tab-bar" id="singleTabBar" role="tablist">
+      <button type="button" class="tab active" data-tab-id="dashboard" role="tab" aria-selected="true" aria-controls="dashboard" tabindex="0">
+        <span class="tab-label">Dashboard</span>
+      </button>
+      <button type="button" class="tab" data-tab-id="huft" role="tab" aria-selected="false" aria-controls="huft" tabindex="-1">
+        <span class="tab-label">Food Sale</span>
+      </button>
+      <button type="button" class="tab" data-tab-id="comparison" role="tab" aria-selected="false" aria-controls="comparison" tabindex="-1">
+        <span class="tab-label">Month Comparison</span>
+      </button>
+      <button type="button" class="tab" data-tab-id="employeeSales" role="tab" aria-selected="false" aria-controls="employeeSales" tabindex="-1">
+        <span class="tab-label">Employee Sales</span>
+      </button>
+      <button type="button" class="tab" data-tab-id="customers" role="tab" aria-selected="false" aria-controls="customers" tabindex="-1">
+        <span class="tab-label">Customers</span>
+      </button>
+      <button type="button" class="tab" data-tab-id="whatsapp" role="tab" aria-selected="false" aria-controls="whatsapp" tabindex="-1">
+        <span class="tab-label">WhatsApp</span>
+      </button>
+      <button type="button" class="tab" data-tab-id="weeklyReview" role="tab" aria-selected="false" aria-controls="weeklyReview" tabindex="-1">
+        <span class="tab-label">Weekly Review & PPT</span>
+      </button>
+      <button type="button" class="tab" data-tab-id="uploadExcelTab" role="tab" aria-selected="false" aria-controls="uploadExcelTab" tabindex="-1">
+        <span class="tab-label">Upload Excel</span>
+      </button>
+      <button type="button" class="tab" data-tab-id="settingsTab" role="tab" aria-selected="false" aria-controls="settingsTab" tabindex="-1">
+        <span class="tab-label">Settings</span>
+      </button>
+      <div class="single-tab-underline" id="singleTabUnderline" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="single-tab-divider" aria-hidden="true"></div>
+</nav>
+
 
 <main class="container">
   <div class="toolbar">
@@ -3064,44 +3134,7 @@ html body #huftHourlyPopup:not(.show):not(.open):not(.huft-audit-open) {
 <div id="uploadDiagnostics" hidden role="status" aria-live="polite" style="white-space:pre-wrap;margin:8px 0;padding:10px 12px;border:1px solid #f0b8a8;border-left:4px solid #c2410c;border-radius:6px;background:#fff7ed;color:#7c2d12;font:12px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere"></div>
   </div>
 
-  <div class="tabs" id="navRailTabs"><button type="button" class="nav-toggle" id="huftNavToggle" aria-expanded="false" aria-controls="navRailTabs" aria-label="Open navigation"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button>
-    <div class="huft-sidebar-brand">
-      <div class="brand-logo-pill">S</div>
-      <div class="brand-info">
-        <div class="brand-name">Sales Report</div>
-        <div class="brand-store" id="huftSidebarStoreName">Store Dashboard</div>
-      </div>
-    </div>
-    <button class="tab active" onclick="showTab('dashboard',this)" aria-label="Dashboard" title="Dashboard"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg></span><span class="nav-lbl">Dashboard</span></button>
-    <button class="tab" onclick="showTab('huft',this)" aria-label="Food Sale" title="Food Sale"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg></span><span class="nav-lbl">Food Sale</span></button>
-    <button class="tab" onclick="showTab('comparison',this)" aria-label="Month Comparison" title="Month Comparison"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg></span><span class="nav-lbl">Month Comparison</span></button>
-    <button class="tab" id="storeComparisonTabButton" hidden onclick="showTab('storeComparison',this)" aria-label="Store Comparison" title="Store Comparison"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 9.5 5.8 4h12.4L20 9.5"/><path d="M4 9.5c0 1.4 1.1 2.5 2.5 2.5S9 10.9 9 9.5c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5c0 1.4 1.1 2.5 2.5 2.5S19 10.9 19 9.5"/><path d="M5 12v8h14v-8"/><path d="M10 20v-4.5h4V20"/></svg></span><span class="nav-lbl">Store Comparison</span></button>
-    <button class="tab" onclick="showTab('employeeSales',this)" aria-label="Employee Sales" title="Employee Sales"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20c.8-3.4 3.3-5.3 6.5-5.3s5.7 1.9 6.5 5.3"/><circle cx="17" cy="9" r="2.6"/><path d="M16.2 14.7c2.5.1 4.2 1.7 4.8 4.3"/></svg></span><span class="nav-lbl">Employee Sales</span></button>
-    <button class="tab" onclick="showTab('whatsapp',this)" aria-label="WA" title="WA"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20.2l1.3-3.6A8.2 8.2 0 1 1 8.8 19.1z"/><path d="M9 9.6c.2 2 2.3 4.3 4.5 5.1l1.2-1.2"/></svg></span><span class="nav-lbl">WA</span></button>
-    <button class="tab" onclick="showTab('weeklyReview',this)" aria-label="Weekly Review & PPT" title="Weekly Review & PPT"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12.5" rx="2.5"/><path d="M12 16.5V20M8 20.5h8M7.5 12l3-3.2 2.4 2.2 3.6-3.8"/></svg></span><span class="nav-lbl">Weekly Review & PPT</span></button>
-    
-    
-    <!-- HUFT DEVICE DATA CLEAR & PRIVACY PROTECTION BUTTON -->
-        <!-- HUFT STORE & STAFF PROFILE RAIL BUTTON -->
-    <button type="button" class="tab huft-rail-profile-btn" id="huftRailProfileBtn" onclick="openStoreProfileModal()" aria-label="Store Profile" title="Store & Staff Profile">
-      <div class="huft-rail-profile-avatar" id="huftRailAvatar">S</div>
-      <span class="nav-lbl" style="font-size:10px;">Profile</span>
-    </button>
-
-    <button type="button" class="tab huft-rail-clear-btn" id="huftClearDeviceDataBtn" onclick="huftClearDeviceDataProtect(true)" aria-label="Clear Device Data" title="Clear Device Data & Privacy Protection (Auto-clears when link opens on another device)">
-      <span class="nav-ico" aria-hidden="true" style="color:#ef4444;">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          <path d="M9 12l2 2 4-4"/>
-        </svg>
-      </span>
-      <span class="nav-lbl" style="font-size:9px; color:#ef4444; font-weight:800; letter-spacing:-0.02em;">Clear Data</span>
-    </button>
-
-
-    <span id="huftReleaseBadge" aria-label="Dashboard version 1.0.3">v1.0.3</span>
-      </div>
-
+  <!-- Old sidebar navigation removed in favor of single horizontal tab bar -->
   <section id="whatsapp" class="page">
     <div class="dashTop"><div><div class="dashTitle">WhatsApp Communications</div></div></div>
     <div class="waCommunicationStack">
@@ -3952,7 +3985,7 @@ Total Food Sale: ${money(brands.reduce((sum,b)=>sum+cell(b[2]),0)+(typeof getSar
 
 
 <section id="weeklyReview" class="page wr-redesign">
-<div class="wr-hero"><div><div class="wr-eyebrow">HUFT • PERFORMANCE INTELLIGENCE</div><div class="dashTitle">Weekly Business Review</div><div class="dashSub">Sales, targets, brands, people, customers, SPA and operations in one decision-ready review. Every view downloads as a professional PPT.</div></div><div class="wr-hero-actions"><button type="button" id="wrRefresh">↻ Analyse data</button><button type="button" class="wr-primary" id="wrExportPpt">⇩ Download review PPT</button></div></div>
+<div class="wr-hero"><div><div class="wr-eyebrow">PERFORMANCE INTELLIGENCE</div><div class="dashTitle">Weekly Business Review</div><div class="dashSub">Sales, targets, brands, people, customers, SPA and operations in one decision-ready review. Every view downloads as a professional PPT.</div></div><div class="wr-hero-actions"><button type="button" id="wrRefresh">↻ Analyse data</button><button type="button" class="wr-primary" id="wrExportPpt">⇩ Download review PPT</button></div></div>
 <div class="wr-controls"><label>Review end date<input type="date" id="wrEndDate"></label><label>Review window<select id="wrWindow"><option value="7">7 days vs previous 7</option><option value="14">14 days vs previous 14</option><option value="28">28 days vs previous 28</option></select></label><label>Store scope<select id="wrScope"><option value="current">Current dashboard selection</option><option value="all">All loaded stores</option></select></label><button type="button" id="wrApply">Update review ↗</button></div>
 <div class="wr-controls wr-range"><label>📅 Current from<input type="date" id="wrFrom"></label><label>Current to<input type="date" id="wrTo"></label><label>Compare from<input type="date" id="wrCFrom"></label><label>Compare to<input type="date" id="wrCTo"></label><button type="button" id="wrRange">Compare date ranges ↗</button></div>
 <div class="wr-statusbar"><span class="wr-live-dot"></span><span id="wrStatus">Ready.</span><span style="margin-left:auto">Briefing tip: use ← → keys to move point to point</span></div>
@@ -3960,6 +3993,136 @@ Total Food Sale: ${money(brands.reduce((sum,b)=>sum+cell(b[2]),0)+(typeof getSar
 <div id="wrPanels"></div>
 <div id="wrModal" class="wr-modal" style="display:none"></div>
 </section>
+
+<!-- ==========================================================================
+     DEDICATED CUSTOMERS TAB (#customers)
+     ========================================================================== -->
+<section id="customers" class="page" role="tabpanel" aria-labelledby="tab-customers" style="display:none;">
+  <div class="dashTop">
+    <div>
+      <div class="dashTitle">Customer Intelligence & Retention</div>
+      <div class="dashSub">Search customer history, review repeat buyer trends, and follow up with lapsed regulars</div>
+    </div>
+  </div>
+
+  <div class="card customer-search-card" style="margin-top:16px;">
+    <div class="card-head">
+      <h3>Customer Lookup</h3>
+      <span class="hint">Search uploaded transaction history by customer phone number</span>
+    </div>
+    <form class="customer-tab-search-form" onsubmit="handleCustomerTabSearch(event)" style="margin-top:12px;">
+      <div class="field customer-tab-search-box">
+        <label for="customerTabSearchPhone" style="font-size:12px; font-weight:700; color:#475569; display:block; margin-bottom:4px;">Mobile Number</label>
+        <div class="search-input-wrap" style="display:flex; gap:8px; max-width:440px;">
+          <input type="tel" id="customerTabSearchPhone" inputmode="numeric" placeholder="Enter customer mobile number (e.g. 9876543210)" maxlength="20" class="input3d" style="flex:1; height:40px; padding:0 12px; border:1px solid #E4E2DD; border-radius:8px;">
+          <button type="submit" class="primary" style="height:40px; padding:0 16px; background:#9A3412; color:#fff; border:none; border-radius:8px; font-weight:700; cursor:pointer;">Search History</button>
+        </div>
+      </div>
+    </form>
+    <div id="customerTabSearchResult" class="customer-tab-search-result" style="display:none; margin-top:16px;"></div>
+  </div>
+
+  <div class="card customer-retention-card" style="margin-top:16px;">
+    <div class="card-head" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div>
+        <h3>Lapsed Regular Customers</h3>
+        <p class="hint" style="margin:4px 0 0; font-size:13px; color:#64748b;">Customers with previous visits who are due for their next store visit or grooming session</p>
+      </div>
+      <button type="button" class="primary" id="huftDownloadCallbackBtn2" onclick="downloadCallbackList()" style="height:40px; padding:0 16px; background:#9A3412; color:#fff; border:none; border-radius:8px; font-weight:700; cursor:pointer;">📥 Download Call-back List (CSV)</button>
+    </div>
+    <div id="customerLapsedListMount" style="margin-top:14px;">
+      <p style="color:#64748b; font-size:13px;">Upload sales data or select report period to compute returning and lapsed customer cohorts.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     DEDICATED UPLOAD EXCEL TAB (#uploadExcelTab)
+     ========================================================================== -->
+<section id="uploadExcelTab" class="page" role="tabpanel" aria-labelledby="tab-uploadExcelTab" style="display:none;">
+  <div class="dashTop">
+    <div>
+      <div class="dashTitle">Excel Sales Data Upload</div>
+      <div class="dashSub">Ingest POS Excel spreadsheets (.xlsx, .xls, .csv). Data is validated and parsed in your browser.</div>
+    </div>
+  </div>
+
+  <div class="card upload-center-card" style="margin-top:16px;">
+    <div class="upload-drop-zone" id="uploadTabDropZone" onclick="chooseManualExcel()" role="button" tabindex="0" style="border:2px dashed #EA580C; border-radius:12px; background:#FFF7ED; padding:36px 20px; text-align:center; cursor:pointer; transition:background 150ms ease;">
+      <div class="drop-zone-icon" style="font-size:36px; margin-bottom:8px;">📊</div>
+      <h3 style="margin:0 0 6px; font-size:18px; font-weight:800; color:#9A3412;">Drag & Drop POS Excel File Here</h3>
+      <p style="margin:0 0 14px; font-size:13px; color:#78716C;">Supports .xlsx, .xls, and .csv export files from your Point of Sale system</p>
+      <button type="button" class="primary" onclick="chooseManualExcel(); event.stopPropagation();" style="height:40px; padding:0 20px; background:#9A3412; color:#fff; border:none; border-radius:8px; font-weight:700; cursor:pointer;">Browse File</button>
+    </div>
+
+    <div class="upload-status-checklist" style="margin-top:24px;">
+      <h4 style="font-size:14px; font-weight:700; color:#1e293b; margin:0 0 12px;">Ingestion Checklist</h4>
+      <div class="check-item" style="display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:13px; color:#475569;"><span style="color:#15803d; font-weight:800;">✓</span><span>Header detection and column alignment</span></div>
+      <div class="check-item" style="display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:13px; color:#475569;"><span style="color:#15803d; font-weight:800;">✓</span><span>Date parsing and multi-store filtering</span></div>
+      <div class="check-item" style="display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:13px; color:#475569;"><span style="color:#15803d; font-weight:800;">✓</span><span>Retail vs SPA sales categorization</span></div>
+      <div class="check-item" style="display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:13px; color:#475569;"><span style="color:#15803d; font-weight:800;">✓</span><span>Prepaid package redemption and reverse bill detection</span></div>
+      <div class="check-item" style="display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:13px; color:#475569;"><span style="color:#15803d; font-weight:800;">✓</span><span>House brand and sample conversion analytics</span></div>
+    </div>
+
+    <div class="upload-session-meta" style="margin-top:20px; padding:14px; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0;">
+      <div style="font-size:12px; font-weight:700; color:#475569;">Storage Status:</div>
+      <div id="uploadTabStorageStatus" style="font-size:13px; color:#0f172a; margin-top:4px;">Ready. Upload sales data for this session; refresh clears it.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     DEDICATED SETTINGS TAB (#settingsTab)
+     ========================================================================== -->
+<section id="settingsTab" class="page" role="tabpanel" aria-labelledby="tab-settingsTab" style="display:none;">
+  <div class="dashTop">
+    <div>
+      <div class="dashTitle">Store Settings & Target Management</div>
+      <div class="dashSub">Manage store parameters, monthly targets, and presentation preferences for Hyderguda Store</div>
+    </div>
+  </div>
+
+  <div class="grid settings-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px; margin-top:16px;">
+    <!-- Store Profile Card -->
+    <div class="card">
+      <div class="card-head">
+        <h3>Store Profile</h3>
+        <p class="hint" style="font-size:12px; color:#64748b; margin:2px 0 0;">Location details and parameters</p>
+      </div>
+      <div class="settings-fields" style="display:flex; flex-direction:column; gap:12px; margin-top:14px; font-size:13px;">
+        <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #f1f5f9;"><span style="color:#64748b;">Store Name:</span><b>Hyderabad (Hyderguda)</b></div>
+        <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #f1f5f9;"><span style="color:#64748b;">Store Code:</span><b>HYD-04</b></div>
+        <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #f1f5f9;"><span style="color:#64748b;">Manager:</span><b>Store Manager</b></div>
+        <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #f1f5f9;"><span style="color:#64748b;">Email:</span><b>hyderguda@store.in</b></div>
+        <div style="display:flex; justify-content:space-between; padding:6px 0;"><span style="color:#64748b;">Status:</span><b style="color:#15803d;">Active Store</b></div>
+      </div>
+    </div>
+
+    <!-- Monthly Targets Card -->
+    <div class="card">
+      <div class="card-head">
+        <h3>Monthly Sales Targets</h3>
+        <p class="hint" style="font-size:12px; color:#64748b; margin:2px 0 0;">Configure Retail and SPA targets used for run-rate projections and pacing</p>
+      </div>
+      <div class="settings-targets-form" style="margin-top:14px; display:flex; flex-direction:column; gap:12px;">
+        <div class="field" style="display:flex; flex-direction:column; gap:4px;">
+          <label for="settingsRetailTarget" style="font-size:12px; font-weight:700; color:#475569;">Retail Monthly Target (₹)</label>
+          <input type="number" id="settingsRetailTarget" class="input3d" placeholder="e.g. 500000" oninput="syncSettingsTargetsToMain()" style="height:40px; padding:0 12px; border:1px solid #E4E2DD; border-radius:8px;">
+        </div>
+        <div class="field" style="display:flex; flex-direction:column; gap:4px;">
+          <label for="settingsSpaTarget" style="font-size:12px; font-weight:700; color:#475569;">SPA Monthly Target (₹)</label>
+          <input type="number" id="settingsSpaTarget" class="input3d" placeholder="e.g. 200000" oninput="syncSettingsTargetsToMain()" style="height:40px; padding:0 12px; border:1px solid #E4E2DD; border-radius:8px;">
+        </div>
+        <div class="field" style="display:flex; flex-direction:column; gap:4px;">
+          <label style="font-size:12px; font-weight:700; color:#475569;">Combined Target</label>
+          <div id="settingsCombinedTargetDisplay" style="font-size:16px; font-weight:800; color:#9a3412; padding:8px 0;">₹0</div>
+        </div>
+        <button type="button" class="primary" id="saveSettingsTargetsBtn" onclick="saveAllHuftTargets(); syncMainTargetsToSettings();" style="height:40px; padding:0 16px; background:#9A3412; color:#fff; border:none; border-radius:8px; font-weight:700; cursor:pointer;">Save Targets</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <style id="weekly-review-styles">#weeklyReview.wr-redesign{--ink:#16233b;--mut:#6b7a90;--ln:rgba(255,255,255,.7);--or:#e8451e}#weeklyReview .wr-hero{display:flex;justify-content:space-between;align-items:center;gap:20px}#weeklyReview .wr-hero .dashSub{max-width:720px}#weeklyReview .wr-eyebrow{font-size:10px;font-weight:900}#weeklyReview button{position:relative;overflow:hidden;border:0;color:#fff;padding:10px 16px;font-weight:800;cursor:pointer;background-size:300% 100%;transition:transform .15s}#weeklyReview button::before{content:"";position:absolute;left:0;right:0;top:0;height:50%;background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.04));pointer-events:none}#weeklyReview button:disabled{opacity:.6}#weeklyReview .wr-tabs button{background-size:300% 100%;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 5px 12px rgba(5,150,105,.3)}#weeklyReview .wr-tabs button.on{background-size:300% 100%}#weeklyReview .wr-hero-actions{display:flex;gap:8px;flex-wrap:wrap}#weeklyReview .wr-controls{display:grid;grid-template-columns:repeat(3,1fr) auto;gap:12px;margin:14px 0;align-items:end}#weeklyReview .wr-controls label{display:grid;gap:4px;font-size:11px;font-weight:800;color:var(--mut)}#weeklyReview .wr-controls input,#weeklyReview .wr-controls select{padding:9px;border:1px solid #cbd5e1;border-radius:10px;background:rgba(255,255,255,.8)}#weeklyReview .wr-statusbar{font-size:12px;color:var(--mut);display:flex;gap:8px;align-items:center;margin-bottom:10px}#weeklyReview .wr-live-dot{width:8px;height:8px;border-radius:50%;background:#168653}#weeklyReview .wr-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;top:0;z-index:5}#weeklyReview .wr-p{display:none}#weeklyReview .wr-p.on{display:block}#weeklyReview .wr-h{display:flex;justify-content:space-between;align-items:center;margin:4px 0 10px}#weeklyReview .wr-h h2{margin:0;font-size:20px}#weeklyReview .wr-h span{font-size:10px;font-weight:900;letter-spacing:1px;padding:5px 10px;border-radius:99px}#weeklyReview .wr-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}#weeklyReview .wr-kpi{padding:13px 15px}#weeklyReview .wr-kpi span{font-size:10px;font-weight:900;letter-spacing:.8px;color:var(--mut)}#weeklyReview .wr-kpi strong{display:block;font-size:22px;margin:3px 0}#weeklyReview .wr-kpi small{font-size:11px;font-weight:800}#weeklyReview .wr-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}#weeklyReview .wr-panel{padding:16px;min-width:0}#weeklyReview .wr-panel h3{margin:0 0 4px;font-size:15px}#weeklyReview .wr-panel p.s{margin:0 0 10px;font-size:12px;color:var(--mut)}#weeklyReview .wr-chart{height:290px;position:relative}#weeklyReview .wr-tw{overflow:auto}#weeklyReview table{width:100%;border-collapse:collapse;font-size:12px}#weeklyReview th{position:sticky;top:0;color:#fff;text-align:left;padding:8px;font-size:11px}#weeklyReview td{padding:7px 8px;border-bottom:1px solid #e4eaf1}#weeklyReview .wr-neg{color:#b91c1c;font-weight:800}#weeklyReview .wr-pos{color:#15803d;font-weight:800}#weeklyReview .wr-badge{padding:3px 9px;border-radius:99px;font-size:10px;font-weight:900;white-space:nowrap}#weeklyReview .b-na{background:#fef3c7;color:#92400e}#weeklyReview ul.wr-l{margin:0;padding-left:18px;font-size:13px;line-height:1.7}#weeklyReview .bar{height:10px;background:#e2e8f0;border-radius:9px;overflow:hidden}#weeklyReview .bar i{display:block;height:100%;background:linear-gradient(90deg,#16a34a,#2dd4bf)}#weeklyReview .wr-brief{display:grid;grid-template-columns:290px 1fr;gap:14px}#weeklyReview .wr-rail{margin:0;padding:10px;list-style:none;max-height:640px;overflow:auto}#weeklyReview .wr-rail li{display:flex;gap:8px;align-items:center;padding:8px 10px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer}#weeklyReview .wr-rail li:hover{background:rgba(255,255,255,.9)}#weeklyReview .wr-rail li.on{color:#fff}#weeklyReview .wr-rail li i{width:20px;height:20px;border-radius:50%;background:#cbd5e1;font-style:normal;font-size:10px;display:grid;place-items:center;flex:none;color:#fff}#weeklyReview .wr-rail li.done i{background:#16a34a}#weeklyReview .wr-prog{height:8px;background:#dbe3ee;border-radius:9px;overflow:hidden;margin:6px 0 14px}#weeklyReview .wr-prog i{display:block;height:100%;background:linear-gradient(90deg,#ff9a44,#e8451e,#c2255c)}#weeklyReview .wr-big{font-size:30px;font-weight:900;margin:6px 0 10px}#weeklyReview .wr-ask{background:rgba(255,242,232,.9);border-left:4px solid var(--or);padding:10px 14px;border-radius:10px;font-size:14px;margin-bottom:12px}#weeklyReview textarea{width:100%;min-height:70px;border:1px solid #cbd5e1;border-radius:10px;padding:10px;background:rgba(255,255,255,.85);font:inherit;margin:10px 0}#weeklyReview .wr-nav{display:flex;gap:10px;flex-wrap:wrap}#weeklyReview .wr-range{grid-template-columns:repeat(4,1fr) auto;margin-top:-4px}#weeklyReview .wr-modal{position:fixed;inset:0;z-index:99999;background:rgba(15,28,51,.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px}#weeklyReview .wr-md{background:#fff;border-radius:18px;padding:18px;width:min(980px,100%);max-height:92vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.35)}#weeklyReview .wr-mh{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}#weeklyReview .wr-mh h3{margin:0}#weeklyReview tr.cu:hover{background:#fff2e8}#weeklyReview tr.bd table{background:#f8fafc;margin:4px 0}#weeklyReview tr.bd td{vertical-align:top}@media(max-width:900px){#weeklyReview .wr-hero{flex-direction:column}}</style>
 <style id="weekly-review-clean-redesign">#weeklyReview.wr-redesign{background:#f4f7fb!important;color:#1e293b!important;padding:16px!important;border:1px solid #e2e8f0!important;border-radius:14px!important}#weeklyReview .wr-hero{background:#17324f!important;color:#fff!important;border-radius:12px!important;box-shadow:none!important;padding:20px 22px!important}#weeklyReview .wr-eyebrow{color:#b7d6d0!important;letter-spacing:1.3px!important}#weeklyReview .wr-hero .dashTitle{font-size:27px!important;color:#fff!important}#weeklyReview .wr-hero .dashSub{color:#dbe7f1!important}#weeklyReview button{background:#1f5b72!important;background-image:none!important;animation:none!important;box-shadow:none!important;text-shadow:none!important;border-radius:8px!important}#weeklyReview button::before{display:none!important}#weeklyReview button:hover{background:#17485c!important;transform:none!important}#weeklyReview button.wr-primary{background:#c64c16!important}#weeklyReview button.wr-primary:hover{background:#a93f12!important}#weeklyReview .wr-tabs{position:static!important;border-bottom:1px solid #d7e0e9!important;padding:8px 0!important}#weeklyReview .wr-tabs button{background:#fff!important;color:#334155!important;border:1px solid #d7e0e9!important}#weeklyReview .wr-tabs button.on{background:#17324f!important;color:#fff!important;border-color:#17324f!important}#weeklyReview .wr-kpi,#weeklyReview .wr-panel{background:#fff!important;backdrop-filter:none!important;border:1px solid #e1e7ee!important;border-radius:10px!important;box-shadow:0 2px 8px rgba(20,37,60,.04)!important}#weeklyReview .wr-kpi{border-left:3px solid #c64c16!important}#weeklyReview .wr-kpi strong{color:#17324f!important}#weeklyReview th{background:#17324f!important}#weeklyReview .wr-h span{color:#1f5b72!important;background:#e8f0f3!important}#weeklyReview .wr-rail li.on{background:#17324f!important}#weeklyReview .wr-tw{max-height:520px!important}@media(max-width:900px){#weeklyReview .wr-hero{align-items:flex-start!important}}@media(max-width:900px){#weeklyReview .wr-controls,#weeklyReview .wr-grid,#weeklyReview .wr-brief{grid-template-columns:1fr!important}}@media(max-width:900px){#weeklyReview .wr-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}}</style>
 <script id="huft-weekly-review-module">(function(){"use strict";const $=id=>document.getElementById(id);let R=null,charts=[],tab=0,bs=0;const ck=new Set,nt={},fmt=n=>(Number(n)||0).toLocaleString("en-IN",{maximumFractionDigits:0}),money=n=>"\u20B9"+fmt(n),sh=n=>{n=Number(n)||0;const a=Math.abs(n);return(n<0?"\u2212":"")+"\u20B9"+(a>=1e7?(a/1e7).toFixed(2)+"Cr":a>=1e5?(a/1e5).toFixed(2)+"L":a>=1e3?(a/1e3).toFixed(1)+"K":a.toFixed(0))},pct=(a,b)=>b?(a-b)/Math.abs(b)*100:a?100:0,safe=s=>String(s!=null?s:"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]),sg=g=>`<span class="${g<0?"wr-neg":"wr-pos"}">${g<0?"\u25BC":"\u25B2"} ${Math.abs(g).toFixed(1)}%</span>`,F=(r,k)=>{for(const x of k){const v=r&&r[x];if(v!=null&&String(v).trim()!=="")return String(v).trim()}return""},ymd=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");function dk(r){const v=r&&r._key;if(v&&/^\d{4}-\d{2}-\d{2}$/.test(String(v)))return String(v);const x=r&&r.Date;if(!x)return"";let d=null;try{d=parseDate(x)}catch{}return(!d||isNaN(d))&&(d=new Date(x)),isNaN(d)?"":ymd(d)}const addD=(k,n)=>{const d=new Date(k+"T12:00:00");return d.setDate(d.getDate()+n),ymd(d)},lastD=l=>l.map(dk).filter(Boolean).sort().pop()||ymd(new Date),base=()=>($("wrScope").value==="all"&&Array.isArray(allStoreRows)&&allStoreRows.length?allStoreRows:Array.isArray(rows)?rows:[]).filter(r=>dk(r)),mapAdd=(m,k,v)=>m.set(k,(m.get(k)||0)+v);function M(list){const o={rb:new Map,cb:new Map,smp:0,smpVal:0,smpC:new Set,smpR:[],sl:[],smpNo:0,cv:new Map,retail:0,gross:0,red:0,qty:0,food:0,treats:0,pkg:0,used:0,orders:new Set,tOrd:new Set,cust:new Set,cat:new Map,brand:new Map,emp:new Map,basket:new Map,days:new Map,pend:0};let lk=null;try{lk=employeeNameLookup()}catch{}list.forEach(r=>{if(/wallet topup/i.test(F(r,["Order Type"])))return;const a=amount(r),q=qty(r),ref=F(r,["Order Ref"]),bill=salesOrderKey(r),c=F(r,["Order Lines/Product/Product Category"]),pc=(c.split("/")[0]||"Other").trim(),k=dk(r);bill&&!isReturnBill(r)&&validLineRow(r)&&o.orders.add(bill),o.qty+=q,/assigned|pending|draft/i.test(F(r,["Delivery Status"]))&&o.pend++;const ph=F(r,["Customer/Phone"]).replace(/\D/g,"");ph.length>=8&&(o.cust.add(ph),o.cv.set(ph,(o.cv.get(ph)||0)+a));const ds=parseFloat(F(r,["Order Lines/Discount (%)"]));if(ph.length>=8){let cu=o.cb.get(ph);cu||(cu={ph,name:F(r,["Customer"]),b:new Map},o.cb.set(ph,cu));const bk=ref||F(r,["Invoice/Display Name"]);let b=cu.b.get(bk);b||(b={no:F(r,["Invoice/Display Name"]).split(" (")[0]||ref,rc:F(r,["Receipt Number"]),d:F(r,["Date"]).slice(0,16),amt:0,it:[],sm:0},cu.b.set(bk,b)),b.amt+=a;const sp=Math.abs(ds-99.99)<.005&&isFoodSaleRow(r);sp&&(b.sm=1),b.it.push((F(r,["Order Lines/Product/Name"])||"Item")+" \xD7"+q+" = "+money(a)+(sp?" (sample)":""))}if(Math.abs(ds-99.99)<.005&&isFoodSaleRow(r)){const sq=q>0?q:1,mrp=(+F(r,["Order Lines/Product/Sales Price"])||0)*sq;o.smp+=sq,o.smpVal+=mrp,o.sl.push({ph:ph.length>=8?ph:"",name:F(r,["Customer"]),d:F(r,["Date"]).slice(0,16),no:F(r,["Invoice/Display Name"]).split(" (")[0]||ref,pr:F(r,["Order Lines/Product/Name"]),q:sq,mrp}),ph.length>=8?(o.smpC.add(ph),o.smpR.push([ph,k])):o.smpNo+=sq}if(isSpaCategory(r)){o.gross+=a;let n2=a;isExcludedSpaRedemption(r)&&(o.red+=a,o.used+=spaPackagesUsed(r),n2=a-a),isAdhygPackageSale(r)&&(o.pkg+=a),mapAdd(o.days,k,n2);return}if(o.retail+=a,mapAdd(o.days,k,a),ref&&mapAdd(o.rb,ref,a),mapAdd(o.cat,c||"Other",a),mapAdd(o.brand,F(r,["Order Lines/Product/Brand","Brand"])||"Other",a),isFoodSaleRow(r)&&(o.food+=a),/^treats$/i.test(pc)&&(o.treats+=a,ref&&o.tOrd.add(ref)),ref){const s=o.basket.get(ref)||new Set;s.add(pc),o.basket.set(ref,s)}let n="";try{n=String(resolveEmployeeName(r,lk)||"").trim()}catch{}if(n||(n=F(r,["Column AC","Employees","_employee"])),n&&!/^(unknown|unassigned|employee|n\/a|na|-)$/i.test(n)){const e=o.emp.get(n)||{name:n,sale:0,bills:new Set,bm:new Map};e.sale+=a,ref&&(e.bills.add(ref),mapAdd(e.bm,ref,a)),o.emp.set(n,e)}}),o.spa=o.gross-o.red,o.total=o.retail+o.spa,o.ord=o.orders.size,o.abv=o.ord?o.total/o.ord:0,o.upt=o.ord?o.qty/o.ord:0,o.asp=o.qty?o.retail/o.qty:0;let mc=0;return o.basket.forEach(s=>{s.size>1&&mc++}),o.multi=o.basket.size?mc/o.basket.size*100:0,o.tpen=o.ord?o.tOrd.size/o.ord*100:0,o}const cmp=(a,b)=>[...new Set([...a.keys(),...b.keys()])].map(n=>{const c=a.get(n)||0,p=b.get(n)||0;return{name:n,cur:c,prev:p,chg:c-p,g:pct(c,p)}}).sort((x,y)=>x.chg-y.chg),foc=(o,re)=>{let s=0;return o.brand.forEach((v,k)=>{re.test(k)&&(s+=v)}),s};function pace(actual,target,daysOver,daysInMonth){const hasActual=actual!==null&&Number.isFinite(Number(actual)),hasTarget=target!==null&&Number.isFinite(Number(target))&&Number(target)>0,aspd=hasActual&&daysOver>0?Number(actual)/daysOver:null,expected=aspd!==null?aspd*daysInMonth:null;return{actual:hasActual?Number(actual):null,target:hasTarget?Number(target):null,ach:hasActual&&hasTarget?Number(actual)/Number(target)*100:null,backlog:hasActual&&hasTarget?Number(actual)-Number(target):null,aspd,expected,expectedAch:expected!==null&&hasTarget?expected/Number(target)*100:null,required:hasActual&&hasTarget&&daysInMonth>daysOver?(Number(target)-Number(actual))/(daysInMonth-daysOver):null}}function makeTargetPace(data,mtdData,daysOver,daysInMonth,mtd){const mtdByStore=new Map;mtdData.forEach(r=>{if(/wallet topup/i.test(F(r,["Order Type"])))return;const name=typeof storeLabelForRow=="function"?storeLabelForRow(r):F(r,["Point of Sale","Store","Store Name"]);if(!name)return;const x=mtdByStore.get(name)||{retail:0,spa:0},a=Number(amount(r))||0;isSpaCategory(r)?(x.spa+=a,isExcludedSpaRedemption(r)&&(x.spa-=a)):x.retail+=a,mtdByStore.set(name,x)});const storeTargets=(()=>{try{return typeof storeTargetRead=="function"?storeTargetRead():{}}catch{return{}}})(),dashboardTargets=(()=>{const r=document.getElementById("aiRetailTarget"),sp=document.getElementById("aiSpaTarget");if(r&&sp)return{retail:Number(r.value)||0,spa:Number(sp.value)||0};try{return typeof readHuftGlobalTargets=="function"?readHuftGlobalTargets():null}catch{return null}})(),names=[...new Set(data.map(r=>typeof storeLabelForRow=="function"?storeLabelForRow(r):F(r,["Point of Sale","Store","Store Name"])).filter(Boolean))].sort((a,b)=>a.localeCompare(b)),configured=(name,type)=>{var _a;const v=Number((_a=storeTargets[name])==null?void 0:_a[type]);return Number.isFinite(v)&&v>0?v:names.length===1&&Number(dashboardTargets==null?void 0:dashboardTargets[type])>0?Number(dashboardTargets[type]):null},storeRows=[];names.forEach(name=>{const sales=mtdByStore.get(name);["retail","spa"].forEach(type=>storeRows.push({scope:name,type:type==="retail"?"Retail":"SPA",...pace(sales?sales[type]:null,configured(name,type),daysOver,daysInMonth)}))});const allTarget=type=>names.length&&names.every(n=>{var _a;return Number((_a=storeTargets[n])==null?void 0:_a[type])>0})?names.reduce((sum,n)=>sum+Number(storeTargets[n][type]),0):Number(dashboardTargets==null?void 0:dashboardTargets[type])>0?Number(dashboardTargets[type]):null,totalRows=["retail","spa"].map(type=>({scope:"Selected stores",type:type==="retail"?"Retail":"SPA",...pace(mtdData.length?mtd[type]:null,allTarget(type),daysOver,daysInMonth)}));let employeeRows=[];try{const saved=typeof employeeTargetStore=="function"?employeeTargetStore():{};employeeRows=[...mtd.emp.entries()].map(([name,x])=>({scope:name,type:"Retail",...pace(x.sale,typeof employeeTargetFor=="function"?employeeTargetFor(name,"retail",saved):null,daysOver,daysInMonth)}))}catch{}const brandRows=[...mtd.brand.entries()].map(([name,actual])=>({scope:name,type:"Food / brand",...pace(actual,null,daysOver,daysInMonth)})).sort((a,b)=>(b.actual||0)-(a.actual||0));return{storeRows,totalRows,employeeRows,brandRows,daysOver,daysLeft:Math.max(0,daysInMonth-daysOver),daysInMonth}}function run(){const data=base();if(!data.length){R=null,charts.forEach(x=>x.destroy()),charts=[],$("wrPanels").innerHTML="",$("wrTabs").innerHTML="",$("wrExportPpt")&&($("wrExportPpt").disabled=!0),$("wrStatus").textContent="No loaded sales data. Upload data in the HUFT Sales Report first.";return}window.__wrT||($("wrEndDate").value=lastD(data));let end=$("wrEndDate").value||lastD(data),n=+$("wrWindow").value||7,st=addD(end,-(n-1)),pe=addD(st,-1),ps=addD(pe,-(n-1));if(window.__wrC){const a=$("wrFrom").value,b=$("wrTo").value,c1=$("wrCFrom").value,d1=$("wrCTo").value;a&&b&&c1&&d1&&a<=b&&c1<=d1?(st=a,end=b,ps=c1,pe=d1,n=Math.min(62,Math.round((new Date(b)-new Date(a))/864e5)+1)):(alert("Choose valid From/To dates for both ranges (From must not be after To)."),window.__wrC=0)}$("wrFrom").value=st,$("wrTo").value=end,$("wrCFrom").value=ps,$("wrCTo").value=pe;const cl=data.filter(r=>{const k=dk(r);return k>=st&&k<=end}),pl=data.filter(r=>{const k=dk(r);return k>=ps&&k<=pe}),c=M(cl),p=M(pl),mk2=end.slice(0,7),pmd=new Date(+end.slice(0,4),+end.slice(5,7)-2,1),pmk=ymd(pmd).slice(0,7),prevCutoff=Math.min(+end.slice(8,10),new Date(pmd.getFullYear(),pmd.getMonth()+1,0).getDate()),mtdRows=data.filter(r=>dk(r).slice(0,7)===mk2&&dk(r)<=end),prevMtdRows=data.filter(r=>dk(r).slice(0,7)===pmk&&+dk(r).slice(8,10)<=prevCutoff),mo=M(mtdRows),pmo=M(prevMtdRows),first=new Map;data.forEach(r=>{const ph=F(r,["Customer/Phone"]).replace(/\D/g,"");if(ph.length<8)return;const k=dk(r);(!first.has(ph)||k<first.get(ph))&&first.set(ph,k)});let nw=0,nwV=0,odV=0,pnw=0;c.cust.forEach(x=>{first.get(x)>=st&&nw++}),c.cv.forEach((v,k)=>{first.get(k)>=st?nwV+=v:odV+=v}),p.cust.forEach(x=>{first.get(x)>=ps&&pnw++});const pf=new Map;data.forEach(r=>{if(!isFoodSaleRow(r)||!(amount(r)>1)||parseFloat(F(r,["Order Lines/Discount (%)"]))>=99.9)return;const ph=F(r,["Customer/Phone"]).replace(/\D/g,"");if(ph.length<8)return;const k=dk(r);(!pf.has(ph)||k>pf.get(ph))&&pf.set(ph,k)});const sm0=new Map;c.smpR.forEach(([ph,k])=>{(!sm0.has(ph)||k<sm0.get(ph))&&sm0.set(ph,k)});let conv=0;sm0.forEach((k,ph)=>{pf.get(ph)>k&&conv++});const days=[];for(let i=0;i<n;i++){const k=addD(st,i),q=addD(ps,i);days.push({l:k.slice(8)+"/"+k.slice(5,7),c:c.days.get(k)||0,p:p.days.get(q)||0})}const br=cmp(c.brand,p.brand),ca=cmp(c.cat,p.cat),em=[...new Set([...c.emp.keys(),...p.emp.keys()])].map(k=>{const a=c.emp.get(k),b=p.emp.get(k),cs=a?a.sale:0,ps2=b?b.sale:0;return{name:k,cur:cs,prev:ps2,chg:cs-ps2,g:pct(cs,ps2),bills:a?a.bills.size:0}}).filter(x=>x.cur||x.prev).sort((x,y)=>y.cur-x.cur),dr=document.getElementById("aiRetailTarget"),ds=document.getElementById("aiSpaTarget");let tg=dr&&ds?{retail:Number(dr.value)||0,spa:Number(ds.value)||0}:{retail:0,spa:0};if(!dr||!ds)try{tg=readHuftGlobalTargets()||tg}catch{}const dom=+end.slice(8),dim=new Date(+end.slice(0,4),+end.slice(5,7),0).getDate(),ft={retail:{t:tg.retail,a:mo.retail},spa:{t:tg.spa,a:mo.spa},total:{t:tg.retail+tg.spa,a:mo.total}};Object.values(ft).forEach(x=>{x.pace=x.t?x.t*dom/dim:null,x.ach=x.t?x.a/x.t*100:null,x.proj=dom?x.a/dom*dim:null,x.req=x.t&&dim>dom?(x.t-x.a)/(dim-dom):null});const targetPace=makeTargetPace(data,mtdRows,dom,dim,mo),mix=new Map;c.cat.forEach((v,k)=>mapAdd(mix,(k.split("/")[0]||"Other").trim(),v));const winners=[...br.filter(x=>x.chg>0).map(x=>({t:"Brand",...x})),...ca.filter(x=>x.chg>0).map(x=>({t:"Category",...x}))].sort((a,b)=>b.chg-a.chg).slice(0,8),acts=[];[...br.filter(x=>x.chg<0).slice(0,3).map(x=>({t:"Brand",...x})),...ca.filter(x=>x.chg<0).slice(0,3).map(x=>({t:"Category",...x}))].forEach(x=>acts.push({o:"Store Manager + category owner",a:`Review ${x.t.toLowerCase()} \u201C${x.name}\u201D: stock/size availability, placement, recommendation and lost-sale reasons.`,m:`Recover ${money(Math.abs(x.chg)*.5)} (50% of gap) in next window`})),em.filter(x=>x.chg<0).slice(-3).forEach(x=>acts.push({o:x.name,a:"10-minute coaching huddle: needs discovery, add-ons, conversion.",m:"Lift sales 10% vs this window"})),c.multi<35&&acts.push({o:"All sales staff",a:`Cross-sell drive: only ${c.multi.toFixed(0)}% of baskets span 2+ categories.`,m:"Raise multi-category baskets by 5 pts"}),c.pend&&acts.push({o:"D2C / Operations",a:`${c.pend} order lines not marked delivered \u2014 clear exceptions.`,m:"Zero open lines at next review"}),acts.length||acts.push({o:"Store Manager + team",a:"Protect growth: repeat winning recommendations, replenish fast movers.",m:"Keep weekly growth positive"});const hf=foc(c,/^HUFT$/i),hp=foc(p,/^HUFT$/i),sar=[foc(c,/sara/i),foc(p,/sara/i)],hea=[foc(c,/hearty/i),foc(p,/hearty/i)],mn=[foc(c,/meowsi|nutri\s?meow/i),foc(p,/meowsi|nutri\s?meow/i)];R={st,end,ps,pe,n,c,p,mo,pmo,mk:mk2,pmk,days,br,ca,em,ft,targetPace,mix,winners,acts,tg,dom,dim,nw,rep:c.cust.size?(c.cust.size-nw)/c.cust.size*100:0,hf:[hf,hp],sar,hea,mn,rows:data.length},R.first=first,R.pf=pf;const tc=c.cust.size||1,tv=nwV+odV||1;R.nwV=nwV,R.odV=odV,R.pnw=pnw,R.np=nw/tc*100,R.op=100-R.np,R.nvp=nwV/tv*100,R.ovp=100-R.nvp,R.sm={nn:c.smpNo,q:c.smp,val:c.smpVal,cust:c.smpC.size,conv,rate:c.smpC.size?conv/c.smpC.size*100:0},R.pts=points(),draw(),$("wrExportPpt")&&($("wrExportPpt").disabled=!1),$("wrStatus").textContent=`Analysed ${fmt(data.length)} rows \u2022 ${st} to ${end} vs ${ps} to ${pe} \u2022 Month ${mk2} vs same days ${pmk}`}function points(){const{c,p,mo,pmo,ft,em,br,ca,nw,rep}=R,ok=v=>v>=0?"ok":"warn",g=(a,b)=>pct(a,b),L=[],add=(a,v,s,x)=>L.push({a,v,s,x});return add("Sales achievement & MoM growth",`${sh(c.total)} (${g(c.total,p.total).toFixed(1)}% WoW) \u2022 MoM ${g(mo.total,pmo.total).toFixed(1)}%`,ok(g(c.total,p.total)),"Track target gap and WoW/MoM growth"),add("Retail sales vs target",ft.retail.t?`${ft.retail.ach.toFixed(0)}% of ${sh(ft.retail.t)} \u2022 need ${sh(ft.retail.req)}/day`:`${sh(c.retail)} (target not set)`,ft.retail.t?ft.retail.a>=ft.retail.pace?"ok":"warn":"na","Set daily recovery target; review at closing"),add("SPA sales & packages",`Net ${sh(c.spa)} \u2022 packages sold ${sh(c.pkg)} \u2022 used ${fmt(c.used)}`,ok(g(c.spa,p.spa)),"Separate redemptions from fresh revenue"),add("HUFT food contribution",`${sh(c.food)} \u2022 ${c.total?(c.food/c.total*100).toFixed(1):0}% of sales`,ok(g(c.food,p.food)),"Review food run-rate daily"),add("Sara\u2019s Wholesome",`${sh(R.sar[0])} (${g(R.sar[0],R.sar[1]).toFixed(1)}%)`,ok(g(R.sar[0],R.sar[1])),"Check stock, repeat gap, recommendation"),add("Hearty",`${sh(R.hea[0])} (${g(R.hea[0],R.hea[1]).toFixed(1)}%)`,ok(g(R.hea[0],R.hea[1])),"Replicate winning SKUs"),add("Meowsi & Nutrimeow",`${sh(R.mn[0])} (${g(R.mn[0],R.mn[1]).toFixed(1)}%)`,ok(g(R.mn[0],R.mn[1])),"Track brand sales & new customers"),add("Treats",`${sh(c.treats)} \u2022 in ${c.tpen.toFixed(1)}% of orders`,ok(g(c.treats,p.treats)),"Improve checkout add-ons"),add("Pet information capture","Needs pet-profile records","na","Track completed profiles / eligible customers"),add("D2C delivery",`${c.pend} lines not delivered`,c.pend?"warn":"ok","Resolve exceptions; log reasons"),add("SPA cancellations & no-shows","Needs appointment records","na","Record reasons & recovery bookings"),add("Groomer utilisation","Needs roster / booked hours","na","Booked \xF7 available hours"),add("New customers & sampling",`New ${fmt(nw)} (${R.np.toFixed(0)}%) \u2022 ${sh(R.nwV)} \u2022 ${fmt(R.sm.q)} food samples \u2022 ${R.sm.rate.toFixed(0)}% converted`,"ok","Track sample-to-sale conversion and follow up non-converted"),add("Repeat retention & follow-up",`Old ${R.op.toFixed(0)}% of ${fmt(c.cust.size)} customers \u2022 ${sh(R.odV)} (${R.ovp.toFixed(0)}% of value)`,rep>=50?"ok":"warn","Log calls, reached, converted"),add("Stock availability","Needs stock records","na","Record out-of-stock & replenishment ETA"),add("Employee productivity",`${em.length} staff \u2022 ${wowStats(c).n} WOW bills (${sh(wowT)}+) = ${wowStats(c).pc.toFixed(1)}% of retail \u2022 ${em.filter(x=>x.chg<0).length} declining`,em.filter(x=>x.chg<0).length>em.length/2?"warn":"ok","Coach declining staff"),add("ABV, UPT & ASP",`${money(c.abv)} \u2022 ${c.upt.toFixed(2)} \u2022 ${money(c.asp)}`,ok(g(c.abv,p.abv)),"Improve basket quality"),add("Cross-sell & add-ons",`${c.multi.toFixed(0)}% multi-category baskets`,c.multi>=35?"ok":"warn","Practise relevant add-ons"),add("HUFT food backlog","Food target not captured in dashboard","na","Target \u2212 achieved \xF7 days left"),add("Customer follow-up conversion","Needs call log","na","Attempted / reached / converted"),add("Daily & weekly growth",`${R.days.filter(d=>d.c<d.p).length} of ${R.n} days below prior`,ok(g(c.total,p.total)),"Fix weakest days next day"),add("Growing / declining brands & categories",`${br.filter(x=>x.chg>0).length}\u2191 / ${br.filter(x=>x.chg<0).length}\u2193 brands \u2022 ${ca.filter(x=>x.chg>0).length}\u2191 / ${ca.filter(x=>x.chg<0).length}\u2193 cats`,"ok","Assign stock & selling actions"),add("Action plan governance",`${R.acts?R.acts.length:0} actions drafted`,"ok","Owner, due date, result, status"),L}const kc=(l,v,s,d)=>`<div class="wr-kpi"${d?` data-d="${d}" style="cursor:pointer" title="Click for customer numbers and bill details"`:""}><span>${l}</span><strong>${v}</strong><small>${s}</small>${d?'<small style="display:block;color:#c2255c">\u25B8 click for numbers & bills</small>':""}</div>`,tbl=(h,rs)=>`<div class="wr-tw"><table><thead><tr>${h.map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${rs.join("")||'<tr><td colspan="9">No data in this period.</td></tr>'}</tbody></table></div>`,cr=x=>`<tr><td>${safe(x.name)}</td><td>${money(x.cur)}</td><td>${money(x.prev)}</td><td class="${x.chg<0?"wr-neg":"wr-pos"}">${x.chg<0?"\u2212":"+"}${money(Math.abs(x.chg))}</td><td>${sg(x.g)}</td></tr>`,pn=(t,s,b)=>`<article class="wr-panel"><h3>${t}</h3><p class="s">${s||""}</p>${b}</article>`,cv=id=>`<div class="wr-chart"><canvas id="${id}"></canvas></div>`,hd=(t,c)=>`<div class="wr-h"><h2>${t}</h2><span>${c}</span></div>`,TABS=["\u{1F3AF} Briefing","Overview","Targets & MoM","Brands & Categories","People","Customers & Basket","SPA","23-Point Scorecard","Action Plan"];function panels(){const{c,p,mo,pmo,ft,em,br,ca,winners,acts,pts}=R,pc=(a,b)=>sg(pct(a,b)),out=[brief()],tp=R.targetPace,pcell=v=>v===null||!Number.isFinite(Number(v))?"":Number(v).toFixed(1)+"%",mcell=v=>v===null||!Number.isFinite(Number(v))?"":money(v),paceTableRows=list=>list.map(q=>`<tr><td>${safe(q.scope)}</td><td>${q.type}</td><td>${mcell(q.target)}</td><td>${mcell(q.actual)}</td><td>${pcell(q.ach)}</td><td class="${q.backlog===null?"":q.backlog<0?"wr-neg":"wr-pos"}">${mcell(q.backlog)}</td><td>${mcell(q.aspd)}</td><td>${mcell(q.expected)}</td><td>${pcell(q.expectedAch)}</td><td>${mcell(q.required)}</td></tr>`);out.push(hd("Executive overview","SALES & BASKET")+`<div class="wr-kpis">${kc("TOTAL SALES",money(c.total),pc(c.total,p.total)+" vs prev")}${kc("RETAIL",money(c.retail),pc(c.retail,p.retail))}${kc("ACTUAL SPA",money(c.spa),pc(c.spa,p.spa))}${kc("ORDERS",fmt(c.ord),pc(c.ord,p.ord))}${kc("ABV",money(c.abv),pc(c.abv,p.abv))}${kc("UPT",c.upt.toFixed(2),pc(c.upt,p.upt))}${kc("ASP",money(c.asp),pc(c.asp,p.asp))}${kc("FOOD SALES",money(c.food),pc(c.food,p.food))}</div><div class="wr-grid">${pn("Daily sales movement","Current vs previous equivalent day",cv("wrC1"))}${pn("Sales mix by category","Retail share this window",cv("wrC2"))}</div>`+pn("Management readout","",`<ul class="wr-l">${readout().map(x=>`<li>${x}</li>`).join("")}</ul>`));const tb=(k,l)=>{const x=ft[k];return`<div><b>${l}</b> \u2014 ${x.t?`${x.ach.toFixed(1)}% achieved \u2022 projected ${sh(x.proj)} \u2022 need ${sh(x.req)}/day`:""}<div class="bar"><i style="width:${Math.min(100,x.ach)}%"></i></div></div>`};out.push(hd("Targets & month-on-month","TARGET PACE")+`<div class="wr-grid">${pn("Month-to-date vs target pace","Targets read from the dashboard target settings",cv("wrC3"))}${pn("Target tracker","Day "+R.dom+" of "+R.dim,tb("retail","Retail")+"<br>"+tb("spa","SPA")+"<br>"+tb("total","Total"))}</div>`+pn(`Month-on-month: ${R.mk} vs ${R.pmk}`,"Same dates in the previous calendar month",tbl(["Metric",R.mk,R.pmk,"Change","%"],[["Total sales","total"],["Retail","retail"],["Actual SPA","spa"],["Orders","ord"],["ABV","abv"]].map(([l,k])=>{const f=k==="ord"?fmt:money;return`<tr><td>${l}</td><td>${f(mo[k])}</td><td>${f(pmo[k])}</td><td>${f(mo[k]-pmo[k])}</td><td>${pc(mo[k],pmo[k])}</td></tr>`})))),out[2]+=`<div class="wr-grid"><div class="wr-panel"><h3>Store & department target run rate</h3><p class="s">Elapsed ${tp.daysOver} days \u2022 ${tp.daysLeft} days left \u2022 Achievement = MTD \xF7 monthly target; backlog = MTD \u2212 target; ASPD = MTD \xF7 elapsed days; expected closing = ASPD \xD7 days in month; required/day = (target \u2212 MTD) \xF7 days left. Missing targets or dates stay blank.</p><div class="wr-tw"><table><thead><tr><th>Store</th><th>Department</th><th>Monthly target</th><th>MTD achieved</th><th>Ach %</th><th>Backlog</th><th>ASPD</th><th>Expected close</th><th>Expected ach %</th><th>Required/day</th></tr></thead><tbody>${paceTableRows([...tp.storeRows,...tp.totalRows]).join("")||'<tr><td colspan="10"></td></tr>'}</tbody></table></div></div></div>`;const fb=[["HUFT",R.hf],["Sara\u2019s Wholesome",R.sar],["Hearty",R.hea],["Meowsi & Nutrimeow",R.mn],["Treats",[c.treats,p.treats]]].map(([n,v])=>cr({name:n,cur:v[0],prev:v[1],chg:v[0]-v[1],g:pct(v[0],v[1])}));out.push(hd("Brand & category diagnosis","GROWTH / DECLINE")+`<div class="wr-grid">${pn("Brand movers","Top gainers and decliners (\u20B9 change)",cv("wrC4"))}${pn("Priority brands","HUFT, Sara\u2019s, Hearty, Meowsi, Nutrimeow, Treats",tbl(["Brand","Current","Previous","Change","%"],fb))}</div><div class="wr-grid">${pn("Brands needing attention","",tbl(["Brand","Current","Previous","Change","%"],br.filter(x=>x.chg<0).slice(0,12).map(cr)))}${pn("Categories needing attention","",tbl(["Category","Current","Previous","Change","%"],ca.filter(x=>x.chg<0).slice(0,12).map(cr)))}</div>`+pn("Growth drivers","What is working",`<ul class="wr-l">${winners.map(x=>`<li><b>${x.t}: ${safe(x.name)}</b> up ${money(x.chg)} (${x.g.toFixed(1)}%)</li>`).join("")||"<li>No positive movers.</li>"}</ul>`)),out[3]+=pn("Brand monthly run rate","MTD sales and expected close; target-based cells remain blank until brand targets are available.",tbl(["Brand","Monthly target","MTD achieved","Ach %","Backlog","ASPD","Expected close","Expected ach %","Required/day"],tp.brandRows.map(q=>`<tr><td>${safe(q.scope)}</td><td>${mcell(q.target)}</td><td>${mcell(q.actual)}</td><td>${pcell(q.ach)}</td><td class="${q.backlog===null?"":q.backlog<0?"wr-neg":"wr-pos"}">${mcell(q.backlog)}</td><td>${mcell(q.aspd)}</td><td>${mcell(q.expected)}</td><td>${pcell(q.expectedAch)}</td><td>${mcell(q.required)}</td></tr>`)));const W=wowStats(c),Wp=wowStats(p);return out.push(hd("People performance","TEAM + WOW BILLS")+`<div class="wr-panel" style="margin-bottom:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><b>WOW bill = a single retail bill of \u20B9</b><input type="number" id="wrWow" value="${wowT}" min="1" step="500" style="width:110px;padding:7px;border:1px solid #cbd5e1;border-radius:8px"><b>and above</b><span class="s" style="margin:0">change the amount to re-check</span></div><div class="wr-kpis">${kc("TOTAL WOW BILLS",fmt(W.n),"prev: "+fmt(Wp.n)+" \u2022 "+pct(W.n,Wp.n).toFixed(1)+"%")}${kc("WOW BILL VALUE",money(W.v),"prev: "+money(Wp.v))}${kc("WOW % OF RETAIL SALES",W.pc.toFixed(1)+"%","prev: "+Wp.pc.toFixed(1)+"%")}${kc("WOW % OF RETAIL BILLS",(W.tb?W.n/W.tb*100:0).toFixed(1)+"%",fmt(W.n)+" of "+fmt(W.tb)+" retail bills")}</div><div class="wr-grid">${pn("Employee sales change","Retail sales, green = growth",cv("wrC5"))}${pn("WOW bills by employee","Number of bills at or above the set amount",cv("wrC9"))}</div>`+pn("Employee leaderboard","Sales, bills, WOW bills and WOW % of each employee\u2019s retail sales",tbl(["Employee","Current","Previous","Bills","WOW bills","WOW value","WOW % of retail","Change %"],em.slice(0,30).map(x=>{const w=W.emp.get(x.name)||{n:0,v:0};return`<tr><td>${safe(x.name)}</td><td>${money(x.cur)}</td><td>${money(x.prev)}</td><td>${x.bills}</td><td><b>${w.n}</b></td><td>${money(w.v)}</td><td>${x.cur?(w.v/x.cur*100).toFixed(1):"0.0"}%</td><td>${sg(x.g)}</td></tr>`}).concat([`<tr style="font-weight:800;background:#fff2e8"><td>Total (all retail)</td><td>${money(c.retail)}</td><td>${money(p.retail)}</td><td>${fmt(W.tb)}</td><td>${fmt(W.n)}</td><td>${money(W.v)}</td><td>${W.pc.toFixed(1)}%</td><td>${pc(c.retail,p.retail)}</td></tr>`])))),out[4]+=pn("Employee monthly target run rate","Target from employee dashboard settings; missing employee targets stay blank.",tbl(["Employee","Type","Monthly target","MTD achieved","Ach %","Backlog","ASPD","Expected close","Expected ach %","Required/day"],paceTableRows(tp.employeeRows))),out.push(hd("Customers & basket quality","CUSTOMER")+`<div class="wr-kpis">${kc("NEW CUSTOMERS",fmt(R.nw)+" \u2022 "+R.np.toFixed(1)+"%","prev window: "+fmt(R.pnw),"new")}${kc("NEW CUSTOMER PURCHASES",money(R.nwV),R.nvp.toFixed(1)+"% of identified value","new")}${kc("OLD CUSTOMERS",fmt(c.cust.size-R.nw)+" \u2022 "+R.op.toFixed(1)+"%","repeat buyers","old")}${kc("OLD CUSTOMER PURCHASES",money(R.odV),R.ovp.toFixed(1)+"% of identified value","old")}${kc("FOOD SAMPLES (99.99% OFF)",fmt(R.sm.q)+" units","MRP "+money(R.sm.val)+(R.sm.nn?" \u2022 "+R.sm.nn+" units without number":""),"smp")}${kc("CUSTOMERS SAMPLED",fmt(R.sm.cust),"unique with phone","smp")}${kc("SAMPLE \u2192 SALE",R.sm.rate.toFixed(1)+"%",fmt(R.sm.conv)+" bought food later")}${kc("MULTI-CATEGORY",c.multi.toFixed(0)+"%","baskets with 2+ categories")}${kc("TREATS PENETRATION",c.tpen.toFixed(1)+"%","of orders")}${kc("OPEN DELIVERY LINES",fmt(c.pend),"not marked delivered")}${kc("ABV",money(c.abv),pc(c.abv,p.abv))}${kc("UPT",c.upt.toFixed(2),pc(c.upt,p.upt))}</div><div class="wr-grid">${pn("New vs repeat customers","Based on first purchase in loaded data",cv("wrC6"))}${pn("Basket quality","ABV / UPT / ASP trend vs previous",cv("wrC7"))}</div><div class="wr-grid">${pn("Purchase value: new vs old customers","Identified customers (with phone)",cv("wrC8"))}${pn("Food sample tracking","Food lines at 99.99% discount",tbl(["Metric","Value"],[["Samples given (units)",fmt(R.sm.q)],["Sample MRP value",money(R.sm.val)],["Customers sampled (with number)",fmt(R.sm.cust)],["Sample units without customer number",fmt(R.sm.nn)],["Converted to paid food purchase",fmt(R.sm.conv)+" ("+R.sm.rate.toFixed(1)+"%)"],["New customers",fmt(R.nw)+" \u2022 "+R.np.toFixed(1)+"% \u2022 "+money(R.nwV)],["Old customers",fmt(c.cust.size-R.nw)+" \u2022 "+R.op.toFixed(1)+"% \u2022 "+money(R.odV)]].map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td></tr>`)))}</div>`),out.push(hd("SPA & packages","SPA")+`<div class="wr-kpis">${kc("GROSS SPA",money(c.gross),pc(c.gross,p.gross))}${kc("PACKAGE REDEMPTIONS",money(c.red),"excluded from fresh sales")}${kc("ACTUAL SPA",money(c.spa),pc(c.spa,p.spa))}${kc("PACKAGES SOLD",money(c.pkg),pc(c.pkg,p.pkg))}${kc("PACKAGE SESSIONS USED",fmt(c.used),pc(c.used,p.used))}</div>`+pn("SPA note","",'<p class="s">No-shows, cancellations and groomer utilisation need appointment records and are flagged in the scorecard.</p>')),out.push(hd("23-point review scorecard","ALL POINTS")+pn("Live value & status for every review point","Green = on track, red = attention, amber = needs operational records",tbl(["#","Review area","Live value","Status","Action / measure"],pts.map((x,i)=>`<tr><td>${i+1}</td><td><b>${safe(x.a)}</b></td><td>${safe(x.v)}</td><td><span class="wr-badge b-${x.s}">${{ok:"ON TRACK",warn:"ATTENTION",na:"DATA NEEDED"}[x.s]}</span></td><td>${safe(x.x)}</td></tr>`)))),out.push(hd("Action plan & ownership","FOLLOW UP")+pn("Recommended actions","Validate root cause before assigning",tbl(["#","Owner","Action","Success measure","Due"],acts.map((x,i)=>`<tr><td>${i+1}</td><td>${safe(x.o)}</td><td>${safe(x.a)}</td><td>${safe(x.m)}</td><td>${R.end>R.st?addD(R.end,7):""}</td></tr>`)))),out}const MON=new Set([0,1,2,3,4,5,6,7,16]),TABOF=[1,2,6,3,3,3,3,3,7,5,6,6,5,5,7,4,1,5,2,7,1,3,8];function pair(i){const{c,p,em,br,days}=R,up=a=>a.filter(x=>x>0).length;return[[c.total,p.total],[c.retail,p.retail],[c.spa,p.spa],[c.food,p.food],R.sar,R.hea,R.mn,[c.treats,p.treats],null,[c.pend,0],null,null,[R.nw,Math.max(0,c.cust.size-R.nw)],null,null,[em.filter(x=>x.chg>0).length,em.filter(x=>x.chg<0).length],[c.abv,p.abv],[c.multi,p.multi],null,null,[days.filter(d=>d.c>=d.p).length,days.filter(d=>d.c<d.p).length],[br.filter(x=>x.chg>0).length,br.filter(x=>x.chg<0).length],null][i]||null}const PL={9:["Open lines","Target"],12:["New","Repeat"],15:["Growing","Declining"],20:["Days up","Days down"],21:["Brands up","Brands down"]};function brief(){const L=R.pts,q=L[bs],pr=pair(bs);return`<div class="wr-brief"><ul class="wr-panel wr-rail">${L.map((x,i)=>`<li data-i="${i}" class="${i===bs?"on":""} ${ck.has(i)?"done":""}"><i>${ck.has(i)?"\u2713":i+1}</i>${safe(x.a)}</li>`).join("")}</ul><div class="wr-panel"><div class="wr-h"><h2>Point ${bs+1} of ${L.length}: ${safe(q.a)}</h2><span>${ck.size} DISCUSSED</span></div><div class="wr-prog"><i style="width:${(bs+1)/L.length*100}%"></i></div><span class="wr-badge b-${q.s}">${{ok:"ON TRACK",warn:"ATTENTION",na:"DATA NEEDED"}[q.s]}</span><div class="wr-big">${safe(q.v)}</div><div class="wr-ask"><b>Discuss / measure:</b> ${safe(q.x)}</div>${pr?cv("wrCB"):'<p class="s">No chart for this point \u2014 review it with the operational records.</p>'}<textarea id="wrNote" placeholder="Briefing notes, owner and due date for this point\u2026">${safe(nt[bs]||"")}</textarea><div class="wr-nav"><button data-a="prev">\u25C0 Previous</button><button data-a="ck">${ck.has(bs)?"\u21BA Unmark":"\u2713 Mark discussed"}</button><button data-a="next">Next \u25B6</button>${bs===12||bs===13?'<button data-a="det">Customer & bill details \u2197</button>':""}${bs===12?'<button data-a="smp">Food sample details \u2197</button>':""}<button data-a="go">Open detail tab \u2197</button></div></div></div>`}function bindM(m,out,fn){var _a,_b,_c,_d;(_a=m.querySelectorAll)==null||_a.call(m,".cu").forEach(r=>r.onclick=()=>{const n=r.nextElementSibling;n.hidden=!n.hidden});const q=(_b=m.querySelector)==null?void 0:_b.call(m,"#wrQ");q&&(q.oninput=()=>{const v=q.value.toLowerCase();m.querySelectorAll(".cu").forEach(r=>{const s=!v||r.dataset.q.includes(v);r.hidden=!s,s||(r.nextElementSibling.hidden=!0)})});const x=(_c=m.querySelector)==null?void 0:_c.call(m,"[data-m=x]");x&&(x.onclick=()=>{m.style.display="none"});const cb=(_d=m.querySelector)==null?void 0:_d.call(m,"[data-m=csv]");cb&&(cb.onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([out.join(`
@@ -5875,6 +6038,1223 @@ const STORE_CREDENTIALS = {
     </div>
   </div>
 </div>
+
+
+
+<!-- HYDERGUDA STORE PROFILE SLIDING PANEL (250ms transition) -->
+<div class="profile-panel-overlay" id="profilePanelOverlay" hidden aria-hidden="true">
+  <div class="profile-panel-scrim" id="profilePanelScrim" onclick="closeStoreProfilePanel()"></div>
+  <aside class="profile-panel" id="profilePanel" role="dialog" aria-modal="true" aria-labelledby="profilePanelTitle">
+    <div class="profile-panel-head">
+      <button type="button" class="profile-panel-back" id="closeProfilePanelBack" onclick="closeStoreProfilePanel()" aria-label="Back to dashboard">← Back</button>
+      <h2 class="profile-panel-title" id="profilePanelTitle">Store Profile</h2>
+      <button type="button" class="profile-panel-close" id="closeProfilePanelBtn" onclick="closeStoreProfilePanel()" aria-label="Close profile">✕</button>
+    </div>
+    <div class="profile-panel-body">
+      <div class="profile-panel-grid">
+        <!-- Profile Card -->
+        <div class="profile-card-left">
+          <div class="profile-avatar-large">H</div>
+          <h3 class="profile-name">Hyderguda Store</h3>
+          <span class="profile-role-badge">Store Manager</span>
+          <div class="profile-meta-list">
+            <div class="pml-row"><span>Branch:</span><b>Hyderabad (Hyderguda)</b></div>
+            <div class="pml-row"><span>Store Code:</span><b>HYD-04</b></div>
+            <div class="pml-row"><span>Email:</span><b id="profileUserEmail">hyderguda@store.in</b></div>
+            <div class="pml-row"><span>Session:</span><b>Active & Encrypted</b></div>
+            <div class="pml-row"><span>Last Login:</span><b id="profileLastLoginStamp">Today, 06:01 PM</b></div>
+          </div>
+        </div>
+
+        <!-- Preferences, Data, Session (NO Clear Data per request 10) -->
+        <div class="profile-details-right">
+          <section class="profile-section">
+            <h4>Preferences</h4>
+            <div class="pref-field">
+              <label for="prefDateRangeSelect">Default Date Range</label>
+              <select id="prefDateRangeSelect" class="pref-select" onchange="applyPrefDateRange(this.value)">
+                <option value="mtd" selected>Month to date (MTD)</option>
+                <option value="day">Last sale day</option>
+                <option value="7">Last 7 days</option>
+                <option value="30">Last 30 days</option>
+              </select>
+            </div>
+            <div class="pref-field pref-toggle-row">
+              <span>Dark Mode</span>
+              <button type="button" class="pref-toggle-btn" id="themeToggleBtn" onclick="toggleStoreTheme()" aria-pressed="false">Light</button>
+            </div>
+            <div class="pref-field pref-toggle-row">
+              <span>Reduced Motion</span>
+              <button type="button" class="pref-toggle-btn" id="motionToggleBtn" onclick="toggleStoreMotion()" aria-pressed="false">Default</button>
+            </div>
+          </section>
+
+          <section class="profile-section">
+            <h4>Data Management</h4>
+            <p class="profile-sec-desc">Upload sales records manually or inspect session storage status.</p>
+            <div class="profile-data-actions">
+              <button type="button" class="profile-action-btn primary" onclick="closeStoreProfilePanel(); chooseManualExcel();">📁 Upload Excel File</button>
+            </div>
+            <div class="profile-storage-note">
+              <span class="storage-dot green"></span>
+              <span id="profileStorageStatus">Ready • Upload sales data for this session; refresh clears it.</span>
+            </div>
+          </section>
+
+          <section class="profile-section">
+            <h4>Session</h4>
+            <button type="button" class="profile-action-btn logout" onclick="handleStoreLogout()">Log out of Store</button>
+          </section>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+
+<style id="single-tab-redesign-css">
+/* ==========================================================================
+   SINGLE TAB REDESIGN SYSTEM SPECIFICATION (Inter, #9A3412, #EA580C, 1360px)
+   ========================================================================== */
+html, body {
+  background-color: #F4F4F2 !important;
+  color: #1C1917 !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif !important;
+  font-variant-numeric: tabular-nums !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Dark Mode Support */
+body.dark-theme {
+  background-color: #1C1917 !important;
+  color: #F5F5F4 !important;
+}
+body.dark-theme .header,
+body.dark-theme .single-tab-bar-wrap,
+body.dark-theme .card,
+body.dark-theme .dashPanel,
+body.dark-theme .panel,
+body.dark-theme .kpi,
+body.dark-theme .profile-panel,
+body.dark-theme .profile-section,
+body.dark-theme .page-footer {
+  background-color: #292524 !important;
+  border-color: #44403C !important;
+  color: #F5F5F4 !important;
+}
+body.dark-theme .single-tab-bar .tab {
+  color: #A8A29E !important;
+}
+body.dark-theme .single-tab-bar .tab.active {
+  color: #FB923C !important;
+}
+
+/* Header */
+.header, header {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E4E2DD !important;
+  padding: 12px 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 101 !important;
+}
+@media (max-width: 768px) {
+  .header, header {
+    padding: 10px 16px !important;
+    flex-wrap: wrap !important;
+  }
+}
+.header .brand {
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  color: #1C1917 !important;
+  line-height: 1.2 !important;
+}
+.header .sub {
+  font-size: 13px !important;
+  color: #78716C !important;
+  font-weight: 500 !important;
+}
+.headerRightGroup {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  margin-left: auto !important;
+}
+.headerDateInfo {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 2px !important;
+}
+.lastSaleStamp {
+  font-size: 12px !important;
+  color: #475569 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-variant-numeric: tabular-nums !important;
+  white-space: nowrap !important;
+}
+.live-dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background-color: #15803D !important;
+  display: inline-block !important;
+  box-shadow: 0 0 0 0 rgba(21, 128, 61, 0.7) !important;
+  animation: pulseLiveDot 2s infinite !important;
+  flex-shrink: 0 !important;
+}
+@keyframes pulseLiveDot {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(21, 128, 61, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(21, 128, 61, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(21, 128, 61, 0); }
+}
+
+.profile-header-btn {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 4px 8px !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 999px !important;
+  cursor: pointer !important;
+  transition: all 150ms ease !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.profile-header-btn:hover {
+  background: #F4F4F2 !important;
+  border-color: #E4E2DD !important;
+}
+.profile-avatar-circle {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  background: #9A3412 !important;
+  color: #FFFFFF !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+.profile-header-meta {
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: left !important;
+}
+.profile-header-name {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #1C1917 !important;
+  line-height: 1.2 !important;
+}
+.profile-header-role {
+  font-size: 11px !important;
+  color: #78716C !important;
+  line-height: 1.2 !important;
+}
+@media (max-width: 640px) {
+  .profile-header-meta {
+    display: none !important;
+  }
+}
+
+/* Single Tab Bar */
+.single-tab-bar-wrap {
+  width: 100% !important;
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E4E2DD !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+}
+.single-tab-bar-inner {
+  max-width: 1360px !important;
+  margin: 0 auto !important;
+  padding: 0 24px !important;
+  box-sizing: border-box !important;
+}
+@media (max-width: 768px) {
+  .single-tab-bar-inner {
+    padding: 0 16px !important;
+  }
+}
+.single-tab-bar {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  height: 48px !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  gap: 0 !important;
+}
+.single-tab-bar::-webkit-scrollbar {
+  display: none !important;
+}
+.single-tab-bar .tab {
+  height: 48px !important;
+  padding: 0 16px !important;
+  margin: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  color: #78716C !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  transition: color 150ms ease !important;
+  flex-shrink: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  outline: none !important;
+}
+.single-tab-bar .tab:hover {
+  color: #1C1917 !important;
+  background: transparent !important;
+}
+.single-tab-bar .tab.active {
+  color: #9A3412 !important;
+  font-weight: 700 !important;
+  background: transparent !important;
+}
+.single-tab-underline {
+  position: absolute !important;
+  bottom: 0 !important;
+  height: 3px !important;
+  background: #EA580C !important;
+  border-radius: 3px 3px 0 0 !important;
+  transition: left 250ms cubic-bezier(0.4, 0, 0.2, 1), width 250ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+  pointer-events: none !important;
+  will-change: left, width !important;
+}
+
+/* Page Containers */
+.container,
+main.container {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 100% !important;
+  max-width: 1360px !important;
+  padding: 16px 24px 64px !important;
+  box-sizing: border-box !important;
+}
+body > #weeklyReview.page {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 100% !important;
+  max-width: 1360px !important;
+  padding: 16px 24px 64px !important;
+  box-sizing: border-box !important;
+}
+@media (max-width: 768px) {
+  .container,
+  main.container,
+  body > #weeklyReview.page {
+    padding: 16px 16px 64px !important;
+  }
+}
+
+/* Page Switch Animations */
+.page.active {
+  animation: pageFadeSlideUp 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes pageFadeSlideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page.active {
+    animation: pageFadeOnly 200ms ease forwards;
+  }
+  @keyframes pageFadeOnly {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .single-tab-underline {
+    transition: none !important;
+  }
+  .profile-panel {
+    transition: opacity 200ms ease !important;
+    transform: none !important;
+  }
+}
+
+/* Unified Cards */
+.card,
+.dashPanel,
+.panel,
+.reportCard,
+.customer-search-card,
+.customer-retention-card,
+.upload-center-card {
+  border-radius: 12px !important;
+  border: 1px solid #E4E2DD !important;
+  padding: 18px !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,.03) !important;
+  box-sizing: border-box !important;
+}
+
+/* KPI Tiles (4 cols desktop, 2 tablet, 1 mobile) */
+#dashboard > .kpiGrid,
+.kpiGrid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 16px !important;
+  margin-bottom: 16px !important;
+}
+@media (max-width: 1024px) {
+  #dashboard > .kpiGrid,
+  .kpiGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 640px) {
+  #dashboard > .kpiGrid,
+  .kpiGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
+.kpi {
+  border-radius: 12px !important;
+  border: 1px solid #E4E2DD !important;
+  padding: 18px !important;
+  background: #FFFFFF !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  min-height: 124px !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,.03) !important;
+  box-sizing: border-box !important;
+  transition: transform 150ms ease, box-shadow 150ms ease !important;
+}
+.kpi:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.06) !important;
+}
+.kpi span:first-child,
+.kpi .kpi-label {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: #78716C !important;
+  line-height: 1.2 !important;
+}
+.kpi b,
+.kpi strong,
+.kpi .kpi-val {
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  color: #1C1917 !important;
+  font-variant-numeric: tabular-nums !important;
+  line-height: 1.2 !important;
+  margin: 6px 0 !important;
+}
+.kpi small,
+.kpi .kpi-sub {
+  font-size: 12px !important;
+  color: #78716C !important;
+  line-height: 1.3 !important;
+}
+
+/* Filter Row Aligned */
+.toolbar {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: flex-end !important;
+  gap: 12px 16px !important;
+  margin-bottom: 8px !important;
+  background: transparent !important;
+}
+.toolbar .field {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+}
+.toolbar input[type="date"],
+.toolbar .date3d {
+  height: 40px !important;
+  min-height: 40px !important;
+  border-radius: 8px !important;
+  border: 1px solid #E4E2DD !important;
+  padding: 0 12px !important;
+  font-size: 13px !important;
+  box-sizing: border-box !important;
+  background: #FFFFFF !important;
+  color: #1C1917 !important;
+}
+.toolbar button.primary,
+.toolbar #huftRefreshLatestPOS,
+.toolbar #huftWaterUploadButton,
+.toolbar .huft-cloud-status-badge {
+  height: 40px !important;
+  min-height: 40px !important;
+  box-sizing: border-box !important;
+  border-radius: 8px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+#huftV26Presets {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 8px !important;
+  overflow-x: auto !important;
+  width: 100% !important;
+  margin: 6px 0 16px !important;
+  padding: 4px 0 !important;
+}
+#huftV26Presets button {
+  height: 32px !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  border: 1px solid #E4E2DD !important;
+  background: #FFFFFF !important;
+  color: #475569 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: all 150ms ease !important;
+}
+#huftV26Presets button:hover {
+  background: #F4F4F2 !important;
+  color: #1C1917 !important;
+}
+
+/* Sliding Profile Panel */
+.profile-panel-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2000 !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+.profile-panel-overlay[hidden] {
+  display: none !important;
+}
+.profile-panel-scrim {
+  position: absolute !important;
+  inset: 0 !important;
+  background: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+}
+.profile-panel {
+  position: relative !important;
+  width: min(680px, 92vw) !important;
+  height: 100% !important;
+  background: #FFFFFF !important;
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  transform: translateX(100%) !important;
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  z-index: 2 !important;
+  box-sizing: border-box !important;
+}
+.profile-panel.open {
+  transform: translateX(0) !important;
+}
+.profile-panel-head {
+  padding: 16px 24px !important;
+  border-bottom: 1px solid #E4E2DD !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+}
+.profile-panel-back {
+  background: none !important;
+  border: none !important;
+  color: #9A3412 !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  padding: 6px 10px !important;
+  border-radius: 6px !important;
+}
+.profile-panel-back:hover {
+  background: #FFF7ED !important;
+}
+.profile-panel-title {
+  margin: 0 !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #1C1917 !important;
+}
+.profile-panel-close {
+  background: none !important;
+  border: none !important;
+  font-size: 18px !important;
+  cursor: pointer !important;
+  color: #78716C !important;
+  padding: 6px 10px !important;
+  border-radius: 6px !important;
+}
+.profile-panel-close:hover {
+  background: #F4F4F2 !important;
+  color: #1C1917 !important;
+}
+.profile-panel-body {
+  padding: 24px !important;
+  overflow-y: auto !important;
+  flex: 1 !important;
+}
+.profile-panel-grid {
+  display: grid !important;
+  grid-template-columns: 240px 1fr !important;
+  gap: 24px !important;
+}
+@media (max-width: 640px) {
+  .profile-panel-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+.profile-card-left {
+  background: #F8FAF8 !important;
+  border: 1px solid #E4E2DD !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+.profile-avatar-large {
+  width: 72px !important;
+  height: 72px !important;
+  border-radius: 50% !important;
+  background: #9A3412 !important;
+  color: #FFFFFF !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: 12px !important;
+}
+.profile-name {
+  margin: 0 0 4px !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: #1C1917 !important;
+}
+.profile-role-badge {
+  background: #FFF7ED !important;
+  color: #9A3412 !important;
+  border: 1px solid #FED7AA !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 3px 10px !important;
+  border-radius: 999px !important;
+  margin-bottom: 16px !important;
+}
+.profile-meta-list {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  font-size: 12px !important;
+  text-align: left !important;
+}
+.pml-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  padding: 4px 0 !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+.pml-row span {
+  color: #64748B !important;
+}
+.pml-row b {
+  color: #1E293B !important;
+  font-weight: 600 !important;
+}
+.profile-details-right {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+}
+.profile-section {
+  background: #FFFFFF !important;
+  border: 1px solid #E4E2DD !important;
+  border-radius: 12px !important;
+  padding: 18px !important;
+}
+.profile-section h4 {
+  margin: 0 0 12px !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  color: #1C1917 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+}
+.pref-field {
+  margin-bottom: 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+.pref-field label {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+}
+.pref-select {
+  height: 38px !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 8px !important;
+  padding: 0 10px !important;
+  font-size: 13px !important;
+}
+.pref-toggle-row {
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+.pref-toggle-btn {
+  padding: 6px 14px !important;
+  border: 1px solid #CBD5E1 !important;
+  background: #F8FAFC !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}
+.profile-sec-desc {
+  font-size: 12px !important;
+  color: #64748B !important;
+  margin: 0 0 12px !important;
+}
+.profile-data-actions {
+  display: flex !important;
+  gap: 10px !important;
+  margin-bottom: 10px !important;
+}
+.profile-action-btn {
+  padding: 10px 16px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  border: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+.profile-action-btn.primary {
+  background: #9A3412 !important;
+  color: #FFFFFF !important;
+}
+.profile-action-btn.primary:hover {
+  background: #7C2D12 !important;
+}
+.profile-action-btn.logout {
+  background: #FEE2E2 !important;
+  color: #B91C1C !important;
+  border: 1px solid #FECACA !important;
+}
+.profile-action-btn.logout:hover {
+  background: #FCA5A5 !important;
+}
+.profile-storage-note {
+  font-size: 12px !important;
+  color: #64748B !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+.storage-dot.green {
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  background: #15803D !important;
+  display: inline-block !important;
+}
+
+/* Page Footer */
+.page-footer {
+  max-width: 1360px !important;
+  margin: 32px auto 0 !important;
+  padding: 20px 24px !important;
+  border-top: 1px solid #E4E2DD !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  font-size: 12px !important;
+  color: #78716C !important;
+  box-sizing: border-box !important;
+}
+.footer-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+.footer-dot {
+  color: #CBD5E1 !important;
+}
+.footer-links {
+  display: flex !important;
+  gap: 16px !important;
+  align-items: center !important;
+}
+.footer-links a {
+  color: #78716C !important;
+  text-decoration: none !important;
+  transition: color 150ms ease !important;
+}
+.footer-links a:hover {
+  color: #9A3412 !important;
+  text-decoration: underline !important;
+}
+
+/* Toast Container (Bottom-Right, 4s auto-dismiss) */
+.store-toast-container {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 3000 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  pointer-events: none !important;
+}
+.store-toast {
+  pointer-events: auto !important;
+  background: #1C1917 !important;
+  color: #FFFFFF !important;
+  padding: 12px 18px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  animation: toastSlideUp 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes toastSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+
+<script id="single-tab-navigation-controller">
+(function() {
+  'use strict';
+  if (window.__SINGLE_TAB_CONTROLLER_INITIALIZED__) return;
+  window.__SINGLE_TAB_CONTROLLER_INITIALIZED__ = true;
+
+  var TAB_ROUTES = {
+    'dashboard': '/dashboard',
+    'huft': '/food-sale',
+    'comparison': '/month-comparison',
+    'employeeSales': '/employee-sales',
+    'customers': '/customers',
+    'whatsapp': '/whatsapp',
+    'weeklyReview': '/weekly-review',
+    'uploadExcelTab': '/upload-excel',
+    'settingsTab': '/settings'
+  };
+
+  var ROUTE_TO_TAB = {
+    '/dashboard': 'dashboard',
+    '#dashboard': 'dashboard',
+    'dashboard': 'dashboard',
+    '/food-sale': 'huft',
+    '#food-sale': 'huft',
+    'food-sale': 'huft',
+    'huft': 'huft',
+    '/month-comparison': 'comparison',
+    '#month-comparison': 'comparison',
+    'comparison': 'comparison',
+    '/employee-sales': 'employeeSales',
+    '#employee-sales': 'employeeSales',
+    'employeeSales': 'employeeSales',
+    '/customers': 'customers',
+    '#customers': 'customers',
+    'customers': 'customers',
+    '/whatsapp': 'whatsapp',
+    '#whatsapp': 'whatsapp',
+    'whatsapp': 'whatsapp',
+    '/weekly-review': 'weeklyReview',
+    '#weekly-review': 'weeklyReview',
+    'weeklyReview': 'weeklyReview',
+    '/upload-excel': 'uploadExcelTab',
+    '#upload-excel': 'uploadExcelTab',
+    'uploadExcelTab': 'uploadExcelTab',
+    '/settings': 'settingsTab',
+    '#settings': 'settingsTab',
+    'settingsTab': 'settingsTab'
+  };
+
+  function updateUnderline(activeBtn) {
+    var underline = document.getElementById('singleTabUnderline');
+    var tabBar = document.getElementById('singleTabBar');
+    if (!underline || !activeBtn || !tabBar) return;
+    var barRect = tabBar.getBoundingClientRect();
+    var btnRect = activeBtn.getBoundingClientRect();
+    var left = btnRect.left - barRect.left + tabBar.scrollLeft;
+    var width = btnRect.width;
+    underline.style.left = Math.round(left) + 'px';
+    underline.style.width = Math.round(width) + 'px';
+  }
+
+  function activateTab(tabId, updateUrl) {
+    var tabBar = document.getElementById('singleTabBar');
+    if (!tabBar) return;
+    var tabs = Array.from(tabBar.querySelectorAll('.tab'));
+    var activeBtn = tabs.find(function(t) { return t.getAttribute('data-tab-id') === tabId; }) || tabs[0];
+    if (!activeBtn) return;
+    var actualTabId = activeBtn.getAttribute('data-tab-id');
+
+    // Update tab button states
+    tabs.forEach(function(t) {
+      var isCurrent = (t === activeBtn);
+      t.classList.toggle('active', isCurrent);
+      t.setAttribute('aria-selected', isCurrent ? 'true' : 'false');
+      t.tabIndex = isCurrent ? 0 : -1;
+    });
+
+    // Update page visibility
+    document.querySelectorAll('.page').forEach(function(page) {
+      var matches = (page.id === actualTabId);
+      page.classList.toggle('active', matches);
+      if (matches) {
+        page.style.display = 'block';
+      } else {
+        page.style.display = 'none';
+      }
+    });
+
+    // Animate underline
+    updateUnderline(activeBtn);
+
+    // Keep active tab visible in horizontal scroll on small screens
+    var barRect = tabBar.getBoundingClientRect();
+    var btnRect = activeBtn.getBoundingClientRect();
+    if (btnRect.left < barRect.left || btnRect.right > barRect.right) {
+      activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+
+    // Call page-specific refresh handlers
+    try {
+      if (actualTabId === 'growth' && typeof refreshGrowth === 'function') refreshGrowth();
+      if (actualTabId === 'comparison' && typeof refreshComparison === 'function') refreshComparison();
+      if (actualTabId === 'employeeSales' && typeof renderEmployeeMonthlySales === 'function') renderEmployeeMonthlySales();
+      if (actualTabId === 'weeklyReview' && typeof window.huftRunWeeklyReview === 'function') window.huftRunWeeklyReview();
+      if (actualTabId === 'dashboard' && typeof refreshDashboard === 'function') refreshDashboard();
+      if (actualTabId === 'settingsTab') syncMainTargetsToSettings();
+    } catch(err) {
+      console.warn('Tab refresh hook error:', err);
+    }
+
+    // Update URL if requested
+    if (updateUrl !== false) {
+      var route = TAB_ROUTES[actualTabId] || ('#' + actualTabId);
+      try {
+        if (window.location.hash !== ('#' + actualTabId)) {
+          history.pushState({ tabId: actualTabId }, '', '#' + (TAB_ROUTES[actualTabId] ? TAB_ROUTES[actualTabId].replace('/', '') : actualTabId));
+        }
+      } catch(e) {}
+    }
+  }
+
+  window.switchStoreTab = function(tabId) {
+    activateTab(tabId, true);
+  };
+
+  // Compatibility hook for existing code calling showTab(id, btn)
+  window.showTab = function(id, btn) {
+    activateTab(id, true);
+  };
+
+  // Keyboard navigation for tabs
+  function initKeyboardNav() {
+    var tabBar = document.getElementById('singleTabBar');
+    if (!tabBar) return;
+
+    tabBar.addEventListener('click', function(e) {
+      var btn = e.target.closest('.tab');
+      if (!btn) return;
+      var tabId = btn.getAttribute('data-tab-id');
+      activateTab(tabId, true);
+    });
+
+    tabBar.addEventListener('keydown', function(e) {
+      var tabs = Array.from(tabBar.querySelectorAll('.tab'));
+      var currentIndex = tabs.indexOf(document.activeElement);
+      if (currentIndex === -1) return;
+
+      var newIndex = -1;
+      if (e.key === 'ArrowRight') {
+        newIndex = (currentIndex + 1) % tabs.length;
+      } else if (e.key === 'ArrowLeft') {
+        newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+      } else if (e.key === 'Home') {
+        newIndex = 0;
+      } else if (e.key === 'End') {
+        newIndex = tabs.length - 1;
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        tabs[currentIndex].click();
+        return;
+      }
+
+      if (newIndex !== -1) {
+        e.preventDefault();
+        tabs[newIndex].focus();
+        tabs[newIndex].click();
+      }
+    });
+
+    window.addEventListener('resize', function() {
+      var activeBtn = tabBar.querySelector('.tab.active');
+      if (activeBtn) updateUnderline(activeBtn);
+    }, { passive: true });
+  }
+
+  // Profile Sliding Panel Controls
+  window.openStoreProfilePanel = function() {
+    var overlay = document.getElementById('profilePanelOverlay');
+    var panel = document.getElementById('profilePanel');
+    var btn = document.getElementById('openProfilePanelBtn');
+    if (!overlay || !panel) return;
+
+    overlay.removeAttribute('hidden');
+    overlay.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(function() {
+      panel.classList.add('open');
+      var backBtn = document.getElementById('closeProfilePanelBack');
+      if (backBtn) backBtn.focus();
+    });
+  };
+
+  // Backward compatibility alias for legacy modal calls
+  window.openStoreProfileModal = function() {
+    window.openStoreProfilePanel();
+  };
+
+  window.closeStoreProfilePanel = function() {
+    var overlay = document.getElementById('profilePanelOverlay');
+    var panel = document.getElementById('profilePanel');
+    var btn = document.getElementById('openProfilePanelBtn');
+    if (!overlay || !panel) return;
+
+    panel.classList.remove('open');
+    setTimeout(function() {
+      overlay.setAttribute('hidden', 'true');
+      overlay.setAttribute('aria-hidden', 'true');
+      if (btn) btn.focus();
+    }, 250);
+  };
+
+  // Keyboard Escape for Profile Panel
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      var overlay = document.getElementById('profilePanelOverlay');
+      if (overlay && !overlay.hasAttribute('hidden')) {
+        closeStoreProfilePanel();
+      }
+    }
+  });
+
+  var profileBtn = document.getElementById('openProfilePanelBtn');
+  if (profileBtn) {
+    profileBtn.addEventListener('click', openStoreProfilePanel);
+  }
+
+  // Initial Route Check on Load
+  function routeFromUrl() {
+    var hash = window.location.hash.replace(/^#/, '');
+    var path = window.location.pathname;
+    var tabId = ROUTE_TO_TAB[hash] || ROUTE_TO_TAB['/' + hash] || ROUTE_TO_TAB[path] || 'dashboard';
+    activateTab(tabId, false);
+  }
+
+  window.addEventListener('popstate', function() {
+    routeFromUrl();
+  });
+
+  // Count up numbers once on load (800ms)
+  function runNumberCountUp() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.__KPI_COUNTED_UP__) return;
+    window.__KPI_COUNTED_UP__ = true;
+
+    var duration = 800;
+    var startTime = performance.now();
+    var targets = [];
+
+    document.querySelectorAll('.kpi b, .kpi strong').forEach(function(el) {
+      var txt = el.textContent.trim();
+      var match = txt.match(/^([₹]?)s*([d,]+(?:.d+)?)s*([K|L|Cr|%]?)?$/);
+      if (match) {
+        var prefix = match[1] || '';
+        var rawVal = parseFloat(match[2].replace(/,/g, ''));
+        var suffix = match[3] || '';
+        if (!isNaN(rawVal) && rawVal > 0) {
+          targets.push({ el: el, prefix: prefix, rawVal: rawVal, suffix: suffix });
+        }
+      }
+    });
+
+    if (!targets.length) return;
+
+    function step(now) {
+      var elapsed = now - startTime;
+      var progress = Math.min(1, elapsed / duration);
+      var ease = 1 - Math.pow(1 - progress, 3);
+
+      targets.forEach(function(item) {
+        var current = Math.round(item.rawVal * ease);
+        item.el.textContent = item.prefix + current.toLocaleString('en-IN') + item.suffix;
+      });
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Global Toasts Helper (4s auto-dismiss)
+  window.showStoreToast = function(msg, icon) {
+    var container = document.getElementById('storeToastContainer');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'storeToastContainer';
+      container.className = 'store-toast-container';
+      document.body.appendChild(container);
+    }
+    var toast = document.createElement('div');
+    toast.className = 'store-toast';
+    toast.innerHTML = (icon ? '<span aria-hidden="true">' + icon + '</span> ' : '') + '<span>' + msg + '</span>';
+    container.appendChild(toast);
+    setTimeout(function() {
+      toast.style.opacity = '0';
+      toast.style.transition = 'opacity 300ms ease';
+      setTimeout(function() { toast.remove(); }, 300);
+    }, 4000);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      initKeyboardNav();
+      routeFromUrl();
+      setTimeout(runNumberCountUp, 400);
+    }, { once: true });
+  } else {
+    initKeyboardNav();
+    routeFromUrl();
+    setTimeout(runNumberCountUp, 400);
+  }
+})();
+
+// Settings Target Synchronization
+function syncSettingsTargetsToMain() {
+  var sR = document.getElementById('settingsRetailTarget');
+  var sS = document.getElementById('settingsSpaTarget');
+  var mR = document.getElementById('aiRetailTarget');
+  var mS = document.getElementById('aiSpaTarget');
+  if (sR && mR) mR.value = sR.value;
+  if (sS && mS) mS.value = sS.value;
+  var r = Number(sR ? sR.value : 0) || 0;
+  var s = Number(sS ? sS.value : 0) || 0;
+  var disp = document.getElementById('settingsCombinedTargetDisplay');
+  if (disp) disp.textContent = '₹' + (r + s).toLocaleString('en-IN');
+  if (typeof syncCombinedTarget === 'function') syncCombinedTarget();
+}
+
+function syncMainTargetsToSettings() {
+  var sR = document.getElementById('settingsRetailTarget');
+  var sS = document.getElementById('settingsSpaTarget');
+  var mR = document.getElementById('aiRetailTarget');
+  var mS = document.getElementById('aiSpaTarget');
+  if (sR && mR) sR.value = mR.value;
+  if (sS && mS) mS.value = mS.value;
+  var r = Number(mR ? mR.value : 0) || 0;
+  var s = Number(mS ? mS.value : 0) || 0;
+  var disp = document.getElementById('settingsCombinedTargetDisplay');
+  if (disp) disp.textContent = '₹' + (r + s).toLocaleString('en-IN');
+}
+
+function handleCustomerTabSearch(e) {
+  e.preventDefault();
+  var input = document.getElementById('customerTabSearchPhone');
+  var mainInput = document.getElementById('huftPhoneSearchInput');
+  var mainForm = document.getElementById('huftPhoneSearchForm');
+  if (input && mainInput) {
+    mainInput.value = input.value;
+    if (typeof handlePhoneSearchSubmit === 'function') {
+      handlePhoneSearchSubmit(input.value);
+    } else {
+      var btn = document.getElementById('huftPhoneSearchGo');
+      if (btn) btn.click();
+    }
+  }
+}
+
+function handleStoreLogout() {
+  if (confirm('Log out of Hyderguda Store session?')) {
+    try {
+      sessionStorage.clear();
+      localStorage.removeItem('huft_active_session');
+      localStorage.removeItem('huft_mock_session');
+    } catch(e) {}
+    window.location.href = 'index.html';
+  }
+}
+
+function toggleStoreTheme() {
+  var isDark = document.body.classList.toggle('dark-theme');
+  var btn = document.getElementById('themeToggleBtn');
+  if (btn) {
+    btn.textContent = isDark ? 'Dark' : 'Light';
+    btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+  }
+}
+
+function toggleStoreMotion() {
+  var isReduced = document.body.classList.toggle('reduce-motion');
+  var btn = document.getElementById('motionToggleBtn');
+  if (btn) {
+    btn.textContent = isReduced ? 'Reduced' : 'Default';
+    btn.setAttribute('aria-pressed', isReduced ? 'true' : 'false');
+  }
+}
+</script>
 
 </body>
 </html>

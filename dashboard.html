@@ -3015,9 +3015,15 @@ html body #huftHourlyPopup:not(.show):not(.open):not(.huft-audit-open) {
 
 
 <header class="header">
-  <div>
-    <div class="brand">Sales Report</div>
-    <div class="sub" id="storeName">Hyderabad (Hyderguda)</div>
+  <div style="display:flex; align-items:center; gap:8px;">
+    <button type="button" class="side-tab-toggle-btn" id="sideTabToggleBtn" aria-label="Toggle Side Tabs Menu" title="Open Side Navigation Tabs">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <span>Tabs</span>
+    </button>
+    <div>
+      <div class="brand">Sales Report</div>
+      <div class="sub" id="storeName">Hyderabad (Hyderguda)</div>
+    </div>
   </div>
   <form class="huft-ps-form" id="huftPhoneSearchForm" role="search" autocomplete="off" onsubmit="return false">
     <label class="huft-ps-box" for="huftPhoneSearchInput">
@@ -3035,6 +3041,11 @@ html body #huftHourlyPopup:not(.show):not(.open):not(.huft-audit-open) {
         Last sale updated: waiting for sales data
       </div>
     </div>
+    <button type="button" class="fullscreen-toggle-btn" id="fullscreenToggleBtn" aria-label="Toggle Fullscreen" title="Toggle Fullscreen View">
+      <svg class="fs-icon-enter" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      <svg class="fs-icon-exit" style="display:none;" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14h6v6m10-10h-6V4m0 16v-6h6M4 10h6V4"/></svg>
+      <span class="fs-btn-label">Full Screen</span>
+    </button>
     <button type="button" class="profile-header-btn" id="openProfilePanelBtn" aria-label="Open Hyderguda Store Profile" title="Store Profile & Settings">
       <div class="profile-avatar-circle" aria-hidden="true">H</div>
       <div class="profile-header-meta">
@@ -7248,6 +7259,185 @@ function toggleStoreMotion() {
     btn.setAttribute('aria-pressed', isReduced ? 'true' : 'false');
   }
 }
+</script>
+
+
+<!-- SIDE SLIDE TABS DRAWER -->
+<div class="side-slide-drawer-backdrop" id="sideSlideDrawerBackdrop" aria-hidden="true"></div>
+<aside class="side-slide-drawer" id="sideSlideDrawer" role="dialog" aria-modal="true" aria-label="Store Navigation Drawer" aria-hidden="true">
+  <div class="side-drawer-header">
+    <div class="side-drawer-brand">
+      <div class="side-drawer-avatar">H</div>
+      <div class="side-drawer-meta">
+        <span class="side-drawer-title">Hyderguda Store</span>
+        <span class="side-drawer-sub">Store Navigation Tabs</span>
+      </div>
+    </div>
+    <button type="button" class="side-drawer-close" id="sideDrawerCloseBtn" aria-label="Close Side Navigation">&times;</button>
+  </div>
+  <nav class="side-drawer-nav" id="sideDrawerNav" role="tablist">
+    <button type="button" class="side-nav-item active" data-tab-id="dashboard" role="tab">
+      <span class="side-nav-icon">📊</span>
+      <span class="side-nav-label">Dashboard</span>
+    </button>
+    <button type="button" class="side-nav-item" data-tab-id="huft" role="tab">
+      <span class="side-nav-icon">🥫</span>
+      <span class="side-nav-label">Food Sale</span>
+    </button>
+    <button type="button" class="side-nav-item" data-tab-id="comparison" role="tab">
+      <span class="side-nav-icon">📈</span>
+      <span class="side-nav-label">Month Comparison</span>
+    </button>
+    <button type="button" class="side-nav-item" data-tab-id="employeeSales" role="tab">
+      <span class="side-nav-icon">👥</span>
+      <span class="side-nav-label">Employee Sales</span>
+    </button>
+    <button type="button" class="side-nav-item" data-tab-id="customers" role="tab">
+      <span class="side-nav-icon">🛍️</span>
+      <span class="side-nav-label">Customers</span>
+    </button>
+    <button type="button" class="side-nav-item" data-tab-id="whatsapp" role="tab">
+      <span class="side-nav-icon">💬</span>
+      <span class="side-nav-label">WhatsApp</span>
+    </button>
+    <button type="button" class="side-nav-item" data-tab-id="weeklyReview" role="tab">
+      <span class="side-nav-icon">📅</span>
+      <span class="side-nav-label">Weekly Review & PPT</span>
+    </button>
+    <button type="button" class="side-nav-item" data-tab-id="uploadExcelTab" role="tab">
+      <span class="side-nav-icon">📤</span>
+      <span class="side-nav-label">Upload Excel</span>
+    </button>
+    <button type="button" class="side-nav-item" data-tab-id="settingsTab" role="tab">
+      <span class="side-nav-icon">⚙️</span>
+      <span class="side-nav-label">Settings</span>
+    </button>
+  </nav>
+  <div class="side-drawer-footer">
+    <div class="side-drawer-toggle-row">
+      <span>Layout Mode</span>
+      <button type="button" class="side-drawer-action-btn" id="sideDrawerFsToggle">⛶ Full Screen</button>
+    </div>
+  </div>
+</aside>
+
+
+<script id="huft-fullscreen-and-side-tabs-controller">
+(function() {
+  'use strict';
+  
+  // Set Full Screen Mode as default active
+  document.body.classList.add('full-screen-mode');
+
+  var drawer = document.getElementById('sideSlideDrawer');
+  var backdrop = document.getElementById('sideSlideDrawerBackdrop');
+  var toggleBtn = document.getElementById('sideTabToggleBtn');
+  var closeBtn = document.getElementById('sideDrawerCloseBtn');
+  var fsHeaderBtn = document.getElementById('fullscreenToggleBtn');
+  var fsDrawerBtn = document.getElementById('sideDrawerFsToggle');
+  var sideNav = document.getElementById('sideDrawerNav');
+
+  function openSideDrawer() {
+    if (!drawer) return;
+    drawer.classList.add('is-open');
+    if (backdrop) backdrop.classList.add('is-open');
+    drawer.setAttribute('aria-hidden', 'false');
+    drawer.focus();
+  }
+
+  function closeSideDrawer() {
+    if (!drawer) return;
+    drawer.classList.remove('is-open');
+    if (backdrop) backdrop.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    if (toggleBtn) toggleBtn.focus();
+  }
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (drawer && drawer.classList.contains('is-open')) closeSideDrawer();
+      else openSideDrawer();
+    });
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeSideDrawer);
+  if (backdrop) backdrop.addEventListener('click', closeSideDrawer);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && drawer && drawer.classList.contains('is-open')) {
+      closeSideDrawer();
+    }
+  });
+
+  // Sync side nav clicks with tab router
+  if (sideNav) {
+    sideNav.addEventListener('click', function(e) {
+      var item = e.target.closest('.side-nav-item');
+      if (!item) return;
+      var tabId = item.dataset.tabId;
+      if (tabId && typeof window.showTab === 'function') {
+        window.showTab(tabId);
+        // Update active class on side nav items
+        sideNav.querySelectorAll('.side-nav-item').forEach(function(el) {
+          el.classList.toggle('active', el === item);
+        });
+        closeSideDrawer();
+      }
+    });
+  }
+
+  // Hook tab changes to keep side nav in sync
+  var origShowTab = window.showTab;
+  if (typeof origShowTab === 'function') {
+    window.showTab = function(id, btn, updateUrl) {
+      origShowTab(id, btn, updateUrl);
+      if (sideNav) {
+        var sideBtn = sideNav.querySelector('.side-nav-item[data-tab-id="' + id + '"]');
+        if (sideBtn) {
+          sideNav.querySelectorAll('.side-nav-item').forEach(function(el) {
+            el.classList.toggle('active', el === sideBtn);
+          });
+        }
+      }
+    };
+  }
+
+  // Full Screen Toggle Handler
+  function toggleFullScreen() {
+    var isCurrentlyFs = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement);
+    if (!isCurrentlyFs) {
+      var elem = document.documentElement;
+      if (elem.requestFullscreen) elem.requestFullscreen().catch(function(){});
+      else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+      else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen().catch(function(){});
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      else if (document.msExitFullscreen) document.msExitFullscreen();
+    }
+    document.body.classList.toggle('full-screen-mode');
+    updateFsBtnUI();
+  }
+
+  function updateFsBtnUI() {
+    var isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+    var enterIcons = document.querySelectorAll('.fs-icon-enter');
+    var exitIcons = document.querySelectorAll('.fs-icon-exit');
+    var labels = document.querySelectorAll('.fs-btn-label');
+    
+    enterIcons.forEach(function(el){ el.style.display = isFs ? 'none' : 'inline-block'; });
+    exitIcons.forEach(function(el){ el.style.display = isFs ? 'inline-block' : 'none'; });
+    labels.forEach(function(el){ el.textContent = isFs ? 'Exit Full Screen' : 'Full Screen'; });
+  }
+
+  if (fsHeaderBtn) fsHeaderBtn.addEventListener('click', toggleFullScreen);
+  if (fsDrawerBtn) fsDrawerBtn.addEventListener('click', toggleFullScreen);
+
+  document.addEventListener('fullscreenchange', updateFsBtnUI);
+  document.addEventListener('webkitfullscreenchange', updateFsBtnUI);
+  updateFsBtnUI();
+})();
 </script>
 
 </body>

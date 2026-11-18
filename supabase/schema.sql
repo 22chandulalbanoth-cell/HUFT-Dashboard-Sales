@@ -1,5 +1,5 @@
 -- ==============================================================================
--- HUFT SALES DASHBOARD - FULL AUTOMATED BACKEND SUPABASE SCHEMA
+-- STORE SALES DASHBOARD - FULL AUTOMATED BACKEND SUPABASE SCHEMA
 -- Multi-Store Role-Based Access Control, Central Admin, Security & Audit Architecture
 -- ==============================================================================
 
@@ -16,14 +16,14 @@ CREATE TABLE IF NOT EXISTS public.stores (
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
--- Seed Designated HUFT Stores
+-- Seed Designated Stores
 INSERT INTO public.stores (id, store_name, store_code, active)
 VALUES
-    ('Hyderguda', 'HUFT Hyderguda', 'HYD-01', true),
-    ('Banjara Hills', 'HUFT Banjara Hills', 'BH-02', true),
-    ('Madhapur', 'HUFT Madhapur', 'MD-03', true),
-    ('Golden Mile', 'HUFT Golden Mile', 'GM-04', true),
-    ('Himayathnagar', 'HUFT Himayathnagar', 'HN-05', true)
+    ('Hyderguda', 'Store Hyderguda', 'HYD-01', true),
+    ('Banjara Hills', 'Store Banjara Hills', 'BH-02', true),
+    ('Madhapur', 'Store Madhapur', 'MD-03', true),
+    ('Golden Mile', 'Store Golden Mile', 'GM-04', true),
+    ('Himayathnagar', 'Store Himayathnagar', 'HN-05', true)
 ON CONFLICT (id) DO UPDATE SET
     store_name = EXCLUDED.store_name,
     store_code = EXCLUDED.store_code,

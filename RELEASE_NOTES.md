@@ -1,4 +1,4 @@
-# HUFT Sales Dashboard v1.0.6 — Update Popup
+# Sales Dashboard v1.0.6 — Update Popup
 
 - Adds a modal update notification when a new `index.html` commit is detected.
 - Shows a GitHub build ID and published timestamp.

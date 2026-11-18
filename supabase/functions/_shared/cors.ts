@@ -1,7 +1,7 @@
 // supabase/functions/_shared/cors.ts
 // Allowed origins for Cloudflare Pages and GitHub Pages
 const ALLOWED_ORIGINS = [
-  'https://huft-sales-dashboard.pages.dev',
+  'https://store-sales-dashboard.pages.dev',
   'https://22chandulalbanoth-cell.github.io',
 ];
 
@@ -23,7 +23,7 @@ export function corsFor(req: Request): Record<string, string> {
 }
 
 // Kept for existing imports; prefer corsFor(req) in new code.
-export const corsHeaders = corsFor(new Request('https://huft-sales-dashboard.pages.dev'));
+export const corsHeaders = corsFor(new Request('https://store-sales-dashboard.pages.dev'));
 
 export function handleCors(req: Request) {
   if (req.method === 'OPTIONS') {

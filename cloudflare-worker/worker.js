@@ -1,5 +1,5 @@
 /**
- * HUFT Sales Dashboard - Protected Gemini AI Proxy Cloudflare Worker
+ * Store Sales Dashboard - Protected Gemini AI Proxy Cloudflare Worker
  * 
  * Features:
  * - Supabase JWT Token Verification (HMAC SHA-256 / Auth API verification)

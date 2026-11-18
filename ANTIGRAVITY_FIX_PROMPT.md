@@ -1,6 +1,6 @@
-# Prompt for Antigravity – fix HUFT Dashboard security and bugs
+# Prompt for Antigravity – fix Sales Dashboard security and bugs
 
-You are working in the repo `HUFT-Dashboard-Sales` (GitHub Pages + Supabase + Cloudflare Worker). Read `BUG_REPORT.md` first. Some security fixes are already applied; finish the work below. Make small, reviewable commits, and run `node scripts/check-inline-js.js` and `node scripts/test-auth-security.js` after each step.
+You are working in the repo `store-sales-dashboard` (GitHub Pages + Supabase + Cloudflare Worker). Read `BUG_REPORT.md` first. Some security fixes are already applied; finish the work below. Make small, reviewable commits, and run `node scripts/check-inline-js.js` and `node scripts/test-auth-security.js` after each step.
 
 ## Goal
 1. Remove all client-side authentication shortcuts. Real authentication must happen only through Supabase Auth, and authorization must happen only on the server (edge functions + RLS).

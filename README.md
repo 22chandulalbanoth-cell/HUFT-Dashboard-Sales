@@ -1,10 +1,10 @@
-# HUFT Sales Report Dashboard (v1.0.4)
+# Sales Report Dashboard (v1.0.4)
 
 [![Release](https://img.shields.io/badge/Release-v1.0.4-orange.svg)](https://github.com/)
 [![Updated](https://img.shields.io/badge/Date-30_Oct_2026-blue.svg)](https://github.com/)
 [![Platform](https://img.shields.io/badge/Format-Standalone_HTML_SPA-success.svg)](https://github.com/)
 
-An interactive, responsive single-page web dashboard application designed for Heads Up For Tails (HUFT) store sales analytics, POS reconciliation, employee performance tracking, and automated WhatsApp hourly/EOD reporting.
+An interactive, responsive single-page web dashboard application designed for store sales analytics, POS reconciliation, employee performance tracking, and automated WhatsApp hourly/EOD reporting.
 
 ---
 
@@ -15,7 +15,7 @@ An interactive, responsive single-page web dashboard application designed for He
    - SPA gross and net sales now accurately match official Odoo/POS figures without erroneous negative deductions.
 
 2. **Modern Main Loading Animation**:
-   - Interactive startup modal featuring a circular SVG progress spinner with warm HUFT gradient (`#ea580c` to `#fb923c`).
+   - Interactive startup modal featuring a circular SVG progress spinner with warm accent gradient (`#ea580c` to `#fb923c`).
    - 5 real-time milestone checkmarks verifying data loading, record processing, category calculations, dashboard updates, and report generation.
    - Fluid, non-blocking dismissal with fallback auto-dismissal timeout.
 
@@ -58,7 +58,7 @@ An interactive, responsive single-page web dashboard application designed for He
 
 1. **Create a GitHub Repository**:
    - Go to [GitHub.com](https://github.com/) and click **New Repository**.
-   - Name it `HUFT-Sales-Report` (or your preferred name).
+   - Name it `store-sales-report` (or your preferred name).
 2. **Upload Files**:
    - Drag and drop all files from this folder (`index.html`, `README.md`, `CHANGELOG.md`, `.gitignore`) into the repository.
    - Commit changes to `main`.
@@ -70,4 +70,4 @@ An interactive, responsive single-page web dashboard application designed for He
 ---
 
 ## 📄 License
-Internal Store Operations Dashboard — Heads Up For Tails (Earth Paws Private Limited).
+Internal Store Operations Dashboard — Store Sales Operations.

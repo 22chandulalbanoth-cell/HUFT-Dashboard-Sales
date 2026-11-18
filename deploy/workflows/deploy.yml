@@ -1,4 +1,4 @@
-name: Validate and Deploy HUFT Sales Dashboard
+name: Validate and Deploy Sales Dashboard
 
 on:
   push:

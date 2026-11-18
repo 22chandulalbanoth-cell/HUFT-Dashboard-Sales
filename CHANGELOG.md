@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the **HUFT Sales Report Dashboard** are documented in this file.
+All notable changes to the **Sales Report Dashboard** are documented in this file.
 
 ## [v1.0.4] - 2026-10-30
 
@@ -33,4 +33,4 @@ All notable changes to the **HUFT Sales Report Dashboard** are documented in thi
 - 3D pie chart mouse tracking and smooth hover transitions.
 
 ## [v1.0.0] - 2026-10-28
-- Baseline release of the HUFT Sales Report Dashboard.
+- Baseline release of the Sales Report Dashboard.

@@ -1,4 +1,4 @@
-# Heads Up For Tails (HUFT) - Sales Dashboard Security & AI Deployment Guide
+# Sales Dashboard Security & AI Deployment Guide
 
 This guide details the step-by-step instructions to configure and deploy the **Multi-Store Authentication System**, **Central Administrator Panel**, **Supabase Database with Row Level Security (RLS)**, and the **Protected Gemini AI Proxy on Cloudflare Workers**.
 
@@ -9,7 +9,7 @@ This guide details the step-by-step instructions to configure and deploy the **M
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                       Client Browser                         │
-│  • HUFT Sales Dashboard (Standalone HTML or GitHub Pages)   │
+│  • Sales Dashboard (Standalone HTML or GitHub Pages)   │
 │  • Multi-Store Login & Store Isolation Parser               │
 │  • IndexedDB Partitioned Storage per Store                  │
 │  • PII Sanitization (Customer Phones Masked)                │
@@ -43,12 +43,12 @@ This guide details the step-by-step instructions to configure and deploy the **M
 ### 1.1 Create Supabase Project
 1. Log in to [Supabase Console](https://supabase.com/dashboard).
 2. Click **New Project** and select your organization.
-3. Name the project `huft-sales-dashboard` and choose a secure database password.
+3. Name the project `store-sales-dashboard` and choose a secure database password.
 4. Select the region closest to your stores (e.g. `ap-south-1` Mumbai).
 
 ### 1.2 Execute Database Schema & RLS
 1. In the Supabase Dashboard, open the **SQL Editor** from the left navigation.
-2. Open the file [`supabase/schema.sql`](file:///C:/Users/Arun/.gemini/antigravity/scratch/huft-sales-dashboard/supabase/schema.sql) in this repository.
+2. Open the file [`supabase/schema.sql`](file:///C:/Users/Arun/.gemini/antigravity/scratch/store-sales-dashboard/supabase/schema.sql) in this repository.
 3. Copy and paste the entire script into the SQL Editor and click **Run**.
 4. This script sets up:
    - Stores catalog: `Hyderguda`, `Banjara Hills`, `Madhapur`, `Golden Mile`, `Himayathnagar`.
@@ -59,9 +59,9 @@ This guide details the step-by-step instructions to configure and deploy the **M
 
 ### 1.3 Configure Authentication Settings
 1. Go to **Authentication -> URL Configuration**:
-   - **Site URL**: `https://22chandulalbanoth-cell.github.io/HUFT-Dashboard-Sales/`
+   - **Site URL**: `https://22chandulalbanoth-cell.github.io/store-sales-dashboard/`
    - **Redirect URLs**: Add your domain and local test URLs:
-     - `https://22chandulalbanoth-cell.github.io/HUFT-Dashboard-Sales/*`
+     - `https://22chandulalbanoth-cell.github.io/store-sales-dashboard/*`
      - `http://localhost:3000/*`
      - `http://127.0.0.1:3000/*`
 2. Go to **Authentication -> Email Templates**:
@@ -99,9 +99,9 @@ wrangler login
 ```
 
 ### 3.2 Configure Environment Variables
-Open [`cloudflare-worker/wrangler.toml`](file:///C:/Users/Arun/.gemini/antigravity/scratch/huft-sales-dashboard/cloudflare-worker/wrangler.toml) and update the `[vars]` section with your Supabase URL:
+Open [`cloudflare-worker/wrangler.toml`](file:///C:/Users/Arun/.gemini/antigravity/scratch/store-sales-dashboard/cloudflare-worker/wrangler.toml) and update the `[vars]` section with your Supabase URL:
 ```toml
-name = "huft-sales-ai-worker"
+name = "store-sales-ai-worker"
 main = "worker.js"
 compatibility_date = "2024-10-01"
 
@@ -131,7 +131,7 @@ wrangler secret put SUPABASE_SERVICE_ROLE_KEY
 wrangler deploy
 ```
 After deployment, Cloudflare will output your public worker URL:
-`https://huft-sales-ai-worker.<your-subdomain>.workers.dev`
+`https://store-sales-ai-worker.<your-subdomain>.workers.dev`
 
 ---
 
@@ -142,7 +142,7 @@ In your browser console or frontend settings, set your deployed Supabase and Wor
 ```javascript
 localStorage.setItem("huft_supabase_url", "https://your-project-id.supabase.co");
 localStorage.setItem("huft_supabase_anon_key", "<SUPABASE_ANON_KEY>");
-localStorage.setItem("huft_worker_url", "https://huft-sales-ai-worker.<your-subdomain>.workers.dev");
+localStorage.setItem("huft_worker_url", "https://store-sales-ai-worker.<your-subdomain>.workers.dev");
 ```
 *(When no custom endpoints are set, the application operates in **Secure Standalone Demo Mode** using in-memory mock accounts for instant offline security evaluation).*
 
@@ -152,7 +152,7 @@ To bundle all scripts, CSS, and authentication panels into a single distribution
 node scripts/build.js
 ```
 The compiled file is created at:
-[`dist/HUFT-Hourly-Sale-Dashboard-Standalone.html`](file:///C:/Users/Arun/.gemini/antigravity/scratch/huft-sales-dashboard/dist/HUFT-Hourly-Sale-Dashboard-Standalone.html)
+[`dist/HUFT-Hourly-Sale-Dashboard-Standalone.html`](file:///C:/Users/Arun/.gemini/antigravity/scratch/store-sales-dashboard/dist/HUFT-Hourly-Sale-Dashboard-Standalone.html)
 
 ### 4.3 Deploy to GitHub Pages
 1. Push repository changes to GitHub:
@@ -164,7 +164,7 @@ The compiled file is created at:
 2. In your GitHub repository:
    - Navigate to **Settings -> Pages**.
    - Set **Source** to Deploy from a branch (`main` root or `/dist`).
-   - Save. Your updated dashboard will be live at `https://22chandulalbanoth-cell.github.io/HUFT-Dashboard-Sales/`.
+   - Save. Your updated dashboard will be live at `https://22chandulalbanoth-cell.github.io/store-sales-dashboard/`.
 
 ---
 

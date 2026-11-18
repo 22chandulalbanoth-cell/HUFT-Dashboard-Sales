@@ -34,8 +34,8 @@ serve(async (req) => {
         data: {
           timestamp: new Date().toISOString(),
           github: {
-            repo: '22chandulalbanoth-cell/HUFT-Dashboard-Sales',
-            pages_url: 'https://22chandulalbanoth-cell.github.io/HUFT-Dashboard-Sales/',
+            repo: '22chandulalbanoth-cell/store-sales-dashboard',
+            pages_url: 'https://22chandulalbanoth-cell.github.io/store-sales-dashboard/',
             branch: 'main',
             status: 'OPERATIONAL',
           },

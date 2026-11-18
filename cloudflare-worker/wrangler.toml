@@ -1,4 +1,4 @@
-name = "huft-sales-ai-worker"
+name = "store-sales-ai-worker"
 main = "worker.js"
 compatibility_date = "2024-10-01"
 

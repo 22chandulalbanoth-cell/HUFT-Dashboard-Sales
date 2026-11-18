@@ -3,7 +3,7 @@
 ## Status Summary
 - **Current Environment**: Supabase Staging Project Sales_Dashboard_Staging (wyqksfncdlwjduyispmb, p-south-1)
 - **Schema Migration Version**: 20261101 (initial_backend_schema) applied and verified
-- **GitHub Target Repository**: 22chandulalbanoth-cell/HUFT-Dashboard-Sales
+- **GitHub Target Repository**: 22chandulalbanoth-cell/store-sales-dashboard
 - **Branch**: ix/security-staging-20261101
 
 ---

@@ -1,5 +1,5 @@
 /**
- * HUFT Sales Dashboard - Sentry Error Monitoring & Performance Tracking
+ * Store Sales Dashboard - Sentry Error Monitoring & Performance Tracking
  * 
  * Strict Data Privacy & Compliance:
  * - NEVER captures passwords, auth tokens, session keys.
@@ -65,7 +65,7 @@
           window.Sentry.captureException(err, { extra: deepScrub(context || {}) });
         } catch (_) {}
       } else {
-        console.warn('[HUFT Sentry Fallback] Handled Exception:', err?.message || err);
+        console.warn('[Store Sentry Fallback] Handled Exception:', err?.message || err);
       }
     },
     captureMessage: function(msg, level = 'info', context) {
@@ -74,7 +74,7 @@
           window.Sentry.captureMessage(String(msg), { level, extra: deepScrub(context || {}) });
         } catch (_) {}
       } else {
-        console.log(`[HUFT Sentry Fallback][${level}]`, msg);
+        console.log(`[Store Sentry Fallback][${level}]`, msg);
       }
     },
     captureApiError: function(endpoint, status, statusText, details) {
@@ -88,7 +88,7 @@
       });
     },
     testIntegration: function() {
-      console.log('[HUFT Sentry] Running Integration Self-Test...');
+      console.log('[Store Sentry] Running Integration Self-Test...');
       const samplePayload = {
         test: 'ok',
         password: 'PlainSecretPassword123!',
@@ -105,13 +105,13 @@
         }
       };
       const cleaned = deepScrub(samplePayload);
-      console.log('[HUFT Sentry] Scrubbing Verification Result:', cleaned);
+      console.log('[Store Sentry] Scrubbing Verification Result:', cleaned);
       const isScrubbed = cleaned.password === '[REDACTED]' &&
                         cleaned.access_token === '[REDACTED]' &&
                         cleaned.sales_figures === '[REDACTED]' &&
                         cleaned.user_metadata.customer_phone === '[REDACTED]' &&
                         cleaned.user_metadata.customer_name === '[REDACTED]';
-      console.log('[HUFT Sentry] Privacy Protection Status:', isScrubbed ? 'PASSED ✅' : 'FAILED ❌');
+      console.log('[Store Sentry] Privacy Protection Status:', isScrubbed ? 'PASSED ✅' : 'FAILED ❌');
       return { success: isScrubbed, cleanedPayload: cleaned };
     }
   };
@@ -128,7 +128,7 @@
   // Determine environment
   function getEnvironment() {
     const host = window.location.hostname.toLowerCase();
-    if (host === 'huft-sales-dashboard.pages.dev' || host.includes('pages.dev')) return 'production';
+    if (host === 'store-sales-dashboard.pages.dev' || host.includes('pages.dev')) return 'production';
     if (host.includes('localhost') || host === '127.0.0.1') return 'development';
     return 'staging';
   }
@@ -136,7 +136,7 @@
   // Initialize Sentry SDK if present
   function initSentry() {
     if (typeof window.Sentry === 'undefined') {
-      console.info('[HUFT Sentry] Sentry CDN SDK not loaded. Standalone mode active.');
+      console.info('[Store Sentry] Sentry CDN SDK not loaded. Standalone mode active.');
       return;
     }
 
@@ -144,7 +144,7 @@
     const dsn = config.sentryDsn || '';
 
     if (!dsn || dsn.includes('YOUR_SENTRY_DSN')) {
-      console.info('[HUFT Sentry] Sentry SDK ready. Awaiting DSN configuration in app-config.js.');
+      console.info('[Store Sentry] Sentry SDK ready. Awaiting DSN configuration in app-config.js.');
       return;
     }
 
@@ -162,7 +162,7 @@
         tracesSampleRate: getEnvironment() === 'production' ? 0.2 : 1.0,
         tracePropagationTargets: [
           'localhost',
-          'huft-sales-dashboard.pages.dev',
+          'store-sales-dashboard.pages.dev',
           /wyqksfncdlwjduyispmb\.supabase\.co/
         ],
         sendDefaultPii: false, // Strict zero-PII default
@@ -251,9 +251,9 @@
       window.Sentry.setTag('page_name', getPageName());
       window.Sentry.setTag('app_name', 'sales-dashboard');
       window.HUFT_SENTRY.initialized = true;
-      console.log(`[HUFT Sentry] Initialized successfully for ${getPageName()} (${getEnvironment()}).`);
+      console.log(`[Store Sentry] Initialized successfully for ${getPageName()} (${getEnvironment()}).`);
     } catch (initErr) {
-      console.warn('[HUFT Sentry] Initialization warning:', initErr.message);
+      console.warn('[Store Sentry] Initialization warning:', initErr.message);
     }
   }
 

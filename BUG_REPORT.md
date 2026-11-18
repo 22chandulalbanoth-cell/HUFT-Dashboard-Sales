@@ -1,6 +1,6 @@
-# HUFT Dashboard – Bug Report & Fix Log
+# Sales Dashboard – Bug Report & Fix Log
 
-Scope: uploaded repo `HUFT-Dashboard-Sales-main` (index.html, admin.html, Supabase edge functions, Cloudflare worker, test suite, CI workflow).
+Scope: uploaded repo `store-sales-dashboard-main` (index.html, admin.html, Supabase edge functions, Cloudflare worker, test suite, CI workflow).
 
 ## 1. Security (critical)
 

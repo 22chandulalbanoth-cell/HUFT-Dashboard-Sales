@@ -1,1 +1,1 @@
-Static assets for the HUFT Sales Portal.
+Static assets for the Store Sales Portal.

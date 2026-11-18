@@ -172,7 +172,7 @@ export default {
       // 9. Format Safe Anonymized Context for Gemini
       const sanitizedMetrics = sanitizeMetrics(metrics);
 
-      const systemInstruction = `You are the HUFT AI Sales Assistant for Heads Up For Tails (HUFT) store network.
+      const systemInstruction = `You are the AI Sales Assistant for the store network.
 Your mission is to provide senior store managers with clear, actionable retail and pet grooming insights, sales pace advice, inventory recommendations, and shift pacing tips.
 
 Rules:
@@ -182,7 +182,7 @@ Rules:
 4. Structure recommendations with clear markdown bullet points and actionable next steps.`;
 
       const geminiPrompt = `
-Store: HUFT ${store_id}
+Store: ${store_id}
 Analytical Context:
 ${sanitizedMetrics}
 
@@ -278,7 +278,7 @@ function sanitizeMetrics(metrics) {
   if (metrics.total_sales !== undefined) lines.push(`• Total Sales Achieved: ₹${Number(metrics.total_sales).toLocaleString('en-IN')}`);
   if (metrics.retail_sales !== undefined) lines.push(`• Retail Sales: ₹${Number(metrics.retail_sales).toLocaleString('en-IN')}`);
   if (metrics.spa_sales !== undefined) lines.push(`• SPA Grooming Sales: ₹${Number(metrics.spa_sales).toLocaleString('en-IN')}`);
-  if (metrics.food_sales !== undefined) lines.push(`• HUFT Food Sales: ₹${Number(metrics.food_sales).toLocaleString('en-IN')}`);
+  if (metrics.food_sales !== undefined) lines.push(`• Food Sales: ₹${Number(metrics.food_sales).toLocaleString('en-IN')}`);
   if (metrics.monthly_target !== undefined) lines.push(`• Monthly Target: ₹${Number(metrics.monthly_target).toLocaleString('en-IN')}`);
   if (metrics.projected_run_rate !== undefined) lines.push(`• Projected Month-End Run Rate: ₹${Number(metrics.projected_run_rate).toLocaleString('en-IN')}`);
   if (metrics.daily_required !== undefined) lines.push(`• Daily Required Pace: ₹${Number(metrics.daily_required).toLocaleString('en-IN')}`);
@@ -290,7 +290,7 @@ function sanitizeMetrics(metrics) {
 
   if (Array.isArray(metrics.brand_totals) && metrics.brand_totals.length) {
     const brands = metrics.brand_totals.map(b => `${b.name}: ${b.qty} units (₹${Number(b.sale).toLocaleString('en-IN')})`).join(", ");
-    lines.push(`• HUFT Food Brands: ${brands}`);
+    lines.push(`• Food Brands: ${brands}`);
   }
 
   if (metrics.peak_hours) lines.push(`• Peak Hour Analysis: ${metrics.peak_hours}`);

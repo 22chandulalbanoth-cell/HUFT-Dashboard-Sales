@@ -128,7 +128,7 @@
   // Determine environment
   function getEnvironment() {
     const host = window.location.hostname.toLowerCase();
-    if (host === 'huft-sales-dashboard.pages.dev') return 'production';
+    if (host === 'huft-sales-dashboard.pages.dev' || host.includes('pages.dev')) return 'production';
     if (host.includes('localhost') || host === '127.0.0.1') return 'development';
     return 'staging';
   }
@@ -157,7 +157,7 @@
       window.Sentry.init({
         dsn: dsn,
         environment: getEnvironment(),
-        release: 'huft-sales-dashboard@' + (config.appVersion || '2.0.0'),
+        release: 'sales-dashboard@' + (config.appVersion || '2.0.0'),
         integrations: integrations,
         tracesSampleRate: getEnvironment() === 'production' ? 0.2 : 1.0,
         tracePropagationTargets: [
@@ -249,7 +249,7 @@
 
       // Set global tags for context
       window.Sentry.setTag('page_name', getPageName());
-      window.Sentry.setTag('app_name', 'huft-sales-dashboard');
+      window.Sentry.setTag('app_name', 'sales-dashboard');
       window.HUFT_SENTRY.initialized = true;
       console.log(`[HUFT Sentry] Initialized successfully for ${getPageName()} (${getEnvironment()}).`);
     } catch (initErr) {

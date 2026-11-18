@@ -884,7 +884,7 @@
       'huft': 'Sales Analytics',
       'spaAnalysis': 'Fresh SPA Service Analytics',
       'packageAnalysis': 'Package Sales, Redemption & Returns',
-      'brandAnalysis': 'HUFT Food & Private Brand Performance',
+      'brandAnalysis': 'Food & Private Brand Performance',
       'employeeSales': 'Employee Sales Performance',
       'customerAnalysis': 'Customer & Retention Intelligence',
       'targetAnalysis': 'Target Pace & Daily Achievement',

@@ -1290,7 +1290,7 @@ console.log('[Storage] Storage preserved in admin.html.');
                 </div>
                 <div>
                   <label class="block text-slate-700 font-semibold mb-1">Sender Email Address (From)</label>
-                  <input type="text" id="cfgResendFrom" placeholder="HUFT Alerts &lt;notifications@resend.dev&gt;"
+                  <input type="text" id="cfgResendFrom" placeholder="System Alerts &lt;notifications@resend.dev&gt;"
                     class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800 text-xs" />
                 </div>
                 <div>
@@ -1577,7 +1577,7 @@ console.log('[Storage] Storage preserved in admin.html.');
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-medium text-slate-700 mb-1">Store Email</label>
-            <input type="email" id="newStoreEmail" required placeholder="hyderguda@headsupfortails.com"
+            <input type="email" id="newStoreEmail" required placeholder="store@example.com"
               class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500" />
           </div>
           <div>
@@ -1617,17 +1617,17 @@ console.log('[Storage] Storage preserved in admin.html.');
         </div>
         <div>
           <label class="block font-medium text-slate-700 mb-1">Email Address</label>
-          <input type="email" id="newUserEmail" required placeholder="user@headsupfortails.com"
+          <input type="email" id="newUserEmail" required placeholder="user@example.com"
             class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500" />
         </div>
         <div>
           <div class="flex items-center justify-between mb-1">
             <label class="block font-medium text-slate-700">Security Password</label>
-            <button type="button" onclick="document.getElementById('newUserPassword').value = 'Huft#' + Math.floor(1000 + Math.random() * 9000) + '!Store'" class="text-blue-600 hover:text-blue-700 font-bold text-[10px]">
+            <button type="button" onclick="document.getElementById('newUserPassword').value = 'Store#' + Math.floor(1000 + Math.random() * 9000) + '!Secure'" class="text-blue-600 hover:text-blue-700 font-bold text-[10px]">
               🎲 Generate Secure
             </button>
           </div>
-          <input type="text" id="newUserPassword" placeholder="e.g. Huft#2026!Store or type custom"
+          <input type="text" id="newUserPassword" placeholder="e.g. Store#2026!Secure or type custom"
             class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 font-mono focus:outline-none focus:border-blue-500" />
         </div>
         <div>
@@ -1726,7 +1726,7 @@ console.log('[Storage] Storage preserved in admin.html.');
           <span id="pwTargetRoleBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-700">STORE_USER</span>
         </div>
         <div class="mt-1 font-bold text-slate-900 text-sm" id="pwTargetName">User Name</div>
-        <div class="text-xs font-mono text-slate-600" id="pwTargetEmailDisplay">user@headsupfortails.com</div>
+        <div class="text-xs font-mono text-slate-600" id="pwTargetEmailDisplay">user@example.com</div>
         <div class="text-[11px] text-slate-500 mt-1" id="pwTargetStore">Hyderabad (Hyderguda)</div>
       </div>
 
@@ -1744,7 +1744,7 @@ console.log('[Storage] Storage preserved in admin.html.');
             </button>
           </div>
           <div class="relative">
-            <input type="text" id="pwNewPasswordInput" required placeholder="e.g. Huft#2026!Store or type custom password"
+            <input type="text" id="pwNewPasswordInput" required placeholder="e.g. Store#2026!Secure or type custom password"
               class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-xs text-slate-900 font-mono focus:outline-none focus:border-blue-500 focus:bg-white transition-all pr-14" />
             <button type="button" onclick="togglePasswordVisibility('pwNewPasswordInput', 'pwToggleIcon')"
               class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-slate-500 hover:text-slate-800 px-2 py-1 bg-white border border-slate-200 rounded">
@@ -1817,7 +1817,7 @@ console.log('[Storage] Storage preserved in admin.html.');
         code: "HYD-104",
         name: "Hyderabad (Hyderguda)",
         manager: "Chandulal Banoth",
-        email: "hyderguda@headsupfortails.com",
+        email: "hyderguda@store.local",
         phone: "+91 91212 28424",
         location: "Ground Floor, Near Old MLA Quarters Rd, Hyderguda, Hyderabad 500029",
         active: true,
@@ -1830,7 +1830,7 @@ console.log('[Storage] Storage preserved in admin.html.');
         code: "HYD-105",
         name: "Hyderabad (Golden Mile)",
         manager: "Venkatesh Rao",
-        email: "golden.mile@headsupfortails.com",
+        email: "golden.mile@store.local",
         phone: "+91 91212 28425",
         location: "Golden Mile Commercial Complex, Kokapet, Gandipet, Hyderabad 500075",
         active: true,
@@ -1843,7 +1843,7 @@ console.log('[Storage] Storage preserved in admin.html.');
         code: "HYD-106",
         name: "Hyderabad (Banjara Hills)",
         manager: "Sravani Reddy",
-        email: "banjarahills@headsupfortails.com",
+        email: "banjarahills@store.local",
         phone: "+91 91212 28426",
         location: "Road No. 12, Banjara Hills, Hyderabad 500034",
         active: true,
@@ -1856,7 +1856,7 @@ console.log('[Storage] Storage preserved in admin.html.');
         code: "HYD-108",
         name: "Hyderabad (Madhapur)",
         manager: "Karthik Varma",
-        email: "madhapur@headsupfortails.com",
+        email: "madhapur@store.local",
         phone: "+91 91212 28427",
         location: "Hitech City Main Rd, Madhapur, Hyderabad 500081",
         active: true,
@@ -1869,7 +1869,7 @@ console.log('[Storage] Storage preserved in admin.html.');
         code: "HYD-107",
         name: "Hyderabad (Nallagandla)",
         manager: "Ananya Sen",
-        email: "nallagandla@headsupfortails.com",
+        email: "nallagandla@store.local",
         phone: "+91 91212 28428",
         location: "Aparna Sarovar Rd, Nallagandla, Serilingampally, Hyderabad 500019",
         active: true,
@@ -1882,7 +1882,7 @@ console.log('[Storage] Storage preserved in admin.html.');
         code: "HQ-CENTRAL",
         name: "All Stores (Central HQ)",
         manager: "Chandulal Banoth (Admin)",
-        email: "admin@headsupfortails.com",
+        email: "admin@store.local",
         phone: "+91 80000 12345",
         location: "Corporate Operations Center, Central Intelligence Division",
         active: true,
@@ -1906,7 +1906,7 @@ console.log('[Storage] Storage preserved in admin.html.');
       {
         id: "usr-002",
         name: "Central Administrator",
-        email: "admin@headsupfortails.com",
+        email: "admin@store.local",
         store: "All Stores (Central HQ)",
         role: "CENTRAL_ADMIN",
         status: "active",
@@ -1915,7 +1915,7 @@ console.log('[Storage] Storage preserved in admin.html.');
       {
         id: "usr-003",
         name: "Chandulal Banoth",
-        email: "hyderguda@headsupfortails.com",
+        email: "hyderguda@store.local",
         store: "Hyderabad (Hyderguda)",
         role: "STORE_MANAGER",
         status: "active",
@@ -1924,7 +1924,7 @@ console.log('[Storage] Storage preserved in admin.html.');
       {
         id: "usr-004",
         name: "Venkatesh Rao",
-        email: "golden.mile@headsupfortails.com",
+        email: "golden.mile@store.local",
         store: "Hyderabad (Golden Mile)",
         role: "STORE_MANAGER",
         status: "active",
@@ -1933,7 +1933,7 @@ console.log('[Storage] Storage preserved in admin.html.');
       {
         id: "usr-005",
         name: "Sravani Reddy",
-        email: "banjarahills@headsupfortails.com",
+        email: "banjarahills@store.local",
         store: "Hyderabad (Banjara Hills)",
         role: "STORE_MANAGER",
         status: "active",
@@ -1947,7 +1947,7 @@ console.log('[Storage] Storage preserved in admin.html.');
         ticketId: "#REQ-2026-842",
         type: "SIGN_UP",
         name: "Pooja Hegde",
-        email: "pooja.hegde@headsupfortails.com",
+        email: "pooja.hegde@store.local",
         role: "Shift Lead",
         store: "Hyderabad (Hyderguda)",
         status: "PENDING",
@@ -1960,7 +1960,7 @@ console.log('[Storage] Storage preserved in admin.html.');
         ticketId: "#RST-2026-319",
         type: "PASSWORD_RESET",
         name: "Karthik Varma",
-        email: "madhapur@headsupfortails.com",
+        email: "madhapur@store.local",
         role: "Store Manager",
         store: "Hyderabad (Madhapur)",
         status: "PENDING",
@@ -1985,7 +1985,7 @@ console.log('[Storage] Storage preserved in admin.html.');
         id: "log-102",
         time: new Date(Date.now() - 1800000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
         date: new Date(Date.now() - 1800000).toISOString(),
-        user: "hyderguda@headsupfortails.com",
+        user: "hyderguda@store.local",
         store: "Hyderabad (Hyderguda)",
         ip: "106.51.78.14",
         device: "Store POS PC / Chrome 130",
@@ -1995,7 +1995,7 @@ console.log('[Storage] Storage preserved in admin.html.');
         id: "log-103",
         time: new Date(Date.now() - 7200000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
         date: new Date(Date.now() - 7200000).toISOString(),
-        user: "golden.mile@headsupfortails.com",
+        user: "golden.mile@store.local",
         store: "Hyderabad (Golden Mile)",
         ip: "157.48.91.22",
         device: "Retail Terminal / Edge 129",
@@ -2007,7 +2007,7 @@ console.log('[Storage] Storage preserved in admin.html.');
       {
         id: "dev-01",
         name: "Hyderguda POS Primary Terminal",
-        user: "hyderguda@headsupfortails.com",
+        user: "hyderguda@store.local",
         store: "Hyderabad (Hyderguda)",
         os: "Windows 11 Pro (x64)",
         browser: "Chrome 130 Enterprise",
@@ -2027,7 +2027,7 @@ console.log('[Storage] Storage preserved in admin.html.');
       {
         id: "dev-03",
         name: "Golden Mile Storefront Station",
-        user: "golden.mile@headsupfortails.com",
+        user: "golden.mile@store.local",
         store: "Hyderabad (Golden Mile)",
         os: "Windows 10 Pro",
         browser: "Edge 129",
@@ -2037,7 +2037,7 @@ console.log('[Storage] Storage preserved in admin.html.');
       {
         id: "dev-04",
         name: "Banjara Hills Mobile Inventory Tab",
-        user: "banjarahills@headsupfortails.com",
+        user: "banjarahills@store.local",
         store: "Hyderabad (Banjara Hills)",
         os: "iPadOS 18.1",
         browser: "Mobile Safari 18",
@@ -2189,7 +2189,7 @@ console.log('[Storage] Storage preserved in admin.html.');
       "banoth.chandulal@hotmail.com",
       "22chandulalabanoth@gmail.com",
       "22chandulalbanoth@gmail.com",
-      "admin@headsupfortails.com"
+      "admin@store.local"
     ];
 
     function isAuthorizedAdmin(email) {
@@ -2712,7 +2712,7 @@ console.log('[Storage] Storage preserved in admin.html.');
     window.renderStoreAccountsTable = renderStoreAccountsTable;
 
     function forceStorePasswordReset(email) {
-      const tempPass = "Huft#" + Math.floor(1000 + Math.random() * 9000) + "!Reset";
+      const tempPass = "Store#" + Math.floor(1000 + Math.random() * 9000) + "!Reset";
       try {
         localStorage.setItem("huft_custom_pass_" + email, tempPass);
       } catch(e) {}
@@ -2792,7 +2792,7 @@ console.log('[Storage] Storage preserved in admin.html.');
       const email = (document.getElementById("newUserEmail")?.value || "").trim().toLowerCase();
       const store = (document.getElementById("newUserStoreSelect")?.value || document.getElementById("newUserStore")?.value || "Hyderabad (Hyderguda)");
       const role = (document.getElementById("newUserRoleSelect")?.value || document.getElementById("newUserRole")?.value || "STORE_MANAGER");
-      const customPass = (document.getElementById("newUserPassword")?.value || "").trim() || ("Huft#" + Math.floor(1000 + Math.random() * 9000) + "!Store");
+      const customPass = (document.getElementById("newUserPassword")?.value || "").trim() || ("Store#" + Math.floor(1000 + Math.random() * 9000) + "!Secure");
 
       if (!name || !email) {
         showToast("Please provide user full name and email.", "error");
@@ -2923,7 +2923,7 @@ console.log('[Storage] Storage preserved in admin.html.');
 
       // Auto-generate suggested high-entropy secure password if input is empty
       const existingPass = localStorage.getItem("huft_custom_pass_" + targetEmail.toLowerCase());
-      const defaultPass = existingPass || ("Huft#" + Math.floor(1000 + Math.random() * 9000) + "!Store");
+      const defaultPass = existingPass || ("Store#" + Math.floor(1000 + Math.random() * 9000) + "!Secure");
       if (pwInput) {
         pwInput.value = defaultPass;
         pwInput.type = "text";
@@ -2946,10 +2946,10 @@ console.log('[Storage] Storage preserved in admin.html.');
     function generateAdminRandomPassword() {
       const num = Math.floor(1000 + Math.random() * 9000);
       const patterns = [
-        "Huft#" + num + "!Store",
-        "Huft@" + num + "!Secure",
-        "Huft#" + num + "!Sales",
-        "HUFT" + num + "!Pass"
+        "Store#" + num + "!Secure",
+        "Portal@" + num + "!Secure",
+        "Store#" + num + "!Sales",
+        "Portal" + num + "!Pass"
       ];
       const chosen = patterns[Math.floor(Math.random() * patterns.length)];
       const input = document.getElementById("pwNewPasswordInput");
@@ -2963,14 +2963,14 @@ console.log('[Storage] Storage preserved in admin.html.');
     window.generateAdminRandomPassword = generateAdminRandomPassword;
 
     function showCredentialsHandoverCard(email, name, role, store, newPass) {
-      const portalUrl = "https://huft-sales-dashboard.pages.dev/dashboard";
+      const portalUrl = window.location.origin + "/dashboard";
       const credsCard = document.getElementById("pwCredentialsCard");
       const credsBox = document.getElementById("pwCredentialsBox");
       if (!credsCard || !credsBox) return;
 
       const handoverText = 
 "========================================\n" +
-"🐾 HEADS UP FOR TAILS (HUFT)\n" +
+"🏪 STORE INTELLIGENCE PORTAL\n" +
 "STORE INTELLIGENCE ACCESS CREDENTIALS\n" +
 "========================================\n" +
 "Store Portal URL : " + portalUrl + "\n" +
@@ -3246,7 +3246,7 @@ console.log('[Storage] Storage preserved in admin.html.');
       saveState("users", users);
 
       // Activate store password so user can log in immediately
-      const defaultPass = "Huft#2026!Store";
+      const defaultPass = "Store#2026!Secure";
       try {
         localStorage.setItem("huft_custom_pass_" + req.email, defaultPass);
       } catch(e) {}
@@ -3271,7 +3271,7 @@ console.log('[Storage] Storage preserved in admin.html.');
       req.status = "APPROVED";
       saveState("approvals", approvals);
 
-      const tempPass = "Huft#" + Math.floor(1000 + Math.random() * 9000) + "!Reset";
+      const tempPass = "Store#" + Math.floor(1000 + Math.random() * 9000) + "!Reset";
       try {
         localStorage.setItem("huft_custom_pass_" + req.email.toLowerCase(), tempPass);
       } catch(e) {}
@@ -3372,7 +3372,7 @@ console.log('[Storage] Storage preserved in admin.html.');
       logins.forEach(l => {
         csv += `"${l.time}","${l.user}","${l.store}","${l.ip}","${l.device}","${l.status}"\n`;
       });
-      downloadFile(csv, "huft_login_activity_" + Date.now() + ".csv", "text/csv");
+      downloadFile(csv, "store_login_activity_" + Date.now() + ".csv", "text/csv");
       showToast("Login activity CSV exported.", "success");
     }
     window.exportLoginActivityCSV = exportLoginActivityCSV;
@@ -3568,7 +3568,7 @@ console.log('[Storage] Storage preserved in admin.html.');
 
     function saveResendConfig() {
       const apiKey = document.getElementById("cfgResendApiKey")?.value?.trim() || "";
-      const fromEmail = document.getElementById("cfgResendFrom")?.value?.trim() || "HUFT Alerts <notifications@resend.dev>";
+      const fromEmail = document.getElementById("cfgResendFrom")?.value?.trim() || "System Alerts <notifications@resend.dev>";
       const recipient = document.getElementById("cfgResendAdminRecipient")?.value?.trim() || "22chandulalbanoth@gmail.com";
 
       const payload = {
@@ -3695,13 +3695,13 @@ console.log('[Storage] Storage preserved in admin.html.');
       auditLogs.forEach(a => {
         csv += `"${a.timestamp}","${a.actor}","${a.event}","${a.target}","${a.ip}","${a.status}"\n`;
       });
-      downloadFile(csv, "huft_audit_logs_" + Date.now() + ".csv", "text/csv");
+      downloadFile(csv, "store_audit_logs_" + Date.now() + ".csv", "text/csv");
       showToast("Audit logs CSV exported.", "success");
     }
     window.exportAuditLogsCSV = exportAuditLogsCSV;
 
     function exportAuditLogsJSON() {
-      downloadFile(JSON.stringify(auditLogs, null, 2), "huft_audit_logs_" + Date.now() + ".json", "application/json");
+      downloadFile(JSON.stringify(auditLogs, null, 2), "store_audit_logs_" + Date.now() + ".json", "application/json");
       showToast("Audit logs JSON exported.", "success");
     }
     window.exportAuditLogsJSON = exportAuditLogsJSON;
@@ -3757,11 +3757,11 @@ console.log('[Storage] Storage preserved in admin.html.');
 
       const services = [
         { name: "PostgreSQL Database Cluster", host: "wyqksfncdlwjduyispmb.supabase.co", latency: "24ms", uptime: "99.99%", status: "HEALTHY", desc: "Multi-tenant tables, RLS policies, and real-time replicas" },
-        { name: "GoTrue Auth & Security Engine", host: "auth.internal.headsupfortails.com", latency: "18ms", uptime: "99.98%", status: "HEALTHY", desc: "JWT tokens, store station sessions, and password recovery" },
+        { name: "GoTrue Auth & Security Engine", host: "auth.internal.portal.com", latency: "18ms", uptime: "99.98%", status: "HEALTHY", desc: "JWT tokens, store station sessions, and password recovery" },
         { name: "Cloud Edge Functions", host: "functions.supabase.co/v1", latency: "42ms", uptime: "99.95%", status: "HEALTHY", desc: "Deno runtime serverless hooks and daily POS aggregators" },
         { name: "Zero-Storage Anti-Data-Leak Guard", host: "client-sandbox.local", latency: "0ms", uptime: "100.00%", status: "HEALTHY", desc: "Proactive memory isolation preventing unauthorized device storage" },
         { name: "Gemini AI Sales Gateway", host: "generativelanguage.googleapis.com", latency: "65ms", uptime: "99.92%", status: "HEALTHY", desc: "High-performance semantic sales insight & quota limiter" },
-        { name: "Multi-Device Hardware Sentinel", host: "security-gate.headsupfortails.com", latency: "12ms", uptime: "99.99%", status: "HEALTHY", desc: "Single-device active session enforcement and cross-login guard" }
+        { name: "Multi-Device Hardware Sentinel", host: "security-gate.portal.com", latency: "12ms", uptime: "99.99%", status: "HEALTHY", desc: "Single-device active session enforcement and cross-login guard" }
       ];
 
       grid.innerHTML = services.map(s => `
@@ -3818,7 +3818,7 @@ console.log('[Storage] Storage preserved in admin.html.');
         exportedAt: new Date().toISOString(),
         stores, users, approvals, logins, devices, auditLogs, rbacMatrix
       };
-      downloadFile(JSON.stringify(telemetry, null, 2), "huft_telemetry_dump_" + Date.now() + ".json", "application/json");
+      downloadFile(JSON.stringify(telemetry, null, 2), "store_telemetry_dump_" + Date.now() + ".json", "application/json");
       showToast("Full telemetry package downloaded.", "success");
     }
     window.downloadTelemetryPackage = downloadTelemetryPackage;
